@@ -22,10 +22,10 @@ public class User {
     private String email;
     @Column
     private String password;
-    // @Column
-    // private String fristname;
-    // @Column
-    // private String lastname;
+    @Column
+    private String fristname;
+    @Column
+    private String lastname;
     // @Column
     // private String about;
     // @Column
@@ -40,6 +40,5 @@ public class User {
     // private Date Create_at;
     // @Column
     // private String avatar;
- 
 
 }

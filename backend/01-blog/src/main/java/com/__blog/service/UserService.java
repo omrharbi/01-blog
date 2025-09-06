@@ -1,10 +1,11 @@
 package com.__blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.__blog.model.dto.response.UserRepo;
 import com.__blog.model.entity.User;
-
+@Service
 public class UserService {
 
     @Autowired
