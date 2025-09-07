@@ -1,8 +1,16 @@
 package com.__blog.model.entity;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,29 +24,44 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @Column
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
-    @Column
+
+    @Column(name = "email" , nullable=false)
     private String email;
-    @Column
+
+    @Column(name = "password", nullable=false)
     private String password;
-    @Column
+
+    @Column(name = "firstname", nullable=false)  
     private String fristname;
-    @Column
+
+    @Column(name = "lastname", nullable=false)
     private String lastname;
-    // @Column
-    // private String about;
-    // @Column
-    // private String profile_type;
-    // @Column
-    // private Date date_of_birth;
-    // @Column
-    // private String username;
-    // @Column
-    // private String status;
-    // @Column
-    // private Date Create_at;
-    // @Column
-    // private String avatar;
+
+    @Column(name = "about", nullable=true)  
+    private String about;
+
+    @Column(name = "profile_type", nullable=false)
+    private String profile_type;
+
+    @Column(name = "date_of_birth", nullable=false)
+    private Date date_of_birth;
+
+    @Column(name = "username", nullable=true,unique=true)
+    
+    private String username;
+
+    @Column(name = "status", nullable=true)
+    private String status;
+
+    @Column(name = "created_at", nullable=false)  // corrected
+    private Date Create_at;
+
+    @Column(name = "avatar", nullable=true)
+    private String avatar;
+    @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval=true)
+    private List<Post> posts =new  ArrayList<>();
 
 }

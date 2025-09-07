@@ -4,8 +4,8 @@ import org.hibernate.sql.exec.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.__blog.model.dto.response.UserRepo;
 import com.__blog.model.entity.User;
+import com.__blog.repository.UserRepo;
 @Service
 public class UserService {
 
