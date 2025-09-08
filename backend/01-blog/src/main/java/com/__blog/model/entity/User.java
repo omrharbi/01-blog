@@ -71,4 +71,11 @@ public class User {
     @OneToMany(mappedBy = "subscribedTo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subscription> followers = new ArrayList<>();
 
+    @OneToMany(mappedBy="reporter",cascade=CascadeType.ALL,orphanRemoval=true)
+    private  List<Report> reportsSender=new ArrayList<>();
+
+    @OneToMany(mappedBy="reportedUser",cascade=CascadeType.ALL,orphanRemoval=true)
+
+    private List<Report> reportsReceived =new  ArrayList<>();
+
 }
