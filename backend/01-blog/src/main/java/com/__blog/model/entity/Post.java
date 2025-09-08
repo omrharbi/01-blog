@@ -30,9 +30,13 @@ public class Post {
     @Column(name = "image", nullable = true)
     private String image;
     @ManyToOne()
-    @JoinColumn(name="user_id",nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
-    @OneToMany(mappedBy="post",cascade=CascadeType.ALL,orphanRemoval=true)
-    private List<Comment> comments=new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
+
 }

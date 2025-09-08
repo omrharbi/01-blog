@@ -24,44 +24,51 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email" , nullable=false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password", nullable=false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "firstname", nullable=false)  
+    @Column(name = "firstname", nullable = false)
     private String fristname;
 
-    @Column(name = "lastname", nullable=false)
+    @Column(name = "lastname", nullable = false)
     private String lastname;
 
-    @Column(name = "about", nullable=true)  
+    @Column(name = "about", nullable = true)
     private String about;
 
-    @Column(name = "profile_type", nullable=false)
+    @Column(name = "profile_type", nullable = false)
     private String profile_type;
 
-    @Column(name = "date_of_birth", nullable=false)
+    @Column(name = "date_of_birth", nullable = false)
     private Date date_of_birth;
 
-    @Column(name = "username", nullable=true,unique=true)
-    
+    @Column(name = "username", nullable = true, unique = true)
+
     private String username;
 
-    @Column(name = "status", nullable=true)
+    @Column(name = "status", nullable = true)
     private String status;
 
-    @Column(name = "created_at", nullable=false)  // corrected
+    @Column(name = "created_at", nullable = false)  // corrected
     private Date Create_at;
 
-    @Column(name = "avatar", nullable=true)
+    @Column(name = "avatar", nullable = true)
     private String avatar;
-    @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval=true)
-    private List<Post> posts =new  ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "subscriber_User", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subscription> following = new ArrayList<>();
+
+// Users who follow this user
+    @OneToMany(mappedBy = "subscribedTo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subscription> followers = new ArrayList<>();
 
 }
