@@ -28,7 +28,7 @@ public class User {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false ,unique=true)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -57,7 +57,7 @@ public class User {
     private String status;
 
     @Column(name = "created_at", nullable = false)  // corrected
-    private Date Create_at;
+    private Date create_at = new Date();
 
     @Column(name = "avatar", nullable = true)
     private String avatar;
@@ -71,11 +71,27 @@ public class User {
     @OneToMany(mappedBy = "subscribedTo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subscription> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy="reporter",cascade=CascadeType.ALL,orphanRemoval=true)
-    private  List<Report> reportsSender=new ArrayList<>();
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reportsSender = new ArrayList<>();
 
-    @OneToMany(mappedBy="reportedUser",cascade=CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL, orphanRemoval = true)
 
-    private List<Report> reportsReceived =new  ArrayList<>();
+    private List<Report> reportsReceived = new ArrayList<>();
 
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> receiver = new ArrayList<>();
+
+    @OneToMany(mappedBy = "triggerUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> triggerUser = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "sender_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chat> sender_id = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chat> receiver_id = new ArrayList<>();
+
+
+    @Column(nullable = false)
+    private String role;
 }
