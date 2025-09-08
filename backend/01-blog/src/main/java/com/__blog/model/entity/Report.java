@@ -53,5 +53,5 @@ public class Report {
     @JoinColumn(name = "reported_user_id")
 
     private User reportedUser;
-
+//GET /api/report-reasons
 }
