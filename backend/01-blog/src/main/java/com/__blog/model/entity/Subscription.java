@@ -15,11 +15,9 @@ import lombok.Data;
 @Entity(name = "subscription")
 @Data
 public class Subscription {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @ManyToOne
     @JoinColumn(name = "subscriber_id", nullable = false)//folloding
     private User subscriber_User;
