@@ -1,6 +1,6 @@
+package com.__blog.service;
 import org.springframework.stereotype.Service;
 
-package com.__blog.service;
 
 
 @Service
