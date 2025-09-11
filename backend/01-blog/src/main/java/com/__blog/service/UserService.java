@@ -3,6 +3,7 @@ package com.__blog.service;
 import org.hibernate.sql.exec.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.__blog.exception.ApiException;
@@ -13,12 +14,16 @@ import com.__blog.repository.UserRepository;
 public class UserService {
 
     @Autowired
-    UserRepository repouser;
-
+    private  UserRepository repouser;
+    private final   BCryptPasswordEncoder encoder=new  BCryptPasswordEncoder();
     public User save_User(User user) {
         if (repouser.existsByEmail(user.getEmail())) {
             throw new ApiException("This email already exists: " + user.getEmail(), HttpStatus.BAD_REQUEST);
         }
+        if (repouser.existsByUsername(user.getUsername())) {
+            throw new ApiException("This username already exists: " + user.getUsername(), HttpStatus.BAD_REQUEST);
+        }
+        user.setPassword(encoder.encode(user.getPassword()));
         return repouser.save(user);
     }
 
@@ -27,6 +32,7 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return repouser.findByUsername(username).orElseThrow(() -> new ExecutionException("this user  not alowd" + username));
+        return repouser.findByUsername(username)
+                .orElseThrow(() -> new ExecutionException("this user  not alowd" + username));
     }
 }
