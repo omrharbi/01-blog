@@ -25,4 +25,8 @@ public class UserService {
     public User finduser(Integer id) {
         return repouser.findById(id).orElseThrow(() -> new ExecutionException("this user  not alowd" + id));
     }
+
+    public User findByUsername(String username) {
+        return repouser.findByUsername(username).orElseThrow(() -> new ExecutionException("this user  not alowd" + username));
+    }
 }
