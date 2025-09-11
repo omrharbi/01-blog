@@ -1,4 +1,4 @@
-package com.__blog.model.entity;
+package com.__blog.security;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,8 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.__blog.model.entity.User;
+
 public class UserPrancipal implements UserDetails {
-    private User user;
+    private final User user;
 
     public UserPrancipal(User user) {
         this.user = user;

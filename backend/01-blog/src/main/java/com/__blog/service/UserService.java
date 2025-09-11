@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.__blog.exception.ApiException;
 import com.__blog.model.entity.User;
 import com.__blog.repository.UserRepository;
+import com.__blog.security.JwtTokenProvider;
 
 @Service
 public class UserService {
@@ -20,6 +21,8 @@ public class UserService {
     private UserRepository repouser;
     @Autowired
     private AuthenticationManager manager;
+    @Autowired 
+    private  JwtTokenProvider tokenProvider;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User save_User(User user) {
@@ -37,7 +40,7 @@ public class UserService {
         Authentication auth = manager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (auth.isAuthenticated()) {
-            return "succs";
+            return "";//tokenProvider.generetToken(user.getUsername());
         }
         return "faild";
     }

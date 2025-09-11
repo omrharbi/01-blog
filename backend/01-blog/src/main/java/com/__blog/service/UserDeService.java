@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.__blog.exception.ApiException;
 import com.__blog.model.entity.User;
-import com.__blog.model.entity.UserPrancipal;
- import com.__blog.repository.UserRepository;
+import com.__blog.repository.UserRepository;
+import com.__blog.security.UserPrancipal;
 
 @Service
 public class UserDeService implements UserDetailsService {

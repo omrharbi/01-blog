@@ -20,7 +20,7 @@ import com.__blog.service.UserDeService;
 
 @Configuration
 @EnableWebSecurity
-public class JwtAuthenticationEntryPoint {
+public class JwtAuthenticationEntryPoint  {
     @Autowired
     private UserDeService userDeService;
 
