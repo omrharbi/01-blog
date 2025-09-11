@@ -17,15 +17,14 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/add-user")
+    @PostMapping("/register")
     public String saveUser(@RequestBody User user) {
         userService.save_User(user);
         return "succs";
     }
 
-    @GetMapping("/getUser")
-    public String getUser(@RequestParam String username) {
-        User user = userService.findByUsername(username); // implement this in service
-        return "User: " + user.getUsername();
+    @GetMapping("/login")
+    public String getUser(@RequestBody User user) {
+        return  verifyLoginUser(user);
     }
 }
