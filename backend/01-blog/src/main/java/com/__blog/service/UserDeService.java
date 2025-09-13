@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.__blog.exception.ApiException;
 import com.__blog.model.entity.User;
 import com.__blog.repository.UserRepository;
-import com.__blog.security.UserPrancipal;
+import com.__blog.security.UserPrincipal;
 
 @Service
 public class UserDeService implements UserDetailsService {
@@ -25,9 +25,7 @@ public class UserDeService implements UserDetailsService {
             throw new ApiException("Not Found: " + username, HttpStatus.NOT_FOUND);
         }
 
-        return new UserPrancipal(user);
+        return new UserPrincipal(user);
     }
-
-   
 
 }

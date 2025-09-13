@@ -9,15 +9,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.__blog.model.entity.User;
 
-public class UserPrancipal implements UserDetails {
+public class UserPrincipal implements UserDetails {
     private final User user;
 
-    public UserPrancipal(User user) {
+    public  UserPrincipal(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        
         return Collections.singleton(new SimpleGrantedAuthority("USER"));
     }
 
