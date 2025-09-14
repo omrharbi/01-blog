@@ -62,6 +62,11 @@ public class JwtTokenProvider {
         return claims;
     }
 
+    public String getRoleFromToken(String token) {
+        Claims claims = getUsernameFromToken(token);
+        return claims != null ? (String) claims.get("role") : null;
+    }
+
     public boolean isTokenValid(String Token, UserDetails userDetails) {
         String username = getUsernameFromToken(Token).getSubject();
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(Token));

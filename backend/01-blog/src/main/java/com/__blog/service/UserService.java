@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.__blog.exception.ApiException;
 import com.__blog.model.dto.request.RegisterRequest;
 import com.__blog.model.entity.User;
+import com.__blog.model.enums.Roles;
 import com.__blog.repository.UserRepository;
 import com.__blog.security.JwtTokenProvider;
 
@@ -39,6 +40,7 @@ public class UserService {
         user.setUsername(registerRequest.getUsername());
         user.setStatus(registerRequest.getStatus());
         user.setAvatar(registerRequest.getAvatar());
+        user.setRole(registerRequest.getRole() != null ? registerRequest.getRole() : Roles.USER);
 
         if (repouser.existsByEmail(user.getEmail())) {
             throw new ApiException("This email already exists: " + user.getEmail(), HttpStatus.BAD_REQUEST);
@@ -54,7 +56,8 @@ public class UserService {
         Authentication auth = manager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (auth.isAuthenticated()) {
-            return tokenProvider.generetToken(user.getUsername(),user.getRole().name());
+            User dbUser=findByUsername(user.getUsername());
+            return tokenProvider.generetToken(dbUser.getUsername(),dbUser.getRole().name());
         }
         return "faild";
     }

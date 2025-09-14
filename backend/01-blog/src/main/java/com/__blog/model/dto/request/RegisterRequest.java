@@ -2,6 +2,8 @@ package com.__blog.model.dto.request;
 
 import java.util.Date;
 
+import com.__blog.model.enums.Roles;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,4 +22,5 @@ public class RegisterRequest {
     private String username;
     private String status;
     private String avatar;
+    private Roles role;
 }
