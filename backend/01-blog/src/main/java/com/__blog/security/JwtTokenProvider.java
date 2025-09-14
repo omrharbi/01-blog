@@ -43,10 +43,9 @@ public class JwtTokenProvider {
     }
 
     private String createToken(Map<String, Object> claims) {
-        return Jwts.builder().claims()
-                .add(claims)
+        return Jwts.builder()
+                .setClaims(claims)
                 .expiration(new Date(System.currentTimeMillis() + Duration.ofHours(5).toMillis()))
-                .and()
                 .signWith(genereteKey())
                 .compact();
     }

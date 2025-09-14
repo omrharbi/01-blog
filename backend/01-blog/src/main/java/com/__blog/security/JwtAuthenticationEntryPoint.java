@@ -31,7 +31,7 @@ public class JwtAuthenticationEntryPoint {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/login", "/user/register","/debug/**").permitAll()
+                        .requestMatchers("/user/login", "/user/register","/debug/**" ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN") // This requires ROLE_ADMIN
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())
