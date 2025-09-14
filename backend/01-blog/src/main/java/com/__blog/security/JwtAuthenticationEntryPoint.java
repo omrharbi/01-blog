@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.__blog.exception.AuthenticationEntryPointExceptions;
 import com.__blog.service.UserDeService;
 
 @Configuration
@@ -26,12 +27,16 @@ public class JwtAuthenticationEntryPoint {
     @Autowired
     private JwtAuthenticationFilter filer;
 
+    @Autowired
+    private AuthenticationEntryPointExceptions entryPoint;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(entryPoint))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/login", "/user/register","/debug/**" ).permitAll()
+                        .requestMatchers("/user/login", "/user/register", "/debug/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN") // This requires ROLE_ADMIN
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())

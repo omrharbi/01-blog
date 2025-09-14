@@ -13,9 +13,8 @@ import javax.crypto.SecretKey;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.__blog.exception.ApiException;
-
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -53,17 +52,26 @@ public class JwtTokenProvider {
     public Claims getUsernameFromToken(String token) {
         Claims claims;
         try {
-            claims = Jwts.parser().verifyWith(genereteKey()).build()
-                    .parseSignedClaims(token).getPayload();
-        } catch (ApiException e) {
-            claims = null;
+            claims = Jwts.parser()
+                    .verifyWith(genereteKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (JwtException | IllegalArgumentException e) {
+            System.err.println("JWT parsing error: " + e.getMessage());
+            throw new RuntimeException("Invalid JWT token: " + e.getMessage(), e);
         }
         return claims;
     }
 
     public String getRoleFromToken(String token) {
-        Claims claims = getUsernameFromToken(token);
-        return claims != null ? (String) claims.get("role") : null;
+        try {
+            Claims claims = getUsernameFromToken(token);
+            return claims != null ? (String) claims.get("role") : null;
+        } catch (JwtException | IllegalArgumentException e) {
+            System.err.println("JWT parsing error: " + e.getMessage());
+            throw new RuntimeException("Invalid JWT token: " + e.getMessage(), e);
+        }
     }
 
     public boolean isTokenValid(String Token, UserDetails userDetails) {
@@ -72,8 +80,12 @@ public class JwtTokenProvider {
     }
 
     private boolean isTokenExpired(String token) {
-        Date expiration = getUsernameFromToken(token).getExpiration();
-        return expiration.before(new Date());
+        try {
+            Date expiration = getUsernameFromToken(token).getExpiration();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private SecretKey genereteKey() {

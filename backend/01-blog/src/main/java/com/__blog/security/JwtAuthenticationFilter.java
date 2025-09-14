@@ -29,28 +29,59 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        try {
 
-        String header = request.getHeader("Authorization");
-        SecurityContext sc = SecurityContextHolder.getContext();
+            String header = request.getHeader("Authorization");
+            SecurityContext sc = SecurityContextHolder.getContext();
 
-        if (header != null && header.startsWith("Bearer ")
-                && sc.getAuthentication() == null) {
+            if (header != null && header.startsWith("Bearer ")
+                    && sc.getAuthentication() == null) {
 
-            String token = header.substring(7);
+                String token = header.substring(7).trim();
 
-            String username = jwtproProvider.getUsernameFromToken(token).getSubject();
+                String username = jwtproProvider.getUsernameFromToken(token).getSubject();
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            if (jwtproProvider.isTokenValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()); // use UserPrincipal authorities
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                if (jwtproProvider.isTokenValid(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()); // use UserPrincipal authorities
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+
             }
-
+        } catch (Exception e) {
+            handleJwtException(response, e);
+            return ;
         }
         filterChain.doFilter(request, response);
+    }
+
+    private void handleJwtException(HttpServletResponse response, Exception e) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+        String message;
+        if (e.getMessage().contains("Compact JWT strings may not contain whitespace")) {
+            message = "Invalid JWT token format";
+        } else if (e.getMessage().contains("JWT expired") || e.getMessage().contains("expired")) {
+            message = "JWT token has expired";
+        } else if (e.getMessage().contains("JWT signature") || e.getMessage().contains("signature")) {
+            message = "Invalid JWT signature";
+        } else if (e.getMessage().contains("malformed") || e.getMessage().contains("Malformed")) {
+            message = "Malformed JWT token";
+        } else {
+            message = "JWT authentication failed";
+        }
+
+        String jsonResponse = String.format(
+                "{\"error\":\"Unauthorized\",\"message\":\"%s\",\"status\":401,\"timestamp\":\"%s\"}",
+                message, new java.util.Date());
+
+        response.getWriter().write(jsonResponse);
+        response.getWriter().flush();
     }
 
 }
