@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.__blog.model.enums.Roles;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +34,7 @@ public class User {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email", nullable = false ,unique=true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -58,7 +62,7 @@ public class User {
     @Column(name = "status", nullable = true)
     private String status;
 
-    @Column(name = "created_at", nullable = false)  // corrected
+    @Column(name = "created_at", nullable = false) // corrected
     private Date create_at = new Date();
 
     @Column(name = "avatar", nullable = true)
@@ -69,7 +73,7 @@ public class User {
     @OneToMany(mappedBy = "subscriber_User", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subscription> following = new ArrayList<>();
 
-// Users who follow this user
+    // Users who follow this user
     @OneToMany(mappedBy = "subscribedTo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subscription> followers = new ArrayList<>();
 
@@ -86,14 +90,13 @@ public class User {
     @OneToMany(mappedBy = "triggerUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> triggerUser = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "sender_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chat> sender_id = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiver_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chat> receiver_id = new ArrayList<>();
 
-
-    @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Roles role=Roles.USER;;
 }

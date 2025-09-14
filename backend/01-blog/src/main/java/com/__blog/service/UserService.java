@@ -54,7 +54,7 @@ public class UserService {
         Authentication auth = manager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (auth.isAuthenticated()) {
-            return tokenProvider.generetToken(user.getUsername());
+            return tokenProvider.generetToken(user.getUsername(),user.getRole().name());
         }
         return "faild";
     }

@@ -34,17 +34,18 @@ public class JwtTokenProvider {
         }
     }
 
-    public String generetToken(String username) {
+    public String generetToken(String username, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("sub", username);
         claims.put("create", new Date(System.currentTimeMillis()));
+        claims.put("role", role);
         return createToken(claims);
     }
 
     private String createToken(Map<String, Object> claims) {
         return Jwts.builder().claims()
                 .add(claims)
-                .expiration(new Date(System.currentTimeMillis() + Duration.ofSeconds(5).toMillis()))
+                .expiration(new Date(System.currentTimeMillis() + Duration.ofHours(5).toMillis()))
                 .and()
                 .signWith(genereteKey())
                 .compact();
@@ -60,15 +61,15 @@ public class JwtTokenProvider {
         }
         return claims;
     }
- 
+
     public boolean isTokenValid(String Token, UserDetails userDetails) {
         String username = getUsernameFromToken(Token).getSubject();
-        return (username.equals(userDetails.getUsername())&& !isTokenExpired(Token));
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(Token));
     }
 
     private boolean isTokenExpired(String token) {
         Date expiration = getUsernameFromToken(token).getExpiration();
-        return expiration.before(new  Date());
+        return expiration.before(new Date());
     }
 
     private SecretKey genereteKey() {
