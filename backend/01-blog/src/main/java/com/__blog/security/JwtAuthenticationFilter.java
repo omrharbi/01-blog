@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             handleJwtException(response, e);
-            return ;
+            return;
         }
         filterChain.doFilter(request, response);
     }
@@ -64,17 +64,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         String message;
+
         if (e.getMessage().contains("Compact JWT strings may not contain whitespace")) {
             message = "Invalid JWT token format";
-        } else if (e.getMessage().contains("JWT expired") || e.getMessage().contains("expired")) {
+         } else if (e.getMessage().contains("JWT expired") || e.getMessage().contains("expired")) {
             message = "JWT token has expired";
-        } else if (e.getMessage().contains("JWT signature") || e.getMessage().contains("signature")) {
+         } else if (e.getMessage().contains("JWT signature") || e.getMessage().contains("signature")) {
             message = "Invalid JWT signature";
-        } else if (e.getMessage().contains("malformed") || e.getMessage().contains("Malformed")) {
+         } else if (e.getMessage().contains("malformed") || e.getMessage().contains("Malformed")) {
             message = "Malformed JWT token";
-        } else {
+         } else {
             message = "JWT authentication failed";
-        }
+         }
 
         String jsonResponse = String.format(
                 "{\"error\":\"Unauthorized\",\"message\":\"%s\",\"status\":401,\"timestamp\":\"%s\"}",
