@@ -1,31 +1,15 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-
-// Angular Material Modules
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatGridListModule } from '@angular/material/grid-list'; // for mat-grid-list / mat-grid-tile
+import { Component } from '@angular/core'; 
+import {ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms'; 
+import { Materaile } from '../../../modules/materaile-module';
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule, // for formGroup
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    MatGridListModule, // needed for mat-grid-list and mat-grid-tile
+    Materaile ,
+    ReactiveFormsModule
   ],
   templateUrl: './login.html',
-  styleUrls: ['./login.scss'],
+  styleUrls: ['./login.css'],
 })
 export class Login {
   loginForm: FormGroup;

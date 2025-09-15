@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterOutlet } from '@angular/router';
-import { ThemeService } from '../core/services/theme-service';
+import { ThemeService } from './core/services/theme-service';
 
 @Component({
   selector: 'app-root',
