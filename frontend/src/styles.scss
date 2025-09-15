@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.scss */
+@use './styles/colors' as *;
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background-color: $background-color;
+  color: $foreground-color;
+}
+
+/* Dark mode */
+body.dark {
+  background-color: $dark-background-color;
+  color: $dark-foreground-color;
+
+  // a, h1, h2, h3, h4, h5, h6, p, span {
+  //   color: $dark-text-primary;
+  // }
+
+  // input, textarea, select {
+  //   background-color: $dark-input-color;
+  //   color: $dark-text-primary;
+  //   border-color: $dark-border;
+  // }
+
+  // button {
+  //   background-color: $dark-primary;
+  //   color: $dark-primary-foreground;
+  // }
+
+  // .mat-mdc-card {
+  //   background-color: $dark-card-color;
+  //   color: $dark-card-foreground;
+  // }
+
+  // .mat-mdc-toolbar {
+  //   background-color: $dark-background-color;
+  //   color: $dark-foreground-color;
+  // }
+
+  .mat-mdc-button {
+    background-color: $dark-primary;
+    color: $dark-primary-foreground;
+  }
+}

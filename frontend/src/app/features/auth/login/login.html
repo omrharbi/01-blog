@@ -1,0 +1,66 @@
+<mat-grid-list cols="2" rowHeight="1:1" gutterSize="0">
+  <!-- Left Illustration -->
+  <mat-grid-tile>
+    <div class="illustration">
+      <img mat-card-image src="assets/undraw_online-community_3o0l.svg" alt="Connect with others" />
+      <mat-card-subtitle class="illustration-text">
+        <h2>Connect & Share</h2>
+        <p>
+          Join thousands of students sharing their learning journey and discoveries.
+        </p>
+      </mat-card-subtitle>
+    </div>
+  </mat-grid-tile>
+
+  <!-- Right Login Form -->
+  <mat-grid-tile>
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title>Welcome Back</mat-card-title>
+        <mat-card-subtitle>Sign in to your account to continue your journey</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Social Buttons -->
+        <div class="social-buttons">
+          <button mat-stroked-button color="primary" class="full-width mb-2">
+            <mat-icon>google</mat-icon> Continue with Google
+          </button>
+          <button mat-stroked-button color="primary" class="full-width">
+            <mat-icon>github</mat-icon> Continue with GitHub
+          </button>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!--   Login Form -->
+        <form class="email-form" [formGroup]="loginForm">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" placeholder="your@email.com" />
+            <mat-icon matPrefix>mail</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" placeholder="••••••••" />
+            <mat-icon matPrefix>lock</mat-icon>
+          </mat-form-field>
+
+          <div class="forgot-password">
+            <a routerLink="/forgot-password">Forgot password?</a>
+          </div>
+
+          <button mat-raised-button color="primary" class="full-width" (click)="onSubmit()">Sign In</button>
+        </form>
+
+        <mat-divider></mat-divider>
+
+        <p class="signup-text">
+          Don't have an account? <a routerLink="/register">Sign up for free</a>
+        </p>
+        <a routerLink="/">← Back to Home</a>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

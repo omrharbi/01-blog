@@ -1,0 +1,67 @@
+/* src/styles/_colors.scss */
+
+/* Light theme colors */
+$background-color: hsl(0, 0%, 100%);
+$foreground-color: hsl(0, 0%, 13%);
+$text-primary: hsl(0, 0%, 13%);
+$text-secondary: hsl(0, 0%, 46%);
+$text-muted: hsl(0, 0%, 64%);
+$brand-primary: hsl(142, 86%, 28%);
+$brand-primary-hover: hsl(142, 86%, 24%);
+$brand-accent: hsl(24, 95%, 53%);
+$card-color: hsl(0, 0%, 100%);
+$card-foreground: hsl(0, 0%, 13%);
+$card-hover: hsl(0, 0%, 98%);
+$border: hsl(0, 0%, 90%);
+$border-subtle: hsl(0, 0%, 95%);
+$input-color: hsl(0, 0%, 96%);
+$input-border: hsl(0, 0%, 86%);
+$primary: hsl(142, 86%, 28%);
+$primary-foreground: hsl(0, 0%, 100%);
+$secondary: hsl(0, 0%, 96%);
+$secondary-foreground: hsl(0, 0%, 13%);
+$secondary-hover: hsl(0, 0%, 92%);
+$muted: hsl(0, 0%, 96%);
+$muted-foreground: hsl(0, 0%, 46%);
+$accent: hsl(24, 95%, 53%);
+$accent-foreground: hsl(0, 0%, 100%);
+$destructive: hsl(0, 84%, 60%);
+$destructive-foreground: hsl(0, 0%, 100%);
+$sidebar-background: hsl(0, 0%, 100%);
+$sidebar-foreground: hsl(0, 0%, 13%);
+$sidebar-border: hsl(0, 0%, 95%);
+$sidebar-hover: hsl(0, 0%, 96%);
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$radius: 8px;
+$radius-lg: 12px;
+
+/* Dark theme colors */
+$dark-background-color: hsl(0, 0%, 8%);
+$dark-foreground-color: hsl(0, 0%, 96%);
+$dark-text-primary: hsl(0, 0%, 96%);
+$dark-text-secondary: hsl(0, 0%, 71%);
+$dark-text-muted: hsl(0, 0%, 54%);
+$dark-brand-primary: hsl(142, 86%, 35%);
+$dark-brand-primary-hover: hsl(142, 86%, 40%);
+$dark-brand-accent: hsl(24, 95%, 60%);
+$dark-card-color: hsl(0, 0%, 11%);
+$dark-card-foreground: hsl(0, 0%, 96%);
+$dark-primary: hsl(142, 86%, 35%);
+$dark-primary-foreground: hsl(0, 0%, 100%);
+$dark-secondary: hsl(0, 0%, 14%);
+$dark-secondary-foreground: hsl(0, 0%, 96%);
+$dark-secondary-hover: hsl(0, 0%, 20%);
+$dark-muted: hsl(0, 0%, 16%);
+$dark-muted-foreground: hsl(0, 0%, 54%);
+$dark-accent: hsl(24, 95%, 60%);
+$dark-accent-foreground: hsl(0, 0%, 100%);
+$dark-input-color: hsl(0, 0%, 16%);
+$dark-border: hsl(0, 0%, 35%);
+$dark-destructive: hsl(0, 84%, 60%);
+$dark-destructive-foreground: hsl(0, 0%, 100%);
+$dark-sidebar-background: hsl(0, 0%, 10%);
+$dark-sidebar-foreground: hsl(0, 0%, 96%);
+$dark-sidebar-border: hsl(0, 0%, 25%);
+$dark-sidebar-hover: hsl(0, 0%, 14%);
