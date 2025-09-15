@@ -4,8 +4,6 @@
   align-items: center;
   padding: 1rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--background-color);
-  color: var(--foreground-color);
 }
 
 .login-grid {

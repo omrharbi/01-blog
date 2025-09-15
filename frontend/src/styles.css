@@ -64,7 +64,7 @@ body.dark {
 
 /* Apply dark mode variables */
 body.dark {
-  background-color: var(--background-color);
+  background-color: var(--card-color);
   color: var(--foreground-color);
 }
 
@@ -94,7 +94,7 @@ body.dark .mat-mdc-card {
 }
 
 body.dark .mat-mdc-toolbar {
-  background-color: var(--background-color);
+  background-color: var(--card-color);
   color: var(--foreground-color);
 }
 
