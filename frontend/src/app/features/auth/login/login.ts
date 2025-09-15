@@ -1,23 +1,21 @@
-import { Component } from '@angular/core'; 
-import {ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms'; 
+import { Component } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Materaile } from '../../../modules/materaile-module';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    Materaile ,
-    ReactiveFormsModule
-  ],
+  imports: [Materaile, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
 export class Login {
   loginForm: FormGroup;
-
-  constructor() {
+  hidePassword = true;
+  constructor(private formBuilder: FormBuilder, private router: Router) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required]),
     });
   }
 
@@ -26,5 +24,31 @@ export class Login {
       console.log(this.loginForm.value);
       // Add your login logic here
     }
+  }
+
+  continueWithGoogle(): void {
+    console.log('Continue with Google');
+    // Implement Google OAuth logic
+  }
+
+  continueWithGitHub(): void {
+    console.log('Continue with GitHub');
+    // Implement GitHub OAuth logic
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
+  }
+
+  navigateToForgotPassword(): void {
+    this.router.navigate(['/forgot-password']);
+  }
+
+  navigateToHome(): void {
+    this.router.navigate(['/']);
   }
 }

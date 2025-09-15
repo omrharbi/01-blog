@@ -1,0 +1,109 @@
+/* src/styles.css */
+
+/* Light theme defaults */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', 'Roboto', sans-serif;
+
+  /* Light theme colors */
+  --background-color: hsl(0, 0%, 100%);
+  --foreground-color: hsl(0, 0%, 13%);
+  --text-primary: hsl(0, 0%, 13%);
+  --input-color: hsl(0, 0%, 96%);
+  --border: hsl(0, 0%, 90%);
+  --card-color: hsl(0, 0%, 100%);
+  --card-foreground: hsl(0, 0%, 13%);
+  --primary: hsl(142, 86%, 28%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+}
+
+/* Links, headings, and text in light theme */
+a, h1, h2, h3, h4, h5, h6, p, span {
+  color: var(--text-primary);
+}
+
+/* Inputs and form elements in light theme */
+input, textarea, select {
+  background-color: var(--input-color);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/* Cards, toolbar, and buttons in light theme */
+.mat-mdc-card {
+  background-color: var(--card-color);
+  color: var(--card-foreground);
+}
+
+.mat-mdc-toolbar {
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+}
+
+.mat-mdc-button {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Dark mode overrides */
+body.dark {
+  --background-color: hsl(0, 0%, 8%);
+  --foreground-color: hsl(0, 0%, 96%);
+  --text-primary: hsl(0, 0%, 96%);
+  --input-color: hsl(0, 0%, 16%);
+  --border: hsl(0, 0%, 35%);
+  --card-color: hsl(0, 0%, 11%);
+  --card-foreground: hsl(0, 0%, 96%);
+  --primary: hsl(142, 86%, 35%);
+  --primary-foreground: hsl(0, 0%, 100%);
+}
+
+/* Apply dark mode variables */
+body.dark {
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+}
+
+body.dark a,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p,
+body.dark span {
+  color: var(--text-primary);
+}
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background-color: var(--input-color);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+body.dark .mat-mdc-card {
+  background-color: var(--card-color);
+  color: var(--card-foreground);
+}
+
+body.dark .mat-mdc-toolbar {
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+}
+
+body.dark .mat-mdc-button {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Smooth transition for theme switching */
+body, .mat-mdc-card, .mat-mdc-toolbar, .mat-mdc-button, input, textarea, select {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}

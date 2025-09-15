@@ -1,45 +1,43 @@
-<mat-grid-list cols="2" rowHeight="1:1" gutterSize="0">
+<mat-grid-list cols="2" rowHeight="1:1" gutterSize="0" class="login-container">
   <mat-grid-tile>
     <div class="illustration">
-      <!-- <img mat-card-image  src="assets/undraw_online-community_3o0l(1).svg" alt="Connect with others" />
-      <mat-card-subtitle class="illustration-text">
-        <h2>Connect & Share</h2>
-        <p>
+      <!-- <img mat-card-image src="assets/undraw_online-community_3o0l(1).svg" alt="Connect with others" /> -->
+      <div class="illustration-text">
+        <h2 class="text-gradient">Connect & Share</h2>
+        <p class="text-muted-foreground">
           Join thousands of students sharing their learning journey and discoveries.
         </p>
-      </mat-card-subtitle> -->
+      </div>
     </div>
   </mat-grid-tile>
 
-  <!-- Right Login Form -->
   <mat-grid-tile>
     <mat-card class="login-card">
-      <mat-card-header>
+      <mat-card-header class="card-header">
         <mat-card-title>Welcome Back</mat-card-title>
         <mat-card-subtitle>Sign in to your account to continue your journey</mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
-        <!-- Social Buttons -->
-          <div class="social-buttons">
-            <button mat-stroked-button color="primary" class="full-width mb-2">
-              <mat-icon>google</mat-icon> Continue with Google
-            </button>
-            <button mat-stroked-button color="primary" class="full-width">
-              <mat-icon>github</mat-icon> Continue with GitHub
-            </button>
-          </div>
+        <div class="social-buttons">
+          <button mat-stroked-button color="primary" class="full-width transition-smooth">
+            <mat-icon>google</mat-icon> Continue with Google
+          </button>
+          <button mat-stroked-button color="primary" class="full-width transition-smooth">
+            <mat-icon>github</mat-icon> Continue with GitHub
+          </button>
+        </div>
+
         <mat-divider></mat-divider>
 
-        <!--   Login Form -->
         <form class="email-form" [formGroup]="loginForm">
-          <mat-form-field appearance="fill" class="full-width">
+          <mat-form-field appearance="fill" class="full-width input-with-icon">
             <mat-label>Email</mat-label>
             <input matInput formControlName="email" placeholder="your@email.com" />
             <mat-icon matPrefix>mail</mat-icon>
           </mat-form-field>
 
-          <mat-form-field appearance="fill" class="full-width">
+          <mat-form-field appearance="fill" class="full-width input-with-icon">
             <mat-label>Password</mat-label>
             <input matInput type="password" formControlName="password" placeholder="••••••••" />
             <mat-icon matPrefix>lock</mat-icon>
@@ -49,7 +47,7 @@
             <a routerLink="/forgot-password">Forgot password?</a>
           </div>
 
-          <button mat-raised-button color="primary" class="full-width" (click)="onSubmit()">
+          <button mat-raised-button color="primary" class="full-width transition-smooth" (click)="onSubmit()">
             Sign In
           </button>
         </form>

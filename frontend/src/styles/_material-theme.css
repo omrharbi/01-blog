@@ -1,0 +1,31 @@
+/* Background & surface */
+.mat-mdc-app-background, .mat-mdc-card, .mat-mdc-sidenav {
+  background-color: var(--mat-surface);
+  color: var(--mat-on-surface);
+}
+
+body {
+  background-color: var(--mat-background);
+  color: var(--mat-on-surface);
+}
+
+/* Buttons */
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-fab {
+  background-color: var(--mat-primary);
+  color: var(--mat-primary-contrast);
+}
+
+body.dark .mat-mdc-button, body.dark .mat-mdc-raised-button {
+  background-color: var(--mat-primary);
+  color: var(--mat-primary-contrast);
+}
+
+/* Hover effects */
+.mat-mdc-button:hover, .mat-mdc-raised-button:hover {
+  background-color: var(--mat-hover);
+}
+
+/* Accent elements (checkboxes, sliders, etc.) */
+.mat-mdc-accent {
+  color: var(--mat-accent);
+}
