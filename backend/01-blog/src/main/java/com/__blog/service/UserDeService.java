@@ -11,12 +11,15 @@ import com.__blog.model.entity.User;
 import com.__blog.repository.UserRepository;
 import com.__blog.security.UserPrincipal;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserDeService implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) {
 
         User user = userRepo.findByUsername(username)
