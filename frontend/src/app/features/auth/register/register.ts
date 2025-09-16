@@ -23,7 +23,9 @@ import { Router } from '@angular/router';
 export class Register {
   loginForm: FormGroup;
   hidePassword = true;
-  // constructor(public themeService:ThemeService){}
+  selectedFileName: string | null = null;
+  currentStep = 1;
+
   constructor(
     public themeService: ThemeService,
     private formBuilder: FormBuilder,
@@ -41,10 +43,11 @@ export class Register {
       // Add your login logic here
     }
   }
-
-  continueWithGoogle(): void {
-    console.log('Continue with Google');
-    // Implement Google OAuth logic
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFileName = file.name;
+    }
   }
 
   continueWithGitHub(): void {
@@ -52,19 +55,18 @@ export class Register {
     // Implement GitHub OAuth logic
   }
 
-  togglePasswordVisibility(): void {
-    this.hidePassword = !this.hidePassword;
-  }
-
-  navigateToRegister(): void {
-    this.router.navigate(['/register']);
-  }
-
-  navigateToForgotPassword(): void {
-    this.router.navigate(['/forgot-password']);
-  }
-
   navigateToHome(): void {
     this.router.navigate(['/']);
+  }
+
+  nextStep() {
+    if (this.currentStep < 3) {
+      this.currentStep++;
+    }
+  }
+  prevStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
   }
 }

@@ -35,7 +35,7 @@ public class UserService {
         user.setFristname(registerRequest.getFristname()); // تصحيح: firstname
         user.setLastname(registerRequest.getLastname());
         user.setAbout(registerRequest.getAbout());
-        user.setProfile_type(registerRequest.getProfile_type());
+        // user.setProfile_type(registerRequest.getProfile_type());
         user.setDate_of_birth(registerRequest.getDate_of_birth());
         user.setUsername(registerRequest.getUsername());
         user.setStatus(registerRequest.getStatus());

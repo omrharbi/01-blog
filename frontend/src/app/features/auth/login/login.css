@@ -24,7 +24,8 @@
   border-radius: 8px; /* smaller radius */
   padding: 1.5rem; /* smaller */
   border: 1px solid var(--border);
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.05), var(--shadow-card);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.05),
+    var(--shadow-card);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
@@ -161,7 +162,135 @@
 .form-input:focus {
   outline: none;
   border-color: var(--brand-primary);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.05), 0 0 0 2px rgba(34,197,94,0.1);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 2px rgba(34, 197, 94, 0.1);
+}
+/* ===============================
+       Multi-Step Form
+    ================================ */
+
+/* Hide all steps by default */
+.form-step {
+  display: none;
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.5s ease;
+}
+
+/* Show the active step */
+.form-step.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* matches .email-form */
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide left animation (optional) */
+.form-step.slide-left {
+  animation: slide-in-left 0.5s forwards;
+}
+
+/* Slide right animation (optional) */
+.form-step.slide-right {
+  animation: slide-in-right 0.5s forwards;
+}
+
+/* Navigation buttons container */
+.step-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+}
+
+/* Step buttons styles */
+.step-buttons button {
+  background-color: var(--brand-primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.step-buttons button:hover {
+  background-color: var(--brand-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Previous button variant */
+.step-buttons .prev-btn {
+  background-color: var(--border);
+  color: var(--foreground-color);
+}
+
+.step-buttons .prev-btn:hover {
+  background-color: var(--muted-foreground);
+}
+
+/* ===============================
+       Step slide animations
+    ================================ */
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* Custom file upload */
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--card-color);
+  color: var(--foreground-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.custom-file-upload:hover {
+  border-color: var(--brand-primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* Hide the real file input */
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+/* Optional: show selected file name */
+.file-name {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  margin-left: 0.5rem;
 }
 
 /* ===============================
@@ -179,12 +308,12 @@
   cursor: pointer;
   transition: all 0.2s ease;
   height: 45px; /* smaller */
-  box-shadow: 0 2px 3px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.06);
 }
 
 .submit-btn:hover {
   background-color: var(--brand-primary-hover);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 
@@ -284,7 +413,7 @@
   opacity: 0.9;
   line-height: 1.4;
 }
-img{
+img {
   width: 25vw !important ;
 }
 .connect {

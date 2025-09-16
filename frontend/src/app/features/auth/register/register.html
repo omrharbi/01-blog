@@ -30,27 +30,71 @@
       </div>
 
       <!-- Email Form -->
-      <form class="email-form">
-        <div class="form-group">
-          <label class="form-label">First Name</label>
-          <input type="text" class="form-input" placeholder="Enter your First Name" />
+      <form class="email-form" (ngSubmit)="onSubmit()">
+        <!-- Step 1 -->
+        <div *ngIf="currentStep === 1" class="form-step active">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-input" placeholder="Enter your First Name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-input" placeholder="Enter your Last Name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="Enter your Email" />
+          </div>
+          <div class="step-buttons">
+            <div></div>
+
+            <button type="button" class="next-btn" (click)="nextStep()">Next</button>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Last Name</label>
-          <input type="text" class="form-input" placeholder="Enter target Email" />
+        <!-- Step 2 -->
+        <div *ngIf="currentStep === 2" class="form-step active">
+          <div class="form-group">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" placeholder="Choose a username" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">About Me</label>
+            <textarea class="form-input" placeholder="Tell us about yourself"></textarea>
+          </div>
+          <div class="step-buttons">
+            <button type="button" class="prev-btn" (click)="prevStep()">Previous</button>
+            <button type="button" class="next-btn" (click)="nextStep()">Next</button>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-input" placeholder="Enter target password" />
+        <!-- Step 3 -->
+        <div *ngIf="currentStep === 3" class="form-step active">
+          <div class="form-group">
+            <label class="form-label">Profile Image</label>
+            <label class="custom-file-upload">
+              <input type="file" (change)="onFileSelected($event)" />
+              Upload Image
+              <span class="file-name" *ngIf="selectedFileName">{{ selectedFileName }}</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" placeholder="Enter password" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" class="form-input" placeholder="Confirm password" />
+          </div>
+          <div class="step-buttons">
+            <button type="button" class="prev-btn" (click)="prevStep()">Previous</button>
+            <button [routerLink]="['/login']" type="submit" class="submit-btn" (click)="nextStep()">Submit</button>
+          </div>
         </div>
-
-        <div class="forgot-password">
-          <a href="#" class="forgot-link">next</a>
-        </div>
-
-        <button type="submit" class="submit-btn">OK</button>
       </form>
 
       <div class="bottom-links">
