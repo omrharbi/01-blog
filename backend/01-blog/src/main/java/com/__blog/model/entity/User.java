@@ -49,8 +49,8 @@ public class User {
     @Column(name = "about", nullable = true)
     private String about;
 
-    @Column(name = "profile_type", nullable = false)
-    private String profile_type;
+    // @Column(name = "profile_type", nullable = false)
+    // private String profile_type;
 
     @Column(name = "date_of_birth", nullable = false)
     private Date date_of_birth;

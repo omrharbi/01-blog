@@ -1,28 +1,20 @@
-/* register.css */
-
-/* Make form container wider */
-.login-form-container {
+ /* .login-form-container {
   width: 60vw !important;
 }
-
-/* Adjust email form spacing */
 .email-form {
-  gap: 0rem !important;
+  gap: 0 !important;
 }
-
-/* Inputs smaller height */
 .form-input {
   height: 20px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
-
-/* Group two inputs side by side */
 .group-input {
   display: flex !important;
   width: 100% !important;
   justify-content: space-between !important;
   gap: 1rem !important;
 }
-
 .group-input .form-group {
   flex: 1;
   margin: 18px;
@@ -30,21 +22,15 @@
 .login-card {
   max-width: 762px !important;
 }
-
-/* Utility classes */
 .animate-slide-in-right {
-  opacity: 0; /* hidden initially */
+  opacity: 0;
   animation: slide-in-left 0.8s ease-out forwards;
 }
-
 .animate-slide-in-left {
   opacity: 0;
   animation: slide-in-right 0.6s ease-out forwards;
 }
-.form-input {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
+ 
 @keyframes slide-in-right {
   0% {
     opacity: 0;
@@ -55,7 +41,6 @@
     transform: translateX(0);
   }
 }
-
 @keyframes slide-in-left {
   0% {
     opacity: 0;
@@ -65,4 +50,4 @@
     opacity: 1;
     transform: translateX(0);
   }
-}
+} */

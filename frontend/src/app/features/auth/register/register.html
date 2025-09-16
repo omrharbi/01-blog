@@ -9,12 +9,12 @@
 
       <!-- Social Login Options -->
       <div class="social-options">
-        <div class="social-option">
+        <!-- <div class="social-option">
           <label for="google-option">
             <span class="material-icons">account_circle</span>
             Continue with Google
           </label>
-        </div>
+        </div> -->
         <div class="social-option">
           <label for="github-option">
             <span class="material-icons">code</span>
@@ -25,54 +25,29 @@
 
       <div class="divider-container">
         <div class="divider-line"></div>
-        <span class="divider-text">Or continue with email</span>
+        <span class="divider-text">Or register with email</span>
         <div class="divider-line"></div>
       </div>
 
       <!-- Email Form -->
-      <form class="email-form register">
-        <!-- First Name -->
-        <div class="group-input">
-          <div class="form-group">
-            <label class="form-label">First Name</label>
-            <input type="text" class="form-input" placeholder="Enter your first name" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Last Name</label>
-            <input type="text" class="form-input" placeholder="Enter your Last Name" />
-          </div>
+      <form class="email-form">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="Enter your First Name" />
         </div>
 
-        <div class="group-input">
-          <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-input" placeholder="Enter your first Username" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input" placeholder="Enter your Email" />
-          </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Enter target Email" />
         </div>
 
-        <div class="group-input">
-          <div class="form-group">
-            <label class="form-label">Picture</label>
-            <input type="file" class="form-input" placeholder="Enter your first Picture" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">About</label>
-            <input type="email" class="form-input" placeholder="Enter your About" />
-          </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="Enter target password" />
         </div>
-        <div class="group-input">
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-input" placeholder="Enter your first Picture" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Confirem Password</label>
-            <input type="password" class="form-input" placeholder="Enter your Confirem Password" />
-          </div>
+
+        <div class="forgot-password">
+          <a href="#" class="forgot-link">next</a>
         </div>
 
         <button type="submit" class="submit-btn">OK</button>
@@ -81,7 +56,7 @@
       <div class="bottom-links">
         <p class="signup-text">
           Don't have an account?
-          <a [routerLink]="['/login']" class="signup-link">Login</a>
+          <a [routerLink]="['/login']" class="signup-link">Sign up for free</a>
         </p>
         <a [routerLink]="['/']" class="back-home">← Back to Home</a>
       </div>
@@ -89,7 +64,6 @@
 
     <!-- Right Side - Illustration -->
   </div>
-
   <div class="illustration">
     <div class="illustration-content">
       <div class="illustration-text animate-slide-in-left">
@@ -105,7 +79,6 @@
           Join thousands of students sharing their learning journey and discoveries.
         </p>
       </div>
-      <!-- Animated human image -->
     </div>
   </div>
 </div>
