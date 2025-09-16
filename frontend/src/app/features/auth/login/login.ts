@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
+import { ThemeService } from '../../../core/services/theme-service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -12,7 +13,8 @@ import { Router } from '@angular/router';
 export class Login {
   loginForm: FormGroup;
   hidePassword = true;
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  // constructor(public themeService:ThemeService){}
+  constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),

@@ -1,42 +1,71 @@
 /* src/styles.css */
 
 /* Light theme defaults */
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: 'Inter', 'Roboto', sans-serif;
-
+:root {
   /* Light theme colors */
   --background-color: hsl(0, 0%, 100%);
   --foreground-color: hsl(0, 0%, 13%);
   --text-primary: hsl(0, 0%, 13%);
-  --input-color: hsl(0, 0%, 96%);
-  --border: hsl(0, 0%, 90%);
+  --text-secondary: hsl(0, 0%, 46%);
+  --text-muted: hsl(0, 0%, 64%);
+  --brand-primary: hsl(142, 86%, 28%);
+  --brand-primary-hover: hsl(142, 86%, 24%);
+  --brand-accent: hsl(24, 95%, 53%);
   --card-color: hsl(0, 0%, 100%);
   --card-foreground: hsl(0, 0%, 13%);
+  --border: hsl(0, 0%, 90%);
+  --input-color: hsl(0, 0%, 96%);
+  --input-border: hsl(0, 0%, 86%);
   --primary: hsl(142, 86%, 28%);
   --primary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(0, 0%, 96%);
+  --muted-foreground: hsl(0, 0%, 46%);
+  --shadow-card: 0 10px 30px rgba(72, 75, 107, 0.15);
 
+  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+  --border: hsl(0, 0%, 85%);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', 'Roboto', sans-serif;
   background-color: var(--background-color);
   color: var(--foreground-color);
 }
 
-/* Links, headings, and text in light theme */
-a, h1, h2, h3, h4, h5, h6, p, span {
+/* Links, headings, and text */
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
   color: var(--text-primary);
 }
 
-/* Inputs and form elements in light theme */
-input, textarea, select {
+/* Inputs and form elements */
+input,
+textarea,
+select {
   background-color: var(--input-color);
   color: var(--text-primary);
-  border-color: var(--border);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  padding: 8px 12px;
 }
 
-/* Cards, toolbar, and buttons in light theme */
+/* Cards, toolbar, and buttons */
 .mat-mdc-card {
   background-color: var(--card-color);
   color: var(--card-foreground);
+  box-shadow: var(--shadow-card);
+  border-radius: 8px;
 }
 
 .mat-mdc-toolbar {
@@ -54,12 +83,48 @@ body.dark {
   --background-color: hsl(0, 0%, 8%);
   --foreground-color: hsl(0, 0%, 96%);
   --text-primary: hsl(0, 0%, 96%);
-  --input-color: hsl(0, 0%, 16%);
-  --border: hsl(0, 0%, 35%);
+  --text-secondary: hsl(0, 0%, 71%);
+  --text-muted: hsl(0, 0%, 54%);
+  --brand-primary: hsl(142, 86%, 35%);
+  --brand-primary-hover: hsl(142, 86%, 40%);
+  --brand-accent: hsl(24, 95%, 60%);
   --card-color: hsl(0, 0%, 11%);
   --card-foreground: hsl(0, 0%, 96%);
+  --border: hsl(0, 0%, 35%);
+  --input-color: hsl(0, 0%, 16%);
+  --input-border: hsl(0, 0%, 35%);
   --primary: hsl(142, 86%, 35%);
   --primary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(0, 0%, 16%);
+  --muted-foreground: hsl(0, 0%, 54%);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.2);
+  --shadow-card-grad: '';
+  --shadow-card: none;
+  --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+  --border: hsl(0, 0%, 25%); /* Lighter border for dark mode */
+}
+
+/* Custom light theme (previously body.light) */
+body.custom.light {
+  --background-color: #484b6a;
+  --foreground-color: #484b6a;
+  --text-primary: #484b6a;
+  --text-secondary: #9394a5;
+  --input-color: #e4e5f1;
+  --border: #d2d3db;
+  --card-color: #e4e5f1;
+  --card-foreground: #484b6a;
+  --primary: #484b6a;
+  --primary-foreground: #fafafa;
+  --muted: #f5f5f5;
+  --shadow-card: 0 10px 30px rgba(72, 75, 106, 0.05);
+
+  background: linear-gradient(180deg, #fafafa, #e4e5f1);
+  color: var(--foreground-color);
+
+  --shadow-card: 0 8px 20px rgba(72, 75, 107, 0.12);
+  --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+  --border: hsl(0, 0%, 80%);
 }
 
 /* Apply dark mode variables */
@@ -104,6 +169,17 @@ body.dark .mat-mdc-button {
 }
 
 /* Smooth transition for theme switching */
-body, .mat-mdc-card, .mat-mdc-toolbar, .mat-mdc-button, input, textarea, select {
+body,
+.mat-mdc-card,
+.mat-mdc-toolbar,
+.mat-mdc-button,
+input,
+textarea,
+select {
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+app-login {
+  width: 100%;
+  height: 100%;
 }
