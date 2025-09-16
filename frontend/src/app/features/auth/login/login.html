@@ -1,64 +1,101 @@
-<mat-grid-list cols="2" rowHeight="1:1" gutterSize="0" class="login-container">
-  <mat-grid-tile>
-    <div class="illustration">
-      <!-- <img mat-card-image src="assets/undraw_online-community_3o0l(1).svg" alt="Connect with others" /> -->
+<!-- login.html -->
+<div class="login-grid">
+  <!-- Left Side - Illustration -->
+  <div class="illustration">
+    <div class="illustration-content">
+      <!-- Uncomment when you have the image -->
+      <!-- <img src="assets/undraw_online-community_3o0l(1).svg" alt="Connect with others" class="illustration-image" /> -->
       <div class="illustration-text">
         <h2 class="text-gradient">Connect & Share</h2>
-        <p class="text-muted-foreground">
+        <p class="text-muted">
           Join thousands of students sharing their learning journey and discoveries.
         </p>
       </div>
     </div>
-  </mat-grid-tile>
+  </div>
 
-  <mat-grid-tile>
+  <!-- Right Side - Login Form -->
+  <div class="login-form-container">
     <mat-card class="login-card">
       <mat-card-header class="card-header">
-        <mat-card-title>Welcome Back</mat-card-title>
-        <mat-card-subtitle>Sign in to your account to continue your journey</mat-card-subtitle>
+        <mat-card-title class="card-title">Welcome Back</mat-card-title>
+        <mat-card-subtitle class="card-subtitle">Sign in to your account to continue your journey</mat-card-subtitle>
       </mat-card-header>
-
+      
       <mat-card-content>
+        <!-- Social Login Buttons -->
         <div class="social-buttons">
-          <button mat-stroked-button color="primary" class="full-width transition-smooth">
-            <mat-icon>google</mat-icon> Continue with Google
+          <button mat-stroked-button color="primary" class="social-btn">
+            <mat-icon>account_circle</mat-icon>
+            Continue with Google
           </button>
-          <button mat-stroked-button color="primary" class="full-width transition-smooth">
-            <mat-icon>github</mat-icon> Continue with GitHub
+          <button mat-stroked-button color="primary" class="social-btn">
+            <mat-icon>code</mat-icon>
+            Continue with GitHub
           </button>
         </div>
 
-        <mat-divider></mat-divider>
+        <div class="divider-container">
+          <mat-divider></mat-divider>
+          <span class="divider-text">or</span>
+          <mat-divider></mat-divider>
+        </div>
 
-        <form class="email-form" [formGroup]="loginForm">
-          <mat-form-field appearance="fill" class="full-width input-with-icon">
+        <!-- Email Form -->
+        <form class="email-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" placeholder="your@email.com" />
+            <input matInput formControlName="email" placeholder="your@email.com" type="email" />
             <mat-icon matPrefix>mail</mat-icon>
+            <!-- <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+              Please enter a valid email
+            </mat-error> -->
           </mat-form-field>
 
-          <mat-form-field appearance="fill" class="full-width input-with-icon">
+          <mat-form-field appearance="outline" class="full-width">
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" placeholder="••••••••" />
+            <input matInput 
+                    
+                   formControlName="password" 
+                   placeholder="••••••••" />
             <mat-icon matPrefix>lock</mat-icon>
+            <button mat-icon-button matSuffix 
+                    
+                    type="button" >
+              <mat-icon>
+                <!-- {{hidePassword ? 'visibility_off' : 'visibility'}} -->
+              </mat-icon>
+            </button>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
           </mat-form-field>
 
           <div class="forgot-password">
-            <a routerLink="/forgot-password">Forgot password?</a>
+            <a routerLink="/forgot-password" class="forgot-link">Forgot password?</a>
           </div>
 
-          <button mat-raised-button color="primary" class="full-width transition-smooth" (click)="onSubmit()">
-            Sign In
+          <button mat-raised-button 
+                  color="primary" 
+                  class="submit-btn full-width" 
+                  type="submit" >
+            <!-- <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner> -->
+            <!-- <span *ngIf="!isLoading">Sign In</span>
+            <span *ngIf="isLoading">Signing In...</span> -->
           </button>
         </form>
 
-        <mat-divider></mat-divider>
-
-        <p class="signup-text">
-          Don't have an account? <a routerLink="/register">Sign up for free</a>
-        </p>
-        <a routerLink="/">← Back to Home</a>
+        <div class="bottom-links">
+          <p class="signup-text">
+            Don't have an account? 
+            <a routerLink="/register" class="signup-link">Sign up for free</a>
+          </p>
+          <a routerLink="/" class="back-home">← Back to Home</a>
+        </div>
       </mat-card-content>
     </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+</div>

@@ -10,7 +10,7 @@ import { ThemeService } from './core/services/theme-service';
   styleUrl: './app.scss',
 })
 export class App {
-   constructor(public themeService: ThemeService){
+  //  constructor(public themeService: ThemeService){
     
-   }
+  //  }
 }

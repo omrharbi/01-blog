@@ -5,14 +5,18 @@
   padding: 1rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
-
+app-login {
+  width: 100%;
+  height: 100%;
+}
 .login-grid {
   display: grid;
   gap: 2rem;
   grid-template-columns: 1fr;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   width: 100%;
   align-items: center;
+  height: 100%;
 }
 
 @media (min-width: 1024px) {
