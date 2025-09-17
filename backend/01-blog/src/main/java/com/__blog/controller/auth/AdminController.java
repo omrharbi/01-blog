@@ -1,4 +1,4 @@
-package com.__blog.controller;
+package com.__blog.controller.auth;
 
 import java.util.Map;
 
@@ -11,21 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.__blog.model.dto.request.RegisterRequest;
 import com.__blog.model.entity.User;
-import com.__blog.service.UserService;
+import com.__blog.service.auth.AuthService;
 
 @RestController
-@RequestMapping("/user")
-public class AuthController {
+@RequestMapping("/admin")
+public class AdminController {
     @Autowired
-    UserService userService;
-
-    @PostMapping("/register")
-    public String saveUser(@RequestBody RegisterRequest user) {
-        userService.registerUser(user);
-        return "succs";
-    }
+    AuthService userService;
 
     @PostMapping("/login")
     public String login(@RequestBody User user) {
@@ -34,13 +27,13 @@ public class AuthController {
 
     @GetMapping("/test")
     public ResponseEntity<?> testAdmin(Authentication authentication) {
-        System.out.println("=== user ENDPOINT ACCESS ===");
+        System.out.println("=== ADMIN ENDPOINT ACCESS ===");
         System.out.println("User: " + authentication.getName());
         System.out.println("Authorities: " + authentication.getAuthorities());
         System.out.println("==============================");
 
         return ResponseEntity.ok(Map.of(
-                "message", "user access successful",
+                "message", "Admin access successful",
                 "user", authentication.getName(),
                 "authorities", authentication.getAuthorities()));
     }

@@ -4,23 +4,37 @@ import java.util.Date;
 
 import com.__blog.model.enums.Roles;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class RegisterRequest {
+    @NotEmpty(message = "Email is mandatory")
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email  is not formatted ")
     private String email;
+
+    @NotEmpty(message = "Password is mandatory")
+    @NotBlank(message = "Password is mandatory")
+    @Size(min=5,message="Password sould be 5 character long minium")
     private String password;
+
+    @NotEmpty(message = "Fristname is mandatory")
+    @NotBlank(message = "Fristname is mandatory")
     private String fristname;
+    @NotEmpty(message = "Lastname is mandatory")
+    @NotBlank(message = "Lastname is mandatory")
     private String lastname;
     private String about;
-    private String profile_type;
     private Date date_of_birth;
     private String username;
-    private String status;
     private String avatar;
     private Roles role;
 }

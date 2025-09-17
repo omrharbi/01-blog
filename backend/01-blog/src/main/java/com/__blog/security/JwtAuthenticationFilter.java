@@ -32,30 +32,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             String header = request.getHeader("Authorization");
-            SecurityContext sc = SecurityContextHolder.getContext();
+            SecurityContext sc = SecurityContextHolder.getContext();// for check if user already have authenticate
+            if (header == null || !header.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            // if (header != null && header.startsWith("Bearer ")
+            // && sc.getAuthentication() == null) {
 
-            if (header != null && header.startsWith("Bearer ")
-                    && sc.getAuthentication() == null) {
-
-                String token = header.substring(7).trim();
-
-                String username = jwtproProvider.getUsernameFromToken(token).getSubject();
-
+            String token = header.substring(7).trim();
+            String username = jwtproProvider.getUsernameFromToken(token).getSubject();
+            if (username != null && sc.getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 if (jwtproProvider.isTokenValid(token, userDetails)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(// to
+                                                                                                                      // check
+                                                                                                                      // and
+                                                                                                                      // update
+                                                                                                                      // jwt
+                                                                                                                      // holder
                             userDetails, null, userDetails.getAuthorities()); // use UserPrincipal authorities
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
 
             }
-        } catch (Exception e) {
+            filterChain.doFilter(request, response);
+            // }
+        } catch (ServletException | IOException e) {
             handleJwtException(response, e);
-            return;
+            // return;
         }
-        filterChain.doFilter(request, response);
+
     }
 
     private void handleJwtException(HttpServletResponse response, Exception e) throws IOException {
@@ -67,15 +76,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (e.getMessage().contains("Compact JWT strings may not contain whitespace")) {
             message = "Invalid JWT token format";
-         } else if (e.getMessage().contains("JWT expired") || e.getMessage().contains("expired")) {
+        } else if (e.getMessage().contains("JWT expired") || e.getMessage().contains("expired")) {
             message = "JWT token has expired";
-         } else if (e.getMessage().contains("JWT signature") || e.getMessage().contains("signature")) {
+        } else if (e.getMessage().contains("JWT signature") || e.getMessage().contains("signature")) {
             message = "Invalid JWT signature";
-         } else if (e.getMessage().contains("malformed") || e.getMessage().contains("Malformed")) {
+        } else if (e.getMessage().contains("malformed") || e.getMessage().contains("Malformed")) {
             message = "Malformed JWT token";
-         } else {
+        } else {
             message = "JWT authentication failed";
-         }
+        }
 
         String jsonResponse = String.format(
                 "{\"error\":\"Unauthorized\",\"message\":\"%s\",\"status\":401,\"timestamp\":\"%s\"}",
