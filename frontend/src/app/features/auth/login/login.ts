@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import {  FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme-service';
+import { AuthenticationService } from './authentication.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [Materaile, ReactiveFormsModule],
+  imports: [Materaile],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
 export class Login {
   loginForm: FormGroup;
   hidePassword = true;
-  // constructor(public themeService:ThemeService){}
-  constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router ) {
+  errorMessage :Array<string>=[];
+   constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router ,private autheService :AuthenticationService) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),

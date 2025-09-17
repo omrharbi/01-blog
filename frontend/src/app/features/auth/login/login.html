@@ -1,13 +1,18 @@
 <div class="login-grid">
-
   <div class="illustration">
     <div class="illustration-content">
       <div class="illustration-text animate-slide-in-left">
-            <button mat-button (click)="themeService.toggleTheme()">Toggle Dark/Light</button>
-            <img src="assets/undraw_online-community_3o0l.png" alt="Animated human" class="illustration-img " />
+        <button mat-button (click)="themeService.toggleTheme()">Toggle Dark/Light</button>
+        <img
+          src="assets/undraw_online-community_3o0l.png"
+          alt="Animated human"
+          class="illustration-img"
+        />
 
         <h2 class="connect">Connect & Share</h2>
-        <p class="join">Join thousands of students sharing their learning journey and discoveries.</p>
+        <p class="join">
+          Join thousands of students sharing their learning journey and discoveries.
+        </p>
       </div>
       <!-- Animated human image -->
     </div>
@@ -20,7 +25,9 @@
         <h1 class="card-title">Welcome Back</h1>
         <p class="card-subtitle">Sign in to your account to continue your journey</p>
       </div>
-
+      <div class="alert alter-danger" *ngIf="errorMessage.length">
+        <p *ngFor="let msg of errorMessage">{{ msg }}</p>
+      </div>
       <!-- Social Login Options -->
       <div class="social-options">
         <div class="social-option">
@@ -44,22 +51,22 @@
       </div>
 
       <!-- Email Form -->
-      <form class="email-form">
+      <form class="email-form" [formGroup]="loginForm" (click)="onSubmit()" >
         <div class="form-group">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-input" placeholder="Enter your password" />
+          <label class="form-label" >Email</label>
+          <input type="email" formControlName="email" class="form-input" placeholder="Enter your password" />
         </div>
 
         <div class="form-group">
-          <label class="form-label">Target password</label>
-          <input type="password" class="form-input" placeholder="Enter target password" />
+          <label class="form-label">password</label>
+          <input type="password" formControlName="password" class="form-input" placeholder="Enter target password" />
         </div>
 
         <div class="forgot-password">
           <a href="#" class="forgot-link">Forgot password?</a>
         </div>
 
-        <button type="submit" class="submit-btn">OK</button>
+        <button   type="submit" class="submit-btn">lOGIN</button>
       </form>
 
       <div class="bottom-links">
