@@ -3,7 +3,7 @@ import {  FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme-service';
-import { AuthenticationService } from './authentication.service';
+// import { AuthenticationService } from './authentication.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -15,7 +15,9 @@ export class Login {
   loginForm: FormGroup;
   hidePassword = true;
   errorMessage :Array<string>=[];
-   constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router ,private autheService :AuthenticationService) {
+   constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router 
+    // ,private autheService :AuthenticationService
+  ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
