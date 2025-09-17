@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.__blog.model.enums.Roles;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -68,35 +69,42 @@ public class User {
     @Column(name = "avatar", nullable = true)
     private String avatar;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(hidden = true)
     private List<Post> posts = new ArrayList<>();
-
     @OneToMany(mappedBy = "subscriber_User", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(hidden = true)
     private List<Subscription> following = new ArrayList<>();
 
     // Users who follow this user
     @OneToMany(mappedBy = "subscribedTo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(hidden = true)
     private List<Subscription> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(hidden = true)
     private List<Report> reportsSender = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL, orphanRemoval = true)
-
+    @Schema(hidden = true)
     private List<Report> reportsReceived = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(hidden = true)
     private List<Notification> receiver = new ArrayList<>();
 
     @OneToMany(mappedBy = "triggerUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(hidden = true)
     private List<Notification> triggerUser = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sender_id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Chat> sender_id = new ArrayList<>();
+    // @OneToMany(mappedBy = "sender_id", cascade = CascadeType.ALL, orphanRemoval =
+    // true)
+    // private List<Chat> sender_id = new ArrayList<>();
 
-    @OneToMany(mappedBy = "receiver_id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Chat> receiver_id = new ArrayList<>();
-
+    // @OneToMany(mappedBy = "receiver_id", cascade = CascadeType.ALL, orphanRemoval
+    // = true)
+    // private List<Chat> receiver_id = new ArrayList<>();
+    @Schema(hidden = true)
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Roles role=Roles.USER;;
+    private Roles role = Roles.USER;;
 }

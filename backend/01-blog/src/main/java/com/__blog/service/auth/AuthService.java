@@ -6,18 +6,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
- import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+ import org.springframework.stereotype.Service;
 
 import com.__blog.exception.ApiException;
+import com.__blog.model.dto.request.LoginRequest;
 import com.__blog.model.dto.request.RegisterRequest;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Roles;
 import com.__blog.repository.UserRepository;
 import com.__blog.security.JwtTokenProvider;
 import com.__blog.service.UserService;
-
-import ch.qos.logback.core.subst.Token;
 @Service
 public class AuthService {
 
@@ -31,7 +29,7 @@ public class AuthService {
     @Autowired
     private UserService userService;
     // @Autowired
-    private PasswordEncoder passwordEncoder;
+    // private PasswordEncoder passwordEncoder;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User registerUser(RegisterRequest registerRequest) {
@@ -59,7 +57,7 @@ public class AuthService {
         return repouser.save(user);
     }
 
-    public String verifyLoginUser(User user) {
+    public String verifyLoginUser(LoginRequest user) {
         Authentication auth = manager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (auth.isAuthenticated()) {
