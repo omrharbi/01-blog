@@ -197,3 +197,17 @@ app-login {
   width: 100%;
   height: 100%;
 }
+.btn-enabled {
+  background-color: var(--brand-primary);
+  cursor: pointer;
+}
+
+.btn-enabled:hover {
+  background-color: var(--brand-primary-hover);
+}
+
+.btn-disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}

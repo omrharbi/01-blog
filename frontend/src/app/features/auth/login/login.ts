@@ -18,10 +18,11 @@ export class Login {
    constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router 
     // ,private autheService :AuthenticationService
   ) {
-    this.loginForm = new FormGroup({
+    this.loginForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
     });
+    // formBuilder.group(this.loginForm)
   }
 
   onSubmit() {

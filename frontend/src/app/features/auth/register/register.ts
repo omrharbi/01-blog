@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [Materaile, ReactiveFormsModule],
+  imports: [Materaile],
 
   templateUrl: './register.html',
   styleUrls: [
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   ],
 })
 export class Register {
-  loginForm: FormGroup;
+  registerForm: FormGroup;
   hidePassword = true;
   selectedFileName: string | null = null;
   currentStep = 1;
@@ -31,15 +31,48 @@ export class Register {
     private formBuilder: FormBuilder,
     private router: Router
   ) {
-    this.loginForm = new FormGroup({
+    this.registerForm = this.formBuilder.group({
+      firstname: new FormControl('', [Validators.required]),
+      lastname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
+
+      date_of_birth: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required]),
+      about: new FormControl('', [Validators.required]),
+
+      avater: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
+      ConfirmPassword: new FormControl('', [Validators.required]),
     });
+  }
+  isStepsValid(step: number): boolean {
+    if (step === 1) {
+      return (
+        (this.registerForm.get('firstname')?.valid ?? false) &&
+        (this.registerForm.get('lastname')?.valid ?? false) &&
+        (this.registerForm.get('email')?.valid ?? false)
+      );
+    }
+    if (step ===2) {
+      return (
+        (this.registerForm.get('date_of_birth')?.valid ?? false) &&
+        (this.registerForm.get('username')?.valid ?? false) &&
+        (this.registerForm.get('about')?.valid ?? false)
+      );
+    }
+    if (step === 3) {
+      return (
+        (this.registerForm.get('avater')?.valid ?? false) &&
+        (this.registerForm.get('password')?.valid ?? false) &&
+        (this.registerForm.get('ConfirmPassword')?.valid ?? false) 
+       );
+    }
+    return false;
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+    if (this.registerForm.valid) {
+      console.log(this.registerForm.value);
       // Add your login logic here
     }
   }

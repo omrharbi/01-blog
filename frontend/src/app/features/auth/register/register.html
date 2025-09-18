@@ -30,25 +30,51 @@
       </div>
 
       <!-- Email Form -->
-      <form class="email-form" (ngSubmit)="onSubmit()">
+      <form class="email-form" (ngSubmit)="onSubmit()" [formGroup]="registerForm">
         <!-- Step 1 -->
         <div *ngIf="currentStep === 1" class="form-step active">
           <div class="form-group">
             <label class="form-label">First Name</label>
-            <input type="text" class="form-input" placeholder="Enter your First Name" />
+            <input
+              type="text"
+              class="form-input"
+              formControlName="firstname"
+              placeholder="Enter your First Name"
+            />
           </div>
           <div class="form-group">
             <label class="form-label">Last Name</label>
-            <input type="text" class="form-input" placeholder="Enter your Last Name" />
+            <input
+              type="text"
+              class="form-input"
+              formControlName="lastname"
+              placeholder="Enter your Last Name"
+            />
           </div>
           <div class="form-group">
             <label class="form-label">Email</label>
-            <input type="email" class="form-input" placeholder="Enter your Email" />
+            <input
+              type="email"
+              class="form-input"
+              formControlName="email"
+              placeholder="Enter your Email"
+            />
           </div>
           <div class="step-buttons">
             <div></div>
 
-            <button type="button" class="next-btn" (click)="nextStep()">Next</button>
+            <button
+              type="button"
+              class="next-btn"
+              (click)="nextStep()"
+              [disabled]="!isStepsValid(1)"
+              [ngClass]="{
+                'btn-enabled': isStepsValid(1),
+                'btn-disabled': !isStepsValid(1)
+              }"
+            >
+              Next
+            </button>
           </div>
         </div>
 
@@ -56,19 +82,39 @@
         <div *ngIf="currentStep === 2" class="form-step active">
           <div class="form-group">
             <label class="form-label">Date of Birth</label>
-            <input type="date" class="form-input" />
+            <input type="date" formControlName="date_of_birth" class="form-input" />
           </div>
           <div class="form-group">
             <label class="form-label">Username</label>
-            <input type="text" class="form-input" placeholder="Choose a username" />
+            <input
+              type="text"
+              class="form-input"
+              formControlName="username"
+              placeholder="Choose a username"
+            />
           </div>
           <div class="form-group">
             <label class="form-label">About Me</label>
-            <textarea class="form-input" placeholder="Tell us about yourself"></textarea>
+            <textarea
+              class="form-input"
+              formControlName="about"
+              placeholder="Tell us about yourself"
+            ></textarea>
           </div>
           <div class="step-buttons">
             <button type="button" class="prev-btn" (click)="prevStep()">Previous</button>
-            <button type="button" class="next-btn" (click)="nextStep()">Next</button>
+            <button
+              type="button"
+              class="next-btn"
+              (click)="nextStep()"
+              [disabled]="!isStepsValid(2)"
+              [ngClass]="{
+                'btn-enabled': isStepsValid(2),
+                'btn-disabled': !isStepsValid(2)
+              }"
+            >
+              Next
+            </button>
           </div>
         </div>
 
@@ -79,20 +125,39 @@
             <label class="custom-file-upload">
               <input type="file" (change)="onFileSelected($event)" />
               Upload Image
-              <span class="file-name" *ngIf="selectedFileName">{{ selectedFileName }}</span>
+              <span class="file-name" formControlName="avatar" *ngIf="selectedFileName">{{
+                selectedFileName
+              }}</span>
             </label>
           </div>
           <div class="form-group">
             <label class="form-label">Password</label>
-            <input type="password" class="form-input" placeholder="Enter password" />
+            <input
+              type="password"
+              formControlName="password"
+              class="form-input"
+              placeholder="Enter password"
+            />
           </div>
           <div class="form-group">
             <label class="form-label">Confirm Password</label>
-            <input type="password" class="form-input" placeholder="Confirm password" />
+            <input type="password" formControlName="ConfirmPassword" class="form-input" />
           </div>
           <div class="step-buttons">
             <button type="button" class="prev-btn" (click)="prevStep()">Previous</button>
-            <button [routerLink]="['/login']" type="submit" class="submit-btn" (click)="nextStep()">Submit</button>
+            <button
+              [routerLink]="['/login']"
+              type="submit"
+              class="submit-btn"
+              (click)="nextStep()"
+              [disabled]="!isStepsValid(3)"
+              [ngClass]="{
+                'btn-enabled': isStepsValid(3),
+                'btn-disabled': !isStepsValid(3)
+              }"
+            >
+              Submit
+            </button>
           </div>
         </div>
       </form>

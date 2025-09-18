@@ -1,53 +1,50 @@
- /* .login-form-container {
-  width: 60vw !important;
-}
-.email-form {
-  gap: 0 !important;
-}
-.form-input {
-  height: 20px !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-.group-input {
-  display: flex !important;
-  width: 100% !important;
-  justify-content: space-between !important;
-  gap: 1rem !important;
-}
-.group-input .form-group {
-  flex: 1;
-  margin: 18px;
-}
-.login-card {
-  max-width: 762px !important;
-}
-.animate-slide-in-right {
-  opacity: 0;
-  animation: slide-in-left 0.8s ease-out forwards;
-}
-.animate-slide-in-left {
-  opacity: 0;
-  animation: slide-in-right 0.6s ease-out forwards;
-}
  
-@keyframes slide-in-right {
-  0% {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.step-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.75rem;
 }
-@keyframes slide-in-left {
-  0% {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-} */
+
+/* Step buttons styles */
+.step-buttons button {
+  /* background-color: var(--brand-primary); */
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.step-buttons button:hover {
+  /* background-color: var(--brand-primary-hover); */
+  transform: translateY(-1px);
+}
+
+/* Previous button variant */
+.step-buttons .prev-btn {
+  background-color: var(--border);
+  color: var(--foreground-color);
+}
+
+.step-buttons .prev-btn:hover {
+  background-color: var(--muted-foreground);
+}
+
+
+.btn-enabled {
+  background-color: var(--brand-primary);
+  cursor: pointer;
+}
+
+.btn-enabled:hover {
+  background-color: var(--brand-primary-hover);
+}
+
+.btn-disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
