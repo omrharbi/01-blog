@@ -1,20 +1,24 @@
 package com.__blog.controller.auth;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.__blog.model.dto.request.LoginRequest;
-import com.__blog.model.dto.request.RegisterRequest;
+import com.__blog.model.dto.request.auth.LoginRequest;
+import com.__blog.model.dto.request.auth.RegisterRequest;
+import com.__blog.model.dto.response.auth.LoginResponse;
 import com.__blog.service.auth.AuthService;
+import com.__blog.util.ApiResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/user")
+@CrossOrigin
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService userService;
@@ -26,8 +30,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest user) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest user) {
         return userService.verifyLoginUser(user);
+          
     }
 
     // @GetMapping("/test")

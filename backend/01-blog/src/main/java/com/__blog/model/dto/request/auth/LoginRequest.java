@@ -1,4 +1,4 @@
-package com.__blog.model.dto.request;
+package com.__blog.model.dto.request.auth;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class LoginRequest {
-    private String username;
+    private String identifier;
     private String password;
 }

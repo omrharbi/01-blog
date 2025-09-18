@@ -21,4 +21,8 @@ public class UserService {
         return repouser.findByUsername(username)
                 .orElseThrow(() -> new ExecutionException("this user  not alowd" + username));
     }
+     public User findByEmail(String username) {
+        return repouser.findByEmail(username)
+                .orElseThrow(() -> new ExecutionException("this Email  not alowd" + username));
+    }
 }

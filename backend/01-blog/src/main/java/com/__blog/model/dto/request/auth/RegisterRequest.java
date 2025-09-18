@@ -1,4 +1,4 @@
-package com.__blog.model.dto.request;
+package com.__blog.model.dto.request.auth;
 
 import java.util.Date;
 

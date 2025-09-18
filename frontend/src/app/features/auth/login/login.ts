@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {  FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
-import { ThemeService } from '../../../core/services/theme-service';
+import { ThemeService } from '../../../modules/services/theme-service';
+import { AuthService } from '../../../core/auth-service';
 // import { AuthenticationService } from './authentication.service';
 @Component({
   selector: 'app-login',
@@ -15,11 +16,12 @@ export class Login {
   loginForm: FormGroup;
   hidePassword = true;
   errorMessage :Array<string>=[];
-   constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router 
+   constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router ,
     // ,private autheService :AuthenticationService
+    private authService: AuthService 
   ) {
     this.loginForm = this.formBuilder.group({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      identifier: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
     });
     // formBuilder.group(this.loginForm)
@@ -27,8 +29,16 @@ export class Login {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      // Add your login logic here
+    this.authService.login(this.loginForm.value).subscribe({
+      next:(response)=>{
+        console.log(response);
+        
+      },
+      error:(err)=>{
+        console.log(err,"err");
+        
+      }
+    })
     }
   }
 

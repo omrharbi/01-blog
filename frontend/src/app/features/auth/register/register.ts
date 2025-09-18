@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ThemeService } from '../../../core/services/theme-service';
+import { ThemeService } from '../../../modules/services/theme-service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,7 +25,7 @@ export class Register {
   hidePassword = true;
   selectedFileName: string | null = null;
   currentStep = 1;
-
+   
   constructor(
     public themeService: ThemeService,
     private formBuilder: FormBuilder,
@@ -40,12 +40,13 @@ export class Register {
       username: new FormControl('', [Validators.required]),
       about: new FormControl('', [Validators.required]),
 
-      avater: new FormControl('', [Validators.required]),
+      avatar: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
-      ConfirmPassword: new FormControl('', [Validators.required]),
+      confirmpassword: new FormControl('', [Validators.required]),
     });
   }
   isStepsValid(step: number): boolean {
+     console.log('Form Initialized'+step);
     if (step === 1) {
       return (
         (this.registerForm.get('firstname')?.valid ?? false) &&
@@ -62,9 +63,9 @@ export class Register {
     }
     if (step === 3) {
       return (
-        (this.registerForm.get('avater')?.valid ?? false) &&
+        (this.registerForm.get('avatar')?.valid ?? false) &&
         (this.registerForm.get('password')?.valid ?? false) &&
-        (this.registerForm.get('ConfirmPassword')?.valid ?? false) 
+        (this.registerForm.get('confirmpassword')?.valid ?? false) 
        );
     }
     return false;
