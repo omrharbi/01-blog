@@ -30,9 +30,11 @@ export class AuthService {
     localStorage.removeItem('authToken');
   }
 
-  isLoggedIn():boolean{
-    const token=localStorage.getItem("USER_TOKEN");
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('USER_TOKEN');
     return !!token;
   }
-  
+  getToken(): string | null {
+    return localStorage.getItem('authToken');
+  }
 }
