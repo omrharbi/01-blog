@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {  FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../modules/services/theme-service';
@@ -15,30 +15,27 @@ import { AuthService } from '../../../core/auth-service';
 export class Login {
   loginForm: FormGroup;
   hidePassword = true;
-  errorMessage :Array<string>=[];
-   constructor(public themeService:ThemeService,private formBuilder: FormBuilder, private router: Router ,
-    // ,private autheService :AuthenticationService
-    private authService: AuthService 
-  ) {
+  errorMessage: Array<string> = [];
+  authService = inject(AuthService);
+  themeService = inject(ThemeService);
+  router = inject(Router);
+  constructor(private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
       identifier: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
     });
-    // formBuilder.group(this.loginForm)
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
-    this.authService.login(this.loginForm.value).subscribe({
-      next:(response)=>{
-        console.log(response);
-        
-      },
-      error:(err)=>{
-        console.log(err,"err");
-        
-      }
-    })
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (err) => {
+          console.log(err, 'err');
+        },
+      });
     }
   }
 
