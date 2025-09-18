@@ -3,8 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../modules/services/theme-service';
-import { AuthService } from '../../../core/auth-service';
-// import { AuthenticationService } from './authentication.service';
+import { AuthService } from '../../../core/service/auth-service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -30,7 +29,13 @@ export class Login {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          console.log(response);
+          if (response.status) {
+            this.router.navigate(['/home']); // ✅ navigate to home
+          } else {
+            this.errorMessage.push(response.error || 'Login failed');
+          }
+
+          // this.router.navigate(['/home'])
         },
         error: (err) => {
           console.log(err, 'err');

@@ -4,16 +4,17 @@ import { AuthLayout } from './layout/auth-layout/auth-layout';
 import { Register } from './features/auth/register/register';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { AdminLayout } from './layout/admin-layout/admin-layout';
-
+import { Home } from './features/home/home/home';
+import { authGuard } from './core/guards/auth-guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
     pathMatch: 'full',
+    redirectTo: 'home', // default path now points to home
   },
   {
     path: '',
-    component: AuthLayout, // layout wrapper
+    component: AuthLayout,
     children: [
       { path: 'login', component: Login },
       { path: 'register', component: Register },
@@ -22,22 +23,11 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayout,
+    canActivate: [authGuard], // protect all main layout routes
     children: [
-      // {
-      // // { path: 'home', component: HomeComponent },
-      // // { path: 'profile', component: ProfileComponent }
-      // }
+      { path: 'home', component: Home },
+      // other protected pages
     ],
   },
-  {
-    path: 'admin',
-    component: AdminLayout,
-    children: [
-      // {
-      // // { path: 'dashboard', component: AdminLayoutComponent },
-      // // { path: 'profile', component: ProfileComponent }
-      // }
-    ],
-  },
-  { path: '**', redirectTo: 'login' }, // wildcard route
+  { path: '**', redirectTo: 'login' },
 ];
