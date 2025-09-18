@@ -67,7 +67,8 @@ public class AuthService {
                 : userService.findByUsername(user.getIdentifier());
 
         User userEntity = dbUser.getData();
-
+        // System.err.println(user.getPassword()
+        // + " passeo***************************************************************");
         if (userEntity == null) {
             return ApiResponse.<LoginResponse>builder()
                     .status(false)
@@ -75,8 +76,9 @@ public class AuthService {
                     .build();
         }
         Authentication auth = manager.authenticate(
-                new UsernamePasswordAuthenticationToken(userEntity.getUsername(), userEntity.getPassword()));
-
+                new UsernamePasswordAuthenticationToken(
+                        userEntity.getUsername(),
+                        user.getPassword()));
         if (auth.isAuthenticated()) {
             // api
             String token = tokenProvider.generetToken(userEntity.getUsername(), userEntity.getRole().name());
