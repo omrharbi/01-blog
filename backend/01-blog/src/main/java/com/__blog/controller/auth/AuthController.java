@@ -31,8 +31,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest user) {
-        return userService.verifyLoginUser(user);
-          
+        ApiResponse<LoginResponse> response = userService.verifyLoginUser(user);
+        return ResponseEntity.ok(response);
     }
 
     // @GetMapping("/test")

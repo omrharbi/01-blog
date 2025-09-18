@@ -1,11 +1,11 @@
 package com.__blog.service;
 
-import org.hibernate.sql.exec.ExecutionException;
-import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
- 
+
 import com.__blog.model.entity.User;
- import com.__blog.repository.UserRepository; 
+import com.__blog.repository.UserRepository;
+import com.__blog.util.ApiResponse;
 
 @Service
 public class UserService {
@@ -13,16 +13,38 @@ public class UserService {
     @Autowired
     private UserRepository repouser;
 
-    public User finduser(Integer id) {
-        return repouser.findById(id).orElseThrow(() -> new ExecutionException("this user  not alowd" + id));
+    public ApiResponse<User> finduser(Integer id) {
+        var user = repouser.findById(id);// .orElseThrow(() -> new ExecutionException("this user not alowd" + id));
+        if (user.isPresent()) {
+            return ApiResponse.<User>builder()
+                    .status(true).data(user.get()).build();
+        } else {
+
+            return ApiResponse.<User>builder().status(false).error("This user is not allowed or does not exist: " + id)
+                    .build();
+        }
     }
 
-    public User findByUsername(String username) {
-        return repouser.findByUsername(username)
-                .orElseThrow(() -> new ExecutionException("this user  not alowd" + username));
+    public ApiResponse<User> findByUsername(String username) {
+        var user = repouser.findByUsername(username);
+        if (user.isPresent()) {
+            return ApiResponse.<User>builder().status(true).data(user.get()).build();
+        } else {
+            return ApiResponse.<User>builder().status(false)
+                    .error("This user is not allowed or does not exist: " + username).build();
+
+        }
+
     }
-     public User findByEmail(String username) {
-        return repouser.findByEmail(username)
-                .orElseThrow(() -> new ExecutionException("this Email  not alowd" + username));
+
+    public ApiResponse<User> findByEmail(String username) {
+        var user = repouser.findByEmail(username);
+        if (user.isPresent()) {
+            return ApiResponse.<User>builder().status(true).data(user.get()).build();
+        } else {
+            return ApiResponse.<User>builder().status(false)
+                    .error("This user is not allowed or does not exist: " + username).build();
+
+        }
     }
 }

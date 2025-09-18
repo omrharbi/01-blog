@@ -2,7 +2,6 @@ package com.__blog.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -61,57 +60,42 @@ public class AuthService {
         return repouser.save(user);
     }
 
-   public ResponseEntity<ApiResponse<LoginResponse>> verifyLoginUser(LoginRequest user) {
-    try {
-        User dbUser = user.getIdentifier().contains("@")
+    public ApiResponse<LoginResponse> verifyLoginUser(LoginRequest user) {
+
+        ApiResponse<User> dbUser = user.getIdentifier().contains("@")
                 ? userService.findByEmail(user.getIdentifier())
                 : userService.findByUsername(user.getIdentifier());
 
-        if (dbUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ApiResponse.<LoginResponse>builder()
-                            .status(false)
-                            .error("User not found")
-                            .build());
-        }
+        User userEntity = dbUser.getData();
 
+        if (userEntity == null) {
+            return ApiResponse.<LoginResponse>builder()
+                    .status(false)
+                    .error("User not found")
+                    .build();
+        }
         Authentication auth = manager.authenticate(
-                new UsernamePasswordAuthenticationToken(dbUser.getUsername(), user.getPassword())
-        );
+                new UsernamePasswordAuthenticationToken(userEntity.getUsername(), userEntity.getPassword()));
 
         if (auth.isAuthenticated()) {
-            String token = tokenProvider.generetToken(dbUser.getUsername(), dbUser.getRole().name());
+            // api
+            String token = tokenProvider.generetToken(userEntity.getUsername(), userEntity.getRole().name());
+            LoginResponse response = new LoginResponse(
+                    userEntity.getId(),
+                    userEntity.getUsername(),
+                    userEntity.getEmail());
 
-            LoginResponse loginResponse = new LoginResponse(
-                    dbUser.getId(),
-                    dbUser.getUsername(),
-                    dbUser.getEmail()
-            );
-
-            return ResponseEntity.ok(
-                    ApiResponse.<LoginResponse>builder()
-                            .status(true)
-                            .message("Login successful")
-                            .token(token)
-                            .data(loginResponse)
-                            .build()
-            );
+            return ApiResponse.<LoginResponse>builder()
+                    .status(true)
+                    .message("Login successful")
+                    .token(token)
+                    .data(response)
+                    .build();
         }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(ApiResponse.<LoginResponse>builder()
-                        .status(false)
-                        .error("Invalid credentials")
-                        .build());
-
-    } catch (Exception e) {
-        // Catch unexpected errors (like SQL executor problems)
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.<LoginResponse>builder()
-                        .status(false)
-                        .error("An unexpected error occurred: " + e.getMessage())
-                        .build());
+        return ApiResponse.<LoginResponse>builder()
+                .status(false)
+                .error("Invalid credentials")
+                .build();
     }
-}
 
 }
