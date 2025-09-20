@@ -117,3 +117,7 @@
   display: flex;
   align-items: center;
 }
+
+.btn:hover {
+  background-color: hsl(var(--accent));
+}
