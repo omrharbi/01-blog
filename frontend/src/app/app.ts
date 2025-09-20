@@ -8,7 +8,7 @@ import { Sidebar } from './shared/components/sidebar/sidebar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatSlideToggleModule,Header,Sidebar],
+  imports: [RouterOutlet, MatSlideToggleModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

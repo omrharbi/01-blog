@@ -9,25 +9,31 @@ import { authGuard } from './core/guards/auth/auth-guard';
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'home', // default path now points to home
+    component: MainLayout, // root uses MainLayout
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: Home }, // <-- default child is Home
+      // other protected pages
+    ], // default path now points to home
   },
   {
-    path: '',
+    path: 'auth',
     component: AuthLayout,
     children: [
       { path: 'login', component: Login },
       { path: 'register', component: Register },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
     ],
   },
-  {
-    path: '',
-    component: MainLayout,
-    canActivate: [authGuard], // protect all main layout routes
-    children: [
-      { path: 'home', component: Home },
-      // other protected pages
-    ],
-  },
+  // {
+  //   path: 'main',
+  //   component: MainLayout,
+  //   canActivate: [authGuard], // protect all main layout routes
+  //   children: [
+  //     { path: 'home', component: Home },
+  //     // other protected pages
+  //     { path: '', redirectTo: 'home', pathMatch: 'full' },
+  //   ],
+  // },
   { path: '**', redirectTo: 'login' },
 ];

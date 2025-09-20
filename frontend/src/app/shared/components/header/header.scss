@@ -1,0 +1,21 @@
+.text-gradient {
+  display: inline-block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  
+  /* Direct gradient color - Modern approach */
+  color: color-mix(in srgb, hsl(142, 86%, 35%), hsl(24, 95%, 60%));
+  
+  /* Alternative: Use conic-gradient for text */
+  background: conic-gradient(
+    from 135deg,
+    hsl(142, 86%, 35%) 0deg,
+    hsl(24, 95%, 60%) 180deg,
+    hsl(142, 86%, 35%) 360deg
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
