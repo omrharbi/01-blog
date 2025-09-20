@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list'; // for mat-grid-list / mat-grid-tile
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-const materaile = [
+ const materaile = [
   CommonModule,
   RouterModule,
   MatCardModule,

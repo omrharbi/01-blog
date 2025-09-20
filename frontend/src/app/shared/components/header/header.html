@@ -1,18 +1,26 @@
-<header class=" sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-  <div class="flex h-16 items-center px-4 lg:px-8 d-flex align-items-center px-3 py-2 ">
-    
+<header
+  class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
+  <div class="flex h-16 items-center px-4 lg:px-8 d-flex align-items-center px-3">
     <!-- Logo Section -->
-    <div class="flex items-center gap-4  me-3">
+    <div class="flex items-center gap-4 me-3">
       <a class="font-playfair text-2xl font-bold text-gradient" routerLink="/">
         <!-- SVG Gradient Text -->
         <svg width="120" height="40" xmlns="http://www.w3.org/2000/svg" class="inline-block">
           <defs>
             <linearGradient id="blogGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:hsl(142, 86%, 35%);stop-opacity:1" />
-              <stop offset="100%" style="stop-color:hsl(24, 95%, 60%);stop-opacity:1" />
+              <stop offset="0%" style="stop-color: hsl(142, 86%, 35%); stop-opacity: 1" />
+              <stop offset="100%" style="stop-color: hsl(24, 95%, 60%); stop-opacity: 1" />
             </linearGradient>
           </defs>
-          <text x="5" y="28" font-family="Playfair Display, serif" font-size="24" font-weight="bold" fill="url(#blogGradient)">
+          <text
+            x="5"
+            y="28"
+            font-family="Playfair Display, serif"
+            font-size="24"
+            font-weight="bold"
+            fill="url(#blogGradient)"
+          >
             01Blog
           </text>
         </svg>
@@ -20,104 +28,49 @@
     </div>
 
     <!-- Search Bar -->
-    <div class="flex-1 max-w-md mx-8 flex-grow-1 ">
-      <div class="relative">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </svg>
+    <!-- Updated Search Bar Section -->
+    <div class="search-container">
+      <div class="search">
+        <mat-icon class="search-icon">search</mat-icon>
         <input
-          class="flex h-10 w-full rounded-md border-input px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10 bg-muted/50 border-0 focus-visible:ring-1 focus-visible:ring-primary"
+          type="search"
+          class="search-input"
           placeholder="Search articles, topics, or authors..."
-           (keyup.enter)="onSearch()"
+          (keyup.enter)="onSearch()"
+          autocomplete="off"
         />
       </div>
     </div>
 
     <!-- Action Buttons -->
-    <div class="flex items-center gap-2 flex-shrink-0 ">
-      
+    <div class="flex items-center gap-2 flex-shrink-0 d-flex">
       <!-- Theme Toggle -->
       <button
-        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground"
+        class="icons inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground"
         (click)="toggleTheme()"
-        title="Toggle theme">
+        title="Toggle theme"
+      >
         <!-- Sun icon for light mode -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2"></path>
-          <path d="M12 20v2"></path>
-          <path d="m4.93 4.93 1.41 1.41"></path>
-          <path d="m17.66 17.66 1.41 1.41"></path>
-          <path d="M2 12h2"></path>
-          <path d="M20 12h2"></path>
-          <path d="m6.34 17.66-1.41 1.41"></path>
-          <path d="m19.07 4.93-1.41 1.41"></path>
-        </svg>
-        <!-- Moon icon for dark mode -->
-        <!-- <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100">
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-        </svg> -->
+        <mat-icon>light_mode</mat-icon>
+        <!-- <mat-icon>dark_mode</mat-icon> -->
       </button>
 
       <!-- Notifications -->
       <button
-        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground relative"
+        class="icons inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground relative"
         *ngIf="isAuthenticated"
-        title="Notifications">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-5 w-5">
-          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-        </svg>
+        title="Notifications"
+      >
         <!-- Notification badge -->
-        <span class="absolute -top-1 -right-1 h-3 w-3 bg-accent rounded-full border-2 border-background"></span>
+        <mat-icon>notifications_none</mat-icon>
       </button>
       <!-- Create Post -->
       <a
-        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground"
+        class="icons inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground"
         routerLink="/main/create"
         *ngIf="isAuthenticated"
-        title="Create post">
+        title="Create post"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -128,38 +81,42 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="h-5 w-5">
+          class="h-5 w-5"
+        >
           <path d="M5 12h14"></path>
           <path d="M12 5v14"></path>
         </svg>
       </a>
 
       <!-- Authentication Links -->
-      <div class="hidden md:flex items-center gap-2 ml-2" *ngIf="!isAuthenticated">
+      <div class="hidden md:flex items-center gap-2 ml-2" *ngIf="isAuthenticated">
         <a
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
-          routerLink="/auth/login">
+          routerLink="/auth/login"
+        >
           Sign In
         </a>
         <a
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3"
-          routerLink="/auth/register">
+          routerLink="/auth/register"
+        >
           Sign Up
         </a>
       </div>
 
       <!-- User Profile -->
       <div class="relative" *ngIf="isAuthenticated">
-        <button 
+        <button
           class="relative shrink-0 overflow-hidden rounded-full h-8 w-8 cursor-pointer"
-          title="Profile">
+          title="Profile"
+        >
           <!-- <img 
             class="aspect-square h-full w-full" 
             [src]="currentUser?.avatar || '/assets/images/default-avatar.png'"
             [alt]="currentUser?.name || 'User'"
           /> -->
         </button>
-        
+
         <!-- Profile dropdown can be added here -->
       </div>
     </div>

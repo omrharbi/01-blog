@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../core/service/auth-service';
 import { ThemeService } from '../../../modules/services/theme-service';
+import { Materaile } from '../../../modules/materaile-module';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [Materaile],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
