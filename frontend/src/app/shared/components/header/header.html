@@ -1,5 +1,5 @@
 <header
-  class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+  class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 mt-4"
 >
   <div class="flex h-16 items-center px-4 lg:px-8 d-flex align-items-center px-3">
     <!-- Logo Section -->
@@ -43,10 +43,10 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="flex items-center gap-2 flex-shrink-0 d-flex">
+    <div class="flex items-center gap-2 flex-shrink-0 d-flex align-items-center">
       <!-- Theme Toggle -->
       <button
-        class="icons inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground"
+        class="d-flex justify-content-center align-items-center icons inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground"
         (click)="toggleTheme()"
         title="Toggle theme"
       >
@@ -65,7 +65,7 @@
         <mat-icon>notifications_none</mat-icon>
       </button>
       <!-- Create Post -->
-      <a
+      <button
         class="icons inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent h-10 w-10 text-muted-foreground hover:text-foreground"
         routerLink="/main/create"
         *ngIf="isAuthenticated"
@@ -86,7 +86,7 @@
           <path d="M5 12h14"></path>
           <path d="M12 5v14"></path>
         </svg>
-      </a>
+      </button>
 
       <!-- Authentication Links -->
       <div class="hidden md:flex items-center gap-2 ml-2" *ngIf="isAuthenticated">
