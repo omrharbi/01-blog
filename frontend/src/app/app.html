@@ -1,24 +1,24 @@
-<div class="min-h-screen flex flex-col bg-background">
+<div class="">
   <!-- Header at top -->
-  <div class="flex-none">
-    <app-header></app-header>
-  </div>
-
-  <!-- Main content area with sidebar + page content -->
-  <div class="flex flex-1">
-    <!-- Sidebar on the left -->
-    <div class="w-64 flex-none bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
-      <app-sidebar></app-sidebar>
+  <div class="contain d-flex min-h-screen  accordion w-full bg-background">
+   <div class="flex-none  sidebar">
+      <div class="   m-2 w-64 flex-none bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+        <app-sidebar></app-sidebar>
+      </div>
     </div>
 
-    <!-- Page content area -->
-    <div class="flex-1 p-4 overflow-auto">
-      <router-outlet></router-outlet>
+    <!-- Main content area with sidebar + page content -->
+    <div class="flex-1 flex flex-col  header-container  fle">
+      <!-- Sidebar on the left -->
+        <div class="Header m-2"> <app-header></app-header></div>
+      <div class="flex-1 p-4 overflow-auto">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 
   <!-- Footer at bottom -->
-  <div class="flex-none">
+  <!-- <div class="flex-none">
     <app-footer></app-footer>
-  </div>
+  </div> -->
 </div>

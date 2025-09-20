@@ -1,15 +1,17 @@
 /* @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'); */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-  html {
-    -webkit-font-smoothing: antialiased; /* Chrome/Safari */
-    -moz-osx-font-smoothing: grayscale;  /* Firefox */
-    -webkit-text-size-adjust: 100%;       /* Prevent font scaling in Chrome/Safari */
-  }
+html {
+  -webkit-font-smoothing: antialiased; /* Chrome/Safari */
+  -moz-osx-font-smoothing: grayscale; /* Firefox */
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in Chrome/Safari */
+}
 
 /* Light theme defaults */
 :root {
@@ -32,7 +34,7 @@
   --muted: hsl(0, 0%, 96%);
   --muted-foreground: hsl(0, 0%, 46%);
   --shadow-card: 0 10px 30px rgba(72, 75, 107, 0.15);
-
+  --sidebar-border: 0 0% 16%;
   --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.15);
   --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
   --border: hsl(0, 0%, 85%);
@@ -91,7 +93,7 @@ select {
 
 /* Dark mode overrides */
 body.dark {
-  --background-color: hsl(0, 0%, 8%);
+  --background-color: #141414;
   --foreground-color: hsl(0, 0%, 96%);
   --text-primary: hsl(0, 0%, 96%);
   --text-secondary: hsl(0, 0%, 71%);
@@ -155,7 +157,10 @@ body.dark p,
 body.dark span {
   color: var(--text-primary);
 }
-body, .login-card, .card-title, .card-subtitle {
+body,
+.login-card,
+.card-title,
+.card-subtitle {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
