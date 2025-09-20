@@ -26,9 +26,9 @@ public class RegisterRequest {
     @Size(min=5,message="Password sould be 5 character long minium")
     private String password;
 
-    @NotEmpty(message = "Fristname is mandatory")
-    @NotBlank(message = "Fristname is mandatory")
-    private String fristname;
+    @NotEmpty(message = "firstname is mandatory")
+    @NotBlank(message = "firstname is mandatory")
+    private String firstname;
     @NotEmpty(message = "Lastname is mandatory")
     @NotBlank(message = "Lastname is mandatory")
     private String lastname;

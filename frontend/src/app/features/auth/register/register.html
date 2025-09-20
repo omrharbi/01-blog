@@ -81,10 +81,6 @@
         <!-- Step 2 -->
         <div *ngIf="currentStep === 2" class="form-step active">
           <div class="form-group">
-            <label class="form-label">Date of Birth</label>
-            <input type="date" formControlName="date_of_birth" class="form-input" />
-          </div>
-          <div class="form-group">
             <label class="form-label">Username</label>
             <input
               type="text"
@@ -93,43 +89,7 @@
               placeholder="Choose a username"
             />
           </div>
-          <div class="form-group">
-            <label class="form-label">About Me</label>
-            <textarea
-              class="form-input"
-              formControlName="about"
-              placeholder="Tell us about yourself"
-            ></textarea>
-          </div>
-          <div class="step-buttons">
-            <button type="button" class="prev-btn" (click)="prevStep()">Previous</button>
-            <button
-              type="button"
-              class="next-btn"
-              (click)="nextStep()"
-              [disabled]="!isStepsValid(2)"
-              [ngClass]="{
-                'btn-enabled': isStepsValid(2),
-                'btn-disabled': !isStepsValid(2)
-              }"
-            >
-              Next
-            </button>
-          </div>
-        </div>
 
-        <!-- Step 3 -->
-        <div *ngIf="currentStep === 3" class="form-step active">
-          <div class="form-group">
-            <label class="form-label">Profile Image</label>
-            <label class="custom-file-upload">
-              <input type="file"  formControlName="avatar" (change)="onFileSelected($event)" />
-              Upload Image
-              <span class="file-name"  *ngIf="selectedFileName">{{
-                selectedFileName
-              }}</span>
-            </label>
-          </div>
           <div class="form-group">
             <label class="form-label">Password</label>
             <input
@@ -146,18 +106,20 @@
           <div class="step-buttons">
             <button type="button" class="prev-btn" (click)="prevStep()">Previous</button>
             <button
-              type="button"
-              [disabled]="!isStepsValid(3)"
+              type="submit"
+              [disabled]="!isStepsValid(2)"
               [ngClass]="{
-                'btn-enabled': isStepsValid(3),
-                'btn-disabled': !isStepsValid(3)
+                'btn-enabled': isStepsValid(2),
+                'btn-disabled': !isStepsValid(2)
               }"
             >
               submit
             </button>
           </div>
         </div>
-      </form>
+
+        <!-- Step 3 -->
+       </form>
 
       <div class="bottom-links">
         <p class="signup-text">

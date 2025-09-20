@@ -1,1 +1,24 @@
- <router-outlet />
+<div class="min-h-screen flex flex-col bg-background">
+  <!-- Header at top -->
+  <div class="flex-none">
+    <app-header></app-header>
+  </div>
+
+  <!-- Main content area with sidebar + page content -->
+  <div class="flex flex-1">
+    <!-- Sidebar on the left -->
+    <div class="w-64 flex-none bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+      <app-sidebar></app-sidebar>
+    </div>
+
+    <!-- Page content area -->
+    <div class="flex-1 p-4 overflow-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- Footer at bottom -->
+  <div class="flex-none">
+    <app-footer></app-footer>
+  </div>
+</div>

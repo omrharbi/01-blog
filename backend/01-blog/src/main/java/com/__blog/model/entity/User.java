@@ -42,7 +42,7 @@ public class User {
     private String password;
 
     @Column(name = "firstname", nullable = false)
-    private String fristname;
+    private String firstname;
 
     @Column(name = "lastname", nullable = false)
     private String lastname;

@@ -13,7 +13,6 @@ import com.__blog.model.dto.response.auth.LoginResponse;
 import com.__blog.service.auth.AuthService;
 import com.__blog.util.ApiResponse;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,9 +23,9 @@ public class AuthController {
     private final AuthService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest request) {
-        userService.registerUser(request);
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<ApiResponse<RegisterRequest>> register(@RequestBody RegisterRequest request) {
+        ApiResponse<RegisterRequest> userresponse = userService.registerUser(request);
+        return ResponseEntity.ok(userresponse);
     }
 
     @PostMapping("/login")
@@ -34,17 +33,5 @@ public class AuthController {
         ApiResponse<LoginResponse> response = userService.verifyLoginUser(user);
         return ResponseEntity.ok(response);
     }
-
-    // @GetMapping("/test")
-    // public ResponseEntity<?> testAdmin(Authentication authentication) {
-    // System.out.println("=== user ENDPOINT ACCESS ===");
-    // System.out.println("User: " + authentication.getName());
-    // System.out.println("Authorities: " + authentication.getAuthorities());
-    // System.out.println("==============================");
-
-    // return ResponseEntity.ok(Map.of(
-    // "message", "user access successful",
-    // "user", authentication.getName(),
-    // "authorities", authentication.getAuthorities()));
-    // }
+ 
 }

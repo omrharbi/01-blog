@@ -1,14 +1,12 @@
 package com.__blog.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.__blog.exception.ApiException;
 import com.__blog.model.dto.request.auth.LoginRequest;
 import com.__blog.model.dto.request.auth.RegisterRequest;
 import com.__blog.model.dto.response.auth.LoginResponse;
@@ -35,29 +33,31 @@ public class AuthService {
     // private PasswordEncoder passwordEncoder;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User registerUser(RegisterRequest registerRequest) {
+    public ApiResponse<RegisterRequest> registerUser(RegisterRequest registerRequest) {
 
         User user = new User();
         user.setEmail(registerRequest.getEmail());
         user.setPassword(registerRequest.getPassword());
-        user.setFristname(registerRequest.getFristname());
+        user.setFirstname(registerRequest.getFirstname());
         user.setLastname(registerRequest.getLastname());
-        user.setAbout(registerRequest.getAbout());
-        user.setDate_of_birth(registerRequest.getDate_of_birth());
         user.setUsername(registerRequest.getUsername());
-        user.setAvatar(registerRequest.getAvatar());
         user.setPassword(encoder.encode(registerRequest.getPassword()));
         user.setRole(Roles.USER);
 
         if (repouser.existsByEmail(user.getEmail())) {
-            throw new ApiException("This email already exists: " + user.getEmail(), HttpStatus.BAD_REQUEST);
+            return ApiResponse.<RegisterRequest>builder().status(false)
+                    .error("This email already exists: " + user.getEmail()).build();
         }
         if (repouser.existsByUsername(user.getUsername())) {
-            throw new ApiException("This username already exists: " + user.getUsername(), HttpStatus.BAD_REQUEST);
+            return ApiResponse.<RegisterRequest>builder().status(false)
+                    .error("This username  already exists: " + user.getUsername()).build();
         }
-
-        // user.setPassword(encoder.encode(user.getPassword()));
-        return repouser.save(user);
+        String token = tokenProvider.generetToken(user.getUsername(), user.getRole().name());
+        return ApiResponse.<RegisterRequest>builder()
+                .status(true)
+                .token(token)
+                // .data(registerRequest)
+                .build();
     }
 
     public ApiResponse<LoginResponse> verifyLoginUser(LoginRequest user) {

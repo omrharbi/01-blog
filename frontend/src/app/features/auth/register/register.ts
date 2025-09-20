@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import {
   FormBuilder,
@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ThemeService } from '../../../modules/services/theme-service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/service/auth-service';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,8 @@ export class Register {
   hidePassword = true;
   selectedFileName: string | null = null;
   currentStep = 1;
-   
+  authentication = inject(AuthService);
+  errorMessage: Array<string> = [];
   constructor(
     public themeService: ThemeService,
     private formBuilder: FormBuilder,
@@ -36,17 +38,13 @@ export class Register {
       lastname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
 
-      date_of_birth: new FormControl('', [Validators.required]),
       username: new FormControl('', [Validators.required]),
-      about: new FormControl('', [Validators.required]),
-
-      avatar: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       confirmpassword: new FormControl('', [Validators.required]),
     });
   }
   isStepsValid(step: number): boolean {
-     console.log('Form Initialized'+step);
+    console.log('Form Initialized' + step);
     if (step === 1) {
       return (
         (this.registerForm.get('firstname')?.valid ?? false) &&
@@ -54,27 +52,32 @@ export class Register {
         (this.registerForm.get('email')?.valid ?? false)
       );
     }
-    if (step ===2) {
+
+    if (step === 2) {
       return (
-        (this.registerForm.get('date_of_birth')?.valid ?? false) &&
         (this.registerForm.get('username')?.valid ?? false) &&
-        (this.registerForm.get('about')?.valid ?? false)
-      );
-    }
-    if (step === 3) {
-      return (
-        (this.registerForm.get('avatar')?.valid ?? false) &&
         (this.registerForm.get('password')?.valid ?? false) &&
-        (this.registerForm.get('confirmpassword')?.valid ?? false) 
-       );
+        (this.registerForm.get('confirmpassword')?.valid ?? false)
+      );
     }
     return false;
   }
 
   onSubmit() {
+    console.log('clickd');
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
-      // Add your login logic here
+      this.authentication.registrter(this.registerForm.value).subscribe({
+        next: (response) => {
+          if (response.status) {
+            this.navigateToHome()
+          } else {
+            this.errorMessage.push(response.error || 'Login failed');
+          }
+        },
+        error: (Err) => {
+          console.log(Err, 'error in side register ');
+        },
+      }); 
     }
   }
   onFileSelected(event: any) {
@@ -90,7 +93,7 @@ export class Register {
   }
 
   navigateToHome(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   nextStep() {

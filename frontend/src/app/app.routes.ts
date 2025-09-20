@@ -5,7 +5,7 @@ import { Register } from './features/auth/register/register';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { AdminLayout } from './layout/admin-layout/admin-layout';
 import { Home } from './features/home/home/home';
-import { authGuard } from './core/guards/auth-guard';
+import { authGuard } from './core/guards/auth/auth-guard';
 export const routes: Routes = [
   {
     path: '',
