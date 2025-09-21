@@ -1,9 +1,9 @@
 <header
-  class="header-high sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 mt-4"
+  class="header-high sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 "
 >
   <div class="flex h-16 items-center px-4 lg:px-8 d-flex align-items-center px-3">
     <!-- Logo Section -->
-    <div class="flex items-center gap-4 me-3">
+    <div class="flex items-center gap-4 ">
       <a class="font-playfair text-2xl font-bold text-gradient" routerLink="/">
         <!-- SVG Gradient Text -->
         <svg width="120" height="40" xmlns="http://www.w3.org/2000/svg" class="inline-block">
@@ -29,18 +29,18 @@
 
     <!-- Search Bar -->
     <!-- Updated Search Bar Section -->
-    <div class="search-container">
-      <div class="search">
-        <mat-icon class="search-icon">search</mat-icon>
-        <input
-          type="search"
-          class="search-input"
-          placeholder="Search articles, topics, or authors..."
-          (keyup.enter)="onSearch()"
-          autocomplete="off"
-        />
-      </div>
+   <div class="flex-1 mx-4">
+    <div class="search">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input
+        type="search"
+        class="search-input w-full"
+        placeholder="Search articles, topics, or authors..."
+        (keyup.enter)="onSearch()"
+        autocomplete="off"
+      />
     </div>
+  </div>
 
     <!-- Action Buttons -->
     <div class="flex items-center gap-2 flex-shrink-0 d-flex align-items-center">
@@ -108,4 +108,6 @@
       </div>
     </div>
   </div>
+
+  
 </header>

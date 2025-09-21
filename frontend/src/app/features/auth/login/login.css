@@ -185,42 +185,10 @@
   transform: translateX(0);
 }
 
-/* Slide left animation (optional) */
-.form-step.slide-left {
-  animation: slide-in-left 0.5s forwards;
-}
-
-/* Slide right animation (optional) */
-.form-step.slide-right {
-  animation: slide-in-right 0.5s forwards;
-}
 
 
 
-/* ===============================
-       Step slide animations
-    ================================ */
-@keyframes slide-in-right {
-  0% {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
-@keyframes slide-in-left {
-  0% {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
 
 /* Custom file upload */
