@@ -19,6 +19,8 @@ html {
 
 /* Light theme defaults */
 :root {
+
+
   /* Light theme colors */
   --background-color: #fafafa;
   --foreground-color: #1a1a1a;
@@ -30,7 +32,7 @@ html {
   --brand-primary: hsl(142, 86%, 35%);
   --brand-primary-hover: hsl(142, 86%, 30%);
   --brand-accent: hsl(24, 95%, 60%);
-
+ 
   /* Card colors */
   --card-color: #ffffff;
   --card-foreground: #1a1a1a;
@@ -60,6 +62,21 @@ html {
   --color: hsl(0, 0%, 71%);
 
   --sidebar-border: hsl(0 0% 16%);
+
+
+
+  /* Background / overlay colors for header blur */
+  --header-bg-color: rgba(0, 0, 0, 0.4);      /* semi-transparent black default */
+  --header-bg-color-light: rgba(255, 255, 255, 0.2); /* semi-transparent white */
+  --header-bg-color-primary: rgba(24, 30, 54, 0.4);  /* dark purple-ish */
+  --header-bg-color-accent: rgba(255, 190, 24, 0.3); /* amber / accent color */
+/* --header-bg-color-primary: rgba(24, 30, 54, 0.4); 0.4 instead of 0.6 */
+  /* Other global colors */
+  --primary: hsl(142, 86%, 35%);
+  --accent: hsl(24, 95%, 60%);
+  --background: hsl(220, 20%, 10%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted-foreground: hsl(0, 0%, 70%);
 }
 
 html,
