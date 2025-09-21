@@ -1,20 +1,22 @@
-<p>sidebar works!</p>
 <div
   data-sidebar="content"
-  class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3 py-6"
+  class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3 py-6  sidebar-dark"
 >
-  <div data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
+  <div data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 button-create write-story-btn" >
     <div data-sidebar="group-content" class="w-full text-sm">
-      <ul data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-1">
-        <li data-sidebar="menu-item" class="group/menu-item relative">
-          <!-- <a
-            data-sidebar="menu-button"
+      <ul
+        data-sidebar="menu"
+        class="list-unstyled flex w-full min-w-0 flex-col gap-1 "
+      >
+        <li data-sidebar="menu-item" class="group/menu-item relative nav-item">
+          <a
+            data-sidebar="menu-button "
             data-size="default"
             data-active="false"
-            class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm mb-4"
+            class="text-decoration-none rounded-2"
             href="/create"
             ><div
-              class="flex items-center justify-center gap-3 p-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary-hover transition-smooth font-medium px-4"
+              class="btn-enabled flex items-center rounded-1 justify-center gap-3 p-2 hover:bg-primary-hover transition-smooth font-medium  "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -26,33 +28,30 @@
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-pen-tool h-5 w-5"
-              >
+                class="lucide lucide-pen-tool h-5 w-5" >
                 <path
-                  d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"
-                ></path>
+                  d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"></path>
                 <path
-                  d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"
-                ></path>
+                  d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"></path>
                 <path d="m2.3 2.3 7.286 7.286"></path>
-                <circle cx="11" cy="11" r="2"></circle></svg
-              ><span>Write Story</span>
-            </div></a
-          > -->
+                <circle cx="11" cy="11" r="2"></circle></svg><span>Write Story</span>
+            </div></a>
         </li>
       </ul>
     </div>
+
+
   </div>
   <div data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
     <div data-sidebar="group-content" class="w-full text-sm">
-      <ul data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-1">
+      <ul data-sidebar="menu" class="list-unstyled flex w-full min-w-0 flex-col gap-1">
         <li data-sidebar="menu-item" class="group/menu-item relative">
-          <!-- <a
+          <a
             data-sidebar="menu-button"
             data-size="default"
             data-active="false"
             aria-current="page"
-            class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth bg-primary/10 text-primary font-medium border-r-2 border-primary active"
+            class="peer/menu-button nav-active flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth bg-primary/10 text-primary font-medium border-r-2 border-primary active"
             href="/"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -64,21 +63,18 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-house h-5 w-5"
-            >
+              class="lucide lucide-house h-5 w-5" >
               <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
               <path
                 d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-              ></path></svg
-            ><span>Home</span></a
-          > -->
+              ></path></svg><span>Home</span></a >
         </li>
         <li data-sidebar="menu-item" class="group/menu-item relative">
-          <!-- <a
+          <a
             data-sidebar="menu-button"
             data-size="default"
             data-active="false"
-            class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
+            class="peer/menu-button nav-active flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             href="/explore"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -97,14 +93,14 @@
               ></path>
               <circle cx="12" cy="12" r="10"></circle></svg
             ><span>Explore</span></a
-          > -->
+          >
         </li>
         <li data-sidebar="menu-item" class="group/menu-item relative">
-          <!-- <a
+          <a
             data-sidebar="menu-button"
             data-size="default"
             data-active="false"
-            class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
+            class="peer/menu-button nav-active flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             href="/following"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -123,14 +119,14 @@
               <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
             ><span>Following</span></a
-          > -->
+          >
         </li>
         <li data-sidebar="menu-item" class="group/menu-item relative">
-          <!-- <a
+          <a
             data-sidebar="menu-button"
             data-size="default"
             data-active="false"
-            class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
+            class="peer/menu-button  nav-activeflex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             href="/liked"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -148,14 +144,14 @@
                 d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
               ></path></svg
             ><span>Liked Posts</span></a
-          > -->
+          >
         </li>
         <li data-sidebar="menu-item" class="group/menu-item relative">
-          <!-- <a
+          <a
             data-sidebar="menu-button"
             data-size="default"
             data-active="false"
-            class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
+            class="peer/menu-button  nav-active flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             href="/bookmarks"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -171,14 +167,14 @@
             >
               <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg
             ><span>Bookmarks</span></a
-          > -->
+          >
         </li>
         <li data-sidebar="menu-item" class="group/menu-item relative">
-          <!-- <a
+          <a
             data-sidebar="menu-button"
             data-size="default"
             data-active="false"
-            class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
+            class="peer/menu-button nav-active flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             href="/profile"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -195,7 +191,7 @@
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle></svg
             ><span>Profile</span></a
-          > -->
+          >
         </li>
       </ul>
     </div>
@@ -209,45 +205,45 @@
     </div>
     <div class="rounded-lg border text-card-foreground shadow-sm border-border/50 bg-card/50">
       <div class="p-4">
-        <!-- <div class="flex items-center gap-2 mb-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-trending-up h-4 w-4 text-accent"
-          >
-            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-            <polyline points="16 7 22 7 22 13"></polyline></svg
-          ><span class="text-sm font-medium">Hot This Week</span>
-        </div> -->
-        <!-- <div class="space-y-2">
-          <div
-            class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
-          >
-            #JavaScript
+          <div class="flex items-center gap-2 mb-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-trending-up h-4 w-4 text-accent"
+            >
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+              <polyline points="16 7 22 7 22 13"></polyline></svg
+            ><span class="text-sm font-medium">Hot This Week</span>
+          </div>  
+          <div class="space-y-2">
+            <div
+              class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
+            >
+              #JavaScript
+            </div>
+            <div
+              class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
+            >
+              #React
+            </div>
+            <div
+              class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
+            >
+              #Web Development
+            </div>
+            <div
+              class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
+            >
+              #AI/ML
+            </div>
           </div>
-          <div
-            class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
-          >
-            #React
-          </div>
-          <div
-            class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
-          >
-            #Web Development
-          </div>
-          <div
-            class="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-smooth"
-          >
-            #AI/ML
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -258,7 +254,7 @@
     >
       SUGGESTED FOR YOU
     </div>
-    <!-- <div class="rounded-lg border text-card-foreground shadow-sm border-border/50 bg-card/50">
+    <div class="rounded-lg border text-card-foreground shadow-sm border-border/50 bg-card/50">
       <div class="p-4">
         <div class="flex items-center gap-2 mb-3">
           <svg
@@ -312,6 +308,6 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
