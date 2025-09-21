@@ -1,3 +1,7 @@
+
+.header-high{
+  height: 7vh;
+}
 .text-gradient {
   display: inline-block;
   font-family: 'Playfair Display', serif;
@@ -118,6 +122,26 @@
   align-items: center;
 }
 
-.btn:hover {
+.btn-signIn:hover {
   background-color: hsl(var(--accent));
+}
+.btn-icons-color {
+  background-color: transparent;
+  border: 0;
+  width: 2.5rem;   /* same as h-10 */
+  height: 2.5rem;  /* same as w-10 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem; /* same as rounded-md */
+  transition: background-color 0.2s ease;
+  color: var( --primary-foreground);
+}
+// .btn-icons-color{
+  
+// }
+
+.btn-icons-color:hover {
+  background-color: hsl(var(--accent)) !important;/* or hsl(var(--accent)) */
+  color: antiquewhite !important;
 }
