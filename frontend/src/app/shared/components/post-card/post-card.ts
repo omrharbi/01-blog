@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Materaile } from '../../../modules/materaile-module';
 
 @Component({
   selector: 'app-post-card',
-  imports: [],
+  imports: [Materaile],
   templateUrl: './post-card.html',
   styleUrl: './post-card.scss'
 })

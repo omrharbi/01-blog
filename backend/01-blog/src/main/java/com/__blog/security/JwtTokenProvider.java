@@ -43,7 +43,7 @@ public class JwtTokenProvider {
 
     private String createToken(Map<String, Object> claims) {
         return Jwts.builder()
-                .setClaims(claims)
+                .claims(claims)
                 .expiration(new Date(System.currentTimeMillis() + Duration.ofHours(5).toMillis()))
                 .signWith(genereteKey())
                 .compact();

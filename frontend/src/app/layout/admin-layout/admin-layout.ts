@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-layout',
+  standalone: true,
   imports: [RouterOutlet,MatCardModule],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.scss'

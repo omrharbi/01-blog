@@ -5,9 +5,11 @@ import { ThemeService } from '../../modules/services/theme-service';
  
 @Component({
   selector: 'app-auth-layout',
+  standalone: true,
   imports: [RouterOutlet,MatCardModule],
   templateUrl: './auth-layout.html',
   styleUrl: './auth-layout.scss'
+  
 })
 export class AuthLayout {
   constructor(public themeService:ThemeService){}

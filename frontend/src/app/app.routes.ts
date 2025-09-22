@@ -19,7 +19,7 @@ export const routes: Routes = [
     ], // default path now points to home
   },
   {
-    path: 'auth',
+    path: '',
     component: AuthLayout,
     children: [
       { path: 'login', component: Login },

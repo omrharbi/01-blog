@@ -66,9 +66,9 @@
           <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
         </button>
         <!-- Create Post -->
-        <button
+        <button 
           class="btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0"
-          routerLink="/main/create"
+          [routerLink]="['/create']"
           *ngIf="isAuthenticated"
           title="Create post"
         >
