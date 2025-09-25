@@ -1,0 +1,35 @@
+textarea {
+  background-color:black !important;
+  color: var(--text-primary);
+   border: none !important;
+   outline:  none !important;
+}
+textarea:focus {
+  outline: none !important;
+  box-shadow: none !important; /* removes glow on Chrome/Safari */
+  border: none !important;     /* ensures no border shows */
+  color: var(--text-primary);
+}
+
+.card {
+  background-color: var(--card-color) !important;
+  color: var(--card-foreground) !important;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+}
+
+.btn-format{
+  background-color: transparent !important;
+  border: none;
+  justify-content: center;
+  display: flex;
+  color: var(--text-primary);
+}
+.btn-format:hover{
+  background-color: var(--brand-accent) !important;
+  // border: none;
+}
+.card-footer{
+    background-color: var(--);
+}

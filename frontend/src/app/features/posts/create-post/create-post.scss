@@ -28,10 +28,9 @@ border: none;
 }
 .text{
     color: var(--muted-foreground) !important;
+    
 }
- .form-control:hover{
-    background: var(--border);
-}
+ 
 /* Override Buttons */
 .btn {
   background-color: var(--primary);
@@ -58,15 +57,7 @@ border: none;
 
 /* Input fields */
 // // input,
-textarea {
-  background-color: var(--header-bg-color);
-  color: var(--text-primary);
-  border: 1px solid var(--input-border);
-}
-textarea:focus {
- background-color: var(--background); /* keep gray while active */
- border: none;
-}
+
 // input:focus,
 //  select:focus {
 //   outline: none;

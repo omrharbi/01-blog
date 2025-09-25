@@ -1,0 +1,39 @@
+<div class="card shadow-sm">
+  <div class="card-header d-flex align-items-center">
+    <h3 class="h6 fw-semibold mb-0">Content</h3>
+    <div class="ms-auto d-flex gap-1">
+      <button type="button" class="btn btn-sm btn-light btn-format"
+        (click)="applyFormat('**','**','bold')">
+        <mat-icon>format_bold</mat-icon>
+      </button>
+      <button type="button" class="btn btn-sm btn-light btn-format"
+        (click)="applyFormat('*','*','italic')">
+        <mat-icon>format_italic</mat-icon>
+      </button>
+      <button type="button" class="btn btn-sm btn-light btn-format"
+        (click)="applyFormat('[','](http://)','link')">
+        <mat-icon>link</mat-icon>
+      </button>
+      <button type="button" class="btn btn-sm btn-light btn-format"
+        (click)="applyFormat('- ','','list item')">
+        <mat-icon>format_list_bulleted</mat-icon>
+      </button>
+      <button type="button" class="btn btn-sm btn-light btn-format"
+        (click)="applyFormat('> ','','quote')">
+        <mat-icon>format_quote</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <textarea #editor [(ngModel)]="content" class="form-control border-0" rows="10"
+      placeholder="Tell your story... Use Markdown for formatting."></textarea>
+  </div>
+
+  <div class="card-footer">
+    <h6 class="fw-semibold">Preview</h6>
+    <div class="border p-3 rounded">
+      <markdown [data]="content"></markdown>
+    </div>
+  </div>
+</div>
