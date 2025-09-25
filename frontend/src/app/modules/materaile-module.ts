@@ -18,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   MatIconModule,
   MatDividerModule,
   MatGridListModule,
-  FormsModule,ReactiveFormsModule];
+  FormsModule,ReactiveFormsModule
+];
 
 @NgModule({
   imports: [materaile],

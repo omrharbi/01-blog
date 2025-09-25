@@ -6,15 +6,17 @@ import { MainLayout } from './layout/main-layout/main-layout';
 import { AdminLayout } from './layout/admin-layout/admin-layout';
 import { Home } from './features/home/home/home';
 import { authGuard } from './core/guards/auth/auth-guard';
-import { PostCard } from './shared/components/post-card/post-card';
+import { CreatePost } from './features/posts/create-post/create-post';
+import { PostList } from './features/posts/post-list/post-list';
 export const routes: Routes = [
   {
     path: '',
     component: MainLayout, // root uses MainLayout
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       { path: '', component: Home }, // <-- default child is Home
-      { path: 'create', component: PostCard },
+      { path: 'create', component: CreatePost },
+      { path: 'posts', component: PostList },
       // other protected pages
     ], // default path now points to home
   },

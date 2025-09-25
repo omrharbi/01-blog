@@ -1,116 +1,116 @@
 ```
-01blog-backend/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── blog/
-│   │   │           ├── BlogApplication.java
-│   │   │           ├── config/
-│   │   │           │   ├── SecurityConfig.java
-│   │   │           │   ├── JwtConfig.java
-│   │   │           │   ├── WebConfig.java
-│   │   │           │   └── FileUploadConfig.java
-│   │   │           ├── controller/
-│   │   │           │   ├── AuthController.java
-│   │   │           │   ├── UserController.java
-│   │   │           │   ├── PostController.java
-│   │   │           │   ├── CommentController.java
-│   │   │           │   ├── LikeController.java
-│   │   │           │   ├── SubscriptionController.java
-│   │   │           │   ├── ReportController.java
-│   │   │           │   ├── NotificationController.java
-│   │   │           │   ├── AdminController.java
-│   │   │           │   └── FileUploadController.java
-│   │   │           ├── service/
-│   │   │           │   ├── AuthService.java
-│   │   │           │   ├── UserService.java
-│   │   │           │   ├── PostService.java
-│   │   │           │   ├── CommentService.java
-│   │   │           │   ├── LikeService.java
-│   │   │           │   ├── SubscriptionService.java
-│   │   │           │   ├── ReportService.java
-│   │   │           │   ├── NotificationService.java
-│   │   │           │   ├── AdminService.java
-│   │   │           │   ├── FileStorageService.java
-│   │   │           │   └── EmailService.java
-│   │   │           ├── repository/
-│   │   │           │   ├── UserRepository.java
-│   │   │           │   ├── PostRepository.java
-│   │   │           │   ├── CommentRepository.java
-│   │   │           │   ├── LikeRepository.java
-│   │   │           │   ├── SubscriptionRepository.java
-│   │   │           │   ├── ReportRepository.java
-│   │   │           │   ├── NotificationRepository.java
-│   │   │           │   └── RoleRepository.java
-│   │   │           ├── model/
-│   │   │           │   ├── entity/
-│   │   │           │   │   ├── User.java
-│   │   │           │   │   ├── Post.java
-│   │   │           │   │   ├── Comment.java
-│   │   │           │   │   ├── Like.java
-│   │   │           │   │   ├── Subscription.java
-│   │   │           │   │   ├── Report.java
-│   │   │           │   │   ├── Notification.java
-│   │   │           │   │   ├── Role.java
-│   │   │           │   │   └── Media.java
-│   │   │           │   ├── dto/
-│   │   │           │   │   ├── request/
-│   │   │           │   │   │   ├── LoginRequest.java
-│   │   │           │   │   │   ├── RegisterRequest.java
-│   │   │           │   │   │   ├── PostRequest.java
-│   │   │           │   │   │   ├── CommentRequest.java
-│   │   │           │   │   │   └── ReportRequest.java
-│   │   │           │   │   └── response/
-│   │   │           │   │       ├── JwtResponse.java
-│   │   │           │   │       ├── UserResponse.java
-│   │   │           │   │       ├── PostResponse.java
-│   │   │           │   │       ├── CommentResponse.java
-│   │   │           │   │       ├── NotificationResponse.java
-│   │   │           │   │       └── ApiResponse.java
-│   │   │           │   └── enums/
-│   │   │           │       ├── Role.java
-│   │   │           │       ├── PostStatus.java
-│   │   │           │       ├── MediaType.java
-│   │   │           │       └── ReportReason.java
-│   │   │           ├── security/
-│   │   │           │   ├── JwtAuthenticationEntryPoint.java
-│   │   │           │   ├── JwtAuthenticationFilter.java
-│   │   │           │   ├── JwtTokenProvider.java
-│   │   │           │   └── UserPrincipal.java
-│   │   │           ├── exception/
-│   │   │           │   ├── GlobalExceptionHandler.java
-│   │   │           │   ├── ResourceNotFoundException.java
-│   │   │           │   ├── BadRequestException.java
-│   │   │           │   └── UnauthorizedException.java
-│   │   │           └── util/
-│   │   │               ├── FileUtil.java
-│   │   │               ├── DateUtil.java
-│   │   │               └── ValidationUtil.java
-│   │   └── resources/
-│   │       ├── application.properties
-│   │       ├── application-dev.properties
-│   │       ├── application-prod.properties
-│   │       ├── data.sql
-│   │       ├── schema.sql
-│   │       └── static/
-│   │           └── uploads/
-│   │               ├── images/
-│   │               └── videos/
-│   └── test/
-│       └── java/
-│           └── com/
-│               └── blog/
-│                   ├── controller/
-│                   ├── service/
-│                   ├── repository/
-│                   └── integration/
-├── uploads/
-│   ├── images/
-│   └── videos/
-├── pom.xml
-├── .gitignore
-└── README.md
+    01blog-backend/
+    ├── src/
+    │   ├── main/
+    │   │   ├── java/
+    │   │   │   └── com/
+    │   │   │       └── blog/
+    │   │   │           ├── BlogApplication.java
+    │   │   │           ├── config/
+    │   │   │           │   ├── SecurityConfig.java
+    │   │   │           │   ├── JwtConfig.java
+    │   │   │           │   ├── WebConfig.java
+    │   │   │           │   └── FileUploadConfig.java
+    │   │   │           ├── controller/
+    │   │   │           │   ├── AuthController.java
+    │   │   │           │   ├── UserController.java
+    │   │   │           │   ├── PostController.java
+    │   │   │           │   ├── CommentController.java
+    │   │   │           │   ├── LikeController.java
+    │   │   │           │   ├── SubscriptionController.java
+    │   │   │           │   ├── ReportController.java
+    │   │   │           │   ├── NotificationController.java
+    │   │   │           │   ├── AdminController.java
+    │   │   │           │   └── FileUploadController.java
+    │   │   │           ├── service/
+    │   │   │           │   ├── AuthService.java
+    │   │   │           │   ├── UserService.java
+    │   │   │           │   ├── PostService.java
+    │   │   │           │   ├── CommentService.java
+    │   │   │           │   ├── LikeService.java
+    │   │   │           │   ├── SubscriptionService.java
+    │   │   │           │   ├── ReportService.java
+    │   │   │           │   ├── NotificationService.java
+    │   │   │           │   ├── AdminService.java
+    │   │   │           │   ├── FileStorageService.java
+    │   │   │           │   └── EmailService.java
+    │   │   │           ├── repository/
+    │   │   │           │   ├── UserRepository.java
+    │   │   │           │   ├── PostRepository.java
+    │   │   │           │   ├── CommentRepository.java
+    │   │   │           │   ├── LikeRepository.java
+    │   │   │           │   ├── SubscriptionRepository.java
+    │   │   │           │   ├── ReportRepository.java
+    │   │   │           │   ├── NotificationRepository.java
+    │   │   │           │   └── RoleRepository.java
+    │   │   │           ├── model/
+    │   │   │           │   ├── entity/
+    │   │   │           │   │   ├── User.java
+    │   │   │           │   │   ├── Post.java
+    │   │   │           │   │   ├── Comment.java
+    │   │   │           │   │   ├── Like.java
+    │   │   │           │   │   ├── Subscription.java
+    │   │   │           │   │   ├── Report.java
+    │   │   │           │   │   ├── Notification.java
+    │   │   │           │   │   ├── Role.java
+    │   │   │           │   │   └── Media.java
+    │   │   │           │   ├── dto/
+    │   │   │           │   │   ├── request/
+    │   │   │           │   │   │   ├── LoginRequest.java
+    │   │   │           │   │   │   ├── RegisterRequest.java
+    │   │   │           │   │   │   ├── PostRequest.java
+    │   │   │           │   │   │   ├── CommentRequest.java
+    │   │   │           │   │   │   └── ReportRequest.java
+    │   │   │           │   │   └── response/
+    │   │   │           │   │       ├── JwtResponse.java
+    │   │   │           │   │       ├── UserResponse.java
+    │   │   │           │   │       ├── PostResponse.java
+    │   │   │           │   │       ├── CommentResponse.java
+    │   │   │           │   │       ├── NotificationResponse.java
+    │   │   │           │   │       └── ApiResponse.java
+    │   │   │           │   └── enums/
+    │   │   │           │       ├── Role.java
+    │   │   │           │       ├── PostStatus.java
+    │   │   │           │       ├── MediaType.java
+    │   │   │           │       └── ReportReason.java
+    │   │   │           ├── security/
+    │   │   │           │   ├── JwtAuthenticationEntryPoint.java
+    │   │   │           │   ├── JwtAuthenticationFilter.java
+    │   │   │           │   ├── JwtTokenProvider.java
+    │   │   │           │   └── UserPrincipal.java
+    │   │   │           ├── exception/
+    │   │   │           │   ├── GlobalExceptionHandler.java
+    │   │   │           │   ├── ResourceNotFoundException.java
+    │   │   │           │   ├── BadRequestException.java
+    │   │   │           │   └── UnauthorizedException.java
+    │   │   │           └── util/
+    │   │   │               ├── FileUtil.java
+    │   │   │               ├── DateUtil.java
+    │   │   │               └── ValidationUtil.java
+    │   │   └── resources/
+    │   │       ├── application.properties
+    │   │       ├── application-dev.properties
+    │   │       ├── application-prod.properties
+    │   │       ├── data.sql
+    │   │       ├── schema.sql
+    │   │       └── static/
+    │   │           └── uploads/
+    │   │               ├── images/
+    │   │               └── videos/
+    │   └── test/
+    │       └── java/
+    │           └── com/
+    │               └── blog/
+    │                   ├── controller/
+    │                   ├── service/
+    │                   ├── repository/
+    │                   └── integration/
+    ├── uploads/
+    │   ├── images/
+    │   └── videos/
+    ├── pom.xml
+    ├── .gitignore
+    └── README.md
 
 01blog-frontend/
 ├── src/

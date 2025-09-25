@@ -1,0 +1,258 @@
+<main class="container-fluid px-3 px-lg-5 py-4 py-lg-5" style="max-width: 56rem;">
+    <div class="mx-auto w-100">
+        <div class="row g-4">
+            <!-- Back Button -->
+            <div class="col-12">
+                <a class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center px-3 py-2 transition-smooth hover-bg-accent hover-text-foreground"
+                    href="/">
+                    <i class="material-icons me-2" style="font-size: 16px;">arrow_back</i>
+                    Back to Feed
+                </a>
+            </div>
+
+            <!-- Article -->
+            <article class="col-12">
+                <div class="row g-4">
+                    <!-- Hero Image -->
+                    <div class="col-12">
+                        <div class="aspect-video rounded overflow-hidden">
+                            <img src="assets/hero-writing-B1IswKin.png"
+                                alt="Building My First React Native App: Lessons Learned"
+                                class="w-100 h-100 object-fit-cover">
+                        </div>
+                    </div>
+                    <!-- Article Header -->
+                    <div class="col-12">
+                        <div class="row g-3">
+                            <!-- Title -->
+                            <div class="col-12">
+                                <h1 class="display-4 fw-bold font-playfair lh-sm font-playfair  text-header ">Building
+                                    My First React Native App: Lessons Learned</h1>
+                            </div>
+
+                            <!-- Author Info and Actions -->
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="rounded-circle overflow-hidden" style="width: 48px; height: 48px;">
+                                            <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg"
+                                                alt="Sarah Chen">
+                                        </div>
+                                        <div>
+                                            <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
+                                                href="/profile/sarah_codes">Sarah Chen</a>
+                                            <div class="small text-muted-foreground">2 days ago · 5 min read</div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle"
+                                        style="width: 40px; height: 40px;">
+                                        <i class="material-icons" style="font-size: 16px;">more_horiz</i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="col-12">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <span
+                                        class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill cursor-pointer hover-bg-primary hover-text-primary-foreground transition-smooth">React
+                                        Native</span>
+                                    <span
+                                        class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill cursor-pointer hover-bg-primary hover-text-primary-foreground transition-smooth">Mobile
+                                        Development</span>
+                                    <span
+                                        class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill cursor-pointer hover-bg-primary hover-text-primary-foreground transition-smooth">Beginner</span>
+                                </div>
+                            </div>
+
+                            <!-- Article Actions -->
+                            <div class="col-12">
+                                <div
+                                    class="d-flex align-items-center justify-content-between py-3 border-top border-bottom border-border">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <button
+                                            class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent transition-smooth">
+                                            <i class="material-icons me-1" style="font-size: 20px;">favorite_border</i>
+                                            127
+                                        </button>
+                                        <button
+                                            class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground transition-smooth">
+                                            <i class="material-icons me-1"
+                                                style="font-size: 20px;">chat_bubble_outline</i>
+                                            24
+                                        </button>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button
+                                            class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-primary transition-smooth"
+                                            style="width: 40px; height: 40px;">
+                                            <i class="material-icons" style="font-size: 20px;">bookmark_border</i>
+                                        </button>
+                                        <button
+                                            class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-foreground transition-smooth"
+                                            style="width: 40px; height: 40px;">
+                                            <i class="material-icons" style="font-size: 20px;">share</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Article Content -->
+                    <div class="col-12">
+                        <div class="fs-5 lh-lg">
+                            <p class="mb-3 text-foreground">After spending two months learning React Native, I want to
+                                share the key insights and challenges I faced while building my first mobile
+                                application.</p>
+                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">The Challenge</h2>
+                            <p class="mb-3 text-foreground">When I started this journey, I had solid experience with
+                                React for web development, but mobile development was entirely new territory. I decided
+                                to build a simple task management app to learn the fundamentals.</p>
+
+                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">What I Learned</h2>
+
+                            <h3 class="fs-4 fw-semibold font-playfair mt-4 mb-3">1. Navigation is Different</h3>
+                            <p class="mb-3 text-foreground">Coming from React Router, React Navigation felt foreign at
+                                first. The stack-based navigation model took some getting used to, but once I understood
+                                the concept, it became much more intuitive.</p>
+
+                            <h3 class="fs-4 fw-semibold font-playfair mt-4 mb-3">2. Platform Differences Matter</h3>
+                            <p class="mb-3 text-foreground">What works on iOS doesn't always work the same way on
+                                Android. I learned to use Platform.OS checks and platform-specific code when necessary.
+                            </p>
+
+                            <h3 class="fs-4 fw-semibold font-playfair mt-4 mb-3">3. Performance Considerations</h3>
+                            <p class="mb-3 text-foreground">Mobile apps have different performance constraints than web
+                                apps. I had to learn about:</p>
+                            <ul class="mb-3">
+                                <li>Image optimization</li>
+                                <li>Memory management</li>
+                                <li>Battery usage optimization</li>
+                            </ul>
+
+                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">The Tech Stack</h2>
+                            <ul class="mb-3">
+                                <li>React Native 0.72</li>
+                                <li>TypeScript for type safety</li>
+                                <li>React Navigation for routing</li>
+                                <li>AsyncStorage for local data</li>
+                                <li>React Query for server state</li>
+                            </ul>
+
+                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">Challenges I Faced</h2>
+                            <p class="mb-3 text-foreground">The biggest challenge was understanding the mobile
+                                development mindset. Things like app lifecycle, background processing, and native module
+                                integration required a completely different approach than web development.</p>
+
+                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">Key Takeaways</h2>
+                            <p class="mb-3 text-foreground">1. Start with the basics - don't jump into complex features
+                                immediately<br>
+                                2. Use TypeScript from the beginning<br>
+                                3. Test on both platforms frequently<br>
+                                4. Read the documentation thoroughly<br>
+                                5. Join the React Native community - they're incredibly helpful</p>
+
+                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">What's Next?</h2>
+                            <p class="mb-3 text-foreground">I'm now working on adding push notifications and exploring
+                                native modules. The learning curve was steep, but React Native has opened up a whole new
+                                world of possibilities for me as a developer.</p>
+
+                            <p class="mb-3 text-foreground">Would love to hear about your React Native experiences in
+                                the comments!</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Separator -->
+            <div class="col-12">
+                <hr class="border-border">
+            </div>
+
+            <!-- Comments Section -->
+            <section class="col-12" id="comments">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <h2 class="fs-2 fw-bold font-playfair">Comments (2)</h2>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div class="col-12">
+                        <div class="row g-3">
+                            <!-- Comment 1 -->
+                            <div class="col-12">
+                                <div class="card bg-card text-card-foreground shadow-sm">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex gap-3">
+                                            <div class="rounded-circle overflow-hidden"
+                                                style="width: 40px; height: 40px;">
+                                                <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg"
+                                                    alt="John Developer">
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
+                                                        href="/profile/john_dev">John Developer</a>
+                                                    <span class="small text-muted-foreground">1 day ago</span>
+                                                </div>
+                                                <p class="text-foreground mb-3 lh-base">Great post! I'm also learning
+                                                    React Native and this was really helpful. The navigation part was
+                                                    exactly what I was struggling with.</p>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <button
+                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
+                                                        <i class="material-icons me-1"
+                                                            style="font-size: 16px;">favorite_border</i>
+                                                        12
+                                                    </button>
+                                                    <button
+                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comment 2 -->
+                            <div class="col-12">
+                                <div class="card bg-card text-card-foreground shadow-sm">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex gap-3">
+                                            <div class="rounded-circle overflow-hidden"
+                                                style="width: 40px; height: 40px;">
+                                                <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg"
+                                                    alt="Maria Garcia">
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
+                                                        href="/profile/maria_js">Maria Garcia</a>
+                                                    <span class="small text-muted-foreground">1 day ago</span>
+                                                </div>
+                                                <p class="text-foreground mb-3 lh-base">Thanks for sharing your
+                                                    experience! I'm curious about your AsyncStorage usage - did you
+                                                    consider any alternatives like MMKV?</p>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <button
+                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
+                                                        <i class="material-icons me-1"
+                                                            style="font-size: 16px;">favorite_border</i>
+                                                        8
+                                                    </button>
+                                                    <button
+                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
