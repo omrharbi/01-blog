@@ -1,39 +1,48 @@
 <div class="card shadow-sm">
-  <div class="card-header d-flex align-items-center">
-    <h3 class="h6 fw-semibold mb-0">Content</h3>
-    <div class="ms-auto d-flex gap-1">
-      <button type="button" class="btn btn-sm btn-light btn-format"
-        (click)="applyFormat('**','**','bold')">
-        <mat-icon>format_bold</mat-icon>
+  <!-- Card Header -->
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <h3 class="h6 fw-semibold mb-0">Advanced Markdown Editor</h3>
+    <div class="d-flex gap-2">
+      <button class="btn btn-sm btn-light" (click)="showPreview = !showPreview">
+        {{ showPreview ? 'Hide Preview' : 'Show Preview' }}
       </button>
-      <button type="button" class="btn btn-sm btn-light btn-format"
-        (click)="applyFormat('*','*','italic')">
-        <mat-icon>format_italic</mat-icon>
-      </button>
-      <button type="button" class="btn btn-sm btn-light btn-format"
-        (click)="applyFormat('[','](http://)','link')">
-        <mat-icon>link</mat-icon>
-      </button>
-      <button type="button" class="btn btn-sm btn-light btn-format"
-        (click)="applyFormat('- ','','list item')">
-        <mat-icon>format_list_bulleted</mat-icon>
-      </button>
-      <button type="button" class="btn btn-sm btn-light btn-format"
-        (click)="applyFormat('> ','','quote')">
-        <mat-icon>format_quote</mat-icon>
-      </button>
+      <button class="btn btn-sm btn-primary" (click)="saveContent()">Save Content</button>
     </div>
   </div>
 
-  <div class="card-body">
-    <textarea #editor [(ngModel)]="content" class="form-control border-0" rows="10"
-      placeholder="Tell your story... Use Markdown for formatting."></textarea>
+  <!-- Toolbar -->
+  <div class="card-body d-flex flex-wrap gap-1 mb-2">
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('**','**','bold text')">B</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('*','*','italic text')"><em>I</em></button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('~~','~~','strikethrough')">S</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('`','`','code')">Code</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('## ','','Heading')">H2</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('[','](https://)','link text')">Link</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('- ','','list item')">List</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('> ','','quote')">Quote</button>
+
+    <!-- Image Upload -->
+    <input type="file" #imageInput (change)="handleImageUpload($event)" accept="image/*" hidden />
+    <button class="btn btn-sm btn-outline-secondary" (click)="imageInput.click()">Image</button>
+
+    <!-- Video Upload -->
+    <input type="file" #videoInput (change)="handleVideoUpload($event)" accept="video/*" hidden />
+    <button class="btn btn-sm btn-outline-secondary" (click)="videoInput.click()">Video</button>
   </div>
 
-  <div class="card-footer">
-    <h6 class="fw-semibold">Preview</h6>
-    <div class="border p-3 rounded">
-      <markdown [data]="content"></markdown>
+  <!-- Editor + Preview -->
+  <div class="card-body d-flex flex-column flex-lg-row gap-3">
+    <textarea #textareaRef [(ngModel)]="content"
+      class="form-control flex-fill" rows="12"
+      placeholder="Write your markdown here..."></textarea>
+
+    <div *ngIf="showPreview" class="flex-fill border p-3 rounded bg-light" 
+         [innerHTML]="markdownToHtml(content)">
     </div>
+  </div>
+
+  <!-- Full Preview Button -->
+  <div class="card-footer text-end">
+    <button class="btn btn-sm btn-secondary" (click)="openFullPreview()">Open Full Blog Preview</button>
   </div>
 </div>
