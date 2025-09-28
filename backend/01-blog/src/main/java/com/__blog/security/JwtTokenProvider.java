@@ -1,15 +1,14 @@
 package com.__blog.security;
 
-import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -21,19 +20,12 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenProvider {
-    private String secretKey = "";
-
-    public JwtTokenProvider() {
-        try {
-            KeyGenerator key = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey secret = key.generateKey();
-            secretKey = Base64.getEncoder().encodeToString(secret.getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            secretKey = "myDefaultSecretKeyForJWT1234567890abcdefghijklmnopqrstuvwxyz";
-        }
-    }
-
-    public String generetToken(String username, String role) {
+    
+    // Use a fixed secret key - in production, put this in application.properties
+    @Value("${jwt.secret:mySecretKeyForJWT1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789}")
+    private String secretKey;
+ 
+    public String generateToken(String username, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("sub", username);
         claims.put("create", new Date(System.currentTimeMillis()));
@@ -45,7 +37,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claims(claims)
                 .expiration(new Date(System.currentTimeMillis() + Duration.ofHours(5).toMillis()))
-                .signWith(genereteKey())
+                .signWith(generateKey(), Jwts.SIG.HS512)
                 .compact();
     }
 
@@ -53,7 +45,7 @@ public class JwtTokenProvider {
         Claims claims;
         try {
             claims = Jwts.parser()
-                    .verifyWith(genereteKey())
+                    .verifyWith(generateKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
@@ -74,9 +66,13 @@ public class JwtTokenProvider {
         }
     }
 
-    public boolean isTokenValid(String Token, UserDetails userDetails) {
-        String username = getUsernameFromToken(Token).getSubject();
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(Token));
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        try {
+            String username = getUsernameFromToken(token).getSubject();
+            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {
@@ -84,12 +80,12 @@ public class JwtTokenProvider {
             Date expiration = getUsernameFromToken(token).getExpiration();
             return expiration.before(new Date());
         } catch (Exception e) {
-            return false;
+            return true;
         }
     }
 
-    private SecretKey genereteKey() {
-        byte[] converBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(converBytes);
+    private SecretKey generateKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(Base64.getEncoder().encodeToString(secretKey.getBytes()));
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
