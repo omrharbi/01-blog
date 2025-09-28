@@ -9,6 +9,9 @@ export const environment = {
         getMe:apiUrl+"users/me",
         updateMe:apiUrl+"users/update-me",
         changePassword:apiUrl+"users/change-password",
+    },
+    upload:{
+        upload_image:apiUrl+"api/upload", 
     }
 }
 export const LocalstorageKey={
