@@ -9,6 +9,7 @@ import { authGuard } from './core/guards/auth/auth-guard';
 import { CreatePost } from './features/posts/create-post/create-post';
 import { PostList } from './features/posts/post-list/post-list';
 import { guestGuard } from './core/guards/auth/guest-guard';
+import { Preview } from './shared/components/preview/preview';
 export const routes: Routes = [
   {
     path: '',
@@ -18,6 +19,7 @@ export const routes: Routes = [
       { path: '', component: Home }, // <-- default child is Home
       { path: 'create', component: CreatePost },
       { path: 'posts', component: PostList },
+      { path: 'preview', component: Preview },
       // other protected pages
     ], // default path now points to home
   },

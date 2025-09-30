@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { FileUploadService } from '../../../core/service/file-upload/file-upload.service';
-
+import { PreviewService } from '../../../core/service/preview/preview.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-markdown-editor',
   imports: [Materaile],
@@ -9,31 +10,38 @@ import { FileUploadService } from '../../../core/service/file-upload/file-upload
   styleUrls: ['./markdown-editor.scss'],
 })
 export class MarkdownEditor {
+  @Input() content = 'Start writing your content here...';
+
+  @Output() contentChange = new EventEmitter<string>();
+  @Output() previewRequested = new EventEmitter<string>();
+
   @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('videoInput') videoInput!: ElementRef<HTMLInputElement>;
-  
-  content = 'Start writing your content here...';
   selectedImageFile?: File;
   selectedVideoFile?: File;
   uploadMessage = '';
-  showPreview = true;
   isUploading = false;
+  previewMode = false;
 
-  constructor(private uploadService: FileUploadService) {}
+  constructor(
+    private uploadService: FileUploadService,
+    private previewService: PreviewService,
+    private router: Router
+  ) {}
 
   onImageSelected(event: Event) {
     console.log('Image file input changed'); // Debug message
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-    
+
     if (!file) {
       console.log('No file selected');
       return;
     }
 
     console.log('Selected image file:', file.name, 'Size:', file.size, 'Type:', file.type);
-    
+
     // Validate file type
     if (!file.type.startsWith('image/')) {
       console.error('Selected file is not an image');
@@ -50,14 +58,14 @@ export class MarkdownEditor {
     console.log('Video file input changed'); // Debug message
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-    
+
     if (!file) {
       console.log('No video file selected');
       return;
     }
 
     console.log('Selected video file:', file.name, 'Size:', file.size, 'Type:', file.type);
-    
+
     // Validate file type
     if (!file.type.startsWith('video/')) {
       console.error('Selected file is not a video');
@@ -81,16 +89,16 @@ export class MarkdownEditor {
       next: (res) => {
         console.log('Image upload success:', res);
         this.uploadMessage = `Image uploaded: ${res.fileName}`;
-        
+
         // Insert image placeholder in content
         const placeholder = `\n![Image](${res.fileName})\n`;
         this.content += placeholder;
         console.log('Updated content:', this.content);
-        
+
         // Reset
         this.selectedImageFile = undefined;
         this.isUploading = false;
-        
+
         // Clear the file input
         if (this.imageInput) {
           this.imageInput.nativeElement.value = '';
@@ -100,7 +108,7 @@ export class MarkdownEditor {
         console.error('Image upload failed:', err);
         this.uploadMessage = 'Image upload failed. Check console for details.';
         this.isUploading = false;
-      }
+      },
     });
   }
 
@@ -115,16 +123,16 @@ export class MarkdownEditor {
       next: (res) => {
         console.log('Video upload success:', res);
         this.uploadMessage = `Video uploaded: ${res.fileName}`;
-        
+
         // Insert video placeholder in content
         const placeholder = `\n[Video: ${res.fileName}]\n`;
         this.content += placeholder;
         console.log('Updated content:', this.content);
-        
+
         // Reset
         this.selectedVideoFile = undefined;
         this.isUploading = false;
-        
+
         // Clear the file input
         if (this.videoInput) {
           this.videoInput.nativeElement.value = '';
@@ -134,13 +142,11 @@ export class MarkdownEditor {
         console.error('Video upload failed:', err);
         this.uploadMessage = 'Video upload failed. Check console for details.';
         this.isUploading = false;
-      }
+      },
     });
   }
 
-  // Trigger image file selection
   selectImage() {
-    console.log('Image button clicked');
     if (this.imageInput) {
       this.imageInput.nativeElement.click();
     } else {
@@ -159,56 +165,40 @@ export class MarkdownEditor {
   }
 
   renderMarkdownWithMedia(markdown: string): string {
-    return markdown
-      // Replace standard markdown image syntax
-      .replace(
-        /!\[([^\]]*)\]\(([^)]+)\)/g,
-        '<img src="http://localhost:8080/uploads/$2" alt="$1" style="max-width:100%;height:auto;">'
-      )
-      // Replace image placeholders with actual <img> tags (fallback)
-      .replace(
-        /\[Image:\s*([^\]]+)\]/g,
-        '<img src="http://localhost:8080/uploads/$1" style="max-width:100%;height:auto;">'
-      )
-      // Replace video placeholders with actual <video> tags
-      .replace(
-        /\[Video:\s*([^\]]+)\]/g,
-        '<video controls src="http://localhost:8080/uploads/$1" style="max-width:100%;"></video>'
-      )
-      // Basic markdown formatting
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/~~(.*?)~~/g, '<del>$1</del>')
-      .replace(/`(.*?)`/g, '<code>$1</code>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
-      .replace(/^\- (.*$)/gim, '<li>$1</li>')
-      .replace(/\n/g, '<br>');
+    return (
+      markdown
+        // Replace standard markdown image syntax
+        .replace(
+          /!\[([^\]]*)\]\(([^)]+)\)/g,
+          '<img src="http://localhost:8080/uploads/$2" alt="$1" style="max-width:100%;height:auto;">'
+        )
+        // Replace image placeholders with actual <img> tags (fallback)
+        .replace(
+          /\[Image:\s*([^\]]+)\]/g,
+          '<img src="http://localhost:8080/uploads/$1" style="max-width:100%;height:auto;">'
+        )
+        // Replace video placeholders with actual <video> tags
+        .replace(
+          /\[Video:\s*([^\]]+)\]/g,
+          '<video controls src="http://localhost:8080/uploads/$1" style="max-width:100%;"></video>'
+        )
+        // Basic markdown formatting
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/~~(.*?)~~/g, '<del>$1</del>')
+        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+        .replace(/^\- (.*$)/gim, '<li>$1</li>')
+        .replace(/\n/g, '<br>')
+    );
   }
 
   openFullPreview() {
-    const previewHtml = this.renderMarkdownWithMedia(this.content);
-
-    const newWindow = window.open('', '_blank');
-    if (newWindow) {
-      newWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Preview</title>
-            <style>
-              body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-              img { max-width: 100%; height: auto; }
-              video { max-width: 100%; }
-            </style>
-          </head>
-          <body>${previewHtml}</body>
-        </html>
-      `);
-      newWindow.document.close();
-    }
-  }
+    const html = this.renderMarkdownWithMedia(this.content);
+    this.previewRequested.emit(html); 
+   }
 
   applyFormat(prefix: string, suffix: string, placeholder: string) {
     const textarea = this.textareaRef.nativeElement;
@@ -231,7 +221,14 @@ export class MarkdownEditor {
       textarea.setSelectionRange(newPos, newPos);
     });
   }
-
-  // Remove these old methods as they're replaced by the new ones above
-  // onFileSelected, uploadSelectedFile - no longer needed
+  get previewHtml(): string {
+    return this.renderMarkdownWithMedia(this.content);
+  }
+  // onContentInput(newValue: string) {
+  //   this.content = newValue;
+  //   this.contentChange.emit(this.content);
+  // }
+  showPreview() {
+    this.previewRequested.emit(); // tell parent to switch to preview
+  }
 }

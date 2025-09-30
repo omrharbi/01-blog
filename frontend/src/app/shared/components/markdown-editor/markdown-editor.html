@@ -1,14 +1,10 @@
 <div class="card shadow-sm">
+
   <!-- Card Header -->
   <div class="card-header d-flex align-items-center justify-content-between">
     <h3 class="h6 fw-semibold mb-0">Advanced Markdown Editor</h3>
-    <div class="d-flex gap-2">
-      <button class="btn btn-sm btn-light" (click)="showPreview = !showPreview">
-        {{ showPreview ? 'Hide Preview' : 'Show Preview' }}
-      </button>
-    </div>
   </div>
-  
+
   <!-- Toolbar -->
   <div class="card-body d-flex flex-wrap gap-1 mb-2">
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('**','**','bold text')">B</button>
@@ -19,41 +15,25 @@
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('[','](https://)','link text')">Link</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('- ','','list item')">List</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('> ','','quote')">Quote</button>
-    
+
     <!-- Image Upload -->
     <input type="file" #imageInput (change)="onImageSelected($event)" accept="image/*" style="display: none;" />
     <button class="btn btn-sm btn-outline-secondary" (click)="selectImage()" [disabled]="isUploading">
       {{ isUploading ? 'Uploading...' : 'Image' }}
     </button>
-    
+
     <!-- Video Upload -->
     <input type="file" #videoInput (change)="onVideoSelected($event)" accept="video/*" style="display: none;" />
     <button class="btn btn-sm btn-outline-secondary" (click)="selectVideo()" [disabled]="isUploading">
       {{ isUploading ? 'Uploading...' : 'Video' }}
     </button>
   </div>
-  
-  <!-- Upload Status Message -->
-  <div class="card-body pt-0" *ngIf="uploadMessage">
-    <div class="alert alert-info small mb-2">{{ uploadMessage }}</div>
-  </div>
-  
+
+
   <!-- Editor + Live Preview -->
   <div class="card-body d-flex flex-column flex-lg-row gap-3">
-    <textarea 
-      #textareaRef 
-      [(ngModel)]="content" 
-      class="form-control flex-fill" 
-      rows="12"
+    <textarea #textareaRef [(ngModel)]="content" class="form-control flex-fill" rows="12"
       placeholder="Write your markdown here...">
     </textarea>
-    <div *ngIf="showPreview" class="flex-fill border p-3 rounded bg-light">
-      <div [innerHTML]="renderMarkdownWithMedia(content)"></div>
-    </div>
-  </div>
-  
-  <!-- Full Preview Button -->
-  <div class="card-footer text-end">
-    <button class="btn btn-sm btn-secondary" (click)="openFullPreview()">Open Full Blog Preview</button>
   </div>
 </div>
