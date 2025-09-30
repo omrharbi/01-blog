@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
             String token = header.substring(7).trim();
-            System.err.println("token************************************"+token);
+            // System.err.println("token************************************"+token);
             String username = jwtproProvider.getUsernameFromToken(token).getSubject();
             if (username == null) {
                 System.err.println("Invalid JWT token: " + token);

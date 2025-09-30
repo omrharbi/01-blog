@@ -8,11 +8,12 @@ import { Home } from './features/home/home/home';
 import { authGuard } from './core/guards/auth/auth-guard';
 import { CreatePost } from './features/posts/create-post/create-post';
 import { PostList } from './features/posts/post-list/post-list';
+import { guestGuard } from './core/guards/auth/guest-guard';
 export const routes: Routes = [
   {
     path: '',
     component: MainLayout, // root uses MainLayout
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       { path: '', component: Home }, // <-- default child is Home
       { path: 'create', component: CreatePost },
@@ -24,10 +25,10 @@ export const routes: Routes = [
     path: '',
     component: AuthLayout,
     children: [
-      { path: 'login', component: Login },
-      { path: 'register', component: Register },
+       { path: 'login', component: Login, canActivate: [guestGuard] },    // ✅ guest only
+      { path: 'register', component: Register, canActivate: [guestGuard] }, // ✅ guest only
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-    ],
+     ],
   },
   // {
   //   path: 'main',

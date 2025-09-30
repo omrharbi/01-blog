@@ -9,7 +9,6 @@ import { environment } from '../../constant/constante';
 export class FileUploadService {
   constructor(private http: HttpClient) {}
   token = localStorage.getItem('USER_TOKEN');
-   
   uploadFile(file: File): Observable<{ fileName: string; filePath: string }> {
     const formData = new FormData();
     formData.append('file', file);
