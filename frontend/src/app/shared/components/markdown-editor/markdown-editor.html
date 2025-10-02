@@ -25,7 +25,7 @@
     </button>
 
     <!-- Video Upload -->
-    <input type="file" #videoInput (change)="onVideoSelected($event)" accept="video/*" style="display: none;" />
+    <!-- <input type="file" #videoInput (change)="onVideoSelected($event)" accept="video/*" style="display: none;" /> -->
     <button class="btn btn-sm btn-outline-secondary" (click)="selectVideo()" [disabled]="isUploading">
       {{ isUploading ? 'Uploading...' : 'Video' }}
     </button>

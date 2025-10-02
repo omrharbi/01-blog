@@ -1,8 +1,17 @@
-import { Component, EventEmitter, Input, input, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
+import { UploadImage } from '../../../core/service/preview/upload-images/upload-image';
 
 @Component({
   selector: 'app-create-post',
@@ -11,14 +20,32 @@ import { Preview } from '../../../shared/components/preview/preview';
   styleUrl: './create-post.scss',
 })
 export class CreatePost {
+  constructor(private uploadImage: UploadImage) {}
   previewMode = false;
   content: string = '';
   title: string = '';
 
+  coverImageSrc: string | null = null;
+  @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
+  triggerFileInput() {
+    this.imageInput.nativeElement.click(); // ✅ call click() on the native input
+  }
   get previewHtml(): string {
     console.log(this.content, 'content');
     return this.renderMarkdownWithMedia(this.content);
   }
+
+  onImageSelected(event: Event) {
+    this.uploadImage.onImageSelected(event, (imgHTML: string) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(imgHTML, 'text/html');
+      const img = doc.querySelector('img');
+      if (img) {
+        this.coverImageSrc = img.src; // store the data URL
+      }
+    });
+   }
+
   onContentChange(newContent: string) {
     this.content = newContent;
   }

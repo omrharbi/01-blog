@@ -34,22 +34,6 @@ export class MarkdownEditor {
     this.textareaRef.nativeElement.innerHTML = this.content;
   }
   onImageSelected(event: Event) {
-    // const input = event.target as HTMLInputElement;
-    // const file = input.files?.[0];
-    // if (!file) {
-    //   console.log('No file selected');
-    //   return;
-    // }
-    // console.log('Selected image file:', file.name, 'Size:', file.size, 'Type:', file.type);
-    // if (!file.type.startsWith('image/')) {
-    //   console.error('Selected file is not an image');
-    //   this.uploadMessage = 'Please select a valid image file';
-    //   return;
-    // }
-    // if (input.files && input.files[0]) {
-    //   this.selectedImageFile = input.files[0];
-    //   this.selectImage();
-    // }
     this.uploadImage.onImageSelected(event, (imghtml: string) => {
       const div = this.textareaRef.nativeElement;
       div.innerHTML += imghtml;
