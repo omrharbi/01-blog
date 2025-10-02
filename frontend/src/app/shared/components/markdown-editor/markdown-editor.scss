@@ -1,13 +1,13 @@
-textarea {
-  background-color:black !important;
+.textarea {
+  background-color: var(--background-color) !important;
   color: var(--text-primary);
-   border: none !important;
-   outline:  none !important;
+  border: none !important;
+  outline: none !important;
 }
-textarea:focus {
+.textarea:focus {
   outline: none !important;
   box-shadow: none !important; /* removes glow on Chrome/Safari */
-  border: none !important;     /* ensures no border shows */
+  border: none !important; /* ensures no border shows */
   color: var(--text-primary);
 }
 
@@ -19,17 +19,18 @@ textarea:focus {
   border-radius: 8px;
 }
 
-.btn-format{
+.btn-format {
   background-color: transparent !important;
   border: none;
   justify-content: center;
   display: flex;
   color: var(--text-primary);
 }
-.btn-format:hover{
+.btn-format:hover {
   background-color: var(--brand-accent) !important;
   // border: none;
 }
-.card-footer{
-    background-color: var(--);
+.card-footer {
+  background-color: var(--);
 }
+

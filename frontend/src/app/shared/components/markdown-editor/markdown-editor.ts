@@ -3,6 +3,7 @@ import { Materaile } from '../../../modules/materaile-module';
 import { FileUploadService } from '../../../core/service/file-upload/file-upload.service';
 import { PreviewService } from '../../../core/service/preview/preview.service';
 import { Router } from '@angular/router';
+import { every } from 'rxjs';
 @Component({
   selector: 'app-markdown-editor',
   imports: [Materaile],
@@ -11,11 +12,12 @@ import { Router } from '@angular/router';
 })
 export class MarkdownEditor {
   @Input() content = 'Start writing your content here...';
-
+  @Input() Titel = '';
+  previewHtml: string = '';
   @Output() contentChange = new EventEmitter<string>();
-  @Output() previewRequested = new EventEmitter<string>();
+  @Output() TitleChange = new EventEmitter<string>();
 
-  @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLDivElement>;
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('videoInput') videoInput!: ElementRef<HTMLInputElement>;
   selectedImageFile?: File;
@@ -24,34 +26,31 @@ export class MarkdownEditor {
   isUploading = false;
   previewMode = false;
 
-  constructor(
-    private uploadService: FileUploadService,
-    private previewService: PreviewService,
-    private router: Router
-  ) {}
-
+  constructor(private uploadService: FileUploadService) {}
+  onInput() {
+    const text = this.textareaRef.nativeElement.innerText;
+    this.contentChange.emit(text);
+  }
+  ngAfterViewInit() {
+    this.textareaRef.nativeElement.innerHTML = this.content;
+  }
   onImageSelected(event: Event) {
-    console.log('Image file input changed'); // Debug message
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-
     if (!file) {
       console.log('No file selected');
       return;
     }
-
     console.log('Selected image file:', file.name, 'Size:', file.size, 'Type:', file.type);
-
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       console.error('Selected file is not an image');
       this.uploadMessage = 'Please select a valid image file';
       return;
     }
-
-    this.selectedImageFile = file;
-    this.uploadMessage = `Selected image: ${file.name}`;
-    this.uploadImageFile();
+    if (input.files && input.files[0]) {
+      this.selectedImageFile = input.files[0];
+      this.selectImage();
+    }
   }
 
   onVideoSelected(event: Event) {
@@ -85,31 +84,31 @@ export class MarkdownEditor {
     this.uploadMessage = 'Uploading image...';
     console.log('Starting image upload...');
 
-    this.uploadService.uploadFile(this.selectedImageFile).subscribe({
-      next: (res) => {
-        console.log('Image upload success:', res);
-        this.uploadMessage = `Image uploaded: ${res.fileName}`;
+    // this.uploadService.uploadFile(this.selectedImageFile).subscribe({
+    //   next: (res) => {
+    //     console.log('Image upload success:', res);
+    //     this.uploadMessage = `Image uploaded: ${res.fileName}`;
 
-        // Insert image placeholder in content
-        const placeholder = `\n![Image](${res.fileName})\n`;
-        this.content += placeholder;
-        console.log('Updated content:', this.content);
+    //     // Insert image placeholder in content
+    //     const placeholder = `\n![Image](${res.fileName})\n`;
+    //     this.content += placeholder;
+    //     console.log('Updated content:', this.content);
 
-        // Reset
-        this.selectedImageFile = undefined;
-        this.isUploading = false;
+    //     // Reset
+    //     this.selectedImageFile = undefined;
+    //     this.isUploading = false;
 
-        // Clear the file input
-        if (this.imageInput) {
-          this.imageInput.nativeElement.value = '';
-        }
-      },
-      error: (err) => {
-        console.error('Image upload failed:', err);
-        this.uploadMessage = 'Image upload failed. Check console for details.';
-        this.isUploading = false;
-      },
-    });
+    //     // Clear the file input
+    //     if (this.imageInput) {
+    //       this.imageInput.nativeElement.value = '';
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error('Image upload failed:', err);
+    //     this.uploadMessage = 'Image upload failed. Check console for details.';
+    //     this.isUploading = false;
+    //   },
+    // });
   }
 
   uploadVideoFile() {
@@ -146,15 +145,24 @@ export class MarkdownEditor {
     });
   }
 
-  selectImage() {
-    if (this.imageInput) {
-      this.imageInput.nativeElement.click();
-    } else {
-      console.error('Image input element not found');
-    }
+  selectImage(event?: Event) {
+    const file = this.selectedImageFile; // assume you set it via input[type=file]
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      // Insert image HTML into the content
+      const imgHTML = `<img src="${reader.result}" class="imageMa">`;
+
+      const div = this.textareaRef.nativeElement;
+      div.innerHTML += imgHTML; // append image
+      this.onContentChange(); // update content and emit
+    };
+
+    reader.readAsDataURL(file); // read file as base64
   }
 
-  // Trigger video file selection
   selectVideo() {
     console.log('Video button clicked');
     if (this.videoInput) {
@@ -164,71 +172,33 @@ export class MarkdownEditor {
     }
   }
 
-  renderMarkdownWithMedia(markdown: string): string {
-    return (
-      markdown
-        // Replace standard markdown image syntax
-        .replace(
-          /!\[([^\]]*)\]\(([^)]+)\)/g,
-          '<img src="http://localhost:8080/uploads/$2" alt="$1" style="max-width:100%;height:auto;">'
-        )
-        // Replace image placeholders with actual <img> tags (fallback)
-        .replace(
-          /\[Image:\s*([^\]]+)\]/g,
-          '<img src="http://localhost:8080/uploads/$1" style="max-width:100%;height:auto;">'
-        )
-        // Replace video placeholders with actual <video> tags
-        .replace(
-          /\[Video:\s*([^\]]+)\]/g,
-          '<video controls src="http://localhost:8080/uploads/$1" style="max-width:100%;"></video>'
-        )
-        // Basic markdown formatting
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/~~(.*?)~~/g, '<del>$1</del>')
-        .replace(/`(.*?)`/g, '<code>$1</code>')
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
-        .replace(/^\- (.*$)/gim, '<li>$1</li>')
-        .replace(/\n/g, '<br>')
-    );
+  applyFormat(prefix: string, suffix: string, placeholder: string, event?: MouseEvent) {
+    if (event) {
+      event.preventDefault(); // prevent focus/selection loss
+      event.stopPropagation();
+    }
+
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+    const selectIndex = range.toString() || placeholder;
+    const span = document.createElement('span');
+    span.innerHTML = `${prefix}${selectIndex}${suffix}`;
+    range.deleteContents();
+    range.insertNode(span);
+    const newRange = document.createRange();
+    newRange.setStartAfter(span);
+    newRange.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+
+    this.onContentChange();
   }
 
-  openFullPreview() {
-    const html = this.renderMarkdownWithMedia(this.content);
-    this.previewRequested.emit(html); 
-   }
-
-  applyFormat(prefix: string, suffix: string, placeholder: string) {
-    const textarea = this.textareaRef.nativeElement;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = this.content.substring(start, end);
-
-    const newText =
-      this.content.substring(0, start) +
-      prefix +
-      (selectedText || placeholder) +
-      suffix +
-      this.content.substring(end);
-
-    this.content = newText;
-
-    setTimeout(() => {
-      textarea.focus();
-      const newPos = start + prefix.length + (selectedText || placeholder).length;
-      textarea.setSelectionRange(newPos, newPos);
-    });
-  }
-  get previewHtml(): string {
-    return this.renderMarkdownWithMedia(this.content);
-  }
-  // onContentInput(newValue: string) {
-  //   this.content = newValue;
-  //   this.contentChange.emit(this.content);
-  // }
-  showPreview() {
-    this.previewRequested.emit(); // tell parent to switch to preview
+  onContentChange() {
+    const div = this.textareaRef.nativeElement;
+    this.content = div.innerHTML;
+    this.contentChange.emit(this.content);
   }
 }

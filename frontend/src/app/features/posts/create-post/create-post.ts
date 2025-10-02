@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
@@ -12,16 +12,53 @@ import { Preview } from '../../../shared/components/preview/preview';
 })
 export class CreatePost {
   previewMode = false;
-  content = '';
-  @Input() previewHtml: string = '';
-  constructor(private markdownService: MarkdownService) {}
+  content: string = '';
+  title: string = '';
+
+  get previewHtml(): string {
+    console.log(this.content, 'content');
+    return this.renderMarkdownWithMedia(this.content);
+  }
   onContentChange(newContent: string) {
     this.content = newContent;
   }
-  showPreview(html: string) {
-  this.previewHtml = html;
-  this.previewMode = true;
-}
+  onTitle(newTitle: string) {
+    this.title = newTitle;
+  }
+  showPreview() {
+    this.previewMode = true;
+  }
+  renderMarkdownWithMedia(markdown: string): string {
+    return (
+      markdown
+        // Replace standard markdown image syntax
+        // .replace(
+        //   /!\[([^\]]*)\]\(([^)]+)\)/g,
+        //   '<img src="http://localhost:8080/uploads/$2" class="imageMarkDown" alt="$1" style="max-width:100%;height:auto;">'
+        // )
+        // // Replace image placeholders with actual <img> tags (fallback)
+        // .replace(
+        //   /\[Image:\s*([^\]]+)\]/g,
+        //   '<img src="http://localhost:8080/uploads/$1" style="max-width:100%;height:auto;">'
+        // )
+        // Replace video placeholders with actual <video> tags
+        .replace(
+          /\[Video:\s*([^\]]+)\]/g,
+          '<video controls src="http://localhost:8080/uploads/$1" style="max-width:100%;"></video>'
+        )
+        // Basic markdown formatting
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="strongMarkDown">$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em class="EmMarkDown">$1</em>')
+        .replace(/~~(.*?)~~/g, '<del class="DelMarkDown">$1</del>')
+        .replace(/`(.*?)`/g, '<code class="CodeMarkDown">$1</code>')
+        .replace(/^## (.*$)/gim, '<h2 class="H2MarkDown">$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3 class="H3MarkDown">$1</h3>')
+        .replace(/^\> (.*$)/gim, '<blockquote class="blockquoteMarkDown">$1</blockquote>')
+        .replace(/^\- (.*$)/gim, '<li class="LisMarkDown">$1</li>')
+        .replace(/\n/g, '<br>')
+    );
+  }
+
   backToEdit() {
     this.previewMode = false;
   }

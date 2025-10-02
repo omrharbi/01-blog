@@ -16,7 +16,7 @@
             </svg>
             Save Draft
           </button>
-          <button class="btn btn-outline-secondary d-inline-flex align-items-center" (click)="showPreview(content)">
+          <button class="btn btn-outline-secondary d-inline-flex align-items-center" (click)="showPreview()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
               <path
@@ -63,18 +63,20 @@
         <!-- Title -->
         <div class="card shadow-sm">
           <div class="card-body hover">
-            <input class="form-control border-0 fs-2 fw-bold font-playfair" placeholder="Write your story title..." />
+            <input class="form-control border-0 fs-2 fw-bold font-playfair" 
+              [value]="title"
+               [(ngModel)]="title"
+              (input)="onTitle($event.target.value)"
+              placeholder="Write your story title..." />
           </div>
         </div>
 
         <!-- Content -->
-
         <div *ngIf="!previewMode">
-          <app-markdown-editor [(content)]="content" (previewRequested)="showPreview($event)"> 
+          <app-markdown-editor [(content)]="content"  (contentChange)="onContentChange($event)">
           </app-markdown-editor>
         </div>
         <!--  -->
-
       </div>
 
       <!-- Right Column -->
@@ -146,6 +148,6 @@
     </div>
   </div>
   <div *ngIf="previewMode">
-    <app-preview [previewHtml]="previewHtml"></app-preview>
+    <app-preview [title]="title" [previewHtml]="previewHtml"  (exitPreview)="backToEdit()"></app-preview>
   </div>
 </main>

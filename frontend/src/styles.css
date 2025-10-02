@@ -25,9 +25,7 @@
   }
 
   /* Light theme defaults */
-  :root {
-
-
+  :root { 
     /* Light theme colors */
     --background-color: #fafafa;
     --foreground-color: #1a1a1a;
@@ -39,7 +37,6 @@
     --brand-primary: hsl(142, 86%, 35%);
     --brand-primary-hover: hsl(142, 86%, 30%);
     --brand-accent: hsl(24, 95%, 60%);
-
     /* Card colors */
     --card-color: #ffffff;
     --card-foreground: #1a1a1a;
@@ -144,6 +141,7 @@
 
   /* Dark mode overrides */
   body.dark {
+    
     --background-color: #141414;
     --foreground-color: hsl(0, 0%, 96%);
     --text-primary: hsl(0, 0%, 96%) !important;
@@ -350,4 +348,10 @@ main{
 .bg-card {
   background-color: var(--card-color) !important;
   
+}
+
+
+.imageMa {
+  width: 200px !important;
+  height: 200px !important;
 }
