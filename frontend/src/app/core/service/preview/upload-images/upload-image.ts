@@ -30,7 +30,6 @@ export class UploadImage {
     const file = this.selectedImageFile;
 
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = () => {
       // Insert image HTML into the content

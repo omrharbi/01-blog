@@ -24,9 +24,11 @@ export class CreatePost {
   previewMode = false;
   content: string = '';
   title: string = '';
-
-  coverImageSrc: string | null = null;
+  coverImageSrc?: string; 
+  // coverImageSrc: string | null = null;
+  isSelect: boolean = false;
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
   triggerFileInput() {
     this.imageInput.nativeElement.click(); // ✅ call click() on the native input
   }
@@ -40,12 +42,17 @@ export class CreatePost {
       const parser = new DOMParser();
       const doc = parser.parseFromString(imgHTML, 'text/html');
       const img = doc.querySelector('img');
+      const div = this.titleRef.nativeElement;
+
       if (img) {
         this.coverImageSrc = img.src; // store the data URL
+        this.isSelect = true;
       }
     });
-   }
-
+  }
+  removeCoverImage() {
+    this.isSelect = false;
+  }
   onContentChange(newContent: string) {
     this.content = newContent;
   }

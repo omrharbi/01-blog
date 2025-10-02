@@ -1,7 +1,7 @@
-<main class="flex-grow p-4 p-lg-5 mx-auto w-100">
+<main class="flex-grow p-4  mx-auto w-100 main-preview ">
   <div *ngIf="!previewMode">
 
-    <div class="mb-3">
+    <div class="">
       <div class="d-flex align-items-center justify-content-between">
         <h1 class="h2 fw-bold font-playfair">Write Your Story</h1>
         <div class="d-flex gap-2">
@@ -36,8 +36,8 @@
 
         <!-- Cover Image -->
         <div class="card shadow-sm">
-          <div class="card-body">
-            <div *ngIf="!coverImageSrc">
+          <div class="card-body image-cover">
+            <div *ngIf="!isSelect" class="">
               <h3 class="h5 fw-semibold font-playfair">Cover Image</h3>
               <div class="border border-2 border-dashed text-center p-5 mt-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor"
@@ -50,7 +50,7 @@
 
                 <input #imageInput type="file" accept="image/*" (change)="onImageSelected($event)" class="d-none"
                   id="cover-upload">
-                <label for="cover-upload" (click)="triggerFileInput()" contenteditable="true"
+                <label for="cover-upload" #titleRef (click)="triggerFileInput()" contenteditable="true"
                   class="btn btn-outline-secondary d-inline-flex align-items-center cursor-pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
@@ -64,12 +64,12 @@
               </div>
             </div>
             <!-- cover image -->
-            <div class="mt-3" *ngIf="coverImageSrc">
+            <div class="mt-3 image" *ngIf="isSelect">
               <img [src]="coverImageSrc" alt="Cover Preview" class="img-fluid rounded">
               <!-- Close button (X) -->
-              <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
-                >
-                <!-- (click)="removeCoverImage()" -->
+              <button type="button" class="botton-close position-absolute   "
+               (click)="removeCoverImage()" >
+                <!--  -->
                 &times;
               </button>
             </div>
@@ -161,6 +161,8 @@
     </div>
   </div>
   <div *ngIf="previewMode">
-    <app-preview [title]="title" [previewHtml]="previewHtml" (exitPreview)="backToEdit()"></app-preview>
+    <app-preview [title]="title" 
+    [coverImage]="coverImageSrc"
+    [previewHtml]="previewHtml" (exitPreview)="backToEdit()"></app-preview>
   </div>
 </main>

@@ -11,6 +11,7 @@ export class Preview {
   @Input() previewHtml!: string;
   previewMode = true;
   @Input() title!: string;
+   @Input() coverImage?: string;
   // previewMode = true;
   @Output() exitPreview = new EventEmitter<{
     title: string;
