@@ -14,7 +14,7 @@ public class MediaRequest {
 
     private String filename;
     private String filePath;
-    private String fileType;
+    private String fileType; // "image" or "video"
     private Long fileSize;
     private Integer displayOrder;
 }

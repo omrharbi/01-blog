@@ -11,8 +11,8 @@ import lombok.Setter;
 @Builder
 public class PostRequest {
 
-    private String title;
-    private String htmlContent;
+   private String title;
+    private String htmlContent;  // Must be EXACTLY "htmlContent"
     private String excerpt;
     private List<MediaRequest> medias;
 }

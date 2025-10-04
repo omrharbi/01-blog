@@ -35,12 +35,12 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name="title")
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT",name="excerpt")
     private String excerpt; // Raw markdown content
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT",name="html_content")
     private String htmlContent; // Converted HTML content
 
     @Column(name = "created_at")
