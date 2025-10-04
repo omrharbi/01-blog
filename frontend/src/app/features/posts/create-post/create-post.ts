@@ -20,20 +20,22 @@ import { UploadImage } from '../../../core/service/preview/upload-images/upload-
   styleUrl: './create-post.scss',
 })
 export class CreatePost {
-  constructor(private uploadImage: UploadImage) {}
+  constructor(private uploadImage: UploadImage) { }
   previewMode = false;
   content: string = '';
   title: string = '';
-  coverImageSrc?: string; 
-  // coverImageSrc: string | null = null;
+  isPreviewMode = true;
+  coverImageSrc?: string;
   isSelect: boolean = false;
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
   triggerFileInput() {
-    this.imageInput.nativeElement.click(); // ✅ call click() on the native input
+    this.imageInput.nativeElement.click(); 
   }
+
+  
   get previewHtml(): string {
-    console.log(this.content, 'content');
+    console.log(this.content,"this.content");
     return this.renderMarkdownWithMedia(this.content);
   }
 
@@ -42,10 +44,8 @@ export class CreatePost {
       const parser = new DOMParser();
       const doc = parser.parseFromString(imgHTML, 'text/html');
       const img = doc.querySelector('img');
-      const div = this.titleRef.nativeElement;
-
       if (img) {
-        this.coverImageSrc = img.src; // store the data URL
+        this.coverImageSrc = img.src;
         this.isSelect = true;
       }
     });
@@ -89,7 +89,6 @@ export class CreatePost {
         .replace(/^### (.*$)/gim, '<h3 class="H3MarkDown">$1</h3>')
         .replace(/^\> (.*$)/gim, '<blockquote class="blockquoteMarkDown">$1</blockquote>')
         .replace(/^\- (.*$)/gim, '<li class="LisMarkDown">$1</li>')
-        .replace(/\n/g, '<br>')
     );
   }
 

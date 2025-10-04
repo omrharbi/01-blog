@@ -22,7 +22,7 @@ public class Like {
     private boolean liked;
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = true)
-    private Post post;
+    private Post post_likes;
 
     @ManyToOne
     @JoinColumn(name = "comment_id", nullable = true)
@@ -33,7 +33,7 @@ public class Like {
     private User user;
 
     public boolean isPostLiked() {
-        return post != null;
+        return post_likes != null;
     }
 
     public boolean isCommentLiked() {

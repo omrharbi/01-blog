@@ -25,14 +25,14 @@
         <div class="card-body p-4">
             <h1 class="h2 title-post mb-3">
                 <div *ngIf="coverImage" class="mb-3">
-                    <img [src]="coverImage" alt="Cover Image" class="img-fluid rounded">
+                    <img [src]="getModifiedHtml(coverImage)" alt="Cover Image" class="img-fluid rounded">
                 </div>
                 <span *ngIf="hasContent(); else defaultTitle">{{title}}</span>
                 <ng-template #defaultTitle> Untitled Post</ng-template>
             </h1>
             <!-- <button (click)="check()"></button> -->
             <h1 [title]="title"></h1>
-            <div class="preview-container" [innerHTML]="previewHtml"></div>
+            <div class="preview-container" [innerHTML]="getModifiedHtml(previewHtml)"></div>
         </div>
     </div>
 </main>

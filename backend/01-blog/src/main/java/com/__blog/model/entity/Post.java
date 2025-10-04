@@ -13,14 +13,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Table(name = "posts")
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+
 public class Post {
 
     @Id
@@ -30,14 +36,10 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
-    private String content; // Raw markdown content
-
+    // @Column(columnDefinition = "TEXT")
+    // private String content; // Raw markdown content
     @Column(columnDefinition = "TEXT")
     private String htmlContent; // Converted HTML content
-
-    @Column(nullable = false)
-    private String author;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -58,12 +60,16 @@ public class Post {
 
     @ManyToOne()
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user_posts;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post_comments", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post_likes", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post_medias", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC")
+    private List<Media> medias = new ArrayList<>();
 
 }

@@ -67,8 +67,7 @@
             <div class="mt-3 image" *ngIf="isSelect">
               <img [src]="coverImageSrc" alt="Cover Preview" class="img-fluid rounded">
               <!-- Close button (X) -->
-              <button type="button" class="botton-close position-absolute   "
-               (click)="removeCoverImage()" >
+              <button type="button" class="botton-close position-absolute   " (click)="removeCoverImage()">
                 <!--  -->
                 &times;
               </button>
@@ -161,8 +160,7 @@
     </div>
   </div>
   <div *ngIf="previewMode">
-    <app-preview [title]="title" 
-    [coverImage]="coverImageSrc"
-    [previewHtml]="previewHtml" (exitPreview)="backToEdit()"></app-preview>
+    <app-preview [title]="title" [coverImage]="coverImageSrc" [isPreviewMode]="isPreviewMode"
+      [previewHtml]="previewHtml" (exitPreview)="backToEdit()"></app-preview>
   </div>
 </main>

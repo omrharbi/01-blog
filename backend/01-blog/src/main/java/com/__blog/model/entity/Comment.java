@@ -32,7 +32,7 @@ public class Comment {
     private String image;
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    private Post post_comments;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

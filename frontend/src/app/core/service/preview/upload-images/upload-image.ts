@@ -28,13 +28,11 @@ export class UploadImage {
 
   selectImage(callback: (imgHTML: string) => void) {
     const file = this.selectedImageFile;
-
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
       // Insert image HTML into the content
       const imgHTML = `<img src="${reader.result}" class="imageMa">`;
-      // this.onContentChange(); // update content and emit
       callback(imgHTML);
     };
 

@@ -68,9 +68,11 @@ public class User {
 
     @Column(name = "avatar", nullable = true)
     private String avatar;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user_posts", cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(hidden = true)
     private List<Post> posts = new ArrayList<>();
+
+
     @OneToMany(mappedBy = "subscriber_User", cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(hidden = true)
     private List<Subscription> following = new ArrayList<>();
