@@ -11,7 +11,6 @@ import com.__blog.model.dto.request.auth.LoginRequest;
 import com.__blog.model.dto.request.auth.RegisterRequest;
 import com.__blog.model.dto.response.auth.LoginResponse;
 import com.__blog.model.entity.User;
-import com.__blog.model.enums.Roles;
 import com.__blog.repository.UserRepository;
 import com.__blog.security.JwtTokenProvider;
 import com.__blog.service.UserService;
@@ -42,8 +41,7 @@ public class AuthService {
         user.setLastname(registerRequest.getLastname());
         user.setUsername(registerRequest.getUsername());
         user.setPassword(encoder.encode(registerRequest.getPassword()));
-        user.setRole(Roles.USER);
-
+ 
         if (repouser.existsByEmail(user.getEmail())) {
             return ApiResponse.<RegisterRequest>builder().status(false)
                     .error("This email already exists: " + user.getEmail()).build();
@@ -52,11 +50,12 @@ public class AuthService {
             return ApiResponse.<RegisterRequest>builder().status(false)
                     .error("This username  already exists: " + user.getUsername()).build();
         }
+        String valid = userService.register(user);
         String token = tokenProvider.generateToken(user.getUsername(), user.getRole().name());
         return ApiResponse.<RegisterRequest>builder()
                 .status(true)
                 .token(token)
-                // .data(registerRequest)
+                .message(valid)
                 .build();
     }
 

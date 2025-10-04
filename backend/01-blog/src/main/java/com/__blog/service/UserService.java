@@ -25,6 +25,18 @@ public class UserService {
         }
     }
 
+    public String register(User user) {
+        if (repouser.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        if (repouser.existsByUsername(user.getUsername())) {
+            throw new RuntimeException("Username already exists");
+        }
+        repouser.save(user);
+        return "register succss";
+    }
+
     public ApiResponse<User> findByUsername(String username) {
         var user = repouser.findByUsername(username);
         if (user.isPresent()) {
