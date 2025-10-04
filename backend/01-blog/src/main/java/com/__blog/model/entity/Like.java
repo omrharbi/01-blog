@@ -37,6 +37,6 @@ public class Like {
     }
 
     public boolean isCommentLiked() {
-        return comment!=null;
+        // return comment!=null;
     }
 }
