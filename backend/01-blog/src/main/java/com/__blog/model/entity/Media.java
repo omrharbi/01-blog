@@ -31,10 +31,10 @@ public class Media {
 
     @Column(name = "filename", nullable = false)
     private String filename;
-    @Column(nullable = false)
+    @Column(name = "filePath" ,nullable = false)
     private String filePath;
 
-    @Column(nullable = false)
+    @Column(name = "fileType" , nullable = false)
     private String fileType; // "image" or "video"
 
     private Long fileSize;

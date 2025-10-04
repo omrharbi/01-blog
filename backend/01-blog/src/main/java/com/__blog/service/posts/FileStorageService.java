@@ -1,4 +1,4 @@
-package com.__blog.service;
+package com.__blog.service.posts;
 import org.springframework.stereotype.Service;
 
 

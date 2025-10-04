@@ -53,7 +53,7 @@ public class User {
     // @Column(name = "profile_type", nullable = false)
     // private String profile_type;
 
-    @Column(name = "date_of_birth", nullable = false)
+    @Column(name = "date_of_birth")
     private Date date_of_birth;
 
     @Column(name = "username", nullable = true, unique = true)
