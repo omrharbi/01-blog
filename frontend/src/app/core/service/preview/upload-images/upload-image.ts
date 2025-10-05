@@ -1,5 +1,18 @@
 import { ElementRef, Injectable } from '@angular/core';
-
+import { CreatePost } from '../../../../features/posts/create-post/create-post';
+// export interface CreatePostRequest {
+//   // title: string;
+//   // markdownContent: string;
+//   // excerpt: string;
+//   medias: MediaRequest[];
+// }
+export interface MediaRequest {
+  filename: string;
+  filePath: string;
+  fileType: string;
+  fileSize: number;
+  displayOrder: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -7,6 +20,9 @@ export class UploadImage {
   selectedImageFile?: File;
   selectedVideoFile?: File;
   uploadMessage = '';
+  medias: MediaRequest[] = [];
+  currentDisplayOrder = 0;
+
   onImageSelected(event: Event, callback: (imgHTML: string) => void) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -15,6 +31,14 @@ export class UploadImage {
       return;
     }
     console.log('Selected image file:', file.name, 'Size:', file.size, 'Type:', file.type);
+    const mediaRequest: MediaRequest = {
+      filename: file.name,
+      filePath: URL.createObjectURL(file), // Use server path if available, otherwise local URL
+      fileType: file.type,
+      fileSize: file.size,
+      displayOrder: this.currentDisplayOrder++
+    };
+    this.medias.push(mediaRequest);
     if (!file.type.startsWith('image/')) {
       console.error('Selected file is not an image');
       this.uploadMessage = 'Please select a valid image file';
@@ -35,7 +59,10 @@ export class UploadImage {
       const imgHTML = `<img src="${reader.result}" class="imageMa">`;
       callback(imgHTML);
     };
-
     reader.readAsDataURL(file); // read file as base64
+
+  }
+  upload() {
+    console.log(this.medias,"this****************");
   }
 }

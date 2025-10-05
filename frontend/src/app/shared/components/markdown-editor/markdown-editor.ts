@@ -41,6 +41,11 @@ export class MarkdownEditor {
     setTimeout(() => this.onContentChange());;
   }
 
+   upload( ) {
+    this.uploadImage.upload();
+    // setTimeout(() => this.onContentChange());;
+  }
+
   // onVideoSelected(event: Event) {
   //   console.log('Video file input changed'); // Debug message
   //   const input = event.target as HTMLInputElement;

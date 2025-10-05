@@ -17,7 +17,11 @@
       (click)="applyFormat('[','](https://)','link text',$event)">Link</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('- ','','list item',$event)">List</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('> ','','quote',$event)">Quote</button>
-
+     
+    
+    <button class="btn btn-sm btn-outline-secondary" (click)="upload()" [disabled]="isUploading">
+      upload
+    </button>
     <!-- Image Upload -->
     <input type="file" #imageInput style="display:none" (change)="onImageSelected($event)">
     <button class="btn btn-sm btn-outline-secondary" (click)="imageInput.click()" [disabled]="isUploading">
