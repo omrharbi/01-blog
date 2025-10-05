@@ -30,13 +30,35 @@ export class CreatePost {
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
   triggerFileInput() {
-    this.imageInput.nativeElement.click(); 
+    this.imageInput.nativeElement.click();
+  }
+  get previewHtml(): string {
+    let text_content = this.renderMarkdownWithMedia(this.content);
+    let text = this.getModifiedHtml(text_content)
+    console.log(text, "this.  content");
+    return text_content;
   }
 
-  
-  get previewHtml(): string {
-    console.log(this.content,"this.content");
-    return this.renderMarkdownWithMedia(this.content);
+  getModifiedHtml(html: string): string {
+    if (!this.isPreviewMode) return html;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const image = doc.querySelectorAll('img')
+    let index = 0;
+    image.forEach(img => {
+      const imageUrl = img.src;
+      index++;
+      const div = document.createElement("div");
+      div.classList.add("container-image-perview")
+      img?.classList.add("image-prview")
+      console.log(image, "images");
+
+      if (img.parentNode) {
+        img.parentNode.insertBefore(div, img)
+        div.appendChild(img)
+      }
+    })
+    return doc.body.innerHTML;
   }
 
   onImageSelected(event: Event) {
@@ -66,19 +88,19 @@ export class CreatePost {
     return (
       markdown
         // Replace standard markdown image syntax
-        // .replace(
-        //   /!\[([^\]]*)\]\(([^)]+)\)/g,
-        //   '<img src="http://localhost:8080/uploads/$2" class="imageMarkDown" alt="$1" style="max-width:100%;height:auto;">'
-        // )
-        // // Replace image placeholders with actual <img> tags (fallback)
-        // .replace(
-        //   /\[Image:\s*([^\]]+)\]/g,
-        //   '<img src="http://localhost:8080/uploads/$1" style="max-width:100%;height:auto;">'
-        // )
+        .replace(
+          /!\[([^\]]*)\]\(([^)]+)\)/g,
+          '<img src="http://localhost:9090/uploads/$2" class="imageMarkDown" alt="$1" >'
+        )
+        // Replace image placeholders with actual <img> tags (fallback)
+        .replace(
+          /\[Image:\s*([^\]]+)\]/g,
+          '<img src="http://localhost:9090/uploads/$1" >'
+        )
         // Replace video placeholders with actual <video> tags
         .replace(
           /\[Video:\s*([^\]]+)\]/g,
-          '<video controls src="http://localhost:8080/uploads/$1" style="max-width:100%;"></video>'
+          '<video controls src="http://localhost:9090/uploads/$1" style="max-width:100%;"></video>'
         )
         // Basic markdown formatting
         .replace(/\*\*(.*?)\*\*/g, '<strong class="strongMarkDown">$1</strong>')

@@ -26,11 +26,10 @@ export class MarkdownEditor {
   previewMode = false;
 
   constructor(private uploadImage: UploadImage) {}
-  onInput() {
-    const text = this.textareaRef.nativeElement.innerText;
-    this.contentChange.emit(text);
-  }
+ 
   ngAfterViewInit() {
+    // console.log(this.content,"content");
+    
     this.textareaRef.nativeElement.innerHTML = this.content;
   }
   onImageSelected(event: Event) {
@@ -39,7 +38,7 @@ export class MarkdownEditor {
       div.innerHTML += imghtml;
       this.onContentChange();
     });
-    setTimeout(() => this.onContentChange());
+    setTimeout(() => this.onContentChange());;
   }
 
   // onVideoSelected(event: Event) {
@@ -145,7 +144,7 @@ export class MarkdownEditor {
 
   applyFormat(prefix: string, suffix: string, placeholder: string, event?: MouseEvent) {
     if (event) {
-      event.preventDefault(); // prevent focus/selection loss
+      event.preventDefault(); 
       event.stopPropagation();
     }
 
@@ -170,6 +169,7 @@ export class MarkdownEditor {
   onContentChange() {
     const div = this.textareaRef.nativeElement;
     this.content = div.innerHTML;
+    // console.log("here",this.content);
     this.contentChange.emit(this.content);
   }
 }
