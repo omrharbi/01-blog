@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.__blog.model.dto.request.PostRequest;
-import com.__blog.model.entity.Post;
+import com.__blog.model.dto.response.PostResponse;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.posts.PostService;
+import com.__blog.util.ApiResponse;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -22,12 +25,9 @@ public class PostController {
 
     // private final UserRepository userRepository;
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(@RequestBody PostRequest postRequest,@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        // Optional<User> adminUser = userRepository.findByEmail("admin@admin.com");
-    
-        // System.out.println("User ID: ******" + userPrincipal.getId());
-         Post post = postservice.createPost(postRequest, userPrincipal);
-        // System.err.println(user.getId()+"id user");
-        return ResponseEntity.ok(post);
+    public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest postRequest,@AuthenticationPrincipal UserPrincipal userPrincipal) {
+ 
+         ApiResponse<PostResponse> post = postservice.createPost(postRequest, userPrincipal);
+         return ResponseEntity.ok(post);
     }
 }

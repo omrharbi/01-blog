@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -70,7 +71,8 @@ public class Post {
     @OneToMany(mappedBy = "post_likes", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post_medias", cascade = CascadeType.ALL, orphanRemoval = true)
+    // @OneToMany(mappedBy = "post_medias", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     @OrderBy("displayOrder ASC")
     private List<Media> medias = new ArrayList<>();
 

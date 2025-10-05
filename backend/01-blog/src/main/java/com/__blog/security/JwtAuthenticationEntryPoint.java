@@ -15,13 +15,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.__blog.exception.AuthenticationEntryPointExceptions;
-import com.__blog.service.UserDeService;
 
 @Configuration
 @EnableWebSecurity
 public class JwtAuthenticationEntryPoint {
-    @Autowired
-    private UserDeService userDeService;
+    //@Autowired
+    //private UserDeService userDeService;
 
     @Autowired
     private JwtAuthenticationFilter filer;
@@ -55,7 +54,6 @@ public class JwtAuthenticationEntryPoint {
     //     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     //     configuration.setAllowedHeaders(Arrays.asList("*"));
     //     configuration.setAllowCredentials(true);
-
     //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     //     source.registerCorsConfiguration("/**", configuration);
     //     return source;
