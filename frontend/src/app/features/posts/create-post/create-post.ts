@@ -34,55 +34,27 @@ export class CreatePost {
   }
   get previewHtml(): string {
     let text_content = this.renderMarkdownWithMedia(this.content);
-    // let text = this.getModifiedHtml(text_content)
-    // console.log(text, "this.  content");
     return text_content;
   }
+  private removeSrcImage(html: string) {
+    const pars = new DOMParser();
+    const doc = pars.parseFromString(html, "text/html")
+    const imgs = doc.querySelectorAll('img')
 
-
-//   ngAfterViewInit() {
-//   // Test with sample content after view initializes
-//   setTimeout(() => {
-//     this.testImageProcessing();
-//   }, 2000);
-// } 
-//   async testImageProcessing() {
-//     const html = this.renderMarkdownWithMedia(this.content);
-//     await this.getModifiedHtml(html);
-//   }
-  // private async getModifiedHtml(html: string) {
-  //   const parser = new DOMParser();
-  //   const doc = parser.parseFromString(html, 'text/html');
-  //   const images = doc.querySelectorAll('img');
-
-  //   const imageProcessingPromises = Array.from(images).map(async (img, index) => {
-  //     const imageUrl = img.src;
-
-  //     try {
-  //       const response = await fetch(imageUrl);
-  //       const blob = await response.blob();
-  //       console.log(blob, `blob for image ${index}`, blob.size);
-
-  //       // Convert blob to File if needed
-  //       const file = new File([blob], `image-${index}.jpg`, { type: blob.type });
-
-  //       // Store the file reference
-  //       // if (!this.selectedImageFile) {
-  //       //   this.selectedImageFile = file;
-  //       // }
-
-  //       return file;
-  //     } catch (error) {
-  //       console.error(`Failed to fetch image ${index}:`, error);
-  //       return null;
-  //     }
-  //   });
-
-  //   const files = await Promise.all(imageProcessingPromises);
-  //   console.log('Processed files:', files.filter(file => file !== null));
-
-  //   return files.filter(file => file !== null);
-  // }
+    imgs.forEach(img => {
+      img.src=""
+      img.setAttribute('data-image-placeholder', 'true');
+      // Add a class for styling
+      img.classList.add('image-placeholder');
+    })
+      return doc.body.innerHTML;
+  }
+  upload() {
+    let result=this.removeSrcImage(this.content);
+    console.log(result);
+    
+    this.uploadImage.upload();
+  }
 
   onImageSelected(event: Event) {
     this.uploadImage.onImageSelected(event, (imgHTML: string) => {
