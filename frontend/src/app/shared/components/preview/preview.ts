@@ -26,7 +26,7 @@ export class Preview {
       const div = document.createElement("div");
       div.classList.add("container-image-perview")
       img?.classList.add("image-prview")
-      console.log(image,"images");
+      // console.log(image,"images");
       if (img.parentNode) {
         img.parentNode.insertBefore(div, img)
         div.appendChild(img)
