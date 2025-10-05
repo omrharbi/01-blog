@@ -1,8 +1,5 @@
 package com.__blog.service.posts;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +10,7 @@ import com.__blog.model.entity.Post;
 import com.__blog.model.entity.User;
 import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
+import com.__blog.security.UserPrincipal;
 
 @Service
 public class PostService {
@@ -20,19 +18,19 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    @Autowired
     private MediaRepository mediaRepository;
 
-    public Post createPost(PostRequest postRequest, User user) {
+    public Post createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
+        User user = userPrincipal.getUser();
         Post post = convertToEntity(postRequest, user);
         Post post_save = postRepository.save(post);
-        if (postRequest.getMedias() != null) {
-            List<Media> medias = postRequest.getMedias().stream().map(mediaDTO -> convertToEntity(mediaDTO, post_save))
-                    .collect(Collectors.toList());
-
-            mediaRepository.saveAll(medias);
-        }
-        return post_save;
+        System.out.println("post medai *******"+post_save.getMedias());
+        // if (postRequest.getMedias() != null) {
+        //     List<Media> medias = postRequest.getMedias().stream().map(mediaDTO -> convertToEntity(mediaDTO, post_save))
+        //             .collect(Collectors.toList());
+        //     mediaRepository.saveAll(medias);
+        // }
+        return post;
     }
 
     private Post convertToEntity(PostRequest postDTO, User user) {

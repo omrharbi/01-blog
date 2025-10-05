@@ -1,16 +1,13 @@
 package com.__blog.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.__blog.service.UserService;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    UserService userService;
+    // @Autowired
+    // UserService userService;
 
     // @GetMapping("/getUser")
     // public User getUser(@RequestParam String username) {

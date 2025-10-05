@@ -1,39 +1,33 @@
 package com.__blog.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.entity.Post;
-import com.__blog.model.entity.User;
-import com.__blog.repository.UserRepository;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.posts.PostService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import lombok.RequiredArgsConstructor;
-
 @RestController
-@CrossOrigin
-@RequestMapping("/post")
-@RequiredArgsConstructor
+@RequestMapping("/api/posts")
 public class PostController {
 
-    private final PostService postservice;
-    private final UserRepository userRepository;
+    @Autowired
+    private PostService postservice;
 
-    @PostMapping("/create-post")
-    public Post createPost(@RequestBody PostRequest postRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        User user = userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userPrincipal.getId()));
-        // System.err.println(user.getId() + "********************");
-        var response = postservice.createPost(postRequest, user);
-        return response;
+    // private final UserRepository userRepository;
+    @PostMapping("/create")
+    public ResponseEntity<?> createPost(@RequestBody PostRequest postRequest,@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        // Optional<User> adminUser = userRepository.findByEmail("admin@admin.com");
+    
+        // System.out.println("User ID: ******" + userPrincipal.getId());
+         Post post = postservice.createPost(postRequest, userPrincipal);
+        // System.err.println(user.getId()+"id user");
+        return ResponseEntity.ok(post);
     }
 }

@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService userService;
 
     @PostMapping("/register")
@@ -27,10 +28,11 @@ public class AuthController {
         ApiResponse<RegisterRequest> userresponse = userService.registerUser(request);
         return ResponseEntity.ok(userresponse);
     }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest user) {
         ApiResponse<LoginResponse> response = userService.verifyLoginUser(user);
         return ResponseEntity.ok(response);
     }
- 
+
 }

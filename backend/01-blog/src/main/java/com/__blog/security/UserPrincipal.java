@@ -27,6 +27,10 @@ public class UserPrincipal implements UserDetails {
         return user.getPassword();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String getUsername() {
         return user.getUsername();
@@ -34,6 +38,26 @@ public class UserPrincipal implements UserDetails {
 
     public Integer getId() {
         return user.getId();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }
