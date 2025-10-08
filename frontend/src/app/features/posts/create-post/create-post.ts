@@ -51,7 +51,7 @@ export class CreatePost {
   }
   upload() {
     let result=this.removeSrcImage(this.content);
-    console.log(result);
+    console.log(result,"*********");
     
     this.uploadImage.upload();
   }
