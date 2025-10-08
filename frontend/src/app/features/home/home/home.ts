@@ -26,6 +26,8 @@ export class Home {
 
     // listen for new post coming from create page
     this.postDatashard.newpost$.subscribe(post => {
+      // console.log(post,"****************************************");
+      
       if (post) {
         this.posts.unshift(post);  // add to top
         this.postDatashard.clear(); // clear after using

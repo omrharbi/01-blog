@@ -1,11 +1,11 @@
-<div class="card shadow-sm mb-4 border-0 bg-card" *ngFor="let post of posts" [post]="post" >
+<div class="card shadow-sm mb-4 border-0 bg-card" >
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center gap-3">
                 <img src="/placeholder.svg" class="rounded-circle" style="width:40px; height:40px;">
                 <div>
                     <a href="/profile/sarah_codes" class="fw-medium text-decoration-none">Sarah Chen</a>
-                    <div class="small text-muted ">2 days ago · 5 min read</div>
+                    <div class="small text-muted ">{{ post.title }}</div>
                 </div>
             </div>
             <button class="btn btn-sm text-muted opacity-0 group-hover-opacity">
