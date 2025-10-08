@@ -10,8 +10,11 @@ export const environment = {
         updateMe:apiUrl+"users/update-me",
         changePassword:apiUrl+"users/change-password",
     },
-    upload:{
-        upload_image:apiUrl+"api/upload", 
+    savepost:{
+        post:apiUrl+"api/posts/create", 
+    },
+    getpost:{
+        post:apiUrl+"api/posts/get-post", 
     }
 }
 export const LocalstorageKey={

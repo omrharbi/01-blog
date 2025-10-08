@@ -1,9 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
-import { FileUploadService } from '../../../core/service/file-upload/file-upload.service';
-import { PreviewService } from '../../../core/service/preview/preview.service';
-import { Router } from '@angular/router';
-import { every } from 'rxjs';
 import { UploadImage } from '../../../core/service/preview/upload-images/upload-image';
 @Component({
   selector: 'app-markdown-editor',
@@ -25,11 +21,9 @@ export class MarkdownEditor {
   isUploading = false;
   previewMode = false;
 
-  constructor(private uploadImage: UploadImage) {}
- 
+  constructor(private uploadImage: UploadImage) { }
+
   ngAfterViewInit() {
-    // console.log(this.content,"content");
-    
     this.textareaRef.nativeElement.innerHTML = this.content;
   }
   onImageSelected(event: Event) {
@@ -41,7 +35,7 @@ export class MarkdownEditor {
     setTimeout(() => this.onContentChange());;
   }
 
-   upload( ) {
+  upload() {
     this.uploadImage.upload();
     // setTimeout(() => this.onContentChange());;
   }
@@ -149,7 +143,7 @@ export class MarkdownEditor {
 
   applyFormat(prefix: string, suffix: string, placeholder: string, event?: MouseEvent) {
     if (event) {
-      event.preventDefault(); 
+      event.preventDefault();
       event.stopPropagation();
     }
 

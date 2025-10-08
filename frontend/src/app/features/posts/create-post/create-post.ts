@@ -12,6 +12,11 @@ import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
 import { UploadImage } from '../../../core/service/preview/upload-images/upload-image';
+import { PostRequest } from '../../../core/models/postData/postRequest';
+import { PostService } from '../../../core/service/create-posts/post-service';
+import { PostResponse } from '../../../core/models/postData/postResponse';
+import { Router } from '@angular/router';
+import { SharedServicePost } from '../../../core/service/shared-service/shared-service-post';
 
 @Component({
   selector: 'app-create-post',
@@ -20,13 +25,16 @@ import { UploadImage } from '../../../core/service/preview/upload-images/upload-
   styleUrl: './create-post.scss',
 })
 export class CreatePost {
-  constructor(private uploadImage: UploadImage) { }
-  previewMode = false;
+  constructor(private router: Router,
+    private sharedServicePost:SharedServicePost,
+    private uploadImage: UploadImage, private postService: PostService) { }
+   previewMode = false;
   content: string = '';
   title: string = '';
   isPreviewMode = true;
   coverImageSrc?: string;
   isSelect: boolean = false;
+
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
   triggerFileInput() {
@@ -36,25 +44,40 @@ export class CreatePost {
     let text_content = this.renderMarkdownWithMedia(this.content);
     return text_content;
   }
+  onTitle(newTitle: string) {
+    this.title = newTitle;
+  }
   private removeSrcImage(html: string) {
     const pars = new DOMParser();
     const doc = pars.parseFromString(html, "text/html")
     const imgs = doc.querySelectorAll('img')
 
     imgs.forEach(img => {
-      img.src=""
-      img.setAttribute('data-image-placeholder', 'true');
-      // Add a class for styling
-      img.classList.add('image-placeholder');
+      img.src = ""
     })
-      return doc.body.innerHTML;
+    return doc.body.innerHTML;
   }
-  upload() {
-    let result=this.removeSrcImage(this.content);
-    console.log(result,"*********");
-    
-    this.uploadImage.upload();
+
+  submitPost() {
+    let result = this.removeSrcImage(this.content);
+    const postRequest: PostRequest = {
+      title: this.title,
+      excerpt: "this is test excerpt",
+      htmlContent: result,
+      medias: this.uploadImage.upload()
+    };
+    this.postService.createPosts(postRequest).subscribe({
+      next: (response) => {
+        this.sharedServicePost.setNewPost(response.data)
+        // console.log(this.postCreated, "response post i create it ");
+        this.router.navigate(['/home']); 
+      },
+      error: (error) => {
+        console.error("error to save post");
+      }
+    })
   }
+
 
   onImageSelected(event: Event) {
     this.uploadImage.onImageSelected(event, (imgHTML: string) => {
@@ -73,9 +96,7 @@ export class CreatePost {
   onContentChange(newContent: string) {
     this.content = newContent;
   }
-  onTitle(newTitle: string) {
-    this.title = newTitle;
-  }
+
   showPreview() {
     this.previewMode = true;
   }

@@ -1,18 +1,8 @@
-import { ElementRef, Injectable } from '@angular/core';
-import { CreatePost } from '../../../../features/posts/create-post/create-post';
-// export interface CreatePostRequest {
-//   // title: string;
-//   // markdownContent: string;
-//   // excerpt: string;
-//   medias: MediaRequest[];
-// }
-export interface MediaRequest {
-  filename: string;
-  filePath: string;
-  fileType: string;
-  fileSize: number;
-  displayOrder: number;
-}
+import { Injectable } from '@angular/core';
+import { PostResponse } from '../../../models/postData/postResponse';
+import { MediaRequest } from '../../../models/postData/postRequest';
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,6 +12,7 @@ export class UploadImage {
   uploadMessage = '';
   medias: MediaRequest[] = [];
   currentDisplayOrder = 0;
+  // constructor(private postResponse: PostResponse) { }
 
   onImageSelected(event: Event, callback: (imgHTML: string) => void) {
     const input = event.target as HTMLInputElement;
@@ -33,7 +24,7 @@ export class UploadImage {
     console.log('Selected image file:', file.name, 'Size:', file.size, 'Type:', file.type);
     const mediaRequest: MediaRequest = {
       filename: file.name,
-      filePath: URL.createObjectURL(file), // Use server path if available, otherwise local URL
+      filePath: URL.createObjectURL(file),  
       fileType: file.type,
       fileSize: file.size,
       displayOrder: this.currentDisplayOrder++
@@ -55,14 +46,13 @@ export class UploadImage {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      // Insert image HTML into the content
-      const imgHTML = `<img src="${reader.result}" class="imageMa">`;
+       const imgHTML = `<img src="${reader.result}" class="imageMa">`;
       callback(imgHTML);
     };
     reader.readAsDataURL(file); // read file as base64
 
   }
-  upload() {
-    console.log(this.medias,"this****************");
+  upload(): MediaRequest[] {
+    return this.medias;
   }
 }

@@ -31,13 +31,10 @@ export class Login {
         next: (response) => {
           if (response.status) {
             console.log(response.status);
-            
-            this.router.navigate(['/']); // ✅ navigate to home
+            this.router.navigate(['/']); //navigate to home ✅
           } else {
             this.errorMessage.push(response.error || 'Login failed');
           }
-
-          // this.router.navigate(['/home'])
         },
         error: (err) => {
           console.log(err, 'err');

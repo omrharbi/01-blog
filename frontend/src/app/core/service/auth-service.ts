@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { LoginRequest, RegisterRequest } from '../models/authentication/authRequest-module';
+import { Injectable } from '@angular/core';
+import { RegisterRequest } from '../models/authentication/authRequest-module';
 import { environment, LocalstorageKey } from '../constant/constante';
 import { ApiResponse, UserResponse } from '../models/authentication/autResponse-module';
 import { map } from 'rxjs';
-import { Register } from '../../features/auth/register/register';
 import { Login } from '../../features/auth/login/login';
-import { routes } from '../../app.routes';
-import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   // const router = inject(Router);
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   registrter(register: RegisterRequest) {
     return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.register}`, register).pipe(

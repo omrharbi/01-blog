@@ -166,7 +166,7 @@
 
           <!-- Example post card -->
             <div class="card-post">
-              <app-post-card></app-post-card>
+              <app-post-card  *ngFor="let post of posts" [post]="post"></app-post-card>
             </div>
           <!-- Repeat cards here -->
 
