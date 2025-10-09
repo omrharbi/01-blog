@@ -1,7 +1,9 @@
 .main {
   margin-top: 30px;
 }
-
+.border{
+  border: 1px solid var(--sidebar-border) !important;
+}
 
 .green-baground {
   background-color: var(--primary-bg) !important;
@@ -10,24 +12,86 @@
 .accent-color {
   background-color: var(--accent-bg) !important;
 }
+
 .text-brand-accent {
   color: var(--accent);
 }
+
 .text-brand-primary {
   color: var(--brand-primary);
 }
+
 .title-post {
   color: var(--text-primary);
 }
+
 .text-muted {
   color: var(--muted) !important;
 }
+
 .scroll {
   overflow: hidden;
 }
+
 .paragraph {
   line-height: 1.625;
   font-size: 20px;
   font-family: serif !important;
   color: var(--muted-foreground) !important;
+}
+
+.card-size {
+  height: 20rem;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.transition-smooth {
+  transition: all 0.3s ease;
+}
+
+.group:hover .group-hover-opacity {
+  opacity: 1;
+}
+
+.group-hover-opacity {
+  opacity: 0;
+}
+
+.group:hover .hover-shadow-elegant {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.group:hover .hover-scale {
+  transform: scale(1.05);
+}
+
+.hover-scale {
+  transition: transform 0.5s ease;
+}
+
+.aspect-square {
+  aspect-ratio: 1/1;
+}
+
+.aspect-video {
+  aspect-ratio: 16/9;
+}
+
+@media (min-width: 768px) {
+  .aspect-md-square {
+    aspect-ratio: 1/1;
+  }
 }

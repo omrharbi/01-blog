@@ -14,27 +14,27 @@ import { SharedServicePost } from '../../../core/service/shared-service/shared-s
   styleUrl: './home.scss'
 })
 export class Home {
-  posts: any[] = [];
+  posts: PostResponse[] = [];
+  // post: PostResponse =  null;
   constructor(private postservice: PostService, private postDatashard: SharedServicePost) {
 
   }
   ngOnInit() {
-    // load existing posts
-    // this.postService.getPosts().subscribe(res => {
-    //   this.posts = res.data;
-    // });
+    this.postservice.getAllPost().subscribe(res => {
+      console.log("get all posts ",res.data );
+      this.posts = res.data;
+    });
 
     // listen for new post coming from create page
     this.postDatashard.newpost$.subscribe(post => {
       if (post) {
         this.posts.unshift(post);  // add to top
         this.posts = [...this.posts];
-        console.log(post,"****************************************");
         // this.postDatashard.clear(); // clear after using
       }
-
-      
     });
+
+    console.log("get all posts ", this.posts);
 
     //  this.posts.forEach((post, index) => {
     //   console.log(`Posts array [${index}]:`, post);

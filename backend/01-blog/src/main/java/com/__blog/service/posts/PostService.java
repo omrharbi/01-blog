@@ -35,7 +35,7 @@ public class PostService {
         User user = userPrincipal.getUser();
         Post post = convertToEntity(postRequest, user);
         Post post_save = postRepository.save(post);
-        PostResponse response = getLastPostCreate(post_save.getId());
+        PostResponse response = getPostWithId(post_save.getId());
         if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
             List<Media> medias = new ArrayList<>();
             for (var medai : postRequest.getMedias()) {
@@ -54,7 +54,7 @@ public class PostService {
                 .message("create post").build();
     }
 
-    private PostResponse getLastPostCreate(int post_id) {
+    private PostResponse getPostWithId(int post_id) {
         // System.err.println("post id"+post_id);
         Optional<Post> postOptional = postRepository.findById(post_id);
         if (postOptional.isPresent()) {
@@ -67,19 +67,25 @@ public class PostService {
         }
     }
 
-    private PostResponse convertToPostResponse(Post post) {
+    public ApiResponse<List<PostResponse>> getPosts() {
+        List<Post> posts = postRepository.findAll();
+        List<PostResponse> allPosts = new ArrayList<>();
+        for (var p : posts) {
+            List<MediaResponse> mediaResponses = mediaService.getAllMediaFromIdPost(p.getId());
+            PostResponse convert = convertToPostResponse(p);
+            convert.setMedias(mediaResponses);
+            allPosts.add(convert);
+        }
+        return ApiResponse.<List<PostResponse>>builder()
+                .status(true).data(allPosts).build();
+    }
 
+    private PostResponse convertToPostResponse(Post post) {
         PostResponse response = new PostResponse();
         response.setTitle(post.getTitle());
         response.setId(post.getId());
         response.setExcerpt(post.getExcerpt());
         response.setHtmlContent(post.getHtmlContent());
-        
-        // System.err.println("medai " + medias + " " + post.getId());
-        // System.err.println("postResponse postResponse " + post.getMedias());
-        // if (post.getMedias() != null && !post.getMedias().isEmpty()) {
-        //     // response.setMedias(medias);
-        // }
         return response;
     }
 

@@ -41,6 +41,9 @@ public class Post {
 
     @Column(columnDefinition = "TEXT",name="excerpt")
     private String excerpt; // Raw markdown content
+
+    @Column(columnDefinition = "TEXT",name="content")
+    private String content; // Raw markdown content
     @Column(columnDefinition = "TEXT",name="html_content")
     private String htmlContent; // Converted HTML content
 

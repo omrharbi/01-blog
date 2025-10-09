@@ -26,9 +26,9 @@ import { SharedServicePost } from '../../../core/service/shared-service/shared-s
 })
 export class CreatePost {
   constructor(private router: Router,
-    private sharedServicePost:SharedServicePost,
+    private sharedServicePost: SharedServicePost,
     private uploadImage: UploadImage, private postService: PostService) { }
-   previewMode = false;
+  previewMode = false;
   content: string = '';
   title: string = '';
   isPreviewMode = true;
@@ -51,26 +51,29 @@ export class CreatePost {
     const pars = new DOMParser();
     const doc = pars.parseFromString(html, "text/html")
     const imgs = doc.querySelectorAll('img')
-
     imgs.forEach(img => {
       img.src = ""
     })
     return doc.body.innerHTML;
   }
-
+  private removeImage(html: string): string {
+    if (!html) return "";
+    return html.replace(/<img\b[^>]*>/gi, '');
+  }
   submitPost() {
-    let result = this.removeSrcImage(this.content);
+    let contentWithoutHTML = this.removeImage(this.content);
+    let contenHtml = this.removeSrcImage(this.content);
     const postRequest: PostRequest = {
       title: this.title,
       excerpt: "this is test excerpt",
-      htmlContent: result,
+      content: contentWithoutHTML,
+      htmlContent: contenHtml,
       medias: this.uploadImage.upload()
     };
     this.postService.createPosts(postRequest).subscribe({
       next: (response) => {
         this.sharedServicePost.setNewPost(response.data)
-        // console.log(this.postCreated, "response post i create it ");
-        this.router.navigate(['/home']); 
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         console.error("error to save post");

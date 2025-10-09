@@ -13,8 +13,8 @@ export const environment = {
     savepost:{
         post:apiUrl+"api/posts/create", 
     },
-    getpost:{
-        post:apiUrl+"api/posts/get-post", 
+    getAllpost:{
+        posts:apiUrl+"api/posts/getallPost", 
     }
 }
 export const LocalstorageKey={

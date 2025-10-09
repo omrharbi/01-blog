@@ -25,11 +25,13 @@ export class PostService {
     );
   }
 
-  getPost(): Observable<PostResponse> {
+  getAllPost(): Observable<ApiResponse<PostResponse[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<PostResponse>(``);
+    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.getAllpost.posts}`, {
+      headers
+    });
   }
 }

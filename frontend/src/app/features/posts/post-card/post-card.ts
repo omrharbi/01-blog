@@ -11,16 +11,16 @@ import { SharedServicePost } from '../../../core/service/shared-service/shared-s
 })
 export class PostCard {
  @Input() post: any;
-   constructor(private postservice: PostService, private postDatashard: SharedServicePost) {
+  //  constructor(private postservice: PostService, private postDatashard: SharedServicePost) {
  
-   }
-  ngOnChanges(changes: SimpleChanges) {
-    // console.log("**------------------");
-    console.log('Post input changed',this.postDatashard.getNewPost());
+  //  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   // console.log("**------------------");
+  //   console.log('Post input changed',this.postDatashard.getNewPost());
     
-    if (changes['post']) {
-    }
-  }
+  //   if (changes['post']) {
+  //   }
+  // }
   // onPostCreated(post: PostResponse) {
   //   console.log("New post received:", post);
   //   this.posts.unshift(post); // Add new post to top of list

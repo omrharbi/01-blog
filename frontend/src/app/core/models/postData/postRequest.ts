@@ -1,6 +1,7 @@
 export interface PostRequest {
   htmlContent?: string
   title?: string,
+  content?:string,
   excerpt: string,
   medias: MediaRequest[]
 }

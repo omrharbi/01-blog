@@ -1,9 +1,12 @@
 package com.__blog.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +33,14 @@ public class PostController {
     public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest postRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         ApiResponse<PostResponse> post = postservice.createPost(postRequest, userPrincipal);
+        return ResponseEntity.ok(post);
+    }
+
+    @GetMapping("/getallPost")
+    public ResponseEntity<?> getPosts() {
+
+        ApiResponse<List<PostResponse>> post = postservice.getPosts();
+
         return ResponseEntity.ok(post);
     }
 }

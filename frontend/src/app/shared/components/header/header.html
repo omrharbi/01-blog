@@ -1,56 +1,50 @@
-<header
-  class="header-high backdrop-blur sticky top-0 z-50 w-full border-b border-border"
->
-  <div class="flex h-16 items-center px-4 lg:px-8 d-flex align-items-center px-3">
-    <!-- Logo Section -->
-    <div class="flex items-center gap-4 ">
-      <a class="font-playfair text-2xl font-bold text-gradient" routerLink="/">
-        <!-- SVG Gradient Text -->
-        <svg width="120" height="40" xmlns="http://www.w3.org/2000/svg" class="inline-block">
-          <defs>
-            <linearGradient id="blogGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color: hsl(142, 86%, 35%); stop-opacity: 1" />
-              <stop offset="100%" style="stop-color: hsl(24, 95%, 60%); stop-opacity: 1" />
-            </linearGradient>
-          </defs>
-          <text
-            x="5"
-            y="28"
-            font-family="Playfair Display, serif"
-            font-size="24"
-            font-weight="bold"
-            fill="url(#blogGradient)"
-          >
-            01Blog
-          </text>
-        </svg>
-      </a>
-    </div>
 
-    <!-- Search Bar -->
-    <!-- Updated Search Bar Section -->
-   <div class="flex-1 mx-4">
-    <div class="search">
-      <mat-icon class="search-icon">search</mat-icon>
-      <input
-        type="search"
-        class="search-input w-full"
-        placeholder="Search articles, topics, or authors..."
-        (keyup.enter)="onSearch()"
-        autocomplete="off"
-      />
-    </div>
-  </div>
 
+
+<header class="sticky-top header-high">
+  <div class="container-fluid h-100">
+    <div class="d-flex align-items-center justify-content-between h-100 px-2 px-lg-4">
+      <!-- Left Section: Sidebar Toggle & Logo -->
+      <!-- <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-muted btn-icon-sm d-lg-none p-0" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+                    <i class="bi bi-layout-sidebar" style="font-size: 1.25rem;"></i>
+                    <span class="visually-hidden">Toggle Sidebar</span>
+                </button>
+                <a class="font-playfair fs-4 fw-bold text-gradient text-decoration-none" href="/">01Blog</a>
+            </div> -->
+      <div class="flex items-center gap-4 ">
+        <a class="font-playfair text-2xl font-bold text-gradient" routerLink="/">
+          <!-- SVG Gradient Text -->
+          <svg width="120" height="40" xmlns="http://www.w3.org/2000/svg" class="inline-block">
+            <defs>
+              <linearGradient id="blogGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color: hsl(142, 86%, 35%); stop-opacity: 1" />
+                <stop offset="100%" style="stop-color: hsl(24, 95%, 60%); stop-opacity: 1" />
+              </linearGradient>
+            </defs>
+            <text x="5" y="28" font-family="Playfair Display, serif" font-size="24" font-weight="bold"
+              fill="url(#blogGradient)">
+              01Blog
+            </text>
+          </svg>
+        </a>
+      </div>
+      <!-- Center Section: Search Bar -->
+      <div class="flex-grow-1 mx-3 mx-lg-5 search-container" style="max-width: 28rem;">
+        <div class="position-relative">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" class="form-control search-input" placeholder="Search articles, topics, or authors...">
+        </div>
+      </div>
+
+      <!-- Right Section: Actions & User -->
     <!-- Action Buttons -->
     <div class="flex items-center gap-2 flex-shrink-0 d-flex align-items-center">
       <!-- Theme Toggle -->
       <div class="icons-nav d-flex align-items-center gap-3">
         <button
           class="btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0"
-          (click)="toggleTheme()"
-          title="Toggle theme"
-        >
+          (click)="toggleTheme()" title="Toggle theme">
           <!-- Sun icon for light mode -->
           <mat-icon class="fs-5 align-content-center">light_mode</mat-icon>
           <!-- <mat-icon>dark_mode</mat-icon> -->
@@ -59,55 +53,41 @@
         <!-- Notifications -->
         <button
           class="btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0"
-          *ngIf="isAuthenticated"
-          title="Notifications"
-        >
+          *ngIf="isAuthenticated" title="Notifications">
           <!-- Notification badge -->
           <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
         </button>
         <!-- Create Post -->
-        <button 
+        <button
           class="btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0"
-          [routerLink]="['/create']"
-          *ngIf="isAuthenticated"
-          title="Create post"
-        >
+          [routerLink]="['/create']" *ngIf="isAuthenticated" title="Create post">
           <mat-icon class="fs-5 align-content-center">add</mat-icon>
         </button>
       </div>
       <!-- Authentication Links -->
       <div class="hidden md:flex items-center ml-2 gap-3 ms-2" *ngIf="isAuthenticated">
-        <a
-          class="btn btn-signIn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
-          routerLink="/auth/login"
-        >
+        <a class="btn btn-signIn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+          routerLink="/auth/login">
           Sign In
         </a>
-        <a
-          class="btn-enabled btn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-          routerLink="/auth/register"
-        >
+        <a class="btn-enabled btn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+          routerLink="/auth/register">
           Sign Up
         </a>
       </div>
 
       <!-- User Profile -->
       <div class="relative" *ngIf="isAuthenticated">
-        <button
-          class="relative shrink-0 overflow-hidden rounded-full h-8 w-8 cursor-pointer"
-          title="Profile"
-        >
-          <!-- <img 
+        <button class="relative shrink-0 overflow-hidden rounded-full h-8 w-8 cursor-pointer" title="Profile">
+          <img 
             class="aspect-square h-full w-full" 
-            [src]="currentUser?.avatar || '/assets/images/default-avatar.png'"
-            [alt]="currentUser?.name || 'User'"
-          /> -->
+            src=""
+           />
         </button>
 
         <!-- Profile dropdown can be added here -->
       </div>
     </div>
+    </div>
   </div>
-
-  
 </header>
