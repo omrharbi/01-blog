@@ -11,6 +11,10 @@ export class SharedServicePost {
   setNewPost(post: any) {
     this.newPostData.next(post)
   }
+
+  getNewPost(): any {
+    return this.newPostData;
+  }
   clear() {
     this.newPostData.next(null);
   }

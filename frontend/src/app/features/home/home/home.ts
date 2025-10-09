@@ -26,12 +26,18 @@ export class Home {
 
     // listen for new post coming from create page
     this.postDatashard.newpost$.subscribe(post => {
-      // console.log(post,"****************************************");
-      
       if (post) {
         this.posts.unshift(post);  // add to top
-        this.postDatashard.clear(); // clear after using
+        this.posts = [...this.posts];
+        console.log(post,"****************************************");
+        // this.postDatashard.clear(); // clear after using
       }
+
+      
     });
+
+    //  this.posts.forEach((post, index) => {
+    //   console.log(`Posts array [${index}]:`, post);
+    // });
   }
 }

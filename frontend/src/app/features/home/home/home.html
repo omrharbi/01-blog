@@ -165,9 +165,15 @@
           </div>
 
           <!-- Example post card -->
-            <div class="card-post">
-              <app-post-card  *ngFor="let post of posts" [post]="post"></app-post-card>
-            </div>
+          <div class="card-post">
+            <!-- <h2>Posts ({{ posts.length }})</h2> -->
+
+            <!-- <div *ngIf="posts.length === 0" class="no-posts" style="background: #ffebee; padding: 20px;">
+              <h3>❌ NO POSTS IN ARRAY</h3>
+              <p>Posts array is empty even though data was received</p>
+            </div> -->
+            <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+          </div>
           <!-- Repeat cards here -->
 
           <div class="text-center pt-4">
