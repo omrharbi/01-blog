@@ -11,6 +11,7 @@ import com.__blog.model.dto.response.MediaResponse;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.repository.MediaRepository;
+import com.__blog.util.ApiResponse;
 
 @Service
 public class MediaService {
@@ -18,19 +19,25 @@ public class MediaService {
     @Autowired
     private MediaRepository mediRepository;
 
-    protected List<MediaResponse> getAllMediaFromIdPost(Integer idPost) {
-        // System.err.println("***************************************************");
-        List< Media> medias = mediRepository.findByPost_Id(idPost);
-        // System.out.println("MediaService.getAllMediaFromIdPost()"+medias);
-        List<MediaResponse> convertDTO = new ArrayList<>();
-        for (var m : medias) {
-            MediaResponse response = convertToPostResponse(m);
-            convertDTO.add(response);
+    protected ApiResponse< List<MediaResponse>> getAllMediaFromIdPost(Integer idPost) {
+        if (idPost == null || idPost <= 0) {
+            return ApiResponse.<List<MediaResponse>>builder().status(false).message("this id is uncoret").build();
         }
-        return convertDTO;
+        try {
+            List< Media> medias = mediRepository.findByPost_Id(idPost);
+            List<MediaResponse> convertDTO = new ArrayList<>();
+            for (var m : medias) {
+                MediaResponse response = convertToPostResponse(m);
+                convertDTO.add(response);
+            }
+            return ApiResponse.<List<MediaResponse>>builder().status(true).data(convertDTO).build();
+        } catch (Exception e) {
+            return ApiResponse.<List<MediaResponse>>builder().status(false).message("Error fetching media for post ID: " + idPost+" "+ e).build();
+        }
+
     }
 
-       protected MediaResponse convertToPostResponse(Media media) {
+    protected MediaResponse convertToPostResponse(Media media) {
         MediaResponse response = new MediaResponse();
         response.setFilename(media.getFilename());
         response.setDisplayOrder(media.getDisplayOrder());

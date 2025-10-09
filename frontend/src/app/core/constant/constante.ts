@@ -1,22 +1,23 @@
-const  apiUrl="http://localhost:9090/";
+const apiUrl = "http://localhost:9090/";
 export const environment = {
-    auth:{
-        login:apiUrl+"auth/login",
-        register:apiUrl+"auth/register",
-        refreshToken:apiUrl+"auth/refresh-token",
+    auth: {
+        login: apiUrl + "auth/login",
+        register: apiUrl + "auth/register",
+        refreshToken: apiUrl + "auth/refresh-token",
     },
-    user:{
-        getMe:apiUrl+"users/me",
-        updateMe:apiUrl+"users/update-me",
-        changePassword:apiUrl+"users/change-password",
+    user: {
+        getMe: apiUrl + "users/me",
+        updateMe: apiUrl + "users/update-me",
+        changePassword: apiUrl + "users/change-password",
     },
-    savepost:{
-        post:apiUrl+"api/posts/create", 
+    savepost: {
+        post: apiUrl + "api/posts/create",
     },
-    getAllpost:{
-        posts:apiUrl+"api/posts/getallPost", 
+    getpost: {
+        posts: apiUrl + "api/posts/getallPost",
+        postByID: apiUrl + "api/posts/getPostById/{id}"
     }
 }
-export const LocalstorageKey={
-    token:"USER_TOKEN",
+export const LocalstorageKey = {
+    token: "USER_TOKEN",
 }

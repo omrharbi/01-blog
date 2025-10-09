@@ -20,7 +20,7 @@ export class PostService {
 
     return this.http.post<ApiResponse<PostResponse>>(
       `${environment.savepost.post}`,
-        postRequest,
+      postRequest,
       { headers }
     );
   }
@@ -30,7 +30,17 @@ export class PostService {
       Authorization: `Bearer ${this.token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.getAllpost.posts}`, {
+    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.getpost.posts}`, {
+      headers
+    });
+  }
+
+  getpostByID(): Observable<ApiResponse<PostResponse>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.get<ApiResponse<PostResponse>>(`${environment.getpost.postByID}`, {
       headers
     });
   }

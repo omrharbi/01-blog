@@ -36,7 +36,7 @@ public class PostService {
         User user = userPrincipal.getUser();
         Post post = convertToEntity(postRequest, user);
         Post post_save = postRepository.save(post);
-        PostResponse response = getPostWithId(post_save.getId());
+        ApiResponse<PostResponse>  response = getPostWithId(post_save.getId());
         if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
             List<Media> medias = new ArrayList<>();
             for (var medai : postRequest.getMedias()) {
@@ -45,26 +45,30 @@ public class PostService {
             }
             mediaRepository.saveAll(medias);
         }
-
-        List<MediaResponse> medias = mediaService.getAllMediaFromIdPost(post.getId());
-        response.setMedias(medias);
-        //  System.err.println("medai " + medias + " " + post.getId());
+        ApiResponse< List<MediaResponse>> medias = mediaService.getAllMediaFromIdPost(post.getId());
+        response.getData().setMedias(medias.getData());
         return ApiResponse.<PostResponse>builder()
                 .status(true)
-                .data(response)
-                .message("create post").build();
+                .data(response.getData())
+                .error("create post").build();
     }
 
-    private PostResponse getPostWithId(int post_id) {
-        // System.err.println("post id"+post_id);
+    public ApiResponse<PostResponse> getPostById(int postid) {
+        ApiResponse<PostResponse> convResponse = getPostWithId(postid);
+        ApiResponse< List<MediaResponse>> medias = mediaService.getAllMediaFromIdPost(convResponse.getData().getId());
+        convResponse.getData().setMedias(medias.getData());
+        return ApiResponse.<PostResponse>builder().status(true).data(convResponse.getData()).build();
+    }
+
+    private ApiResponse<PostResponse> getPostWithId(int post_id) {
         Optional<Post> postOptional = postRepository.findById(post_id);
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
             PostResponse postResponse = convertToPostResponse(post);
-            return postResponse;
+            return ApiResponse.<PostResponse>builder().status(true).data(postResponse).build();
         } else {
-            System.err.println("Post not found with id: " + post_id);
-            return null;
+            return ApiResponse.<PostResponse>builder().status(true).error("this id is not found").build();
+
         }
     }
 
@@ -72,9 +76,9 @@ public class PostService {
         List<Post> posts = postRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<PostResponse> allPosts = new ArrayList<>();
         for (var p : posts) {
-            List<MediaResponse> mediaResponses = mediaService.getAllMediaFromIdPost(p.getId());
+            ApiResponse< List<MediaResponse>> mediaResponses = mediaService.getAllMediaFromIdPost(p.getId());
             PostResponse convert = convertToPostResponse(p);
-            convert.setMedias(mediaResponses);
+            convert.setMedias(mediaResponses.getData());
             allPosts.add(convert);
         }
         return ApiResponse.<List<PostResponse>>builder()
@@ -91,7 +95,6 @@ public class PostService {
         return response;
     }
 
-    // public  
     private Post convertToEntity(PostRequest postDTO, User user) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
