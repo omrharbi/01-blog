@@ -14,7 +14,6 @@ import { Preview } from '../../../shared/components/preview/preview';
 import { UploadImage } from '../../../core/service/preview/upload-images/upload-image';
 import { PostRequest } from '../../../core/models/postData/postRequest';
 import { PostService } from '../../../core/service/create-posts/post-service';
-import { PostResponse } from '../../../core/models/postData/postResponse';
 import { Router } from '@angular/router';
 import { SharedServicePost } from '../../../core/service/shared-service/shared-service-post';
 
@@ -31,6 +30,7 @@ export class CreatePost {
   previewMode = false;
   content: string = '';
   title: string = '';
+  excerpt: string = '';
   isPreviewMode = true;
   coverImageSrc?: string;
   isSelect: boolean = false;
@@ -65,7 +65,7 @@ export class CreatePost {
     let contenHtml = this.removeSrcImage(this.content);
     const postRequest: PostRequest = {
       title: this.title,
-      excerpt: "this is test excerpt",
+      excerpt: this.excerpt,
       content: contentWithoutHTML,
       htmlContent: contenHtml,
       medias: this.uploadImage.upload()
@@ -76,7 +76,7 @@ export class CreatePost {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.error("error to save post");
+        console.error("error to save post",error);
       }
     })
   }

@@ -20,7 +20,7 @@ export class PostService {
 
     return this.http.post<ApiResponse<PostResponse>>(
       `${environment.savepost.post}`,
-      postRequest,
+        postRequest,
       { headers }
     );
   }

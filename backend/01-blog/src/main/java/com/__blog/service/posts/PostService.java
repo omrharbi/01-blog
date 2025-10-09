@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.__blog.model.dto.request.PostRequest;
@@ -68,7 +69,7 @@ public class PostService {
     }
 
     public ApiResponse<List<PostResponse>> getPosts() {
-        List<Post> posts = postRepository.findAll();
+        List<Post> posts = postRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<PostResponse> allPosts = new ArrayList<>();
         for (var p : posts) {
             List<MediaResponse> mediaResponses = mediaService.getAllMediaFromIdPost(p.getId());
@@ -84,6 +85,7 @@ public class PostService {
         PostResponse response = new PostResponse();
         response.setTitle(post.getTitle());
         response.setId(post.getId());
+        response.setContent(post.getContent());
         response.setExcerpt(post.getExcerpt());
         response.setHtmlContent(post.getHtmlContent());
         return response;
@@ -93,6 +95,7 @@ public class PostService {
     private Post convertToEntity(PostRequest postDTO, User user) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
+        post.setContent(postDTO.getContent());
         post.setHtmlContent(postDTO.getHtmlContent());
         post.setExcerpt(postDTO.getExcerpt());
         post.setUser_posts(user);

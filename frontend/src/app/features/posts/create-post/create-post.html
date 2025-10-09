@@ -121,7 +121,7 @@
             <div class="mt-3">
               <label for="excerpt" class="form-label">Excerpt</label>
               <textarea id="excerpt" class="form-control" rows="3"
-                placeholder="Write a brief description of your story..."></textarea>
+                placeholder="Write a brief description of your story..."  [value]="excerpt" [(ngModel)]="excerpt"></textarea>
               <p class="text-muted small mt-1">This will appear in feeds and search results</p>
             </div>
             <div class="mt-3">
@@ -162,7 +162,9 @@
   </div>
   <div *ngIf="previewMode">
     <app-preview
-      [title]="title" [coverImage]="coverImageSrc" [isPreviewMode]="isPreviewMode"
+      [title]="title"
+      [excerpt]="excerpt"
+      [coverImage]="coverImageSrc" [isPreviewMode]="isPreviewMode"
       [previewHtml]="previewHtml" (exitPreview)="backToEdit()"></app-preview>
   </div>
 </main>

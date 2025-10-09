@@ -11,9 +11,10 @@ export class Preview {
   @Input() previewHtml!: string;
   @Input() isPreviewMode = false;
   previewMode = true;
-  @Input() title!: string;
+  @Input() title!: string; //excerpt
+  @Input() excerpt!: string; //excerpt
   @Input() coverImage?: string;
-  @Output() exitPreview = new EventEmitter<{ title: string; content: string; }>();
+  @Output() exitPreview = new EventEmitter<{ title: string; content: string;  excerpt: string;}>();
   hasContent(): boolean {
     return this.previewHtml.length > 0 || this.title.length > 0;
   }
@@ -36,6 +37,6 @@ export class Preview {
   }
   onExist() {
     this.previewMode = false;
-    this.exitPreview.emit({ title: this.title, content: this.previewHtml });
+    this.exitPreview.emit({ title: this.title, content: this.previewHtml,excerpt: this.previewHtml });
   }
 }
