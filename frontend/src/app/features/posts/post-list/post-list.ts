@@ -45,6 +45,8 @@ export class PostList {
 
     let index = 0;
     const media = this.post.medias ?? [];
+    console.log("media ******", media);
+    
     const processHtml = html.replace(
       /<img([^>]*)(src\s*=\s*["']\s*["']|class\s*=\s*["'][^"']*imageMa[^"']*["'])([^>]*)>/gi,
       (match, before, target, after) => {

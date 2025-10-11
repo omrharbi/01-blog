@@ -22,7 +22,9 @@ export class UploadImage {
       console.log('No file selected');
       return;
     }
-    console.log('Selected image file:', file.name, 'Size:', file.size, 'Type:', file.type);
+    const randomFileName = this.generateRandomFileName(file.name);
+    const fileWithRandomName = new File([file], randomFileName, { type: file.type });
+    console.log('Selected image file:', fileWithRandomName.name, 'Size:', file.size, 'Type:', file.type);
     const mediaRequest: MediaRequest = {
       filename: file.name,
       filePath: URL.createObjectURL(file),
@@ -31,7 +33,8 @@ export class UploadImage {
       displayOrder: this.currentDisplayOrder++
     };
     this.medias.push(mediaRequest);
-    this.fileUpload.push(file)
+    // Create new File object with random name
+    this.fileUpload.push(fileWithRandomName)
     if (!file.type.startsWith('image/')) {
       console.error('Selected file is not an image');
       this.uploadMessage = 'Please select a valid image file';
@@ -42,7 +45,12 @@ export class UploadImage {
       this.selectImage(callback);
     }
   }
-
+  generateRandomFileName(originalFileName: string): string {
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2, 15);
+    const extension = originalFileName.split('.').pop();
+    return `${timestamp}_${random}.${extension}`;
+  }
   selectImage(callback: (imgHTML: string) => void) {
     const file = this.selectedImageFile;
     if (!file) return;
@@ -59,7 +67,6 @@ export class UploadImage {
     return this.medias;
   }
   uploadfiles(): File[] {
-
     return this.fileUpload;
   }
 }

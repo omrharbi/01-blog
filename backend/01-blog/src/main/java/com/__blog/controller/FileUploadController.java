@@ -5,8 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,12 +33,12 @@ public class FileUploadController {
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam MultipartFile[] files) throws IOException {
         // create directory if it doesn’t exist
-        System.err.println("files"+Arrays.toString(files));
+        System.err.println("files" + Arrays.toString(files));
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
-        Map<String, String> response = new HashMap<>();
+        List<Map<String, String>> response  = new ArrayList<>();
         for (var file : files) {
 
             String originalName = file.getOriginalFilename();
@@ -49,9 +51,13 @@ public class FileUploadController {
             Path filePath = uploadPath.resolve(uniqueName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            
-            response.put("fileName", uniqueName);
-            response.put("filePath", "/uploads/" + uniqueName);
+            Map<String, String> fileResponse = new HashMap<>();
+            fileResponse.put("filename", uniqueName);
+             fileResponse.put("filePath", "http://localhost:9090/uploads/" + uniqueName);
+            fileResponse.put("filetype", file.getContentType());
+            fileResponse.put("filesize", String.valueOf(file.getSize()));
+
+            response.add(fileResponse);
         }
 
         return ResponseEntity.ok(response);

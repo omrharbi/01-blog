@@ -11,7 +11,7 @@ import { Materaile } from '../../../modules/materaile-module';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
-import { PostRequest } from '../../../core/models/postData/postRequest';
+import { MediaRequest, PostRequest } from '../../../core/models/postData/postRequest';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { Router } from '@angular/router';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
@@ -63,21 +63,41 @@ export class CreatePost {
     if (!html) return "";
     return html.replace(/<img\b[^>]*>/gi, '');
   }
+
   submitPost() {
+    let uploadedMedias = this.uploadImage.returnfiles();
     let contentWithoutHTML = this.removeImage(this.content);
     let contenHtml = this.removeSrcImage(this.content);
-    const postRequest: PostRequest = {
-      title: this.title,
-      excerpt: this.excerpt,
-      content: contentWithoutHTML,
-      htmlContent: contenHtml,
-      medias: this.uploadImage.returnfiles()
-    };
+
     // this.images.saveImages();
     this.selectedFiles = this.uploadImage.uploadfiles();
     this.images.saveImages(this.selectedFiles).subscribe({
       next: (response) => {
-        console.log("upload succ", response);
+
+        if (Array.isArray(response)) {
+          response.forEach((fileResponse, index) => {
+            uploadedMedias[index].filePath = fileResponse.filePath;
+            uploadedMedias[index].filename = fileResponse.filename
+            console.log(`File ${index}:`, fileResponse.filename, fileResponse.filePath);
+          });
+        }
+
+        const postRequest: PostRequest = {
+          title: this.title,
+          excerpt: this.excerpt,
+          content: contentWithoutHTML,
+          htmlContent: contenHtml,
+          medias: uploadedMedias
+        };
+        this.postService.createPosts(postRequest).subscribe({
+          next: (response) => {
+            this.sharedServicePost.setNewPost(response.data)
+            this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error("error to save post", error);
+          }
+        })
 
       },
       error: (error) => {
@@ -85,15 +105,7 @@ export class CreatePost {
 
       }
     });
-    this.postService.createPosts(postRequest).subscribe({
-      next: (response) => {
-        this.sharedServicePost.setNewPost(response.data)
-        this.router.navigate(['/home']);
-      },
-      error: (error) => {
-        console.error("error to save post", error);
-      }
-    })
+
   }
 
 

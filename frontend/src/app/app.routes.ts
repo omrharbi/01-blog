@@ -10,6 +10,9 @@ import { CreatePost } from './features/posts/create-post/create-post';
 import { PostList } from './features/posts/post-list/post-list';
 import { guestGuard } from './core/guards/auth/guest-guard';
 import { Preview } from './shared/components/preview/preview';
+import { ExploreStories } from './features/explore-stories/explore-stories';
+import { Following } from './features/following/following';
+import { LikedPosts } from './features/liked-posts/liked-posts';
 export const routes: Routes = [
   {
     path: '',
@@ -21,6 +24,9 @@ export const routes: Routes = [
       { path: 'posts', component: PostList },
       { path: 'preview', component: Preview },
       { path: 'post/:id', component: PostList },
+      { path: 'explore', component: ExploreStories },
+      { path: 'following', component: Following },
+      { path: 'liked', component: LikedPosts },
       // other protected pages
     ], // default path now points to home
   },
