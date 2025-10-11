@@ -16,7 +16,7 @@
                     <!-- Hero Image -->
                     <div class="col-12">
                         <div *ngIf="post.medias && post.medias.length > 0"  class="aspect-video rounded overflow-hidden">
-                            <img [src]="post.medias[0].filePath" [alt]="post.medias[0].filePath"
+                            <img [src]="'http://localhost:9090' + post.medias[0].filePath"  [alt]="post.medias[0].filePath"
                                 alt="Building My First React Native App: Lessons Learned"
                                 class="w-100 h-100 object-fit-cover">
                         </div>

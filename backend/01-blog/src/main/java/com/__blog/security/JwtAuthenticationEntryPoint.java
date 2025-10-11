@@ -31,20 +31,22 @@ public class JwtAuthenticationEntryPoint {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> {})  
-            .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight
-                    // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                    .requestMatchers("/auth/login", "/auth/register").permitAll()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                    .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(filer, UsernamePasswordAuthenticationFilter.class)
-            .build();
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> {
+                })
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
+                .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight
+                .requestMatchers("/uploads/**").permitAll()
+                // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/auth/login", "/auth/register").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(filer, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     // @Bean
@@ -58,7 +60,6 @@ public class JwtAuthenticationEntryPoint {
     //     source.registerCorsConfiguration("/**", configuration);
     //     return source;
     // }
-
     // @Bean
     // public AuthenticationProvider authenticationProvider() {
     //     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -66,7 +67,6 @@ public class JwtAuthenticationEntryPoint {
     //     provider.setUserDetailsService(userDeService);
     //     return provider;
     // }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

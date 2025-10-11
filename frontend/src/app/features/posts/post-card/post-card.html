@@ -74,7 +74,7 @@
                 <div class="col-md-4 order-1 order-md-2">
                     <a routerLink="/post/{{post.id}}">
                         <div class="aspect-video aspect-md-square rounded-3 overflow-hidden bg-light">
-                            <img [src]="post.medias[0].filePath" alt="Building My First React Native App: Lessons Learned"
+                            <img  [src]="'http://localhost:9090' + post.medias[0].filePath"  alt="Building My First React Native App: Lessons Learned"
                                 class="w-100 h-100 object-fit-cover hover-scale">
                         </div>
                     </a>
