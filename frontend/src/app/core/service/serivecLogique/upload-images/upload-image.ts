@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { MediaRequest } from '../../../models/postData/postRequest';
- 
+import { Uploadimages } from '../../servicesAPIREST/uploadImages/uploadimages';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadImage {
+  constructor(private files: Uploadimages) { }
   selectedImageFile?: File;
   selectedVideoFile?: File;
   uploadMessage = '';
   medias: MediaRequest[] = [];
+  fileUpload: File[] = [];
   currentDisplayOrder = 0;
- 
+
   onImageSelected(event: Event, callback: (imgHTML: string) => void) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -22,12 +25,13 @@ export class UploadImage {
     console.log('Selected image file:', file.name, 'Size:', file.size, 'Type:', file.type);
     const mediaRequest: MediaRequest = {
       filename: file.name,
-      filePath: URL.createObjectURL(file),  
+      filePath: URL.createObjectURL(file),
       fileType: file.type,
       fileSize: file.size,
       displayOrder: this.currentDisplayOrder++
     };
     this.medias.push(mediaRequest);
+    this.fileUpload.push(file)
     if (!file.type.startsWith('image/')) {
       console.error('Selected file is not an image');
       this.uploadMessage = 'Please select a valid image file';
@@ -50,7 +54,12 @@ export class UploadImage {
     reader.readAsDataURL(file); // read file as base64
 
   }
-  upload(): MediaRequest[] {
+  returnfiles(): MediaRequest[] {
+
     return this.medias;
+  }
+  uploadfiles(): File[] {
+
+    return this.fileUpload;
   }
 }

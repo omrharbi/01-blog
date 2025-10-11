@@ -26,8 +26,9 @@ import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages
 })
 export class CreatePost {
   constructor(private router: Router,
+
     private sharedServicePost: SharedServicePost,
-    private uploadImage: UploadImage, private postService: PostService,private images:Uploadimages) { }
+    private uploadImage: UploadImage, private postService: PostService, private images: Uploadimages) { }
   previewMode = false;
   content: string = '';
   title: string = '';
@@ -35,6 +36,7 @@ export class CreatePost {
   isPreviewMode = true;
   coverImageSrc?: string;
   isSelect: boolean = false;
+  selectedFiles: File[] = [];
 
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
@@ -69,9 +71,20 @@ export class CreatePost {
       excerpt: this.excerpt,
       content: contentWithoutHTML,
       htmlContent: contenHtml,
-      medias: this.uploadImage.upload()
+      medias: this.uploadImage.returnfiles()
     };
-    this.images.saveImages();
+    // this.images.saveImages();
+    this.selectedFiles = this.uploadImage.uploadfiles();
+    this.images.saveImages(this.selectedFiles).subscribe({
+      next: (response) => {
+        console.log("upload succ", response);
+
+      },
+      error: (error) => {
+        console.log("error", error);
+
+      }
+    });
     this.postService.createPosts(postRequest).subscribe({
       next: (response) => {
         this.sharedServicePost.setNewPost(response.data)

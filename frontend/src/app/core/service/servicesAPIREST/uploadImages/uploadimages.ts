@@ -4,20 +4,26 @@ import { ApiResponse, MediaResponse } from '../../../models/postData/postRespons
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../constant/constante';
+import { MediaRequest } from '../../../models/postData/postRequest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Uploadimages {
   token = localStorage.getItem('USER_TOKEN');
-  constructor(private images: UploadImage, private http: HttpClient) { }
-  saveImages(): Observable<ApiResponse<MediaResponse>> {
+  constructor(private http: HttpClient) { }
+  saveImages(files: File[]): Observable<ApiResponse<MediaResponse>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`
     })
+
+     const formData = new FormData()
+    files.forEach((file) => {
+      formData.append('files', file);
+    });
     return this.http.post<ApiResponse<MediaResponse>>(
       `${environment.uploads.Uploadimages}`,
-      this.images,
+      formData,
       { headers }
     );
   }
