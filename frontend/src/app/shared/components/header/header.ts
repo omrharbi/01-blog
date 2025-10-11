@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from '../../../core/service/auth-service';
+import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { ThemeService } from '../../../modules/services/theme-service';
 import { Materaile } from '../../../modules/materaile-module';
 

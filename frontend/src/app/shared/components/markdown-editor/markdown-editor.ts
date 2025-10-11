@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
-import { UploadImage } from '../../../core/service/preview/upload-images/upload-image';
-@Component({
+import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
+ @Component({
   selector: 'app-markdown-editor',
   imports: [Materaile],
   templateUrl: './markdown-editor.html',

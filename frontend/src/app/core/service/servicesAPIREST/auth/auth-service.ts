@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegisterRequest } from '../models/authentication/authRequest-module';
-import { environment, LocalstorageKey } from '../constant/constante';
-import { ApiResponse, UserResponse } from '../models/authentication/autResponse-module';
+import { RegisterRequest } from '../../../models/authentication/authRequest-module';
+import { environment, LocalstorageKey } from '../../../constant/constante';
+import { ApiResponse, UserResponse } from '../../../models/authentication/autResponse-module';
 import { map } from 'rxjs';
-import { Login } from '../../features/auth/login/login';
-
+import { Login } from '../../../../features/auth/login/login';
+ 
 
 @Injectable({
   providedIn: 'root',

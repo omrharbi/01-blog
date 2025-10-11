@@ -15,7 +15,7 @@ export const environment = {
     },
     getpost: {
         posts: apiUrl + "api/posts/getallPost",
-        postByID: apiUrl + "api/posts/getPostById/{id}"
+        postByID: apiUrl + "api/posts/getPostById/"
     }
 }
 export const LocalstorageKey = {

@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PostRequest } from '../../models/postData/postRequest';
-import { environment } from '../../constant/constante';
-import { ApiResponse } from '../../models/postData/postResponse';
-import { PostResponse } from '../../models/postData/postResponse';
+import { PostRequest } from '../../../models/postData/postRequest';
+import { environment } from '../../../constant/constante';
+import { ApiResponse, PostResponse } from '../../../models/postData/postResponse';
+// import { PostResponse } from '../../../models/postData/postResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -35,12 +35,13 @@ export class PostService {
     });
   }
 
-  getpostByID(): Observable<ApiResponse<PostResponse>> {
+  getpostByID(id: number): Observable<ApiResponse<PostResponse>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponse<PostResponse>>(`${environment.getpost.postByID}`, {
+    const url = `${environment.getpost.postByID}${id}`
+    return this.http.get<ApiResponse<PostResponse>>(url, {
       headers
     });
   }

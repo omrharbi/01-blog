@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PostResponse } from '../../../models/postData/postResponse';
 import { MediaRequest } from '../../../models/postData/postRequest';
-
+ 
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +11,7 @@ export class UploadImage {
   uploadMessage = '';
   medias: MediaRequest[] = [];
   currentDisplayOrder = 0;
-  // constructor(private postResponse: PostResponse) { }
-
+ 
   onImageSelected(event: Event, callback: (imgHTML: string) => void) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -46,7 +44,7 @@ export class UploadImage {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-       const imgHTML = `<img src="${reader.result}" class="imageMa">`;
+      const imgHTML = `<img src="${reader.result}" class="imageMa">`;
       callback(imgHTML);
     };
     reader.readAsDataURL(file); // read file as base64

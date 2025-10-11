@@ -4,7 +4,7 @@
             <!-- Back Button -->
             <div class="col-12">
                 <a class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center px-3 py-2 transition-smooth hover-bg-accent hover-text-foreground"
-                     [routerLink]="['/']">
+                    [routerLink]="['/']">
                     <i class="material-icons me-2" style="font-size: 16px;">arrow_back</i>
                     Back to Feed
                 </a>
@@ -15,8 +15,8 @@
                 <div class="row g-4">
                     <!-- Hero Image -->
                     <div class="col-12">
-                        <div class="aspect-video rounded overflow-hidden">
-                            <img src="assets/hero-writing-B1IswKin.png"
+                        <div *ngIf="post.medias && post.medias.length > 0"  class="aspect-video rounded overflow-hidden">
+                            <img [src]="post.medias[0].filePath" [alt]="post.medias[0].filename"
                                 alt="Building My First React Native App: Lessons Learned"
                                 class="w-100 h-100 object-fit-cover">
                         </div>
@@ -26,8 +26,8 @@
                         <div class="row g-3">
                             <!-- Title -->
                             <div class="col-12">
-                                <h1 class="display-4 fw-bold font-playfair lh-sm font-playfair  text-header ">Building
-                                    My First React Native App: Lessons Learned</h1>
+                                <span class="display-4 fw-bold font-playfair lh-sm font-playfair  text-header ">
+                                    {{post.title}}</span>
                             </div>
 
                             <!-- Author Info and Actions -->
@@ -102,64 +102,7 @@
                     <!-- Article Content -->
                     <div class="col-12">
                         <div class="fs-5 lh-lg">
-                            <p class="mb-3 text-foreground">After spending two months learning React Native, I want to
-                                share the key insights and challenges I faced while building my first mobile
-                                application.</p>
-                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">The Challenge</h2>
-                            <p class="mb-3 text-foreground">When I started this journey, I had solid experience with
-                                React for web development, but mobile development was entirely new territory. I decided
-                                to build a simple task management app to learn the fundamentals.</p>
-
-                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">What I Learned</h2>
-
-                            <h3 class="fs-4 fw-semibold font-playfair mt-4 mb-3">1. Navigation is Different</h3>
-                            <p class="mb-3 text-foreground">Coming from React Router, React Navigation felt foreign at
-                                first. The stack-based navigation model took some getting used to, but once I understood
-                                the concept, it became much more intuitive.</p>
-
-                            <h3 class="fs-4 fw-semibold font-playfair mt-4 mb-3">2. Platform Differences Matter</h3>
-                            <p class="mb-3 text-foreground">What works on iOS doesn't always work the same way on
-                                Android. I learned to use Platform.OS checks and platform-specific code when necessary.
-                            </p>
-
-                            <h3 class="fs-4 fw-semibold font-playfair mt-4 mb-3">3. Performance Considerations</h3>
-                            <p class="mb-3 text-foreground">Mobile apps have different performance constraints than web
-                                apps. I had to learn about:</p>
-                            <ul class="mb-3">
-                                <li>Image optimization</li>
-                                <li>Memory management</li>
-                                <li>Battery usage optimization</li>
-                            </ul>
-
-                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">The Tech Stack</h2>
-                            <ul class="mb-3">
-                                <li>React Native 0.72</li>
-                                <li>TypeScript for type safety</li>
-                                <li>React Navigation for routing</li>
-                                <li>AsyncStorage for local data</li>
-                                <li>React Query for server state</li>
-                            </ul>
-
-                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">Challenges I Faced</h2>
-                            <p class="mb-3 text-foreground">The biggest challenge was understanding the mobile
-                                development mindset. Things like app lifecycle, background processing, and native module
-                                integration required a completely different approach than web development.</p>
-
-                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">Key Takeaways</h2>
-                            <p class="mb-3 text-foreground">1. Start with the basics - don't jump into complex features
-                                immediately<br>
-                                2. Use TypeScript from the beginning<br>
-                                3. Test on both platforms frequently<br>
-                                4. Read the documentation thoroughly<br>
-                                5. Join the React Native community - they're incredibly helpful</p>
-
-                            <h2 class="fs-2 fw-bold font-playfair mt-5 mb-3">What's Next?</h2>
-                            <p class="mb-3 text-foreground">I'm now working on adding push notifications and exploring
-                                native modules. The learning curve was steep, but React Native has opened up a whole new
-                                world of possibilities for me as a developer.</p>
-
-                            <p class="mb-3 text-foreground">Would love to hear about your React Native experiences in
-                                the comments!</p>
+                            <div [innerHTML]="post.htmlContent"></div>
                         </div>
                     </div>
                 </div>

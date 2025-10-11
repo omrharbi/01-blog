@@ -20,6 +20,7 @@ export const routes: Routes = [
       { path: 'create', component: CreatePost },
       { path: 'posts', component: PostList },
       { path: 'preview', component: Preview },
+      { path: 'post/:id', component: PostList },
       // other protected pages
     ], // default path now points to home
   },

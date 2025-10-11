@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { PostResponse } from '../../models/postData/postResponse';
-
+ 
 @Injectable({
   providedIn: 'root'
 })

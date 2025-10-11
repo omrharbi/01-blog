@@ -11,11 +11,11 @@ import { Materaile } from '../../../modules/materaile-module';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
-import { UploadImage } from '../../../core/service/preview/upload-images/upload-image';
 import { PostRequest } from '../../../core/models/postData/postRequest';
-import { PostService } from '../../../core/service/create-posts/post-service';
+import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { Router } from '@angular/router';
-import { SharedServicePost } from '../../../core/service/shared-service/shared-service-post';
+import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
+import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 
 @Component({
   selector: 'app-create-post',
@@ -76,7 +76,7 @@ export class CreatePost {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.error("error to save post",error);
+        console.error("error to save post", error);
       }
     })
   }
