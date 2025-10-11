@@ -4,9 +4,9 @@ export interface PostResponse {
   content: string,
   htmlContent?: string
   excerpt?: string,
-  medias?: MediaRequest[]
+  medias?: MediaResponse[]
 }
-export interface MediaRequest {
+export interface MediaResponse {
   filePath?: string;
   displayOrder?: number;
   filename: string;

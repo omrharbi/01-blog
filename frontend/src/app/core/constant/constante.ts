@@ -1,3 +1,4 @@
+
 const apiUrl = "http://localhost:9090/";
 export const environment = {
     auth: {
@@ -17,7 +18,13 @@ export const environment = {
         posts: apiUrl + "api/posts/getallPost",
         postByID: apiUrl + "api/posts/getPostById/"
     }
+    ,
+    uploads: {
+        Uploadimages: apiUrl + "api/upload",
+        // postByID: apiUrl + "api/posts/getPostById/"
+    }
 }
+
 export const LocalstorageKey = {
     token: "USER_TOKEN",
 }

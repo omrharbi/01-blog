@@ -16,6 +16,7 @@ import { PostService } from '../../../core/service/servicesAPIREST/create-posts/
 import { Router } from '@angular/router';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
+import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 
 @Component({
   selector: 'app-create-post',
@@ -26,7 +27,7 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
 export class CreatePost {
   constructor(private router: Router,
     private sharedServicePost: SharedServicePost,
-    private uploadImage: UploadImage, private postService: PostService) { }
+    private uploadImage: UploadImage, private postService: PostService,private images:Uploadimages) { }
   previewMode = false;
   content: string = '';
   title: string = '';
@@ -70,6 +71,7 @@ export class CreatePost {
       htmlContent: contenHtml,
       medias: this.uploadImage.upload()
     };
+    this.images.saveImages();
     this.postService.createPosts(postRequest).subscribe({
       next: (response) => {
         this.sharedServicePost.setNewPost(response.data)

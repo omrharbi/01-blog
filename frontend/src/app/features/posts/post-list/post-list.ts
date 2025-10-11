@@ -3,6 +3,7 @@ import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { ActivatedRoute, Route } from '@angular/router';
 import { PostResponse } from '../../../core/models/postData/postResponse';
+import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 
 @Component({
   selector: 'app-post-list',
@@ -11,7 +12,7 @@ import { PostResponse } from '../../../core/models/postData/postResponse';
   styleUrl: './post-list.scss'
 })
 export class PostList {
-  constructor(private postSerivce: PostService, private route: ActivatedRoute) { }
+  constructor( private postSerivce: PostService, private route: ActivatedRoute) { }
   post: PostResponse = {
     _id: 0,
     title: "",
@@ -23,14 +24,14 @@ export class PostList {
   loading: boolean = true;
   error: string = '';
   ngOnInit() {
-    this.route.params.subscribe(params => {
+     this.route.params.subscribe(params => {
       const id = params["id"];
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
           this.post = response.data;
           let htmlContent = this.replaceImage(this.post.htmlContent ?? "");
           this.post.htmlContent = htmlContent;
-          console.log(htmlContent, "*********** post");
+          // console.log(htmlContent, "*********** post");
         },
         error: (error) => {
           console.log("error to get post", error);
