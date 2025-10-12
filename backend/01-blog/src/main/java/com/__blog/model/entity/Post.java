@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,15 +35,15 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false,name="title")
+    @Column(nullable = false, name = "title")
     private String title;
 
-    @Column(columnDefinition = "TEXT",name="excerpt")
+    @Column(columnDefinition = "TEXT", name = "excerpt")
     private String excerpt; // Raw markdown content
 
-    @Column(columnDefinition = "TEXT",name="content")
+    @Column(columnDefinition = "TEXT", name = "content")
     private String content; // Raw markdown content
-    @Column(columnDefinition = "TEXT",name="html_content")
+    @Column(columnDefinition = "TEXT", name = "html_content")
     private String htmlContent; // Converted HTML content
 
     @Column(name = "created_at")
@@ -74,9 +73,30 @@ public class Post {
     @OneToMany(mappedBy = "post_likes", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
-    // @OneToMany(mappedBy = "post_medias", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     @OrderBy("displayOrder ASC")
     private List<Media> medias = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<tags> tags = new ArrayList<>();
 
+    public void addMedia(Media media) {
+        medias.add(media);
+        media.setPost(this);
+    }
+
+    public void removeMedia(Media media) {
+        medias.remove(media);
+        media.setPost(null);
+    }
+
+    public void addTag(tags tag) {
+        tags.add(tag);
+        tag.setPost(this);
+    }
+
+    public void removeTag(tags tag) {
+        tags.remove(tag);
+        tag.setPost(null);
+    }
 }

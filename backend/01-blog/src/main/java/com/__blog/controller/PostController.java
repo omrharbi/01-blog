@@ -29,11 +29,9 @@ public class PostController {
 
     @Autowired
     private PostService postservice;
-
-    // private final UserRepository userRepository;
+ 
     @PostMapping("/create")
     public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest postRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-
         ApiResponse<PostResponse> post = postservice.createPost(postRequest, userPrincipal);
         return ResponseEntity.ok(post);
     }
