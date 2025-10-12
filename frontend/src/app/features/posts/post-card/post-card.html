@@ -1,14 +1,12 @@
- 
-
 <div class="mb-4 bg-card">
     <!-- Post 1 -->
     <div class="card border rounded-3 shadow-sm mb-4 group transition-smooth hover-shadow-elegant bg-card">
         <div class="card-body p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <div class="d-flex align-items-center gap-3">
-                    <img src="/placeholder.svg" class="rounded-circle" width="40" height="40" alt="Avatar">
+                    <img src="assets/potm2209a.jpg" class="rounded-circle" width="40" height="40" alt="Avatar">
                     <div>
-                        <a class="fw-medium text-decoration-none " href="/profile/sarah_codes">Sarah Chen</a>
+                        <a class="fw-medium text-decoration-none " href="/profile/sarah_codes">{{post.firstname }} {{post.lastname}}</a>
                         <div class="small text-muted">2 days ago · 5 min read</div>
                     </div>
                 </div>
@@ -23,14 +21,18 @@
 
             <div class="row g-4">
                 <div class="col-md-8 order-2 order-md-1">
-                    <a class="text-decoration-none"   routerLink="/post/{{post.id}}">
+                    <a class="text-decoration-none" routerLink="/post/{{post.id}}">
                         <h2 class="fs-5 fw-bold font-playfair mb-2 line-clamp-2 text-dark">{{post.title}}</h2>
-                        <p class="text-muted mb-3 line-clamp-3"  [innerHTML]="post.content"></p>
+                        <p class="text-muted mb-3 line-clamp-3" [innerHTML]="post.content"></p>
                     </a>
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge  border rounded-pill">React Native</span>
-                        <span class="badge  border rounded-pill">Mobile Development</span>
-                        <span class="badge  border rounded-pill">Beginner</span>
+                        <ng-container *ngIf="post.tags && post.tags.length>0">
+
+                            <span *ngFor="let tag of post.tags" class="badge border rounded-pill me-2 mb-2">
+                                {{tag.tag}}
+                            </span>
+                            <!-- <span class="badge  border rounded-pill">React Native</span> -->
+                        </ng-container>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -72,10 +74,11 @@
                     </div>
                 </div>
                 <div class="col-md-4 order-1 order-md-2">
-                    
+
                     <a routerLink="/post/{{post.id}}">
                         <div class="aspect-video aspect-md-square rounded-3 overflow-hidden bg-light">
-                             <img  [src]="apiUrl+post.medias[0].filePath"  alt="Building My First React Native App: Lessons Learned"
+                            <img [src]="apiUrl+post.medias[0].filePath"
+                                alt="Building My First React Native App: Lessons Learned"
                                 class="w-100 h-100 object-fit-cover hover-scale">
                         </div>
                     </a>
@@ -84,5 +87,3 @@
         </div>
     </div>
 </div>
-
- 

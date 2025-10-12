@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MediaResponse {
 
-    private int Id;
+    private Integer id;
     private String filename;
     private String filePath;
     private String fileType;

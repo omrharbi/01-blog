@@ -12,10 +12,16 @@ import com.__blog.model.entity.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
+
     @Query("SELECT p FROM Post p LEFT JOIN FETCH p.medias WHERE p.id = :postId")
     Optional<Post> findByIdWithMedias(@Param("postId") int id);
 
-    @Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.medias ORDER BY p.createdAt DESC")
+    @Query("SELECT DISTINCT p FROM Post p "
+            + "LEFT JOIN FETCH p.medias "
+            + "LEFT JOIN FETCH p.tags "
+            + "LEFT JOIN FETCH p.user_posts "
+            + // Add this line
+            "ORDER BY p.createdAt DESC")
     List<Post> findAllWithMedias();
 
 }

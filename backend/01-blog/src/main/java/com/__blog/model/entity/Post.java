@@ -1,12 +1,13 @@
 package com.__blog.model.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -63,22 +64,23 @@ public class Post {
         updatedAt = LocalDateTime.now();
     }
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user_posts;
 
     @OneToMany(mappedBy = "post_comments", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "post_likes", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+    private Set<Like> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     // @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     @OrderBy("displayOrder ASC")
-    private List<Media> medias = new ArrayList<>();
+    private Set<Media> medias = new HashSet<>();
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tags> tags = new ArrayList<>();
+    private Set<Tags> tags = new HashSet<>();
 
     public void addMedia(Media media) {
         medias.add(media);

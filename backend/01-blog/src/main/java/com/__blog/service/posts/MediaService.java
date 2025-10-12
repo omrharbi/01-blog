@@ -12,6 +12,7 @@ public class MediaService {
 
     protected MediaResponse convertToPostResponse(Media media) {
         MediaResponse response = MediaResponse.builder()
+                .id(media.getId())
                 .filename(media.getFilename())
                 .displayOrder(media.getDisplayOrder())
                 .filePath(media.getFilePath())

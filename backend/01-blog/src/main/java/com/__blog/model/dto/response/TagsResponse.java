@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TagsResponse {
 
-    private Integer id;
+   private Integer id;
     private String tag;
 }

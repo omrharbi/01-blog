@@ -11,6 +11,7 @@ import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.MediaResponse;
 import com.__blog.model.dto.response.PostResponse;
+import com.__blog.model.dto.response.TagsResponse;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
@@ -43,11 +44,13 @@ public class PostService {
 
         if ((postRequest.getTags() != null && !postRequest.getTags().isEmpty())) {
             postRequest.getTags().forEach(tagName -> {
-                var tag = convertToTagsResponse(tagName);
+                var tag = convertToTagsEntity(tagName);
                 post.addTag(tag);
             });
         }
         Post savedPost = postRepository.save(post);
+        // Hibernate.initialize(savedPost.getMedias());
+        // Hibernate.initialize(savedPost.getTags());
         PostResponse postResponse = convertToPostResponse(savedPost);
         return ApiResponse.<PostResponse>builder()
                 .status(true)
@@ -89,11 +92,20 @@ public class PostService {
             var mediaDTO = mediaService.convertToPostResponse(media);
             mediaResponses.add(mediaDTO);
         }
+
+        List<TagsResponse> tags = new ArrayList<>();
+        for (var tag : post.getTags()) {
+            var tagDTO = convertToTagsResponse(tag);
+            tags.add(tagDTO);
+        }
         PostResponse response = PostResponse.builder().title(post.getTitle()).id(post.getId())
                 .content(post.getContent())
                 .excerpt(post.getExcerpt())
                 .htmlContent(post.getHtmlContent())
                 .medias(mediaResponses)
+                .tags(tags)
+                .firstname(post.getUser_posts().getFirstname())
+                .lastname(post.getUser_posts().getLastname())
                 .build();
 
         return response;
@@ -109,10 +121,14 @@ public class PostService {
         return post;
     }
 
-    private Tags convertToTagsResponse(TagsRequest tag) {
+    private Tags convertToTagsEntity(TagsRequest tag) {
         Tags tags = new Tags();
         tags.setTags(tag.getTag());
         return tags;
+    }
 
+    private TagsResponse convertToTagsResponse(Tags tag) {
+        TagsResponse tags = TagsResponse.builder().id(tag.getId()).tag(tag.getTags()).build();
+        return tags;
     }
 }
