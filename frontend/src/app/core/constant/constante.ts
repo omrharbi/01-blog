@@ -1,5 +1,5 @@
 
-const apiUrl = "http://localhost:9090/";
+export const apiUrl = "http://localhost:9090/";
 export const environment = {
     auth: {
         login: apiUrl + "auth/login",

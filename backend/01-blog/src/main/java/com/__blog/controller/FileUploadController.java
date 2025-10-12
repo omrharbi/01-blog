@@ -53,7 +53,7 @@ public class FileUploadController {
 
             Map<String, String> fileResponse = new HashMap<>();
             fileResponse.put("filename", uniqueName);
-             fileResponse.put("filePath", "http://localhost:9090/uploads/" + uniqueName);
+            fileResponse.put("filePath", "http://localhost:9090/uploads/" + uniqueName);
             fileResponse.put("filetype", file.getContentType());
             fileResponse.put("filesize", String.valueOf(file.getSize()));
 
