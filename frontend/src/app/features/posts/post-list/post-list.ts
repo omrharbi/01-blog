@@ -4,6 +4,7 @@ import { PostService } from '../../../core/service/servicesAPIREST/create-posts/
 import { ActivatedRoute,   } from '@angular/router';
 import { PostResponse } from '../../../core/models/postData/postResponse';
  import { apiUrl } from '../../../core/constant/constante';
+import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 
 @Component({
   selector: 'app-post-list',
@@ -12,7 +13,7 @@ import { PostResponse } from '../../../core/models/postData/postResponse';
   styleUrl: './post-list.scss'
 })
 export class PostList {
-  constructor(private postSerivce: PostService, private route: ActivatedRoute) { }
+  constructor(private postSerivce: PostService,private preview: PreviewService, private route: ActivatedRoute) { }
   apiUrl = apiUrl
   post: PostResponse = {
     _id: 0,
@@ -31,7 +32,7 @@ export class PostList {
         next: (response) => {
           this.post = response.data;
           let htmlContent = this.replaceImage(this.post.htmlContent ?? "");
-          this.post.htmlContent = htmlContent;
+          this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
         },
         error: (error) => {
           console.log("error to get post", error);
