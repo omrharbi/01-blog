@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,   } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute,   } from '@angular/router';
 import { PostResponse } from '../../../core/models/postData/postResponse';
-import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
-import { apiUrl } from '../../../core/constant/constante';
+ import { apiUrl } from '../../../core/constant/constante';
 
 @Component({
   selector: 'app-post-list',
@@ -32,7 +31,6 @@ export class PostList {
         next: (response) => {
           this.post = response.data;
           let htmlContent = this.replaceImage(this.post.htmlContent ?? "");
-          // console.log("media ******", htmlContent);
           this.post.htmlContent = htmlContent;
         },
         error: (error) => {

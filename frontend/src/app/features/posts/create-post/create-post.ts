@@ -76,7 +76,7 @@ export class CreatePost {
 
         if (Array.isArray(response)) {
           response.forEach((fileResponse, index) => {
-            uploadedMedias[index].filePath = fileResponse.filename;
+            uploadedMedias[index].filePath = fileResponse.filePath;
             uploadedMedias[index].filename = fileResponse.filename
             console.log(`File ${index}:`, fileResponse.filename, fileResponse.filePath);
           });

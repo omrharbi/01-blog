@@ -10,7 +10,6 @@ export class PreviewService {
   }
 
   getPreviewHtml(): string {
-    
     return this.previewHtml;
   }
 }
