@@ -29,9 +29,11 @@ public class Tags {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "tags",nullable = false)
+    @Column(name = "tags", nullable = false)
     private String tags;
 
     @Column(name = "created_at")

@@ -2,8 +2,6 @@ package com.__blog.model.dto.request;
 
 import java.util.List;
 
-import com.__blog.model.entity.Tags;
- 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -22,5 +20,5 @@ public class PostRequest {
     private String htmlContent;
     private String excerpt;
     private List<MediaRequest> medias;
-    private List<Tags> tags;
+    private List<TagsRequest> tags;
 }

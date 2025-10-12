@@ -78,7 +78,7 @@ public class Post {
     @OrderBy("displayOrder ASC")
     private List<Media> medias = new ArrayList<>();
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<tags> tags = new ArrayList<>();
+    private List<Tags> tags = new ArrayList<>();
 
     public void addMedia(Media media) {
         medias.add(media);
@@ -90,12 +90,12 @@ public class Post {
         media.setPost(null);
     }
 
-    public void addTag(tags tag) {
+    public void addTag(Tags tag) {
         tags.add(tag);
         tag.setPost(this);
     }
 
-    public void removeTag(tags tag) {
+    public void removeTag(Tags tag) {
         tags.remove(tag);
         tag.setPost(null);
     }

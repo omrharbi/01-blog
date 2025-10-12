@@ -11,11 +11,9 @@ import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.MediaResponse;
 import com.__blog.model.dto.response.PostResponse;
-import com.__blog.model.dto.response.TagsResponse;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
-import com.__blog.model.entity.tags;
 import com.__blog.repository.PostRepository;
 import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
@@ -44,10 +42,10 @@ public class PostService {
         }
 
         if ((postRequest.getTags() != null && !postRequest.getTags().isEmpty())) {
-            // postRequest.getTags().forEach(tagName -> {
-            var tag = convertToTagsResponse(postRequest.getTags());
-            //     post.addTag(tag);
-            // });
+            postRequest.getTags().forEach(tagName -> {
+                var tag = convertToTagsResponse(tagName);
+                post.addTag(tag);
+            });
         }
         Post savedPost = postRepository.save(post);
         PostResponse postResponse = convertToPostResponse(savedPost);
@@ -111,9 +109,10 @@ public class PostService {
         return post;
     }
 
-    private TagsResponse convertToTagsResponse(Tags tags) {
-        TagsResponse t = TagsResponse.builder().tag(tags.getTags()).build();
-        return t;
+    private Tags convertToTagsResponse(TagsRequest tag) {
+        Tags tags = new Tags();
+        tags.setTags(tag.getTag());
+        return tags;
 
     }
 }

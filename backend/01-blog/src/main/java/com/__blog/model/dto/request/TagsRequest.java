@@ -1,5 +1,6 @@
 package com.__blog.model.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TagsRequest {
 
-    private Integer id;
+    @NotBlank(message = "Tags is required")
     private String tag;
 }
