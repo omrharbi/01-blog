@@ -1,0 +1,131 @@
+ /* Text gradient */
+ .text-gradient {
+     background: var(--shadow-card-grad);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+ }
+
+ /* Heart icon */
+ .heart-icon {
+     color: var(--brand-accent);
+     fill: currentColor;
+ }
+
+ /* Stats cards */
+ .stats-card {
+     border: 1px solid var(--input-border);
+     background-color: var(--card-color);
+     box-shadow: var(--shadow-card);
+     transition: all 0.3s ease;
+ }
+
+ .stats-card:hover {
+     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+     transform: translateY(-2px);
+ }
+
+ .stats-number {
+     font-size: 1.75rem;
+     font-weight: 700;
+ }
+
+ /* Post cards */
+ .post-card {
+     border: 1px solid var(--input-border);
+     background-color: var(--card-color);
+     box-shadow: var(--shadow-card);
+     transition: all 0.3s ease;
+     position: relative;
+     overflow: hidden;
+ }
+
+ .post-card:hover {
+     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+     border-color: var(--border);
+ }
+
+ .post-card:hover .post-actions {
+     opacity: 1 !important;
+ }
+
+ .post-title {
+     color: var(--foreground-color);
+     transition: color 0.3s ease;
+ }
+
+ .post-title:hover {
+     color: var(--brand-primary);
+ }
+
+ .post-image img {
+     transition: transform 0.5s ease;
+ }
+
+ .post-card:hover .post-image img {
+     transform: scale(1.05);
+ }
+
+ /* Avatar */
+ .avatar {
+     width: 40px;
+     height: 40px;
+     flex-shrink: 0;
+ }
+
+ /* Liked badge */
+ .liked-badge {
+     position: absolute;
+     top: 1rem;
+     right: 1rem;
+     background-color: var(--accent-bg);
+     color: var(--brand-accent);
+     padding: 0.25rem 0.5rem;
+     border-radius: 50px;
+     font-size: 0.75rem;
+     font-weight: 500;
+ }
+
+ /* Badges */
+ .badge {
+     transition: all 0.3s ease;
+     cursor: pointer;
+ }
+
+ .badge:hover {
+     background-color: var(--muted-foreground) !important;
+     color: var(--card-color) !important;
+ }
+
+ /* Buttons */
+ .btn-outline-secondary {
+     border-color: var(--input-border);
+     color: var(--text-muted);
+ }
+
+ .btn-outline-secondary:hover {
+     background-color: var(--primary-bg);
+     color: var(--foreground-color);
+ }
+
+ .btn-outline-primary {
+     border-color: var(--brand-primary);
+     color: var(--brand-primary);
+ }
+
+ .btn-outline-primary:hover {
+     background-color: var(--brand-primary);
+     color: var(--primary-foreground);
+ }
+
+ /* Cards */
+ .card {
+     border: 1px solid var(--input-border);
+     background-color: var(--card-color);
+     box-shadow: var(--shadow-card);
+ }
+
+ /* Text colors */
+ .text-accent {
+     color: var(--brand-accent) !important
+ }

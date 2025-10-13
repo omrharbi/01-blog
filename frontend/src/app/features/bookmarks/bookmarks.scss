@@ -1,0 +1,202 @@
+       /* Text Gradient */
+       .text-gradient {
+           background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           background-clip: text;
+       }
+
+       /* Card Styles */
+       .custom-card {
+           background-color: var(--card-color);
+           color: var(--card-foreground);
+           box-shadow: var(--shadow-card);
+           border: 1px solid var(--border);
+           border-radius: 12px;
+           transition: all 0.3s ease;
+       }
+
+       .custom-card:hover {
+           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+           border-color: rgba(var(--border), 0.6);
+       }
+
+       /* Badge Styles */
+       .custom-badge {
+           border-radius: 50px;
+           font-size: 0.75rem;
+           padding: 0.25rem 0.75rem;
+           border: 1px solid var(--border);
+           transition: all 0.3s ease;
+       }
+
+       .custom-badge:hover {
+           background-color: var(--accent-bg);
+       }
+
+       .collection-badge {
+           background-color: rgba(var(--text-secondary), 0.1);
+           color: var(--text-secondary);
+           border: none;
+       }
+
+       .saved-badge {
+           background-color: rgba(var(--brand-primary), 0.1);
+           color: var(--brand-primary);
+           border: none;
+           font-size: 0.7rem;
+       }
+
+       /* Button Styles */
+       .btn-custom {
+           border: 1px solid var(--border);
+           background-color: var(--card-color);
+           color: var(--foreground-color);
+           transition: all 0.3s ease;
+       }
+
+       .btn-custom:hover {
+           background-color: var(--accent-bg);
+           border-color: var(--accent);
+       }
+
+       .btn-active {
+           background-color: var(--brand-primary);
+           color: white;
+           border-color: var(--brand-primary);
+       }
+
+       .btn-view-toggle {
+           border-radius: 0;
+       }
+
+       .btn-view-toggle:first-child {
+           border-top-left-radius: 6px;
+           border-bottom-left-radius: 6px;
+       }
+
+       .btn-view-toggle:last-child {
+           border-top-right-radius: 6px;
+           border-bottom-right-radius: 6px;
+       }
+
+       /* Text Colors */
+       .text-muted-custom {
+           color: var(--text-muted) !important;
+       }
+
+       .text-secondary-custom {
+           color: var(--text-secondary) !important;
+       }
+
+       /* Line Clamp Utility */
+       .line-clamp-2 {
+           display: -webkit-box;
+           -webkit-line-clamp: 2;
+           -webkit-box-orient: vertical;
+           overflow: hidden;
+       }
+
+       .line-clamp-3 {
+           display: -webkit-box;
+           -webkit-line-clamp: 3;
+           -webkit-box-orient: vertical;
+           overflow: hidden;
+       }
+
+       /* Font Classes */
+       .font-playfair {
+           font-family: 'Playfair Display', serif;
+       }
+
+       /* Avatar Styles */
+       .avatar {
+           width: 40px;
+           height: 40px;
+           border-radius: 50%;
+           object-fit: cover;
+           flex-shrink: 0;
+       }
+
+       /* Search Input */
+       .search-input {
+           padding-left: 2.5rem;
+           background-color: var(--card-color);
+           border: 1px solid var(--border);
+           color: var(--foreground-color);
+       }
+
+       .search-input:focus {
+           border-color: var(--brand-primary);
+           box-shadow: 0 0 0 0.2rem rgba(var(--brand-primary), 0.25);
+       }
+
+       .search-icon {
+           position: absolute;
+           left: 1rem;
+           top: 50%;
+           transform: translateY(-50%);
+           color: var(--text-muted);
+       }
+
+       /* Collection Item */
+       .collection-item {
+           padding: 0.5rem;
+           border-radius: 6px;
+           transition: all 0.3s ease;
+           cursor: pointer;
+       }
+
+       .collection-item:hover {
+           background-color: var(--accent-bg);
+           color: var(--foreground-color);
+       }
+
+       .collection-item.active {
+           background-color: var(--brand-primary);
+           color: white;
+       }
+
+       /* Image Hover Effect */
+       .img-hover {
+           transition: transform 0.5s ease;
+       }
+
+       .img-hover:hover {
+           transform: scale(1.05);
+       }
+
+       /* Action Buttons */
+       .action-btn {
+           opacity: 0;
+           transition: all 0.3s ease;
+       }
+
+       .custom-card:hover .action-btn {
+           opacity: 1;
+       }
+
+       /* Main Content Area */
+       .main-content {
+           flex: 1;
+           max-width: 56rem;
+           margin: 0 auto;
+           width: 100%;
+       }
+
+       /* Stats Colors */
+       .text-primary {
+           color: var(--brand-primary) !important;
+       }
+
+       .text-accent {
+           color: var(--brand-accent) !important;
+       }
+
+       .text-green-600 {
+           color: #16a34a !important;
+       }
+
+       .text-blue-600 {
+           color: #2563eb !important;
+       }

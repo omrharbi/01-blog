@@ -32,7 +32,7 @@ export class AuthService {
     return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.login}`, login).pipe(
       map((response) => {
         if (response.status && response.token) {
-          this.storeTokens(response);
+          localStorage.setItem(LocalstorageKey.token, response.token);
           this.isAuthenticatedSubject.next(true);
 
         }
@@ -65,7 +65,7 @@ export class AuthService {
     this.isAuthenticatedSubject.next(true);
   }
   private storeTokens(response: any): void {
-    localStorage.setItem(LocalstorageKey.token, response.accessToken);
+    
   }
   logout() {
     localStorage.removeItem(LocalstorageKey.token);

@@ -1,29 +1,4 @@
-  /* @import url('https:cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'); */
-  * {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
-      box-shadow 0.3s ease;
-    border-color: hsl(var(--border));
-  }
-
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-    margin: 0;
-    /* overflow: scroll; */
-    padding: 0;
-    border-color: hsl(var(--border));
-  }
-
-  html {
-    -webkit-font-smoothing: antialiased;
-    /* Chrome/Safari */
-    -moz-osx-font-smoothing: grayscale;
-    /* Firefox */
-    -webkit-text-size-adjust: 100%;
-    /* Prevent font scaling in Chrome/Safari */
-  }
-
+  
   /* Light theme defaults */
   :root {
     /* Light theme colors */
@@ -67,7 +42,79 @@
     --foreground: hsl(0, 0%, 100%);
     --muted-foreground: hsl(0, 0%, 70%);
   }
+ /* Dark mode overrides */
+  body.dark {
+    --background-color: #141414;
+    --foreground-color: hsl(0, 0%, 96%);
+    --text-primary: hsl(0, 0%, 96%) !important;
+    --text-secondary: hsl(0, 0%, 71%);
+    --text-muted: hsl(0, 0%, 54%);
+    --brand-primary: hsl(142, 86%, 35%);
+    --brand-primary-hover: hsl(142, 86%, 40%);
+    --brand-accent: hsl(24, 95%, 60%);
+    --card-color: hsl(0, 0%, 11%);
+    --card-foreground: hsl(0, 0%, 96%);
+    --border: hsl(0, 0%, 25%);
+    --input-color: hsl(0, 0%, 16%);
+    --input-border: hsl(0, 0%, 35%);
+    --primary: hsl(142, 86%, 35%);
+    --primary-foreground: hsl(0, 0%, 100%);
+    --muted: #f5f5f5;
+    --muted-foreground: hsl(0, 0%, 54%);
+    --accent: hsl(24, 95%, 60%);
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+    --gradient-from: rgba(34, 197, 94, 0.12);
+    --gradient-via: rgba(168, 134, 44, 0.1);
+    --gradient-to: rgba(245, 124, 0, 0.12);
+    --icons: #f5f5f5;
+  }
 
+  body.custom.light {
+    --background-color: #484b6a;
+    --foreground-color: #484b6a;
+    --muted: hsl(0, 0%, 16%);
+    --text-secondary: #9394a5;
+    --input-color: #e4e5f1;
+    --border: #d2d3db;
+    --card-color: #e4e5f1;
+    --card-foreground: #484b6a;
+    --primary: #484b6a;
+    --primary-foreground: #fafafa;
+    --muted: #f5f5f5;
+    --shadow-card: 0 8px 20px rgba(72, 75, 107, 0.12);
+    --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+    --border: hsl(0, 0%, 80%);
+    background: linear-gradient(180deg, #fafafa, #e4e5f1);
+  }
+
+  /* @import url('https:cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'); */
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+      box-shadow 0.3s ease;
+    border-color: hsl(var(--border));
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    /* overflow: scroll; */
+    padding: 0;
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    /* Chrome/Safari */
+    -moz-osx-font-smoothing: grayscale;
+    /* Firefox */
+    -webkit-text-size-adjust: 100%;
+    /* Prevent font scaling in Chrome/Safari */
+  }
+
+  
 
   html,
   body {
@@ -120,55 +167,12 @@
     color: var(--primary-foreground);
   }
 
-  /* Dark mode overrides */
-  body.dark {
-    --background-color: #141414;
-    --foreground-color: hsl(0, 0%, 96%);
-    --text-primary: hsl(0, 0%, 96%) !important;
-    --text-secondary: hsl(0, 0%, 71%);
-    --text-muted: hsl(0, 0%, 54%);
-    --brand-primary: hsl(142, 86%, 35%);
-    --brand-primary-hover: hsl(142, 86%, 40%);
-    --brand-accent: hsl(24, 95%, 60%);
-    --card-color: hsl(0, 0%, 11%);
-    --card-foreground: hsl(0, 0%, 96%);
-    --border: hsl(0, 0%, 25%);
-    --input-color: hsl(0, 0%, 16%);
-    --input-border: hsl(0, 0%, 35%);
-    --primary: hsl(142, 86%, 35%);
-    --primary-foreground: hsl(0, 0%, 100%);
-    --muted: #f5f5f5;
-    --muted-foreground: hsl(0, 0%, 54%);
-    --accent: hsl(24, 95%, 60%);
-    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.3);
-    --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
-    --gradient-from: rgba(34, 197, 94, 0.12);
-    --gradient-via: rgba(168, 134, 44, 0.1);
-    --gradient-to: rgba(245, 124, 0, 0.12);
-    --icons: #f5f5f5;
-  }
+ 
 
 
   /* Custom light theme (previously body.light) */
   /* Custom light theme */
-  body.custom.light {
-    --background-color: #484b6a;
-    --foreground-color: #484b6a;
-    --muted: hsl(0, 0%, 16%);
-    --text-secondary: #9394a5;
-    --input-color: #e4e5f1;
-    --border: #d2d3db;
-    --card-color: #e4e5f1;
-    --card-foreground: #484b6a;
-    --primary: #484b6a;
-    --primary-foreground: #fafafa;
-    --muted: #f5f5f5;
-    --shadow-card: 0 8px 20px rgba(72, 75, 107, 0.12);
-    --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
-    --border: hsl(0, 0%, 80%);
-    background: linear-gradient(180deg, #fafafa, #e4e5f1);
-  }
-
+  
 
   /* Apply dark mode variables */
   body.dark {
