@@ -26,7 +26,7 @@ public class RefreshTokenController {
 
             return ResponseEntity.ok(token);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(e);
         }
     }
 }
