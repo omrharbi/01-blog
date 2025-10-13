@@ -4,7 +4,7 @@ export const environment = {
     auth: {
         login: apiUrl + "auth/login",
         register: apiUrl + "auth/register",
-        refreshToken: apiUrl + "auth/refresh-token",
+        refreshToken: apiUrl + "auth/refreshtoken",
     },
     user: {
         getMe: apiUrl + "users/me",
@@ -23,11 +23,7 @@ export const environment = {
         Uploadimages: apiUrl + "api/upload",
         // postByID: apiUrl + "api/posts/getPostById/"
     }
-    ,
-    refreshToken: {
-        refresh: apiUrl + "api/auth/refreshtoken",
-        // postByID: apiUrl + "api/posts/getPostById/"
-    }
+    
 }
 
 export const LocalstorageKey = {

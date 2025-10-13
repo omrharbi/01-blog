@@ -19,10 +19,7 @@ export class AuthService {
     return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.register}`, register).pipe(
       map((response) => {
         if (response.status && response.token) {
-          // router.navigate(['/login']);
-          localStorage.setItem(LocalstorageKey.token, response.token);
-          localStorage.setItem(LocalstorageKey.refreshTokenKey, response.refreshToken);
-
+          this.storeTokens(response);
           this.isAuthenticatedSubject.next(true);
           console.log(response);
         }
@@ -35,8 +32,7 @@ export class AuthService {
     return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.login}`, login).pipe(
       map((response) => {
         if (response.status && response.token) {
-          localStorage.setItem(LocalstorageKey.token, response.token);
-          localStorage.setItem(LocalstorageKey.refreshTokenKey, response.refreshToken);
+          this.storeTokens(response);
           this.isAuthenticatedSubject.next(true);
 
         }
@@ -53,7 +49,10 @@ export class AuthService {
     const refreshToken = localStorage.getItem(LocalstorageKey.refreshTokenKey);
     return this.http.post(`${environment.auth.refreshToken}`, { refreshToken });
   }
-
+  private storeTokens(response: any): void {
+    localStorage.setItem(LocalstorageKey.token, response.accessToken);
+    localStorage.setItem(LocalstorageKey.refreshTokenKey, response.refreshToken);
+  }
   logout() {
     localStorage.removeItem(LocalstorageKey.token);
     localStorage.removeItem(LocalstorageKey.refreshTokenKey);

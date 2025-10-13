@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.__blog.model.dto.response.auth.RefreshTokenResponse;
 import com.__blog.model.entity.RefreshToken;
 import com.__blog.model.entity.User;
 import com.__blog.repository.RefreshTokenRepository;
 import com.__blog.repository.UserRepository;
+import com.__blog.security.JwtTokenProvider;
 
 import jakarta.transaction.Transactional;
 
@@ -23,7 +25,8 @@ public class RefreshTokenService {
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
-
+    @Autowired
+    private   JwtTokenProvider jwtTokenProvider;
     @Autowired
     private UserRepository userRepository;
 
@@ -65,7 +68,7 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public String refreshAccessToken(String refreshToken) {
+    public RefreshTokenResponse refreshAccessToken(String refreshToken) {
         RefreshToken token = findByToken(refreshToken)
                 .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
 
@@ -73,7 +76,11 @@ public class RefreshTokenService {
 
         // Generate new access token
         User user = token.getUser();
+        String accessToken = jwtTokenProvider.generateToken(user.getUsername(), user.getRole().toString()) ;
+        RefreshToken newRefreshToken = createRefreshToken(user.getId());
+
+
         // Your token generation logic here
-        return "new-access-token";
+        return new RefreshTokenResponse(accessToken, newRefreshToken.getToken());
     }
 }
