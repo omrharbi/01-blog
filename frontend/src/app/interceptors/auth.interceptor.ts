@@ -82,7 +82,7 @@ export class AuthInterceptor implements HttpInterceptor {
           // Store new tokens
           localStorage.setItem(LocalstorageKey.token, response.accessToken);
           if (response.refreshToken) {
-            localStorage.setItem(LocalstorageKey.refreshToken, response.refreshToken);
+            localStorage.setItem(LocalstorageKey.refreshTokenKey, response.refreshToken);
           }
           
           this.refreshTokenSubject.next(response.accessToken);

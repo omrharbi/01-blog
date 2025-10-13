@@ -1,17 +1,16 @@
 package com.__blog.model.dto.response.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Getter
-@NoArgsConstructor
-@Builder
-@AllArgsConstructor
+@Data
 public class RefreshTokenResponse {
 
     private String accessToken;
     private String refreshToken;
-    private String tokenType;
+    private String tokenType = "Bearer";
+
+    public RefreshTokenResponse(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { RegisterRequest } from '../../../models/authentication/authRequest-module';
 import { environment, LocalstorageKey } from '../../../constant/constante';
 import { ApiResponse, UserResponse } from '../../../models/authentication/autResponse-module';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Login } from '../../../../features/auth/login/login';
 
 
@@ -49,13 +49,9 @@ export class AuthService {
     return localStorage.getItem(LocalstorageKey.refreshTokenKey);
     // Or if using cookies: return this.getCookie('refreshToken');
   }
-  refreshToken() {
-    const refreshToken = this.getRefreshToken();
-    return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.refreshToken}`, {
-      refreshToken: refreshToken
-    }).pipe(
-
-    );
+  refreshToken(): Observable<any> {
+    const refreshToken = localStorage.getItem(LocalstorageKey.refreshTokenKey);
+    return this.http.post(`${environment.auth.refreshToken}`, { refreshToken });
   }
 
   logout() {
@@ -70,6 +66,6 @@ export class AuthService {
     return !!token;
   }
   getToken(): string | null {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem(LocalstorageKey.token);
   }
 }

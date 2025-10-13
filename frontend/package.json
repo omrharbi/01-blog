@@ -30,6 +30,7 @@
     "@angular/material": "^20.2.3",
     "@angular/platform-browser": "^20.2.0",
     "@angular/router": "^20.2.0",
+    "@auth0/angular-jwt": "^5.2.0",
     "@fortawesome/angular-fontawesome": "^3.0.0",
     "@fortawesome/fontawesome-svg-core": "^7.0.1",
     "@fortawesome/free-brands-svg-icons": "^7.0.1",
