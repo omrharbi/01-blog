@@ -43,19 +43,32 @@ export class AuthService {
   getRefreshToken(): string | null {
 
     return localStorage.getItem(LocalstorageKey.refreshTokenKey);
-    // Or if using cookies: return this.getCookie('refreshToken');
   }
-  refreshToken(): Observable<any> {
-    const refreshToken = localStorage.getItem(LocalstorageKey.refreshTokenKey);
-    return this.http.post(`${environment.auth.refreshToken}`, { refreshToken });
+  // auth.service.ts
+  validateTokenOnStartup() {
+    const token = localStorage.getItem(LocalstorageKey.token);
+
+    if (!token) {
+      // No token - user is not really logged in
+      this.logout();
+      return;
+    }
+
+    // Optional: Check if token is expired using jwtHelper
+    // if (this.jwtHelper.isTokenExpired(token)) {
+    //   // Token expired - logout user
+    //   this.logout();
+    //   return;
+    // }
+
+    // Token exists and is valid - user stays logged in
+    this.isAuthenticatedSubject.next(true);
   }
   private storeTokens(response: any): void {
     localStorage.setItem(LocalstorageKey.token, response.accessToken);
-    localStorage.setItem(LocalstorageKey.refreshTokenKey, response.refreshToken);
   }
   logout() {
     localStorage.removeItem(LocalstorageKey.token);
-    localStorage.removeItem(LocalstorageKey.refreshTokenKey);
     this.isAuthenticatedSubject.next(false);
 
   }

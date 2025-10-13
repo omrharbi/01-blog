@@ -1,79 +1,57 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError } from 'rxjs';
-import { environment, LocalstorageKey } from '../core/constant/constante';
-import { AuthService } from '../core/service/servicesAPIREST/auth/auth-service';
-import { JwtHelperService } from '@auth0/angular-jwt'; // Install: npm install @auth0/angular-jwt
+// interceptors/auth.interceptor.ts
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { apiUrl, environment, LocalstorageKey } from '../core/constant/constante';
+import { AuthService } from '../core/service/servicesAPIREST/auth/auth-service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthInterceptor implements HttpInterceptor {
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
- 
-  private jwtHelper = new JwtHelperService();
+  console.log('🔧 Interceptor checking URL:', req.url);
 
-  constructor(private authService: AuthService,private router: Router) { }
+  // Only skip AUTH API ENDPOINTS (HTTP calls to backend)
+  const skipApiEndpoints = [
+    environment.auth.login,        // "http://localhost:9090/auth/login"
+    environment.auth.register,     // "http://localhost:9090/auth/register" 
+    environment.auth.refreshToken  // "http://localhost:9090/auth/refreshtoken"
+  ];
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  // Check if this request is going to an auth API endpoint
+  const isAuthApiCall = skipApiEndpoints.some(endpoint => 
+    req.url.includes(endpoint.replace(apiUrl, '')) || // Remove base URL for comparison
+    req.url === endpoint
+  );
 
-    if (req.url.includes(environment.auth.login) || req.url.includes(environment.auth.register)) {
-      return next.handle(req);
-    }
-    const authToken = this.addToken(req);
-
-    // Check if token is expired but user is still "logged in"
-    if (this.isTokenExpired() && this.isUserLoggedIn()) {
-      return this.handle401Error();
-    }
-
-    return next.handle(authToken).pipe(
-      catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          return this.handle401Error();
-        }
-        return throwError(error);
-      })
-    );
+  if (isAuthApiCall) {
+    console.log('✅ Skipping interceptor for auth API:', req.url);
+    return next(req);
   }
 
-  private addToken(request: HttpRequest<any>): HttpRequest<any> {
-    const token = localStorage.getItem(LocalstorageKey.token);
-    if (token) {
-      return request.clone({
+  console.log('🔐 Adding token to API call:', req.url);
+  
+  // Add token to all other API requests
+  const token = localStorage.getItem(LocalstorageKey.token);
+  const authReq = token 
+    ? req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
         }
-      });
-    }
-    return request;
-  }
+      })
+    : req;
 
-  private isTokenExpired(): boolean {
-    const token = localStorage.getItem(LocalstorageKey.token);
-    if (!token) return true;
-
-    try {
-      return this.jwtHelper.isTokenExpired(token);
-    } catch (error) {
-      return true;
-    }
-  }
-
-  private isUserLoggedIn(): boolean {
-    const token = localStorage.getItem(LocalstorageKey.token);
-    const refreshToken = localStorage.getItem(LocalstorageKey.refreshTokenKey);
-    return !!(token && refreshToken);
-  }
-
-  private handle401Error(): Observable<HttpEvent<any>> {
-
-    this.authService.logout();
-    this.router.navigate(['/login']);
-    return throwError(() => new Error('Authentication failed: Token expired or invalid'));
-
-  }
-
-
-}
+  return next(authReq).pipe(
+    catchError((error) => {
+      console.log('❌ Interceptor caught error for:', req.url, error.status);
+      
+      if (error.status === 401) {
+        console.log('🚪 401 detected - logging out and redirecting');
+        authService.logout();
+        router.navigate(['/login']);
+      }
+      return throwError(() => error);
+    })
+  );
+};

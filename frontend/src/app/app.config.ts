@@ -2,13 +2,17 @@ import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListen
 import { provideRouter } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
- export const appConfig: ApplicationConfig = {
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptors/auth.interceptor';
+export const appConfig: ApplicationConfig = {
   providers: [
-     provideBrowserGlobalErrorListeners(),
+    provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     importProvidersFrom(MarkdownModule.forRoot()),
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    ),
     provideHttpClient()
   ]
 };

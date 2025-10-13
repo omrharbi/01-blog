@@ -27,7 +27,7 @@ export class PostService {
 
   getAllPost(): Observable<ApiResponse<PostResponse[]>> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      // Authorization: `Bearer ${this.token}`,
       'Content-Type': "application/json"
     })
     return this.http.get<ApiResponse<PostResponse[]>>(`${environment.getpost.posts}`, {
@@ -37,7 +37,7 @@ export class PostService {
 
   getpostByID(id: number): Observable<ApiResponse<PostResponse>> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      // Authorization: `Bearer ${this.token}`,
       'Content-Type': "application/json"
     })
     const url = `${environment.getpost.postByID}${id}`

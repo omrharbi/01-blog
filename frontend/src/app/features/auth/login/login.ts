@@ -68,4 +68,6 @@ export class Login {
   navigateToHome(): void {
     this.router.navigate(['/']);
   }
+
+  
 }

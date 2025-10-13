@@ -20,8 +20,9 @@ export class Home {
 
   }
   ngOnInit() {
+    console.log('Token in localStorage:', localStorage.getItem('USER_TOKEN'));
     this.postservice.getAllPost().subscribe(res => {
-      console.log("get all posts ",res.data );
+      console.log("get all posts ", res.data);
       this.posts = res.data;
     });
 
