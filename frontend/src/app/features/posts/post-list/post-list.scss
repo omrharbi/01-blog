@@ -1,26 +1,32 @@
-.text-header{
-    color: var(--foreground) !important;
-    font-size: 2.5rem;
+.text-header {
+  color: var(--foreground) !important;
+  font-size: 2.5rem;
 }
+
 .img-cover {
   width: 100%;
-  height: 400px; /* Adjust this height as needed */
+  height: 400px;
+  /* Adjust this height as needed */
   position: relative;
   overflow: hidden;
-  border-radius: 8px; /* Optional: if you want rounded corners */
+  border-radius: 8px;
+  /* Optional: if you want rounded corners */
 }
 
 .img-cover img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* This makes the image cover the container */
-  object-position: center; /* Centers the image within the container */
+  object-fit: cover;
+  /* This makes the image cover the container */
+  object-position: center;
+  /* Centers the image within the container */
 }
 
 /* Alternative: If you want the image to show full content without cropping */
 .img-contain img {
   object-fit: contain;
-  background-color: #f8f9fa; /* Adds background for empty space */
+  background-color: #f8f9fa;
+  /* Adds background for empty space */
 }
 
 /* Responsive height variations */
@@ -39,7 +45,8 @@
 /* For dynamic height based on aspect ratio */
 .img-cover-auto {
   height: 0;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  padding-bottom: 56.25%;
+  /* 16:9 aspect ratio */
   position: relative;
 }
 
@@ -50,4 +57,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.btn  {
+  color: var( --muted-foreground);
+}
+
+.btn:hover   {
+  background-color: var(--accent) !important;
+  color: var( --muted);
+
+}
+
+.border-top  {
+  border-top: 1px solid var(--input-border);
 }

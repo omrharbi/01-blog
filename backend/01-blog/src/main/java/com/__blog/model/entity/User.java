@@ -17,6 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,9 +52,6 @@ public class User {
     @Column(name = "about", nullable = true)
     private String about;
 
-    // @Column(name = "profile_type", nullable = false)
-    // private String profile_type;
-
     @Column(name = "date_of_birth")
     private Date date_of_birth;
 
@@ -69,9 +67,11 @@ public class User {
 
     @Column(name = "avatar", nullable = true)
     private String avatar;
-    @OneToMany(mappedBy = "user_posts", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "user_posts", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
+
     @OneToMany(mappedBy = "subscriber_User", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Subscription> following = new ArrayList<>();
@@ -96,16 +96,13 @@ public class User {
     @OneToMany(mappedBy = "triggerUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Notification> triggerUser = new ArrayList<>();
-
-    // @OneToMany(mappedBy = "sender_id", cascade = CascadeType.ALL, orphanRemoval =
-    // true)
-    // private List<Chat> sender_id = new ArrayList<>();
-
-    // @OneToMany(mappedBy = "receiver_id", cascade = CascadeType.ALL, orphanRemoval
-    // = true)
-    // private List<Chat> receiver_id = new ArrayList<>();
+ 
+     @OneToOne(mappedBy = "user",  fetch = FetchType.LAZY)
+    @JsonIgnore
+    private RefreshToken refreshToken; 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Roles role = Roles.USER;;
+    private Roles role = Roles.USER;
+;
 }

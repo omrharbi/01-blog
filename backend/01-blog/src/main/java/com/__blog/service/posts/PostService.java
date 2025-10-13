@@ -102,6 +102,7 @@ public class PostService {
                 .content(post.getContent())
                 .excerpt(post.getExcerpt())
                 .htmlContent(post.getHtmlContent())
+                .createdAt(post.getCreatedAt())
                 .medias(mediaResponses)
                 .tags(tags)
                 .firstname(post.getUser_posts().getFirstname())

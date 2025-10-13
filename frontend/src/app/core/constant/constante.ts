@@ -23,8 +23,15 @@ export const environment = {
         Uploadimages: apiUrl + "api/upload",
         // postByID: apiUrl + "api/posts/getPostById/"
     }
+    ,
+    refreshToken: {
+        refresh: apiUrl + "api/auth/refreshtoken",
+        // postByID: apiUrl + "api/posts/getPostById/"
+    }
 }
 
 export const LocalstorageKey = {
     token: "USER_TOKEN",
+    refreshTokenKey: 'refresh_token'
+
 }

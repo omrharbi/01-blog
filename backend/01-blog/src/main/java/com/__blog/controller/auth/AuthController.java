@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService userService;
-
+   
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<RegisterRequest>> register(@RequestBody RegisterRequest request) {
         ApiResponse<RegisterRequest> userresponse = userService.registerUser(request);

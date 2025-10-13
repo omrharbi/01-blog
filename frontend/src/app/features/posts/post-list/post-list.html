@@ -16,8 +16,7 @@
                     <!-- Hero Image -->
                     <div class="col-12">
                         <div *ngIf="post.medias && post.medias.length > 0" class="img-cover">
-                            <img [src]="apiUrl+post.medias[0].filePath"
-                                [alt]="post.medias[0].filePath"
+                            <img [src]="apiUrl+post.medias[0].filePath" [alt]="post.medias[0].filePath"
                                 alt="Building My First React Native App: Lessons Learned" class="w-100 h-100">
                         </div>
                     </div>
@@ -36,12 +35,12 @@
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle overflow-hidden" style="width: 48px; height: 48px;">
                                             <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg"
-                                                alt="Sarah Chen">
+                                                [alt]="'Image by ' + post.firstname + ' ' + post.lastname">
                                         </div>
                                         <div>
                                             <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
-                                                href="/profile/sarah_codes">Sarah Chen</a>
-                                            <div class="small text-muted-foreground">2 days ago · 5 min read</div>
+                                                href="/profile/sarah_codes">{{post.firstname}} {{post.lastname}}</a>
+                                            <div class="small text-muted-foreground">{{post.createdAt}} read</div>
                                         </div>
                                     </div>
                                     <button
@@ -55,29 +54,31 @@
                             <!-- Tags -->
                             <div class="col-12">
                                 <div class="d-flex flex-wrap gap-2">
-                                    <span
-                                        class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill cursor-pointer hover-bg-primary hover-text-primary-foreground transition-smooth">React
-                                        Native</span>
-                                    <span
-                                        class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill cursor-pointer hover-bg-primary hover-text-primary-foreground transition-smooth">Mobile
-                                        Development</span>
-                                    <span
-                                        class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill cursor-pointer hover-bg-primary hover-text-primary-foreground transition-smooth">Beginner</span>
+
+                                    <ng-container *ngIf="post.tags && post.tags.length>0">
+
+                                        <span *ngFor="let tag of post.tags"
+                                            class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill cursor-pointer hover-bg-primary hover-text-primary-foreground transition-smooth">
+                                            {{tag.tag}}
+                                        </span>
+                                    </ng-container>
+
                                 </div>
                             </div>
 
                             <!-- Article Actions -->
                             <div class="col-12">
                                 <div
-                                    class="d-flex align-items-center justify-content-between py-3 border-top border-bottom border-border">
+                                    class="d-flex align-items-center justify-content-between py-3 border-top border-bottom ">
                                     <div class="d-flex align-items-center gap-3">
                                         <button
-                                            class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent transition-smooth">
+                                            class="btn  
+                                            d-inline-flex align-items-center px-3 py-2  hover-text-accent transition-smooth">
                                             <i class="material-icons me-1" style="font-size: 20px;">favorite_border</i>
                                             127
                                         </button>
                                         <button
-                                            class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground transition-smooth">
+                                            class="btn  d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground transition-smooth">
                                             <i class="material-icons me-1"
                                                 style="font-size: 20px;">chat_bubble_outline</i>
                                             24
@@ -85,12 +86,12 @@
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <button
-                                            class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-primary transition-smooth"
+                                            class="btn  d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-primary transition-smooth"
                                             style="width: 40px; height: 40px;">
                                             <i class="material-icons" style="font-size: 20px;">bookmark_border</i>
                                         </button>
                                         <button
-                                            class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-foreground transition-smooth"
+                                            class="btn  d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-foreground transition-smooth"
                                             style="width: 40px; height: 40px;">
                                             <i class="material-icons" style="font-size: 20px;">share</i>
                                         </button>
@@ -144,13 +145,15 @@
                                                     exactly what I was struggling with.</p>
                                                 <div class="d-flex align-items-center gap-3">
                                                     <button
-                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
+                                                        class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
                                                         <i class="material-icons me-1"
                                                             style="font-size: 16px;">favorite_border</i>
                                                         12
                                                     </button>
                                                     <button
-                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
+                                                        class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,13 +182,15 @@
                                                     consider any alternatives like MMKV?</p>
                                                 <div class="d-flex align-items-center gap-3">
                                                     <button
-                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
+                                                        class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
                                                         <i class="material-icons me-1"
                                                             style="font-size: 16px;">favorite_border</i>
                                                         8
                                                     </button>
                                                     <button
-                                                        class="btn btn-outline-secondary d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
+                                                        class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
                                                 </div>
                                             </div>
                                         </div>

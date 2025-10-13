@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.__blog.model.dto.request.auth.LoginRequest;
 import com.__blog.model.dto.request.auth.RegisterRequest;
 import com.__blog.model.dto.response.auth.LoginResponse;
+import com.__blog.model.entity.RefreshToken;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Roles;
 import com.__blog.repository.UserRepository;
@@ -26,11 +27,12 @@ public class AuthService {
     private AuthenticationManager manager;
     @Autowired
     private JwtTokenProvider tokenProvider;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     @Autowired
     private UserService userService;
-    // @Autowired
-    // private PasswordEncoder passwordEncoder;
+
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public ApiResponse<RegisterRequest> registerUser(RegisterRequest registerRequest) {
@@ -67,8 +69,7 @@ public class AuthService {
                 : userService.findByUsername(user.getIdentifier());
 
         User userEntity = dbUser.getData();
-        // System.err.println(user.getPassword()
-        // + " passeo***************************************************************");
+
         if (userEntity == null) {
             return ApiResponse.<LoginResponse>builder()
                     .status(false)
@@ -82,7 +83,8 @@ public class AuthService {
         if (auth.isAuthenticated()) {
             // api
             String token = tokenProvider.generateToken(userEntity.getUsername(), userEntity.getRole().name());
-            LoginResponse response = new LoginResponse(
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(dbUser.getData().getId());
+             LoginResponse response = new LoginResponse(
                     userEntity.getId(),
                     userEntity.getUsername(),
                     userEntity.getEmail());
@@ -91,6 +93,7 @@ public class AuthService {
                     .status(true)
                     .message("Login successful")
                     .token(token)
+                    .refreshToken(refreshToken.getToken())
                     .data(response)
                     .build();
         }

@@ -75,7 +75,6 @@ public class Post {
     private Set<Like> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     @OrderBy("displayOrder ASC")
     private Set<Media> medias = new HashSet<>();
 

@@ -1,5 +1,6 @@
 package com.__blog.model.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class PostResponse {
     private String excerpt;
     private String firstname;
     private String lastname;
+    private LocalDateTime createdAt;
     private List<MediaResponse> medias;
     private List<TagsResponse> tags;
 

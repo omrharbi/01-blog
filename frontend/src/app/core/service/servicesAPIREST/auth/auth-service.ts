@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { RegisterRequest } from '../../../models/authentication/authRequest-module';
 import { environment, LocalstorageKey } from '../../../constant/constante';
 import { ApiResponse, UserResponse } from '../../../models/authentication/autResponse-module';
-import { map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { Login } from '../../../../features/auth/login/login';
- 
+
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +13,17 @@ import { Login } from '../../../../features/auth/login/login';
 export class AuthService {
   // const router = inject(Router);
   constructor(private http: HttpClient) { }
-
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   registrter(register: RegisterRequest) {
     return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.register}`, register).pipe(
       map((response) => {
         if (response.status && response.token) {
           // router.navigate(['/login']);
           localStorage.setItem(LocalstorageKey.token, response.token);
+          localStorage.setItem(LocalstorageKey.refreshTokenKey, response.refreshToken);
+
+          this.isAuthenticatedSubject.next(true);
           console.log(response);
         }
         return response;
@@ -32,18 +36,37 @@ export class AuthService {
       map((response) => {
         if (response.status && response.token) {
           localStorage.setItem(LocalstorageKey.token, response.token);
+          localStorage.setItem(LocalstorageKey.refreshTokenKey, response.refreshToken);
+          this.isAuthenticatedSubject.next(true);
+
         }
         return response;
       })
     );
   }
+  getRefreshToken(): string | null {
+
+    return localStorage.getItem(LocalstorageKey.refreshTokenKey);
+    // Or if using cookies: return this.getCookie('refreshToken');
+  }
+  refreshToken() {
+    const refreshToken = this.getRefreshToken();
+    return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.refreshToken}`, {
+      refreshToken: refreshToken
+    }).pipe(
+
+    );
+  }
 
   logout() {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem(LocalstorageKey.token);
+    localStorage.removeItem(LocalstorageKey.refreshTokenKey);
+    this.isAuthenticatedSubject.next(false);
+
   }
 
   isLoggedIn(): boolean {
-    const token = localStorage.getItem('USER_TOKEN');
+    const token = localStorage.getItem(LocalstorageKey.token);
     return !!token;
   }
   getToken(): string | null {

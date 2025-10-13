@@ -6,6 +6,7 @@ export interface PostResponse {
   excerpt?: string,
   firstname?: string,
   lastname?: string,
+  createdAt: string;
   medias?: MediaResponse[]
   tags?: Tags[]
 }

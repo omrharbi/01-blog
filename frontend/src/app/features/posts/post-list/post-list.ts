@@ -21,6 +21,7 @@ export class PostList {
     content: "",
     htmlContent: "",
     excerpt: "",
+    createdAt:"",
     medias: [],
     tags: []
   };
