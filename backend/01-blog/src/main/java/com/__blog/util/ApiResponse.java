@@ -10,6 +10,6 @@ public class ApiResponse<T> {
     private String message;
     private String error;
     private String token;
-    private String refreshToken;
+    // private String refreshToken;
     private T data;
 }

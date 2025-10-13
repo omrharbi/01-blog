@@ -32,8 +32,7 @@ public class JwtTokenProvider {
     @Value("${jwt.access-token-expiration}")
     private long jwtAccessExpiration;
 
-    @Value("${jwt.refresh-token-expiration}")
-    private long jwtRefreshExpiration;
+  
 
     public String generateToken(String username, String role) {
         Map<String, Object> claims = new HashMap<>();
@@ -112,10 +111,10 @@ public class JwtTokenProvider {
         }
     }
 
-    public String generateRefreshToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername(), jwtRefreshExpiration);
-    }
+    // public String generateRefreshToken(UserDetails userDetails) {
+    //     Map<String, Object> claims = new HashMap<>();
+    //     return createToken(claims, userDetails.getUsername(), jwtRefreshExpiration);
+    // }
 
     public Boolean validateToken(String token) {
         try {

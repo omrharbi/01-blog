@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.__blog.model.dto.request.auth.LoginRequest;
 import com.__blog.model.dto.request.auth.RegisterRequest;
 import com.__blog.model.dto.response.auth.LoginResponse;
-import com.__blog.model.entity.RefreshToken;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Roles;
 import com.__blog.repository.UserRepository;
@@ -83,7 +82,7 @@ public class AuthService {
         if (auth.isAuthenticated()) {
             // api
             String token = tokenProvider.generateToken(userEntity.getUsername(), userEntity.getRole().name());
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(dbUser.getData().getId());
+        //     RefreshToken refreshToken = refreshTokenService.createRefreshToken(dbUser.getData().getId());
              LoginResponse response = new LoginResponse(
                     userEntity.getId(),
                     userEntity.getUsername(),
@@ -93,8 +92,7 @@ public class AuthService {
                     .status(true)
                     .message("Login successful")
                     .token(token)
-                    .refreshToken(refreshToken.getToken())
-                    .data(response)
+                     .data(response)
                     .build();
         }
         return ApiResponse.<LoginResponse>builder()
