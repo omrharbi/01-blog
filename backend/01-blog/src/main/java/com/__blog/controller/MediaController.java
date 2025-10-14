@@ -42,4 +42,5 @@ public class MediaController {
 
         return ResponseEntity.ok(medias);
     }
+ 
 }

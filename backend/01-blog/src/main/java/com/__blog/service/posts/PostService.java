@@ -7,11 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.MediaResponse;
 import com.__blog.model.dto.response.PostResponse;
 import com.__blog.model.dto.response.TagsResponse;
+import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
@@ -32,7 +34,8 @@ public class PostService {
     @Transactional
     public ApiResponse<PostResponse> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
-        Post post = convertToEntity(postRequest, user);
+        Post post = convertToEntity(postRequest);
+        post.setUser_posts(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
 
             for (var medai : postRequest.getMedias()) {
@@ -49,12 +52,51 @@ public class PostService {
             });
         }
         Post savedPost = postRepository.save(post);
-        // Hibernate.initialize(savedPost.getMedias());
-        // Hibernate.initialize(savedPost.getTags());
         PostResponse postResponse = convertToPostResponse(savedPost);
         return ApiResponse.<PostResponse>builder()
                 .status(true)
                 .data(postResponse)
+                .error("create post").build();
+    }
+
+    @Transactional
+    public ApiResponse<PostResponse> editPost(PostRequest postRequest, Integer id) {
+        Optional<Post> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            System.out.println("PostService.editPost()" + post.get().getTitle());
+            Post existingPost = post.get();
+            existingPost.setTitle(postRequest.getTitle());
+            existingPost.setContent(postRequest.getContent());
+            existingPost.setHtmlContent(postRequest.getHtmlContent());
+            existingPost.setExcerpt(postRequest.getExcerpt());
+            System.out.println("After update - Title: " + existingPost.getTitle());
+
+            if (postRequest.getMedias() != null) {
+                existingPost.getMedias().clear();
+                for (MediaRequest mediaRequest : postRequest.getMedias()) {
+                    Media media = mediaService.convertToMediaEntity(mediaRequest, existingPost);
+                    existingPost.addMedia(media);
+                }
+            }
+
+            // // ✅ Update tags (clear old, add new)
+            if (postRequest.getTags() != null) {
+                existingPost.getTags().clear();
+                for (TagsRequest tagRequest : postRequest.getTags()) {
+                    Tags tag = convertToTagsEntity(tagRequest); 
+                    existingPost.addTag(tag);
+                }
+            }
+            Post savedPost = postRepository.save(existingPost);
+            PostResponse response = convertToPostResponse(savedPost);
+            return ApiResponse.<PostResponse>builder()
+                    .status(true)
+                    .data(response)
+                    .message("update post").build();
+        }
+        return ApiResponse.<PostResponse>builder()
+                .status(true)
+                .error("error")
                 .error("create post").build();
     }
 
@@ -112,13 +154,13 @@ public class PostService {
         return response;
     }
 
-    private Post convertToEntity(PostRequest postDTO, User user) {
+    private Post convertToEntity(PostRequest postDTO) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
         post.setHtmlContent(postDTO.getHtmlContent());
         post.setExcerpt(postDTO.getExcerpt());
-        post.setUser_posts(user);
+        // post.setUser_posts(user);
         return post;
     }
 

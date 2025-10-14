@@ -59,7 +59,6 @@ public class FileUploadController {
 
             response.add(fileResponse);
         }
-
         return ResponseEntity.ok(response);
     }
 

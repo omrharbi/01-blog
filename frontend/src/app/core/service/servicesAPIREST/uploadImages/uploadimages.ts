@@ -12,7 +12,7 @@ import { MediaRequest } from '../../../models/postData/postRequest';
 export class Uploadimages {
   token = localStorage.getItem('USER_TOKEN');
   constructor(private http: HttpClient) { }
-  saveImages(files: File[]): Observable<MediaResponse[]> {
+  saveImages(files: File[], isEdit:boolean): Observable<MediaResponse[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`
     })

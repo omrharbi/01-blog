@@ -20,7 +20,6 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
 import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 import { PostResponse } from '../../../core/models/postData/postResponse';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { apiUrl } from '../../../core/constant/constante';
 
 @Component({
@@ -63,17 +62,17 @@ export class CreatePost {
 
     this.route.queryParams.subscribe(params => {
       this.isEdit = params['edit'] === "true";
-      console.log(this.isEdit, "is edit ");
-
+ 
     })
     const editData = this.sharedServicePost.getEditPost();
     if (editData) {
-      this.postData = { ...editData.post };
-      this.content = this.postData.content;  //this.uploadImage.replaceImage(this.postData.htmlContent ?? "",this.postData);
-      if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
+      this.postData = { ...editData };
+      this.content =  this.uploadImage.replaceImage(this.postData.htmlContent ?? "",this.postData);
+       if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
         this.coverImageSrc = apiUrl + this.postData.medias[0].filePath;
-        console.log(this.coverImageSrc);
         this.isSelect = true;
+        console.log("edit data",this.postData);
+        
       } else {
         this.coverImageSrc = '';
       }
@@ -115,7 +114,7 @@ export class CreatePost {
     let contenHtml = this.removeSrcImage(this.content);
 
     this.selectedFiles = this.uploadImage.uploadfiles();
-    this.images.saveImages(this.selectedFiles).subscribe({
+    this.images.saveImages(this.selectedFiles,this.isEdit).subscribe({
       next: (response) => {
 
         if (Array.isArray(response)) {

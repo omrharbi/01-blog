@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,12 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
+
+     @PutMapping("/post/edit/{postid}")
+    public ResponseEntity<?> createPost(@PathVariable("postid") Integer postId,@RequestBody PostRequest postRequest ) {
+        ApiResponse<PostResponse> post = postservice.editPost(postRequest, postId);
+        return ResponseEntity.ok(post);
+    }
     @GetMapping("/getallPost")
     public ResponseEntity<?> getPosts() {
 
