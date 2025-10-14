@@ -1,0 +1,92 @@
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-playfair" id="editProfileModalLabel">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="profileForm">
+                    <!-- Basic Information -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Basic Information</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" value="John Developer">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" value="john_dev">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Bio</label>
+                                <textarea class="form-control" id="bio" rows="3"
+                                    placeholder="Tell us about yourself...">Full-stack developer passionate about React, Node.js, and building great user experiences. Sharing my learning journey and insights from 5+ years in tech.</textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" value="San Francisco, CA">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Website</label>
+                                <input type="url" class="form-control" id="website" value="https://johndev.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills & Expertise -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Skills & Expertise</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Add Skills</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="skillInput" placeholder="Enter a skill">
+                                <button type="button" class="btn btn-custom-primary" onclick="addSkill()">Add</button>
+                            </div>
+                        </div>
+                        <div id="skillsContainer" class="d-flex flex-wrap gap-2">
+                            <!-- Skills will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Work Experience</h6>
+                        <div id="experienceContainer">
+                            <!-- Experience items will be added here -->
+                            <div class="experience-item">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Senior Frontend Developer</h6>
+                                        <p class="mb-1 text-muted-custom">TechCorp Inc.</p>
+                                        <small class="text-muted-custom">Jan 2021 - Present · San Francisco, CA</small>
+                                    </div>
+                                    <button type="button" class="btn btn-sm icon-btn" onclick="removeExperience(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                                <p class="mb-0 small">Leading frontend development for customer-facing applications
+                                    using React and TypeScript.</p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-custom-secondary w-100 mt-2" onclick="addExperience()">
+                            <i class="bi bi-plus me-2"></i>Add Experience
+                        </button>
+                    </div>
+
+                    <!-- About Section -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Detailed About</h6>
+                        <textarea class="form-control" id="detailedAbout" rows="4"
+                            placeholder="Share more about your background, interests, and goals...">Full-stack developer with 5+ years of experience building scalable web applications. Passionate about clean code, user experience, and mentoring junior developers. Currently focused on React ecosystem and cloud technologies.</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-custom-primary" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
