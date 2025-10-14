@@ -1,131 +1,227 @@
- /* Text gradient */
- .text-gradient {
-     background: var(--shadow-card-grad);
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent;
-     background-clip: text;
- }
+.font-playfair {
+    font-family: 'Playfair Display', serif;
+}
 
- /* Heart icon */
- .heart-icon {
-     color: var(--brand-accent);
-     fill: currentColor;
- }
+.text-muted-custom {
+    color: var(--text-muted);
+}
 
- /* Stats cards */
- .stats-card {
-     border: 1px solid var(--input-border);
-     background-color: var(--card-color);
-     box-shadow: var(--shadow-card);
-     transition: all 0.3s ease;
- }
+.text-secondary-custom {
+    color: var(--text-secondary);
+}
 
- .stats-card:hover {
-     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
-     transform: translateY(-2px);
- }
+/* Gradient text */
+.text-gradient {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
- .stats-number {
-     font-size: 1.75rem;
-     font-weight: 700;
- }
+/* Buttons */
+.btn-custom-secondary {
+    background-color: var(--card-color);
+    border: 1px solid var(--input-border);
+    color: var(--foreground-color);
+}
 
- /* Post cards */
- .post-card {
-     border: 1px solid var(--input-border);
-     background-color: var(--card-color);
-     box-shadow: var(--shadow-card);
-     transition: all 0.3s ease;
-     position: relative;
-     overflow: hidden;
- }
+.btn-custom-secondary:hover {
+    background-color: var(--accent-bg);
+    color: var(--foreground-color);
+}
 
- .post-card:hover {
-     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
-     border-color: var(--border);
- }
+.btn-custom-primary {
+    background-color: var(--brand-primary);
+    color: var(--primary-foreground);
+    border: none;
+}
 
- .post-card:hover .post-actions {
-     opacity: 1 !important;
- }
+.btn-custom-primary:hover {
+    background-color: var(--brand-primary-hover);
+    color: var(--primary-foreground);
+}
 
- .post-title {
-     color: var(--foreground-color);
-     transition: color 0.3s ease;
- }
+/* Tags */
+.tag-muted {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
- .post-title:hover {
-     color: var(--brand-primary);
- }
+.tag-muted:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--foreground-color);
+}
 
- .post-image img {
-     transition: transform 0.5s ease;
- }
+body.dark .tag-muted {
+    background-color: rgba(255, 255, 255, 0.05);
+}
 
- .post-card:hover .post-image img {
-     transform: scale(1.05);
- }
+body.dark .tag-muted:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
 
- /* Avatar */
- .avatar {
-     width: 40px;
-     height: 40px;
-     flex-shrink: 0;
- }
+/* Cards */
+.card-custom {
+    background-color: var(--card-color);
+    border: 1px solid var(--input-border);
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+}
 
- /* Liked badge */
- .liked-badge {
-     position: absolute;
-     top: 1rem;
-     right: 1rem;
-     background-color: var(--accent-bg);
-     color: var(--brand-accent);
-     padding: 0.25rem 0.5rem;
-     border-radius: 50px;
-     font-size: 0.75rem;
-     font-weight: 500;
- }
+.card-custom:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    border-color: var(--border);
+}
 
- /* Badges */
- .badge {
-     transition: all 0.3s ease;
-     cursor: pointer;
- }
+.card-image {
+    aspect-ratio: 16/9;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.05);
+}
 
- .badge:hover {
-     background-color: var(--muted-foreground) !important;
-     color: var(--card-color) !important;
- }
+@media (min-width: 768px) {
+    .card-image {
+        aspect-ratio: 1;
+    }
+}
 
- /* Buttons */
- .btn-outline-secondary {
-     border-color: var(--input-border);
-     color: var(--text-muted);
- }
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
 
- .btn-outline-secondary:hover {
-     background-color: var(--primary-bg);
-     color: var(--foreground-color);
- }
+.card-custom:hover .card-image img {
+    transform: scale(1.05);
+}
 
- .btn-outline-primary {
-     border-color: var(--brand-primary);
-     color: var(--brand-primary);
- }
+.icon-btn {
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
 
- .btn-outline-primary:hover {
-     background-color: var(--brand-primary);
-     color: var(--primary-foreground);
- }
+.icon-btn:hover {
+    color: var(--brand-primary);
+    background-color: var(--accent-bg);
+}
 
- /* Cards */
- .card {
-     border: 1px solid var(--input-border);
-     background-color: var(--card-color);
-     box-shadow: var(--shadow-card);
- }
+.icon-btn-active {
+    color: var(--brand-primary);
+}
 
- /* Text colors */
- .text-accent {
-     color: var(--brand-accent) !important
- }
+/* Avatar small */
+.avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Line clamp */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Link hover */
+.link-hover:hover {
+    color: var(--brand-primary);
+}
+
+/* Stats cards */
+.stats-mini-card {
+    background-color: var(--card-color);
+    border: 1px solid var(--input-border);
+    box-shadow: var(--shadow-card);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+/* Sidebar cards */
+.sidebar-card {
+    background-color: var(--card-color);
+    border: 1px solid var(--input-border);
+    box-shadow: var(--shadow-card);
+    border-radius: 0.5rem;
+}
+
+/* Badge liked */
+.badge-liked {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(245, 124, 0, 0.1);
+    color: var(--accent);
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Accent color variations */
+.text-accent {
+    color: var(--accent);
+}
+
+.text-green {
+    color: #16a34a;
+}
+
+/* Icon in header */
+.header-icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--accent);
+    fill: var(--accent);
+}
+
+/* Interest badge */
+.interest-badge {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+}
+
+body.dark .interest-badge {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Menu button hidden initially */
+.menu-btn {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-custom:hover .menu-btn {
+    opacity: 1;
+}

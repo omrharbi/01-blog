@@ -5,10 +5,11 @@ import { ActivatedRoute, } from '@angular/router';
 import { PostResponse } from '../../../core/models/postData/postResponse';
 import { apiUrl } from '../../../core/constant/constante';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
+import { Comment } from '../../comment/comment';
 
 @Component({
   selector: 'app-post-list',
-  imports: [Materaile],
+  imports: [Materaile,Comment],
   templateUrl: './post-list.html',
   styleUrl: './post-list.scss'
 })

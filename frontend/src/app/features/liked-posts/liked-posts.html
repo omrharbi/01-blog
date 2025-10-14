@@ -1,505 +1,353 @@
-<main class="main-content p-4 p-lg-5">
-    <div class="row g-4">
+ <main class="container-fluid px-3 px-lg-4 py-4"  >
         <!-- Header Section -->
-        <div class="col-12 text-center py-4">
+        <div class="text-center py-5 mb-4">
             <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="heart-icon">
-                    <path
-                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
-                    </path>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="header-icon">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
                 </svg>
-                <h1 class="display-4 fw-bold"><span class="text-gradient">Liked Posts</span></h1>
+                <h1 class="display-5 font-playfair fw-bold mb-0">
+                    <span class="text-gradient">Liked Posts</span>
+                </h1>
             </div>
-            <p class="lead text-muted mx-auto" style="max-width: 600px;">All the stories you've liked, saved in one
-                place for easy access.</p>
+            <p class="fs-5 text-muted-custom mx-auto" style="max-width: 600px;">
+                All the stories you've liked, saved in one place for easy access.
+            </p>
         </div>
 
         <!-- Stats Cards -->
-        <div class="col-12">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <div class="card stats-card h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="stats-number text-accent mb-1">3</div>
-                            <div class="text-muted">Liked Posts</div>
-                        </div>
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="stats-mini-card">
+                    <div class="h3 fw-bold text-accent mb-1">3</div>
+                    <div class="small text-muted-custom">Liked Posts</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-mini-card">
+                    <div class="h3 fw-bold mb-1" style="color: var(--brand-primary);">35 min</div>
+                    <div class="small text-muted-custom">Total Reading Time</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-mini-card">
+                    <div class="h3 fw-bold text-green mb-1">8</div>
+                    <div class="small text-muted-custom">Topics Explored</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="row g-4">
+            <!-- Left Column - Posts -->
+            <div class="col-lg-8">
+                <!-- Header with filters -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h3 font-playfair fw-bold mb-0">Your Liked Stories</h2>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-custom-secondary d-flex align-items-center gap-2">
+                            <i class="bi bi-clock"></i>
+                            <span>Recent</span>
+                        </button>
+                        <button class="btn btn-sm btn-custom-secondary d-flex align-items-center gap-2">
+                            <i class="bi bi-funnel"></i>
+                            <span>Filter</span>
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card stats-card h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="stats-number text-primary mb-1">35 min</div>
-                            <div class="text-muted">Total Reading Time</div>
+
+                <!-- Posts List -->
+                <div class="d-flex flex-column gap-4">
+                    <!-- Post Card 1 -->
+                    <div class="position-relative">
+                        <div class="card card-custom">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="avatar-sm">
+                                            <img src="https://i.pravatar.cc/300?img=15" alt="Michael React">
+                                        </div>
+                                        <div>
+                                            <a href="#" class="fw-medium text-decoration-none link-hover" style="color: var(--foreground-color);">Michael React</a>
+                                            <div class="small text-muted-custom">1 week ago · 8 min read</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm icon-btn menu-btn">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                </div>
+
+                                <div class="row g-4">
+                                    <div class="col-md-8">
+                                        <a href="#" class="text-decoration-none" style="color: var(--foreground-color);">
+                                            <h3 class="h5 font-playfair fw-bold mb-2 line-clamp-2">10 Advanced React Patterns Every Developer Should Know</h3>
+                                            <p class="text-muted-custom mb-3 line-clamp-3">Dive deep into advanced React patterns including render props, compound components, and custom hooks. These patterns will level up your React skills...</p>
+                                        </a>
+                                        
+                                        <div class="d-flex flex-wrap gap-2 mb-3">
+                                            <span class="tag-muted">React</span>
+                                            <span class="tag-muted">Advanced</span>
+                                            <span class="tag-muted">Patterns</span>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex gap-3">
+                                                <button class="btn btn-sm icon-btn d-flex align-items-center gap-1">
+                                                    <i class="bi bi-heart"></i>
+                                                    <span>567</span>
+                                                </button>
+                                                <button class="btn btn-sm icon-btn d-flex align-items-center gap-1">
+                                                    <i class="bi bi-chat"></i>
+                                                    <span>89</span>
+                                                </button>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm icon-btn icon-btn-active">
+                                                    <i class="bi bi-bookmark-fill"></i>
+                                                </button>
+                                                <button class="btn btn-sm icon-btn">
+                                                    <i class="bi bi-share"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#">
+                                            <div class="card-image">
+                                                <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800" alt="Article">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="badge-liked">Liked 2 days ago</div>
+                    </div>
+
+                    <!-- Post Card 2 -->
+                    <div class="position-relative">
+                        <div class="card card-custom">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="avatar-sm">
+                                            <img src="https://i.pravatar.cc/300?img=20" alt="Jennifer Code">
+                                        </div>
+                                        <div>
+                                            <a href="#" class="fw-medium text-decoration-none link-hover" style="color: var(--foreground-color);">Jennifer Code</a>
+                                            <div class="small text-muted-custom">2 weeks ago · 12 min read</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm icon-btn menu-btn">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                </div>
+
+                                <div class="row g-4">
+                                    <div class="col-md-8">
+                                        <a href="#" class="text-decoration-none" style="color: var(--foreground-color);">
+                                            <h3 class="h5 font-playfair fw-bold mb-2 line-clamp-2">My Journey from Bootcamp to FAANG: What I Learned</h3>
+                                            <p class="text-muted-custom mb-3 line-clamp-3">After 6 months of intensive learning and preparation, I finally landed my dream job at a FAANG company. Here's everything I learned along the way...</p>
+                                        </a>
+                                        
+                                        <div class="d-flex flex-wrap gap-2 mb-3">
+                                            <span class="tag-muted">Career</span>
+                                            <span class="tag-muted">Interview</span>
+                                            <span class="tag-muted">Success Story</span>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex gap-3">
+                                                <button class="btn btn-sm icon-btn d-flex align-items-center gap-1">
+                                                    <i class="bi bi-heart"></i>
+                                                    <span>1234</span>
+                                                </button>
+                                                <button class="btn btn-sm icon-btn d-flex align-items-center gap-1">
+                                                    <i class="bi bi-chat"></i>
+                                                    <span>156</span>
+                                                </button>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm icon-btn">
+                                                    <i class="bi bi-bookmark"></i>
+                                                </button>
+                                                <button class="btn btn-sm icon-btn">
+                                                    <i class="bi bi-share"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#">
+                                            <div class="card-image">
+                                                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800" alt="Article">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="badge-liked">Liked 1 week ago</div>
+                    </div>
+
+                    <!-- Post Card 3 -->
+                    <div class="position-relative">
+                        <div class="card card-custom">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="avatar-sm">
+                                            <img src="https://i.pravatar.cc/300?img=25" alt="Tom Socket">
+                                        </div>
+                                        <div>
+                                            <a href="#" class="fw-medium text-decoration-none link-hover" style="color: var(--foreground-color);">Tom Socket</a>
+                                            <div class="small text-muted-custom">3 weeks ago · 15 min read</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm icon-btn menu-btn">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                </div>
+
+                                <div class="row g-4">
+                                    <div class="col-md-8">
+                                        <a href="#" class="text-decoration-none" style="color: var(--foreground-color);">
+                                            <h3 class="h5 font-playfair fw-bold mb-2 line-clamp-2">Building a Real-time Chat App with Socket.io and React</h3>
+                                            <p class="text-muted-custom mb-3 line-clamp-3">Step-by-step tutorial on creating a fully functional real-time chat application using Socket.io for the backend and React for the frontend...</p>
+                                        </a>
+                                        
+                                        <div class="d-flex flex-wrap gap-2 mb-3">
+                                            <span class="tag-muted">React</span>
+                                            <span class="tag-muted">Socket.io</span>
+                                            <span class="tag-muted">Real-time</span>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex gap-3">
+                                                <button class="btn btn-sm icon-btn d-flex align-items-center gap-1">
+                                                    <i class="bi bi-heart"></i>
+                                                    <span>432</span>
+                                                </button>
+                                                <button class="btn btn-sm icon-btn d-flex align-items-center gap-1">
+                                                    <i class="bi bi-chat"></i>
+                                                    <span>67</span>
+                                                </button>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm icon-btn icon-btn-active">
+                                                    <i class="bi bi-bookmark-fill"></i>
+                                                </button>
+                                                <button class="btn btn-sm icon-btn">
+                                                    <i class="bi bi-share"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#">
+                                            <div class="card-image">
+                                                <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800" alt="Article">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="badge-liked">Liked 2 weeks ago</div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card stats-card h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="stats-number text-success mb-1">8</div>
-                            <div class="text-muted">Topics Explored</div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-5">
+                    <button class="btn btn-lg btn-custom-secondary">Load More</button>
+                </div>
+            </div>
+
+            <!-- Right Column - Sidebar -->
+            <div class="col-lg-4">
+                <div class="d-flex flex-column gap-4">
+                    <!-- Quick Actions Card -->
+                    <div class="sidebar-card">
+                        <div class="p-4">
+                            <h3 class="h6 fw-semibold mb-3">Quick Actions</h3>
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn btn-custom-secondary w-100 justify-content-start d-flex align-items-center gap-2">
+                                    <i class="bi bi-funnel"></i>
+                                    <span>Filter by Topic</span>
+                                </button>
+                                <button class="btn btn-custom-secondary w-100 justify-content-start d-flex align-items-center gap-2">
+                                    <i class="bi bi-clock"></i>
+                                    <span>Sort by Date</span>
+                                </button>
+                                <button class="btn btn-custom-secondary w-100 justify-content-start d-flex align-items-center gap-2">
+                                    <i class="bi bi-heart"></i>
+                                    <span>Export Likes</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Your Interests Card -->
+                    <div class="sidebar-card">
+                        <div class="p-4">
+                            <h3 class="h6 fw-semibold mb-3">Your Interests</h3>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#React</span>
+                                    <span class="interest-badge">2</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#Advanced</span>
+                                    <span class="interest-badge">1</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#Patterns</span>
+                                    <span class="interest-badge">1</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#Career</span>
+                                    <span class="interest-badge">1</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#Interview</span>
+                                    <span class="interest-badge">1</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#Success Story</span>
+                                    <span class="interest-badge">1</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#Socket.io</span>
+                                    <span class="interest-badge">1</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center small">
+                                    <span class="text-muted-custom">#Real-time</span>
+                                    <span class="interest-badge">1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reading Stats Card -->
+                    <div class="sidebar-card">
+                        <div class="p-4">
+                            <h3 class="h6 fw-semibold mb-3">Reading Stats</h3>
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted-custom">This Month</span>
+                                    <span class="fw-semibold">12 likes</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted-custom">This Week</span>
+                                    <span class="fw-semibold">3 likes</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted-custom">Avg. per week</span>
+                                    <span class="fw-semibold">8 likes</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Main Content -->
-        <div class="col-lg-9">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="h3 fw-semibold">Your Liked Stories</h2>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-clock">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        Recent
-                    </button>
-                    <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-filter">
-                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                        </svg>
-                        Filter
-                    </button>
-                </div>
-            </div>
-
-            <!-- Liked Posts -->
-            <div class="row g-4">
-                <!-- Post 1 -->
-                <div class="col-12">
-                    <div class="card post-card h-100">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="avatar rounded-circle overflow-hidden">
-                                        <img src="/placeholder.svg" alt="Michael React" class="img-fluid">
-                                    </div>
-                                    <div>
-                                        <a href="/profile/michael_react" class="fw-medium text-decoration-none">Michael
-                                            React</a>
-                                        <div class="text-muted small">1 week ago · 8 min read</div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-sm btn-outline-secondary opacity-0 post-actions">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-ellipsis">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="19" cy="12" r="1"></circle>
-                                        <circle cx="5" cy="12" r="1"></circle>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <div class="row g-4">
-                                <div class="col-md-8 order-2 order-md-1">
-                                    <a href="/post/liked-1" class="text-decoration-none">
-                                        <h3 class="h4 fw-bold mb-2 post-title">10 Advanced React Patterns Every
-                                            Developer Should Know</h3>
-                                        <p class="text-muted mb-3">Dive deep into advanced React patterns including
-                                            render props, compound components, and custom hooks. These patterns will
-                                            level up your React skills...</p>
-                                    </a>
-
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark">React</span>
-                                        <span class="badge bg-light text-dark">Advanced</span>
-                                        <span class="badge bg-light text-dark">Patterns</span>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex gap-3">
-                                            <button
-                                                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-heart">
-                                                    <path
-                                                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
-                                                    </path>
-                                                </svg>
-                                                567
-                                            </button>
-                                            <a href="/post/liked-1#comments"
-                                                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2 text-decoration-none">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-message-circle">
-                                                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
-                                                </svg>
-                                                89
-                                            </a>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-sm btn-outline-primary">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-bookmark">
-                                                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-secondary">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-share2">
-                                                    <circle cx="18" cy="5" r="3"></circle>
-                                                    <circle cx="6" cy="12" r="3"></circle>
-                                                    <circle cx="18" cy="19" r="3"></circle>
-                                                    <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
-                                                    <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 order-1 order-md-2">
-                                    <a href="/post/liked-1" class="text-decoration-none">
-                                        <div class="post-image ratio ratio-1x1 rounded overflow-hidden">
-                                            <img src="/placeholder.svg"
-                                                alt="10 Advanced React Patterns Every Developer Should Know"
-                                                class="img-fluid">
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="liked-badge">Liked 2 days ago</div>
-                    </div>
-                </div>
-
-                <!-- Post 2 -->
-                <div class="col-12">
-                    <div class="card post-card h-100">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="avatar rounded-circle overflow-hidden">
-                                        <img src="/placeholder.svg" alt="Jennifer Code" class="img-fluid">
-                                    </div>
-                                    <div>
-                                        <a href="/profile/jennifer_codes"
-                                            class="fw-medium text-decoration-none">Jennifer Code</a>
-                                        <div class="text-muted small">2 weeks ago · 12 min read</div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-sm btn-outline-secondary opacity-0 post-actions">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-ellipsis">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="19" cy="12" r="1"></circle>
-                                        <circle cx="5" cy="12" r="1"></circle>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <div class="row g-4">
-                                <div class="col-md-8 order-2 order-md-1">
-                                    <a href="/post/liked-2" class="text-decoration-none">
-                                        <h3 class="h4 fw-bold mb-2 post-title">My Journey from Bootcamp to FAANG: What I
-                                            Learned</h3>
-                                        <p class="text-muted mb-3">After 6 months of intensive learning and preparation,
-                                            I finally landed my dream job at a FAANG company. Here's everything I
-                                            learned along the way...</p>
-                                    </a>
-
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark">Career</span>
-                                        <span class="badge bg-light text-dark">Interview</span>
-                                        <span class="badge bg-light text-dark">Success Story</span>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex gap-3">
-                                            <button
-                                                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-heart">
-                                                    <path
-                                                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
-                                                    </path>
-                                                </svg>
-                                                1234
-                                            </button>
-                                            <a href="/post/liked-2#comments"
-                                                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2 text-decoration-none">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-message-circle">
-                                                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
-                                                </svg>
-                                                156
-                                            </a>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-sm btn-outline-secondary">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-bookmark">
-                                                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-secondary">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-share2">
-                                                    <circle cx="18" cy="5" r="3"></circle>
-                                                    <circle cx="6" cy="12" r="3"></circle>
-                                                    <circle cx="18" cy="19" r="3"></circle>
-                                                    <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
-                                                    <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 order-1 order-md-2">
-                                    <a href="/post/liked-2" class="text-decoration-none">
-                                        <div class="post-image ratio ratio-1x1 rounded overflow-hidden">
-                                            <img src="/placeholder.svg"
-                                                alt="My Journey from Bootcamp to FAANG: What I Learned"
-                                                class="img-fluid">
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="liked-badge">Liked 1 week ago</div>
-                    </div>
-                </div>
-
-                <!-- Post 3 -->
-                <div class="col-12">
-                    <div class="card post-card h-100">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="avatar rounded-circle overflow-hidden">
-                                        <img src="/placeholder.svg" alt="Tom Socket" class="img-fluid">
-                                    </div>
-                                    <div>
-                                        <a href="/profile/tom_realtime" class="fw-medium text-decoration-none">Tom
-                                            Socket</a>
-                                        <div class="text-muted small">3 weeks ago · 15 min read</div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-sm btn-outline-secondary opacity-0 post-actions">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-ellipsis">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="19" cy="12" r="1"></circle>
-                                        <circle cx="5" cy="12" r="1"></circle>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <div class="row g-4">
-                                <div class="col-md-8 order-2 order-md-1">
-                                    <a href="/post/liked-3" class="text-decoration-none">
-                                        <h3 class="h4 fw-bold mb-2 post-title">Building a Real-time Chat App with
-                                            Socket.io and React</h3>
-                                        <p class="text-muted mb-3">Step-by-step tutorial on creating a fully functional
-                                            real-time chat application using Socket.io for the backend and React for the
-                                            frontend...</p>
-                                    </a>
-
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark">React</span>
-                                        <span class="badge bg-light text-dark">Socket.io</span>
-                                        <span class="badge bg-light text-dark">Real-time</span>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex gap-3">
-                                            <button
-                                                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-heart">
-                                                    <path
-                                                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
-                                                    </path>
-                                                </svg>
-                                                432
-                                            </button>
-                                            <a href="/post/liked-3#comments"
-                                                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2 text-decoration-none">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-message-circle">
-                                                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
-                                                </svg>
-                                                67
-                                            </a>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-sm btn-outline-primary">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-bookmark">
-                                                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-secondary">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-share2">
-                                                    <circle cx="18" cy="5" r="3"></circle>
-                                                    <circle cx="6" cy="12" r="3"></circle>
-                                                    <circle cx="18" cy="19" r="3"></circle>
-                                                    <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
-                                                    <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 order-1 order-md-2">
-                                    <a href="/post/liked-3" class="text-decoration-none">
-                                        <div class="post-image ratio ratio-1x1 rounded overflow-hidden">
-                                            <img src="/placeholder.svg"
-                                                alt="Building a Real-time Chat App with Socket.io and React"
-                                                class="img-fluid">
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="liked-badge">Liked 2 weeks ago</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Load More Button -->
-            <div class="text-center pt-4">
-                <button class="btn btn-outline-secondary px-5 py-2">Load More</button>
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="col-lg-3">
-            <!-- Quick Actions -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title mb-3">Quick Actions</h5>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-start gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-filter">
-                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                            </svg>
-                            Filter by Topic
-                        </button>
-                        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-start gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-clock">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            Sort by Date
-                        </button>
-                        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-start gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-heart">
-                                <path
-                                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
-                                </path>
-                            </svg>
-                            Export Likes
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Your Interests -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title mb-3">Your Interests</h5>
-                    <div class="d-flex flex-column gap-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#React</span>
-                            <span class="badge bg-light text-dark">2</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#Advanced</span>
-                            <span class="badge bg-light text-dark">1</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#Patterns</span>
-                            <span class="badge bg-light text-dark">1</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#Career</span>
-                            <span class="badge bg-light text-dark">1</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#Interview</span>
-                            <span class="badge bg-light text-dark">1</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#Success Story</span>
-                            <span class="badge bg-light text-dark">1</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#Socket.io</span>
-                            <span class="badge bg-light text-dark">1</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">#Real-time</span>
-                            <span class="badge bg-light text-dark">1</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Reading Stats -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title mb-3">Reading Stats</h5>
-                    <div class="d-flex flex-column gap-3">
-                        <div class="d-flex justify-content-between">
-                            <span class="text-muted">This Month</span>
-                            <span class="fw-semibold">12 likes</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span class="text-muted">This Week</span>
-                            <span class="fw-semibold">3 likes</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span class="text-muted">Avg. per week</span>
-                            <span class="fw-semibold">8 likes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
+    </main>

@@ -13,7 +13,8 @@ import { Preview } from './shared/components/preview/preview';
 import { ExploreStories } from './features/explore-stories/explore-stories';
 import { Following } from './features/following/following';
 import { LikedPosts } from './features/liked-posts/liked-posts';
-import { Bookmarks } from './features/bookmarks/bookmarks';
+import { Profile } from './features/profile/profile';
+// import { Bookmarks } from './features/bookmarks/bookmarks';
 export const routes: Routes = [
   {
     path: '',
@@ -28,7 +29,8 @@ export const routes: Routes = [
       { path: 'explore', component: ExploreStories },
       { path: 'following', component: Following },
       { path: 'liked', component: LikedPosts },
-      { path: 'bookmarks', component: Bookmarks },
+      { path: 'profile', component: Profile },
+      // { path: 'bookmarks', component: Bookmarks },
       // other protected pages
     ], // default path now points to home
   },

@@ -1,35 +1,81 @@
-<!-- Comment 1 -->
-<div class="card mb-3">
-    <div class="card-body d-flex gap-3">
-        <img src="/placeholder.svg" class="rounded-circle" width="40" height="40" alt="">
-        <div>
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <a href="/profile/john_dev" class="fw-semibold text-decoration-none">John Developer</a>
-                <span class="text-muted small">1 day ago</span>
-            </div>
-            <p>Great post! I'm also learning React Native...</p>
-            <div class="d-flex gap-3">
-                <button class="btn btn-light btn-sm">❤️ 12</button>
-                <button class="btn btn-light btn-sm">Reply</button>
-            </div>
+<section class="col-12" id="comments">
+    <div class="row g-3">
+        <div class="col-12">
+            <h2 class="fs-2 fw-bold font-playfair">Comments (2)</h2>
         </div>
-    </div>
-</div>
 
-<!-- Comment 2 -->
-<div class="card mb-3 bg-card">
-    <div class="card-body d-flex gap-3 bg-card">
-        <img src="/placeholder.svg" class="rounded-circle" width="40" height="40" alt="">
-        <div>
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <a href="/profile/maria_js" class="fw-semibold text-decoration-none">Maria Garcia</a>
-                <span class="text-muted small">1 day ago</span>
-            </div>
-            <p>Thanks for sharing your experience! I'm curious about your AsyncStorage usage...</p>
-            <div class="d-flex gap-3">
-                <button class="btn btn-light btn-sm">❤️ 8</button>
-                <button class="btn btn-light btn-sm">Reply</button>
+        <!-- Comments List -->
+        <div class="col-12">
+            <div class="row g-3">
+                <!-- Comment 1 -->
+                <div class="col-12">
+                    <div class="card bg-card text-card-foreground shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-3">
+                                <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
+                                    <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg"
+                                        alt="John Developer">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
+                                            href="/profile/john_dev">John Developer</a>
+                                        <span class="small text-muted-foreground">1 day ago</span>
+                                    </div>
+                                    <p class="text-foreground mb-3 lh-base">Great post! I'm also learning
+                                        React Native and this was really helpful. The navigation part was
+                                        exactly what I was struggling with.</p>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <button
+                                            class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
+                                            <i class="material-icons me-1" style="font-size: 16px;">favorite_border</i>
+                                            12
+                                        </button>
+                                        <button
+                                            class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment 2 -->
+                <div class="col-12">
+                    <div class="card bg-card text-card-foreground shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-3">
+                                <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
+                                    <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg" alt="Maria Garcia">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
+                                            href="/profile/maria_js">Maria Garcia</a>
+                                        <span class="small text-muted-foreground">1 day ago</span>
+                                    </div>
+                                    <p class="text-foreground mb-3 lh-base">Thanks for sharing your
+                                        experience! I'm curious about your AsyncStorage usage - did you
+                                        consider any alternatives like MMKV?</p>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <button
+                                            class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
+                                            <i class="material-icons me-1" style="font-size: 16px;">favorite_border</i>
+                                            8
+                                        </button>
+                                        <button
+                                            class="btn 
+                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>

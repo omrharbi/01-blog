@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.__blog.service.UserDeService;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,16 +39,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
             String token = header.substring(7).trim();
-            if (token.isEmpty() ) {
-                 System.err.println("this token is null");
+            if (token.isEmpty()) {
+                System.err.println("this token is null");
                 return;
             }
-            String username = jwtproProvider.getPayloadFromToken(token).getSubject();
+            Claims claims = jwtproProvider.getPayloadFromToken(token);
+            if (claims == null) {
+                sendErrorResponse(response, "Invalid JWT token. Please login again.");
+                return;
+
+            }
+
+            String username = claims.getSubject();
             if (username == null) {
-                System.err.println("Invalid JWT token: " + token);
-                
-            } 
-              if (username != null && sc.getAuthentication() == null) {
+                sendErrorResponse(response, "Invalid JWT token. Please login again.");
+                return;
+            }
+            if (  sc.getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 if (jwtproProvider.isTokenValid(token, userDetails)) {
@@ -61,37 +69,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             // }
         } catch (ServletException | IOException e) {
-            handleJwtException(response, e);
+            sendErrorResponse(response, e.toString());
             // return;
         }
 
     }
 
-    private void handleJwtException(HttpServletResponse response, Exception e) throws IOException {
+   
+    private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-        String message;
-
-        if (e.getMessage().contains("Compact JWT strings may not contain whitespace")) {
-            message = "Invalid JWT token format";
-        } else if (e.getMessage().contains("JWT expired") || e.getMessage().contains("expired")) {
-            message = "JWT token has expired";
-        } else if (e.getMessage().contains("JWT signature") || e.getMessage().contains("signature")) {
-            message = "Invalid JWT signature";
-        } else if (e.getMessage().contains("malformed") || e.getMessage().contains("Malformed")) {
-            message = "Malformed JWT token";
-        } else {
-            message = "JWT authentication failed";
-        }
-
-        String jsonResponse = String.format(
-                "{\"error\":\"Unauthorized\",\"message\":\"%s\",\"status\":401,\"timestamp\":\"%s\"}",
-                message, new java.util.Date());
-
-        response.getWriter().write(jsonResponse);
-        response.getWriter().flush();
+        response.getWriter().write("{\"error\": \"" + message + "\"}");
     }
 
 }
