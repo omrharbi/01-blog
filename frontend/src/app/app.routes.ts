@@ -23,6 +23,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: Home }, // <-- default child is Home
       { path: 'create', component: CreatePost },
+      { path: 'edit', component: CreatePost },
       { path: 'posts', component: PostList },
       { path: 'preview', component: Preview },
       { path: 'post/:id', component: PostList },

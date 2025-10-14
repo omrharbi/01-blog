@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -13,14 +14,18 @@ import { MarkdownEditor } from '../../../shared/components/markdown-editor/markd
 import { Preview } from '../../../shared/components/preview/preview';
 import { MediaRequest, PostRequest } from '../../../core/models/postData/postRequest';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
+import { PostResponse } from '../../../core/models/postData/postResponse';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { apiUrl } from '../../../core/constant/constante';
 
 @Component({
   selector: 'app-create-post',
+  standalone: true,
   imports: [Materaile, MarkdownModule, MarkdownEditor, Preview],
   templateUrl: './create-post.html',
   styleUrl: './create-post.scss',
@@ -29,19 +34,56 @@ export class CreatePost {
   constructor(private router: Router,
     private preview: PreviewService,
     private sharedServicePost: SharedServicePost,
-    private uploadImage: UploadImage, private postService: PostService, private images: Uploadimages) { }
+    private uploadImage: UploadImage, private postService: PostService, private images: Uploadimages, private route: ActivatedRoute) { }
   previewMode = false;
   content: string = '';
   title: string = '';
   excerpt: string = '';
   isPreviewMode = true;
-  coverImageSrc?: string;
+  coverImageSrc: string = "";
   isSelect: boolean = false;
   selectedFiles: File[] = [];
+  postData: PostResponse = {
+    id: 0,
+    title: '',
+    content: '',
+    htmlContent: '',
+    excerpt: '',
+    medias: [],
+    tags: [],
+    createdAt: ''
+  };
   @Input() post: any;
-  @Output() editPost = new EventEmitter<any>();
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
+
+  isEdit: boolean = false;
+  showtitle = ""
+  ngOnInit(): void {
+
+    this.route.queryParams.subscribe(params => {
+      this.isEdit = params['edit'] === "true";
+      console.log(this.isEdit, "is edit ");
+
+    })
+    const editData = this.sharedServicePost.getEditPost();
+    if (editData) {
+      this.postData = { ...editData.post };
+      this.content = this.postData.content;  //this.uploadImage.replaceImage(this.postData.htmlContent ?? "",this.postData);
+      if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
+        this.coverImageSrc = apiUrl + this.postData.medias[0].filePath;
+        console.log(this.coverImageSrc);
+        this.isSelect = true;
+      } else {
+        this.coverImageSrc = '';
+      }
+    } else {
+      this.content = '';
+      this.postData.content = '';
+    }
+
+  }
+
   triggerFileInput() {
     this.imageInput.nativeElement.click();
   }
@@ -67,11 +109,11 @@ export class CreatePost {
   }
 
   submitPost() {
+
     let uploadedMedias = this.uploadImage.returnfiles();
     let contentWithoutHTML = this.removeImage(this.content);
     let contenHtml = this.removeSrcImage(this.content);
 
-    // this.images.saveImages();
     this.selectedFiles = this.uploadImage.uploadfiles();
     this.images.saveImages(this.selectedFiles).subscribe({
       next: (response) => {
@@ -110,7 +152,6 @@ export class CreatePost {
 
   }
 
-
   onImageSelected(event: Event) {
     this.uploadImage.onImageSelected(event, (imgHTML: string) => {
       const parser = new DOMParser();
@@ -127,40 +168,13 @@ export class CreatePost {
   }
   onContentChange(newContent: string) {
     this.content = newContent;
+    this.postData.content = newContent;
   }
 
   showPreview() {
     this.previewMode = true;
   }
-  // renderMarkdownWithMedia(markdown: string): string {
-  //   return (
-  //     markdown
-  //       // Replace standard markdown image syntax
-  //       .replace(
-  //         /!\[([^\]]*)\]\(([^)]+)\)/g,
-  //         '<img src="http://localhost:9090/uploads/$2" class="imageMarkDown" alt="$1" >'
-  //       )
-  //       // Replace image placeholders with actual <img> tags (fallback)
-  //       .replace(
-  //         /\[Image:\s*([^\]]+)\]/g,
-  //         '<img src="http://localhost:9090/uploads/$1" >'
-  //       )
-  //       // Replace video placeholders with actual <video> tags
-  //       .replace(
-  //         /\[Video:\s*([^\]]+)\]/g,
-  //         '<video controls src="http://localhost:9090/uploads/$1" style="max-width:100%;"></video>'
-  //       )
-  //       // Basic markdown formatting
-  //       .replace(/\*\*(.*?)\*\*/g, '<strong class="strongMarkDown">$1</strong>')
-  //       .replace(/\*(.*?)\*/g, '<em class="EmMarkDown">$1</em>')
-  //       .replace(/~~(.*?)~~/g, '<del class="DelMarkDown">$1</del>')
-  //       .replace(/`(.*?)`/g, '<code class="CodeMarkDown">$1</code>')
-  //       .replace(/^## (.*$)/gim, '<h2 class="H2MarkDown">$1</h2>')
-  //       .replace(/^### (.*$)/gim, '<h3 class="H3MarkDown">$1</h3>')
-  //       .replace(/^\> (.*$)/gim, '<blockquote class="blockquoteMarkDown">$1</blockquote>')
-  //       .replace(/^\- (.*$)/gim, '<li class="LisMarkDown">$1</li>')
-  //   );
-  // }
+
 
   backToEdit() {
     this.previewMode = false;

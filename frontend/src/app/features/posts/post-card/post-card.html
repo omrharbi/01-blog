@@ -21,7 +21,7 @@
                     </button>
 
                     <ng-container *ngIf="show">
-                        <app-pop-up    [post]="post"  (editPost)="onEditPost($event)" ></app-pop-up>
+                        <app-pop-up   [post]="post" (editPost)="onEditPost($event)" ></app-pop-up>
                     </ng-container>
                 </div>
 
@@ -85,7 +85,7 @@
 
                     <a routerLink="/post/{{post.id}}">
                         <div class="aspect-video aspect-md-square rounded-3 overflow-hidden bg-light">
-                            <img [src]="apiUrl+post.medias[0].filePath"
+                            <img [src]="apiUrl+(post.medias?.[0]?.filePath || '')"
                                 alt="Building My First React Native App: Lessons Learned"
                                 class="w-100 h-100 object-fit-cover hover-scale">
                         </div>

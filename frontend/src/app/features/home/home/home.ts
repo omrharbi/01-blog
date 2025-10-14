@@ -6,6 +6,7 @@ import { PostResponse } from '../../../core/models/postData/postResponse';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { Route, Router } from '@angular/router';
+import { use } from 'marked';
 
 @Component({
   selector: 'app-home',
@@ -36,19 +37,11 @@ export class Home {
       }
     });
 
-    console.log("get all posts ", this.posts);
 
   }
 
   private updatePostInList(updatedPost: PostResponse) {
-    const index = this.posts.findIndex(p => p._id === updatedPost._id);
-    if (index !== -1) {
-      // Update existing post
-      this.posts[index] = updatedPost;
-    } else {
-      // Add new post to top
-      this.posts.unshift(updatedPost);
-    }
+    this.posts.unshift(updatedPost);
     this.posts = [...this.posts]; // Trigger change detection
   }
 }

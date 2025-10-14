@@ -8,28 +8,24 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-card',
-  imports: [Materaile,PopUp],
+  imports: [Materaile, PopUp],
   templateUrl: './post-card.html',
   styleUrl: './post-card.scss'
 })
 export class PostCard {
-  constructor(private sharedService: SharedServicePost,private router:Router) { }
-  
+  constructor(private sharedService: SharedServicePost, private router: Router) { }
+
   apiUrl = apiUrl
   @Input() post: any;
   @Output() editPost = new EventEmitter<any>();
-
-  show = false;
+   show = false;
   popUp() {
     this.show = !this.show;
-    this.editPost.emit(this.post);
-    console.log("hwwe",this.show);
+    this.editPost.emit({ post: this.post});
   }
 
-  onEditPost(post: PostResponse) {
-    console.log("Editing post:", post);
- 
-    this.sharedService.editPost(post); 
-    this.router.navigate(['/create']);
+  onEditPost(post: any) {
+    this.sharedService.editPost(post);
+    this.router.navigate(['/edit'],{ queryParams: { edit: true } });
   }
 }

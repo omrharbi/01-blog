@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MediaRequest } from '../../../models/postData/postRequest';
 import { Uploadimages } from '../../servicesAPIREST/uploadImages/uploadimages';
+import { PostResponse } from '../../../models/postData/postResponse';
+import { apiUrl } from '../../../constant/constante';
 
 
 @Injectable({
@@ -68,5 +70,25 @@ export class UploadImage {
   }
   uploadfiles(): File[] {
     return this.fileUpload;
+  }
+
+  replaceImage(html: string, post: PostResponse): string {
+
+    let index = 0;
+    const media = post.medias ?? [];
+
+
+    const processHtml = html.replace(
+      /<img([^>]*) ([^>]*)>/gi,
+      (match, after) => {
+        if (index < media.length) {
+          const image = media[index]
+          index++;
+          return `<img class ="imageMa image-prview" src="${apiUrl}${image.filePath}" alt="${'Post image'}"${after}>`
+        }
+        return match
+      }
+    )
+    return processHtml;
   }
 }

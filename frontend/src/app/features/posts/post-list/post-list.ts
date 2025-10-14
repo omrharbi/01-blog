@@ -6,6 +6,7 @@ import { PostResponse } from '../../../core/models/postData/postResponse';
 import { apiUrl } from '../../../core/constant/constante';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 import { Comment } from '../../comment/comment';
+import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 
 @Component({
   selector: 'app-post-list',
@@ -14,10 +15,10 @@ import { Comment } from '../../comment/comment';
   styleUrl: './post-list.scss'
 })
 export class PostList {
-  constructor(private postSerivce: PostService, private preview: PreviewService, private route: ActivatedRoute) { }
+  constructor(private postSerivce: PostService, private preview: PreviewService, private route: ActivatedRoute,private replceimge :UploadImage) { }
   apiUrl = apiUrl
   post: PostResponse = {
-    _id: 0,
+    id: 0,
     title: "",
     content: "",
     htmlContent: "",
@@ -34,7 +35,7 @@ export class PostList {
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
           this.post = response.data;
-          let htmlContent = this.replaceImage(this.post.htmlContent ?? "");
+          let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "",this.post );
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
 
         },
@@ -46,23 +47,5 @@ export class PostList {
     })
   }
 
-  private replaceImage(html: string): string {
-
-    let index = 0;
-    const media = this.post.medias ?? [];
-
-
-    const processHtml = html.replace(
-      /<img([^>]*) ([^>]*)>/gi,
-      (match, after) => {
-        if (index < media.length) {
-          const image = media[index]
-          index++;
-          return `<img class ="imageMa image-prview" src="${apiUrl}${image.filePath}" alt="${'Post image'}"${after}>`
-        }
-        return match
-      }
-    )
-    return processHtml;
-  }
+ 
 }

@@ -7,16 +7,14 @@ import { PostResponse } from '../../../models/postData/postResponse';
 })
 export class SharedServicePost {
   private newPostData = new BehaviorSubject<any>(null);
-  private editPostSubject = new BehaviorSubject<PostResponse | null>(null);
-
-
+ 
+  private postToEdit: any = null;
   newpost$ = this.newPostData.asObservable();
-  editpost$ = this.editPostSubject.asObservable();
-  setNewPost(post: any) {
+   setNewPost(post: any) {
     this.newPostData.next(post)
   }
   editPost(post: PostResponse) {
-    this.editPostSubject.next(post);
+    this.postToEdit = post;
   }
   notifyPostUpdated(updatedPost: PostResponse) {
     this.newPostData.next(updatedPost); // Notify home to update the post
@@ -24,9 +22,13 @@ export class SharedServicePost {
   getNewPost(): any {
     return this.newPostData;
   }
+  getEditPost(): any {
+    return this.postToEdit;
+  }
+
   clear() {
     this.newPostData.next(null);
-    this.editPostSubject.next(null);
+    this.postToEdit.next(null);
 
   }
 }

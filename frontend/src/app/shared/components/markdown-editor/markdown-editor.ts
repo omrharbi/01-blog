@@ -22,7 +22,7 @@ export class MarkdownEditor {
   previewMode = false;
 
   constructor(private uploadImage: UploadImage) { }
-
+  
   ngAfterViewInit() {
     this.textareaRef.nativeElement.innerHTML = this.content;
   }
