@@ -6,17 +6,25 @@
                 <div class="d-flex align-items-center gap-3">
                     <img src="assets/potm2209a.jpg" class="rounded-circle" width="40" height="40" alt="Avatar">
                     <div>
-                        <a class="fw-medium text-decoration-none " href="/profile/sarah_codes">{{post.firstname }} {{post.lastname}}</a>
+                        <a class="fw-medium text-decoration-none " href="/profile/sarah_codes">{{post.firstname }}
+                            {{post.lastname}}</a>
                         <div class="small text-muted">2 days ago · 5 min read</div>
                     </div>
                 </div>
-                <button class="btn btn-link text-muted p-2 group-hover-opacity transition-smooth">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-three-dots" viewBox="0 0 16 16">
-                        <path
-                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                    </svg>
-                </button>
+                <div class="position-relative d-inline-block">
+                    <button class="btn btn-link text-muted p-2" (click)="popUp()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-three-dots" viewBox="0 0 16 16">
+                            <path
+                                d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                        </svg>
+                    </button>
+
+                    <ng-container *ngIf="show">
+                        <app-pop-up></app-pop-up>
+                    </ng-container>
+                </div>
+
             </div>
 
             <div class="row g-4">

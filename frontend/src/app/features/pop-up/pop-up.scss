@@ -1,0 +1,18 @@
+ 
+.drop{
+    display: flex;
+    border: none;
+    width: 90%;
+    padding: 5px;
+    margin: 5px;
+    background: transparent;
+    border-radius: 5px;
+    color: var(--text-muted) !important;
+}
+.border{
+    border: 1px solid var(--border) !important;
+}
+.drop:hover {
+    background: var(--accent) !important;
+    color: var(--muted) !important;
+}
