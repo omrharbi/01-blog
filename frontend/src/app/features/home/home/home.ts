@@ -19,6 +19,10 @@ export class Home {
   constructor(private postservice: PostService, private postDatashard: SharedServicePost) {
 
   }
+
+  onEditPost(post: PostResponse) {
+    this.postDatashard.editPost(post);
+  }
   ngOnInit() {
     console.log('Token in localStorage:', localStorage.getItem('USER_TOKEN'));
     this.postservice.getAllPost().subscribe(res => {
@@ -29,16 +33,23 @@ export class Home {
     // listen for new post coming from create page
     this.postDatashard.newpost$.subscribe(post => {
       if (post) {
-        this.posts.unshift(post);  // add to top
-        this.posts = [...this.posts];
-        // this.postDatashard.clear(); // clear after using
-      }
+        this.updatePostInList(post);
+       }
     });
 
     console.log("get all posts ", this.posts);
 
-    //  this.posts.forEach((post, index) => {
-    //   console.log(`Posts array [${index}]:`, post);
-    // });
+  }
+
+  private updatePostInList(updatedPost: PostResponse) {
+    const index = this.posts.findIndex(p => p._id === updatedPost._id);
+    if (index !== -1) {
+      // Update existing post
+      this.posts[index] = updatedPost;
+    } else {
+      // Add new post to top
+      this.posts.unshift(updatedPost);
+    }
+    this.posts = [...this.posts]; // Trigger change detection
   }
 }

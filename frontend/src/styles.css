@@ -19,8 +19,7 @@
     --input-border: hsl(0, 0%, 80%);
     --primary-bg: hsl(142, 86%, 35%, 0.1);
     --primary-foreground: #ffffff;
-    --muted-foreground: hsl(0 0% 71%);
-    --accent: hsl(24, 95%, 60%);
+     --accent: hsl(24, 95%, 60%);
     /* Shadows */
     --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
     --shadow-card-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
@@ -41,6 +40,7 @@
     --background: hsl(220, 20%, 10%);
     --foreground: hsl(0, 0%, 100%);
     --muted-foreground: hsl(0, 0%, 70%);
+    --muted:
   }
  /* Dark mode overrides */
   body.dark {
