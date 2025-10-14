@@ -21,7 +21,7 @@
                     </button>
 
                     <ng-container *ngIf="show">
-                        <app-pop-up></app-pop-up>
+                        <app-pop-up    [post]="post"  (editPost)="onEditPost($event)" ></app-pop-up>
                     </ng-container>
                 </div>
 

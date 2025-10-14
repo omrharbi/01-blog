@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PostResponse } from '../../core/models/postData/postResponse';
 import { SharedServicePost } from '../../core/service/serivecLogique/shared-service/shared-service-post';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pop-up',
@@ -10,9 +11,14 @@ import { SharedServicePost } from '../../core/service/serivecLogique/shared-serv
 })
 export class PopUp {
   @Input() post!: PostResponse;
-  constructor(private sharedService: SharedServicePost) { }
+  @Output() editPost = new EventEmitter<any>();
+  constructor(private sharedService: SharedServicePost,private router:Router) { }
 
   onEdit() {
-    this.sharedService.editPost(this.post);
+    this.editPost.emit(this.post); 
+
+    console.log("edit",this.post);
   }
+
+    
 }

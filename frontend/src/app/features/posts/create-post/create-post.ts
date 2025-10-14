@@ -38,7 +38,8 @@ export class CreatePost {
   coverImageSrc?: string;
   isSelect: boolean = false;
   selectedFiles: File[] = [];
-
+  @Input() post: any;
+  @Output() editPost = new EventEmitter<any>();
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
   triggerFileInput() {
