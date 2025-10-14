@@ -62,17 +62,17 @@ export class CreatePost {
 
     this.route.queryParams.subscribe(params => {
       this.isEdit = params['edit'] === "true";
- 
+
     })
     const editData = this.sharedServicePost.getEditPost();
     if (editData) {
       this.postData = { ...editData };
-      this.content =  this.uploadImage.replaceImage(this.postData.htmlContent ?? "",this.postData);
-       if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
+      this.content = this.uploadImage.replaceImage(this.postData.htmlContent ?? "", this.postData);
+      if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
         this.coverImageSrc = apiUrl + this.postData.medias[0].filePath;
         this.isSelect = true;
-        console.log("edit data",this.postData);
-        
+        console.log("edit data", this.postData);
+
       } else {
         this.coverImageSrc = '';
       }
@@ -114,9 +114,8 @@ export class CreatePost {
     let contenHtml = this.removeSrcImage(this.content);
 
     this.selectedFiles = this.uploadImage.uploadfiles();
-    this.images.saveImages(this.selectedFiles,this.isEdit).subscribe({
+    this.images.saveImages(this.selectedFiles, this.isEdit).subscribe({
       next: (response) => {
-
         if (Array.isArray(response)) {
           response.forEach((fileResponse, index) => {
             uploadedMedias[index].filePath = fileResponse.filePath;
@@ -132,15 +131,28 @@ export class CreatePost {
           htmlContent: contenHtml,
           medias: uploadedMedias
         };
-        this.postService.createPosts(postRequest).subscribe({
-          next: (response) => {
-            this.sharedServicePost.setNewPost(response.data)
-            this.router.navigate(['/home']);
-          },
-          error: (error) => {
-            console.error("error to save post", error);
-          }
-        })
+        if (this.isEdit) {
+          this.postService.editPost(postRequest,this.postData.id).subscribe({
+            next: (response) => {
+              this.sharedServicePost.setNewPost(response.data)
+              this.router.navigate(['/home']);
+            },
+            error: (error) => {
+              console.error("error to update  post", error);
+            }
+          })
+        } else {
+
+          this.postService.createPosts(postRequest).subscribe({
+            next: (response) => {
+              this.sharedServicePost.setNewPost(response.data)
+              this.router.navigate(['/home']);
+            },
+            error: (error) => {
+              console.error("error to save post", error);
+            }
+          })
+        }
 
       },
       error: (error) => {

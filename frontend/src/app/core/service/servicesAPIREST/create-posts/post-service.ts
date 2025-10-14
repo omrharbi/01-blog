@@ -25,6 +25,19 @@ export class PostService {
     );
   }
 
+  editPost(postRequest: PostRequest,id:number): Observable<ApiResponse<PostResponse>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put<ApiResponse<PostResponse>>(
+      `${environment.savepost.edit}${id}`,
+      postRequest,
+      { headers }
+    );
+  }
+
   getAllPost(): Observable<ApiResponse<PostResponse[]>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${this.token}`,
