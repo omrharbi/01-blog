@@ -12,8 +12,8 @@
           connections through meaningful stories.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a class="btn-enabled btn me-2" href="/register">Start Writing</a><a class="btn bg-background"
-            href="/explore">Explore Stories</a>
+          <a class="btn-enabled btn me-2" [routerLink]="['/register']">Start Writing</a><a class="btn bg-background"
+             [routerLink]="['/explore']">Explore Stories</a>
         </div>
       </div>
 
@@ -23,3 +23,145 @@
     </div>
   </div>
 </div>
+
+<div class="everything pt-4">
+      <div class="animate-fade-in">
+        <div class="text-center mb-5">
+          <h2 class="h2 fw-bold font-playfair mb-3">
+            Everything You Need to <span class="text-gradient">Blog &amp; Connect</span>
+          </h2>
+          <p class="text-muted mx-auto font-playfair" style="max-width: 42rem;">
+            01Blog provides all the tools you need to document your learning journey and connect with like-minded
+            learners.
+          </p>
+        </div>
+
+        <div class="row g-4 mb-5">
+          <!-- Card 1 -->
+          <div class="col-12 col-md-6 col-lg-4 ">
+            <div class="card border-0 shadow-sm h-100 text-center transition-smooth bg-card">
+              <div class="card-body">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-3 p-3 green-baground"
+                  style="width:3rem; height:3rem; ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-brand-primary text-primary" width="24" height="24"
+                    fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z" />
+                    <path
+                      d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18" />
+                    <path d="m2.3 2.3 7.286 7.286" />
+                    <circle cx="11" cy="11" r="2" />
+                  </svg>
+                </div>
+                <h3 class="h5 fw-semibold mb-2 ">Rich Text Editor</h3>
+                <p class="text-muted small font-playfair">Write beautiful posts with our intuitive editor. Add images,
+                  format text, and create engaging content.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col-12 col-md-6 col-lg-4 ">
+            <div class="card border-0 shadow-sm h-100 text-center transition-smooth bg-card">
+              <div class="card-body">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-3 p-3 accent-color"
+                  style="width:3rem; height:3rem; ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-brand-accent text-accent" width="24" height="24"
+                    fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Follow &amp; Connect</h3>
+                <p class="text-muted small font-playfair">Follow your favorite writers and get notified when they
+                  publish new stories.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col-12 col-md-6 col-lg-4 ">
+            <div class="card border-0 shadow-sm h-100 text-center transition-smooth bg-card">
+              <div class="card-body">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-3 p-3 accent-color"
+                  style="width:3rem; height:3rem;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-brand-accent text-brand-accent" width="24"
+                    height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                  </svg>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Engage &amp; Discuss</h3>
+                <p class="text-muted small font-playfair">Comment on posts, share your thoughts, and build meaningful
+                  conversations.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="col-12 col-md-6 col-lg-4 ">
+            <div class="card border-0 shadow-sm h-100 text-center transition-smooth bg-card">
+              <div class="card-body">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-3 p-3 green-baground"
+                  style="width:3rem; height:3rem; ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-brand-primary text-primary" width="24" height="24"
+                    fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+                  </svg>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Save for Later</h3>
+                <p class="text-muted small font-playfair">Bookmark interesting posts and create your personal reading
+                  list.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="col-12 col-md-6 col-lg-4 ">
+            <div class="card border-0 shadow-sm h-100 text-center transition-smooth bg-card">
+              <div class="card-body">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-3 p-3 accent-color"
+                  style="width:3rem; height:3rem; ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-brand-accent text-accent" width="24" height="24"
+                    fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                  </svg>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Like &amp; Appreciate</h3>
+                <p class="text-muted small font-playfair">Show appreciation for great content and discover what others
+                  love.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="col-12 col-md-6 col-lg-4 ">
+            <div class="card border-0 shadow-sm h-100 text-center transition-smooth bg-card">
+              <div class="card-body">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-3 p-3 accent-color"
+                  style="width:3rem; height:3rem;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="text-brand-accent text-brand-accent" width="24"
+                    height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Track Your Impact</h3>
+                <p class="text-muted small font-playfair">See how many people read your stories and track your growing
+                  influence.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>

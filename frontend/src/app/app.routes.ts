@@ -19,18 +19,21 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayout, // root uses MainLayout
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       { path: '', component: Home }, // <-- default child is Home
       { path: 'create', component: CreatePost },
-      { path: 'edit', component: CreatePost },
+      { path: 'post/:id', component: PostList },
       { path: 'posts', component: PostList },
       { path: 'preview', component: Preview },
-      { path: 'post/:id', component: PostList },
       { path: 'explore', component: ExploreStories },
-      { path: 'following', component: Following },
-      { path: 'liked', component: LikedPosts },
       { path: 'profile', component: Profile },
+      {
+        path: 'edit', component: CreatePost,
+        canActivate: [authGuard]
+      },
+      { path: 'following', component: Following, canActivate: [authGuard] },
+      { path: 'liked', component: LikedPosts, canActivate: [authGuard] },
       // { path: 'bookmarks', component: Bookmarks },
       // other protected pages
     ], // default path now points to home
@@ -39,10 +42,10 @@ export const routes: Routes = [
     path: '',
     component: AuthLayout,
     children: [
-       { path: 'login', component: Login, canActivate: [guestGuard] },    // ✅ guest only
+      { path: 'login', component: Login, canActivate: [guestGuard] },    // ✅ guest only
       { path: 'register', component: Register, canActivate: [guestGuard] }, // ✅ guest only
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-     ],
+    ],
   },
   // {
   //   path: 'main',

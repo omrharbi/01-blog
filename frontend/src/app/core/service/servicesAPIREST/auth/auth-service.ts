@@ -5,6 +5,7 @@ import { environment, LocalstorageKey } from '../../../constant/constante';
 import { ApiResponse, UserResponse } from '../../../models/authentication/autResponse-module';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Login } from '../../../../features/auth/login/login';
+import { JwtService } from '../../JWT/jwt-service';
 
 
 @Injectable({
@@ -12,16 +13,15 @@ import { Login } from '../../../../features/auth/login/login';
 })
 export class AuthService {
   // const router = inject(Router);
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private jwtService: JwtService) { }
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   registrter(register: RegisterRequest) {
     return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.register}`, register).pipe(
       map((response) => {
         if (response.status && response.token) {
-          this.storeTokens(response);
           this.isAuthenticatedSubject.next(true);
-          console.log(response);
+          // console.log(response);
         }
         return response;
       })
@@ -40,44 +40,47 @@ export class AuthService {
       })
     );
   }
-  getRefreshToken(): string | null {
 
-    return localStorage.getItem(LocalstorageKey.refreshTokenKey);
-  }
-  // auth.service.ts
   validateTokenOnStartup() {
     const token = localStorage.getItem(LocalstorageKey.token);
-
     if (!token) {
       // No token - user is not really logged in
       this.logout();
       return;
     }
-
-    // Optional: Check if token is expired using jwtHelper
-    // if (this.jwtHelper.isTokenExpired(token)) {
-    //   // Token expired - logout user
-    //   this.logout();
-    //   return;
-    // }
-
-    // Token exists and is valid - user stays logged in
     this.isAuthenticatedSubject.next(true);
   }
-  private storeTokens(response: any): void {
-    
-  }
+
   logout() {
     localStorage.removeItem(LocalstorageKey.token);
     this.isAuthenticatedSubject.next(false);
-
   }
 
   isLoggedIn(): boolean {
     const token = localStorage.getItem(LocalstorageKey.token);
     return !!token;
   }
-  getToken(): string | null {
+  private getToken(): string | null {
     return localStorage.getItem(LocalstorageKey.token);
+  }
+
+  getCurrentUserRole(): string | null {
+    const token = this.getToken();
+    return token ? this.jwtService.getRoleFromToken(token) : null;
+  }
+
+
+  getCurrentUsername(): string | null {
+    const token = this.getToken();
+    return token ? this.jwtService.getUsernameFromToken(token) : null;
+  }
+
+  hasRole(role: string): boolean {
+    const userRole = this.getCurrentUserRole();
+    return userRole === role;
+  }
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    return token ? !this.jwtService.isTokenExpired(token) : false;
   }
 }

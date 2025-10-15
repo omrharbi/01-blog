@@ -18,6 +18,6 @@ export class App {
 
   ngOnInit() {
     // Check if token exists and is valid on app startup
-    this.authService.validateTokenOnStartup();
+    this.authService.isLoggedIn();
   }
 }

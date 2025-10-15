@@ -52,3 +52,36 @@
 .bg-background {
   background-color: var(--background) !important;
 }
+
+
+.main {
+  margin-top: 30px;
+}
+
+.bg-card {
+  background-color: var(--card-color) !important;
+}
+
+.green-baground {
+  background-color: var(--primary-bg) !important;
+}
+
+.accent-color {
+  background-color: var(--accent-bg) !important;
+}
+.text-brand-accent {
+  color: var(--accent);
+}
+.text-brand-primary {
+  color: var(--brand-primary);
+}
+.title-post {
+  color: var(--text-primary);
+}
+.text-muted {
+  color: var(--muted) !important;
+}
+.scroll {
+  overflow: hidden;
+}
+
