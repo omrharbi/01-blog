@@ -1,0 +1,46 @@
+.popup-card {
+  background: var(--card-color);
+  color: var(--text-primary);
+  padding: 2rem;
+//   border-radius: 16px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+// .popup-card:hover {
+//   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+//   transform: translateY(-2px);
+// }
+
+.popup-title {
+  color: var(--brand-primary);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.popup-message {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.popup-actions button {
+  background: var(--brand-primary);
+  color: var(--primary-foreground);
+  border-radius: 10px;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 255, 128, 0.3);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.popup-actions button:hover {
+  background: var(--brand-primary-hover);
+  transform: scale(1.05);
+}

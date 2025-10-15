@@ -22,12 +22,12 @@ export const routes: Routes = [
     // canActivate: [authGuard],
     children: [
       { path: '', component: Home }, // <-- default child is Home
-      { path: 'create', component: CreatePost },
       { path: 'post/:id', component: PostList },
       { path: 'posts', component: PostList },
       { path: 'preview', component: Preview },
       { path: 'explore', component: ExploreStories },
-      { path: 'profile', component: Profile },
+      { path: 'profile', component: Profile , canActivate: [authGuard]},
+      { path: 'create', component: CreatePost, canActivate: [authGuard] },
       {
         path: 'edit', component: CreatePost,
         canActivate: [authGuard]

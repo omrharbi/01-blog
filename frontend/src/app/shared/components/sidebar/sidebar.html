@@ -1,12 +1,12 @@
 <div data-sidebar="content"
   class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3 py-6 sidebar-dark">
-  <div data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 button-create write-story-btn">
-    <div data-sidebar="group-content" class="w-full text-sm">
+  <div data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 button-create write-story-btn" >
+    <div data-sidebar="group-content" class="w-full text-sm" *ngIf="isAuthenticated">
       <ul data-sidebar="menu" class="list-unstyled flex w-full min-w-0 flex-col gap-1">
         <li data-sidebar="menu-item" class="group/menu-item relative nav-item">
           <a data-sidebar="menu-button " data-size="default" data-active="false" [routerLink]="['/create']"
             class="text-decoration-none rounded-2">
-            <div
+            <div 
               class="btn-enabled flex items-center rounded-1 justify-center gap-3 p-2 hover:bg-primary-hover transition-smooth font-medium">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -52,7 +52,7 @@
               <circle cx="12" cy="12" r="10"></circle>
             </svg><span>Explore</span></a>
         </li>
-        <li data-sidebar="menu-item" class="group/menu-item relative">
+        <li data-sidebar="menu-item" class="group/menu-item relative" *ngIf="isAuthenticated">
           <a data-sidebar="menu-button" data-size="default" data-active="false"
             class="peer/menu-button nav-active flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             [routerLink]="['/following']"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -64,7 +64,7 @@
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg><span>Following</span></a>
         </li>
-        <li data-sidebar="menu-item" class="group/menu-item relative">
+        <li data-sidebar="menu-item" class="group/menu-item relative" *ngIf="isAuthenticated">
           <a data-sidebar="menu-button" data-size="default" data-active="false"
             class="peer/menu-button nav-activeflex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             [routerLink]="['/liked']"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -84,7 +84,7 @@
               <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
             </svg><span>Bookmarks</span></a>
         </li> -->
-        <li data-sidebar="menu-item" class="group/menu-item relative">
+        <li data-sidebar="menu-item" class="group/menu-item relative" *ngIf="isAuthenticated">
           <a data-sidebar="menu-button" data-size="default" data-active="false"
             class="peer/menu-button nav-active flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm w-full justify-start transition-smooth text-muted-foreground hover:text-foreground hover:bg-sidebar-hover"
             [routerLink]="['/profile']"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

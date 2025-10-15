@@ -4,11 +4,12 @@ import { RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MarkdownModule } from 'ngx-markdown';
 import { AuthService } from './core/service/servicesAPIREST/auth/auth-service';
+import { MatDialogModule } from '@angular/material/dialog';
   
 @Component({
   selector: 'app-root',
    standalone: true,
-  imports: [RouterOutlet, MatSlideToggleModule,MatIconModule,MarkdownModule],
+  imports: [RouterOutlet, MatSlideToggleModule,MatIconModule,MarkdownModule,MatDialogModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   
@@ -17,7 +18,6 @@ export class App {
  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    // Check if token exists and is valid on app startup
-    this.authService.isLoggedIn();
+     this.authService.isLoggedIn();
   }
 }

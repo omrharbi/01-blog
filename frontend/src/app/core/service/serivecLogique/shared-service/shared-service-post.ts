@@ -29,6 +29,5 @@ export class SharedServicePost {
   clear() {
     this.newPostData.next(null);
     this.postToEdit.next(null);
-
   }
 }

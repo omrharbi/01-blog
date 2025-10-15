@@ -9,5 +9,9 @@ import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-ser
   styleUrl: './sidebar.css'
 })
 export class Sidebar {
- 
+   constructor(private auth: AuthService) { }
+ isAuthenticated: boolean = false;
+  ngOnInit() {
+    this.isAuthenticated = this.auth.isLoggedIn();
+  }
 }
