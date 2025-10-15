@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
@@ -34,9 +35,10 @@ public class JwtTokenProvider {
 
   
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role,UUID id) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
+        claims.put("uuid", id);
         return createToken(claims, username, jwtAccessExpiration);
     }
 

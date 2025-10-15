@@ -1,5 +1,7 @@
 package com.__blog.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class UserService {
     @Autowired
     private UserRepository repouser;
 
-    public ApiResponse<User> finduser(Integer id) {
+    public ApiResponse<User> finduser(UUID id) {
         var user = repouser.findById(id);// .orElseThrow(() -> new ExecutionException("this user not alowd" + id));
         if (user.isPresent()) {
             return ApiResponse.<User>builder()

@@ -28,10 +28,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }
   // ✅ Add Authorization header if logged in
   const token = localStorage.getItem(LocalstorageKey.token);
-  if (token === null) {
-    notificationAlert.showError('Your session has expired. Please log in again.', true);
-    return throwError(() => new Error('Unauthorized'));
-  }
+  // if (token === null) {
+  //   notificationAlert.showError('Your session has expired. Please log in again.', true);
+  //   return throwError(() => new Error('Unauthorized'));
+  // }
   const authReq = token
     ? req.clone({
       setHeaders: {

@@ -3,6 +3,7 @@ package com.__blog.service.posts;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class PostService {
     }
 
     @Transactional
-    public ApiResponse<PostResponse> editPost(PostRequest postRequest, Integer id) {
+    public ApiResponse<PostResponse> editPost(PostRequest postRequest, UUID id) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
             System.out.println("PostService.editPost()" + post.get().getTitle());
@@ -100,12 +101,12 @@ public class PostService {
                 .error("create post").build();
     }
 
-    public ApiResponse<PostResponse> getPostById(int postid) {
+    public ApiResponse<PostResponse> getPostById(UUID postid) {
         ApiResponse<PostResponse> convResponse = getPostWithId(postid);
         return ApiResponse.<PostResponse>builder().status(true).data(convResponse.getData()).build();
     }
 
-    private ApiResponse<PostResponse> getPostWithId(int post_id) {
+    private ApiResponse<PostResponse> getPostWithId(UUID post_id) {
         Optional<Post> postOptional = postRepository.findByIdWithMedias(post_id);
         if (postOptional.isPresent()) {
             Post post = postOptional.get();

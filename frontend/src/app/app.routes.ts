@@ -26,6 +26,7 @@ export const routes: Routes = [
       { path: 'posts', component: PostList },
       { path: 'preview', component: Preview },
       { path: 'explore', component: ExploreStories },
+      
       { path: 'profile', component: Profile , canActivate: [authGuard]},
       { path: 'create', component: CreatePost, canActivate: [authGuard] },
       {

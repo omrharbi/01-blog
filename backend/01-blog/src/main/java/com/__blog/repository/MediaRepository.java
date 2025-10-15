@@ -1,12 +1,13 @@
 package com.__blog.repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.__blog.model.entity.Media;
 
-public interface MediaRepository extends JpaRepository<Media, Integer> {
+public interface MediaRepository extends JpaRepository<Media, UUID> {
 
-    List<Media> findByPost_Id(Integer id);
+    List<Media> findByPost_Id(UUID id);
 }

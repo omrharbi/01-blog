@@ -1,6 +1,7 @@
 package com.__blog.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,19 +31,19 @@ public class PostController {
 
     @Autowired
     private PostService postservice;
- 
+
     @PostMapping("/create")
     public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest postRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         ApiResponse<PostResponse> post = postservice.createPost(postRequest, userPrincipal);
         return ResponseEntity.ok(post);
     }
 
-
-     @PutMapping("/post/edit/{postid}")
-    public ResponseEntity<?> createPost(@PathVariable("postid") Integer postId,@RequestBody PostRequest postRequest ) {
+    @PutMapping("/post/edit/{postid}")
+    public ResponseEntity<?> createPost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest) {
         ApiResponse<PostResponse> post = postservice.editPost(postRequest, postId);
         return ResponseEntity.ok(post);
     }
+
     @GetMapping("/getallPost")
     public ResponseEntity<?> getPosts() {
 
@@ -52,10 +53,10 @@ public class PostController {
     }
 
     @GetMapping("/getPostById/{id}")
-    public ResponseEntity<ApiResponse<PostResponse>> getPostById(@PathVariable int id) {
+    public ResponseEntity<ApiResponse<PostResponse>> getPostById(@PathVariable UUID id) {
 
         try {
-            if (id <= 0) {
+            if (id.equals(new UUID(0, 0))) {
                 return ResponseEntity.badRequest().body(ApiResponse.<PostResponse>builder()
                         .status(false)
                         .error("Invalid post ID " + id)

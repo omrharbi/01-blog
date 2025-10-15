@@ -3,6 +3,9 @@ package com.__blog.model.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.__blog.model.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +17,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -33,9 +35,13 @@ import lombok.Setter;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -96,10 +102,10 @@ public class User {
     @OneToMany(mappedBy = "triggerUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Notification> triggerUser = new ArrayList<>();
- 
-     @OneToOne(mappedBy = "user",  fetch = FetchType.LAZY)
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
-    private RefreshToken refreshToken; 
+    private RefreshToken refreshToken;
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)

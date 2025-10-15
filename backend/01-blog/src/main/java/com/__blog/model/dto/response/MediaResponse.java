@@ -1,5 +1,7 @@
 package com.__blog.model.dto.response;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MediaResponse {
 
-    private Integer id;
+    private UUID id;
     private String filename;
     private String filePath;
     private String fileType;

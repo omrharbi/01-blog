@@ -2,6 +2,7 @@ package com.__blog.model.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostResponse {
 
-    private Integer id;
+     private UUID id;
     private String title;
     private String content;
     private String htmlContent;

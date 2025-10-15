@@ -53,7 +53,7 @@ public class AuthService {
                     .error("This username  already exists: " + user.getUsername()).build();
         }
         String valid = userService.register(user);
-        String token = tokenProvider.generateToken(user.getUsername(), user.getRole().name());
+        String token = tokenProvider.generateToken(user.getUsername(), user.getRole().name(),user.getId());
         return ApiResponse.<RegisterRequest>builder()
                 .status(true)
                 .token(token)
@@ -81,7 +81,7 @@ public class AuthService {
                         user.getPassword()));
         if (auth.isAuthenticated()) {
             // api
-            String token = tokenProvider.generateToken(userEntity.getUsername(), userEntity.getRole().name());
+            String token = tokenProvider.generateToken(userEntity.getUsername(), userEntity.getRole().name(),userEntity.getId());
         //     RefreshToken refreshToken = refreshTokenService.createRefreshToken(dbUser.getData().getId());
              LoginResponse response = new LoginResponse(
                     userEntity.getId(),

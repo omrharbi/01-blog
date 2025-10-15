@@ -1,5 +1,7 @@
 package com.__blog.model.dto.response;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TagsResponse {
 
-   private Integer id;
+    private UUID id;
     private String tag;
 }

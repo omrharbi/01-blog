@@ -1,6 +1,7 @@
 package com.__blog.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class MediaController {
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseEntity<List<Media>> getMediasByPostId(@PathVariable Integer postId) {
+    public ResponseEntity<List<Media>> getMediasByPostId(@PathVariable UUID postId) {
         logger.debug("Received request to get medias for postId: {}", postId);
 
         List<Media> medias = mediaRepository.findByPost_Id(postId);

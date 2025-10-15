@@ -2,6 +2,7 @@ package com.__blog.security;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,7 +37,7 @@ public class UserPrincipal implements UserDetails {
         return user.getUsername();
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return user.getId();
     }
 

@@ -23,7 +23,7 @@ export class Home {
 
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
-    console.log(this.isAuthenticated);
+    // console.log(this.isAuthenticated);
     
     // console.log('Token in localStorage:', localStorage.getItem('USER_TOKEN'));
     this.postservice.getAllPost().subscribe(res => {

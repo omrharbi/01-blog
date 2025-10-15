@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.__blog.model.dto.response.auth.RefreshTokenResponse;
 import com.__blog.model.entity.RefreshToken;
 import com.__blog.model.entity.User;
 import com.__blog.repository.RefreshTokenRepository;
@@ -34,7 +33,7 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
-    public RefreshToken createRefreshToken(int userId) {
+    public RefreshToken createRefreshToken(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -61,26 +60,26 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public int deleteByUserId(int userId) {
+    public int deleteByUserId(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return refreshTokenRepository.deleteByUser(user);
     }
 
-    @Transactional
-    public RefreshTokenResponse refreshAccessToken(String refreshToken) {
-        RefreshToken token = findByToken(refreshToken)
-                .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+    // @Transactional
+    // public RefreshTokenResponse refreshAccessToken(String refreshToken) {
+    //     RefreshToken token = findByToken(refreshToken)
+    //             .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
 
-        verifyExpiration(token);
+    //     verifyExpiration(token);
 
-        // Generate new access token
-        User user = token.getUser();
-        String accessToken = jwtTokenProvider.generateToken(user.getUsername(), user.getRole().toString()) ;
-        RefreshToken newRefreshToken = createRefreshToken(user.getId());
+    //     // Generate new access token
+    //     User user = token.getUser();
+    //     // String accessToken = jwtTokenProvider.generateToken(user.getUsername(), user.getRole().toString()) ;
+    //     RefreshToken newRefreshToken = createRefreshToken(user.getId());
 
 
-        // Your token generation logic here
-        return new RefreshTokenResponse(accessToken, newRefreshToken.getToken());
-    }
+    //     // Your token generation logic here
+    //     return new RefreshTokenResponse(accessToken, newRefreshToken.getToken());
+    // }
 }

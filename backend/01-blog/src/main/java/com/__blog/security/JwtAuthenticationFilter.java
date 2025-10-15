@@ -56,6 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
             if (  sc.getAuthentication() == null) {
+
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 if (jwtproProvider.isTokenValid(token, userDetails)) {
