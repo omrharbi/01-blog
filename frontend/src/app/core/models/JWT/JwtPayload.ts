@@ -4,4 +4,5 @@ export interface JwtPayload {
   exp: number;      // expiration
   iat: number;      // issued at
   // add other claims as needed
+  uuid: string;
 }

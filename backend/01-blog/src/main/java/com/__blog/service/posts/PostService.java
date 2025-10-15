@@ -145,6 +145,7 @@ public class PostService {
                 .content(post.getContent())
                 .excerpt(post.getExcerpt())
                 .htmlContent(post.getHtmlContent())
+                .uuid_user(post.getUser_posts().getId())
                 .createdAt(post.getCreatedAt())
                 .medias(mediaResponses)
                 .tags(tags)

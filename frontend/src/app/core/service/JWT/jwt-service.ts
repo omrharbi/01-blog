@@ -7,7 +7,7 @@ import { JwtPayload } from '../../models/JWT/JwtPayload';
 export class JwtService {
   decodeToken(token: string): JwtPayload | null {
     try {
-      const payload = token.split('.')[0];
+      const payload = token.split('.')[1];
       const decodePayload = atob(payload.replace(/-/g, '+').replace('/_/', '/'));
       return JSON.parse(decodePayload);
     } catch (error) {
@@ -22,6 +22,12 @@ export class JwtService {
   }
 
   getRoleFromToken(token: string): string | null {
+    const payload = this.decodeToken(token);
+      console.log(payload);
+
+    return payload?.uuid || null;
+  }
+  getUUIDFromToken(token: string): string | null {
     const payload = this.decodeToken(token);
     return payload?.role || null;
   }

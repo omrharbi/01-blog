@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostResponse {
 
-     private UUID id;
+    private UUID id;
+    private UUID uuid_user;
     private String title;
     private String content;
     private String htmlContent;
@@ -38,5 +39,4 @@ public class PostResponse {
     //     this.tags = tags;
     //     this.medias = medias;
     // }
-
 }
