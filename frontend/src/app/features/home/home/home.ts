@@ -23,11 +23,11 @@ export class Home {
 
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
-    // console.log(this.isAuthenticated);
-    
-    // console.log('Token in localStorage:', localStorage.getItem('USER_TOKEN'));
+ 
     this.postservice.getAllPost().subscribe(res => {
       this.posts = res.data;
+      console.log(this.posts);
+      
     });
     // listen for new post coming from create page
     this.postDatashard.newpost$.subscribe(post => {

@@ -4,6 +4,7 @@ export interface UserResponse {
   _id: number;
   username: string;
   email: string;
+  avater: string;
 }
 
 export interface ApiResponse<T> {

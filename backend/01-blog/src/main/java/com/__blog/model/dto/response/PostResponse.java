@@ -23,6 +23,7 @@ public class PostResponse {
     private String excerpt;
     private String firstname;
     private String lastname;
+    private String avater_user;
     private LocalDateTime createdAt;
     private List<MediaResponse> medias;
     private List<TagsResponse> tags;

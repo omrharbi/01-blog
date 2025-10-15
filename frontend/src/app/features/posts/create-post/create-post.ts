@@ -48,6 +48,7 @@ export class CreatePost {
     content: '',
     htmlContent: '',
     excerpt: '',
+    avater_user: '',
     medias: [],
     tags: [],
     createdAt: ''

@@ -1,5 +1,7 @@
 package com.__blog.model.entity;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -110,5 +112,21 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Roles role = Roles.USER;
-;
+
+    public String getAvatarUrl() {
+        if (avatar != null && !avatar.isEmpty()) {
+            return avatar;
+        }
+        // Generate default avatar based on name
+        return generateDefaultAvatar();
+    }
+
+    private String generateDefaultAvatar() {
+        String name = firstname != null ? firstname : username;
+        if (name == null) {
+            name = "User";
+        }
+        String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
+        return "https://ui-avatars.com/api/?name=" + encodedName + "&background=random&color=fff&size=128";
+    }
 }

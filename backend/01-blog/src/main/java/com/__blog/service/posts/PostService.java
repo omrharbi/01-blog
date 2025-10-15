@@ -148,6 +148,7 @@ public class PostService {
                 .uuid_user(post.getUser_posts().getId())
                 .createdAt(post.getCreatedAt())
                 .medias(mediaResponses)
+                .avater_user(post.getUser_posts().getAvatarUrl())
                 .tags(tags)
                 .firstname(post.getUser_posts().getFirstname())
                 .lastname(post.getUser_posts().getLastname())

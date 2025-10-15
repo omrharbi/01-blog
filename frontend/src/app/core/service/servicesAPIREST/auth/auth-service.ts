@@ -15,6 +15,7 @@ export class AuthService {
   // const router = inject(Router);
   constructor(private http: HttpClient, private jwtService: JwtService) { }
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  urlImageUser: string = ""
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   registrter(register: RegisterRequest) {
     return this.http.post<ApiResponse<UserResponse>>(`${environment.auth.register}`, register).pipe(
@@ -34,7 +35,7 @@ export class AuthService {
         if (response.status && response.token) {
           localStorage.setItem(LocalstorageKey.token, response.token);
           this.isAuthenticatedSubject.next(true);
-
+          this.urlImageUser = response.data.avater;
         }
         return response;
       })
