@@ -42,7 +42,7 @@ public class MediaService {
 
     public void deleteAllmedia(Post post) {
         // var med=mediaRepository.findAllByPostId(post.getId());
-          mediaRepository.deleteAll(post.getMedias());
+          mediaRepository.deleteByPostId(post.getId());
         // for(var l:med){
         //     System.err.println("all media "+l.getFilename());
         // }
