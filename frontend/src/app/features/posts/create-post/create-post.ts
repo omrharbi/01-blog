@@ -64,7 +64,6 @@ export class CreatePost {
 
     this.route.queryParams.subscribe(params => {
       this.isEdit = params['edit'] === "true";
-
     })
     const editData = this.sharedServicePost.getEditPost();
     if (editData) {
@@ -74,7 +73,6 @@ export class CreatePost {
         this.coverImageSrc = apiUrl + this.postData.medias[0].filePath;
         this.isSelect = true;
         console.log("edit data", this.postData);
-
       } else {
         this.coverImageSrc = '';
       }
@@ -89,15 +87,16 @@ export class CreatePost {
     let uploadedMedias = this.uploadImage.returnfiles();
     let contentWithoutHTML = this.removeImage(this.content);
     let contenHtml = this.removeSrcImage(this.content);
-
     this.selectedFiles = this.uploadImage.uploadfiles();
+
+
     this.images.saveImages(this.selectedFiles, this.isEdit).subscribe({
       next: (response) => {
         if (Array.isArray(response)) {
           response.forEach((fileResponse, index) => {
             uploadedMedias[index].filePath = fileResponse.filePath;
             uploadedMedias[index].filename = fileResponse.filename
-            console.log(`File ${index}:`, fileResponse.filename, fileResponse.filePath);
+            // console.log(`File ${index}:`, fileResponse.filename, fileResponse.filePath);
           });
         }
 
@@ -109,6 +108,7 @@ export class CreatePost {
           medias: uploadedMedias,
           tags: this.tags
         };
+        // console.log(postRequest,"*******************/*******");
         if (this.isEdit) {
           this.postService.editPost(postRequest, this.postData.id).subscribe({
             next: (response) => {
@@ -120,7 +120,6 @@ export class CreatePost {
             }
           })
         } else {
-
           this.postService.createPosts(postRequest).subscribe({
             next: (response) => {
               this.sharedServicePost.setNewPost(response.data)
@@ -141,7 +140,7 @@ export class CreatePost {
 
   }
   addTag() {
-    if (this.newTags.trim() || this.tags.length <= 5) {
+    if (this.newTags.trim() && this.newTags.trim() != null || this.tags.length <= 5) {
       console.log(this.tags.length);
       const existTag = this.tags.some(tag => tag.tag === this.newTags.trim());
       if (!existTag) {
@@ -196,7 +195,14 @@ export class CreatePost {
     });
   }
   removeCoverImage() {
+    this.postData.medias = []
+    this.uploadImage.clearFiles();
     this.isSelect = false;
+    this.coverImageSrc = ""
+    this.selectedFiles = []
+    if (this.imageInput && this.imageInput.nativeElement) {
+      this.imageInput.nativeElement.value = '';
+    }
   }
   onContentChange(newContent: string) {
     this.content = newContent;

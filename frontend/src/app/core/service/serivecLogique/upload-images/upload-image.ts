@@ -47,6 +47,12 @@ export class UploadImage {
       this.selectImage(callback);
     }
   }
+  clearFiles(){
+    this.medias=[]
+    this.fileUpload=[]
+    this.currentDisplayOrder=0;
+    // this.selectedImageFile.;
+  }
   generateRandomFileName(originalFileName: string): string {
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 15);
@@ -65,7 +71,6 @@ export class UploadImage {
 
   }
   returnfiles(): MediaRequest[] {
-
     return this.medias;
   }
   uploadfiles(): File[] {
