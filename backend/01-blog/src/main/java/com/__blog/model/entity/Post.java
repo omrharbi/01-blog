@@ -34,7 +34,7 @@ import lombok.Setter;
 
 public class Post {
 
-   @Id
+    @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -107,4 +107,6 @@ public class Post {
         tags.remove(tag);
         tag.setPost(null);
     }
+
+     
 }

@@ -8,13 +8,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.MediaResponse;
 import com.__blog.model.dto.response.PostResponse;
 import com.__blog.model.dto.response.TagsResponse;
-import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
@@ -64,27 +62,22 @@ public class PostService {
     public ApiResponse<PostResponse> editPost(PostRequest postRequest, UUID id) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
-            System.out.println("PostService.editPost()" + post.get().getTitle());
             Post existingPost = post.get();
             existingPost.setTitle(postRequest.getTitle());
             existingPost.setContent(postRequest.getContent());
             existingPost.setHtmlContent(postRequest.getHtmlContent());
             existingPost.setExcerpt(postRequest.getExcerpt());
-            System.out.println("After update - Title: " + existingPost.getTitle());
-
-            if (postRequest.getMedias() != null) {
-                existingPost.getMedias().clear();
-                for (MediaRequest mediaRequest : postRequest.getMedias()) {
-                    Media media = mediaService.convertToMediaEntity(mediaRequest, existingPost);
-                    existingPost.addMedia(media);
-                }
+            if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
+                 mediaService.replacePostMedias(existingPost, postRequest.getMedias());
+            } 
+            else if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
+                mediaService.deleteAllmedia(existingPost);
             }
 
-            // // ✅ Update tags (clear old, add new)
             if (postRequest.getTags() != null) {
                 existingPost.getTags().clear();
                 for (TagsRequest tagRequest : postRequest.getTags()) {
-                    Tags tag = convertToTagsEntity(tagRequest); 
+                    Tags tag = convertToTagsEntity(tagRequest);
                     existingPost.addTag(tag);
                 }
             }
@@ -176,5 +169,9 @@ public class PostService {
     private TagsResponse convertToTagsResponse(Tags tag) {
         TagsResponse tags = TagsResponse.builder().id(tag.getId()).tag(tag.getTags()).build();
         return tags;
+    }
+
+    private void deleteOldMedia(Post post) {
+
     }
 }

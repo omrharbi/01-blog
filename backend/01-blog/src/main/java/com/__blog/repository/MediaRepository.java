@@ -10,4 +10,10 @@ import com.__blog.model.entity.Media;
 public interface MediaRepository extends JpaRepository<Media, UUID> {
 
     List<Media> findByPost_Id(UUID id);
+ 
+    // List<Media> deleteAllByPostId(UUID postId);
+
+    // List<Media> findAllByPostId(UUID postId);
+
+    // void deleteAllByPost(Post post);
 }

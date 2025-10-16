@@ -4,7 +4,7 @@
         <div class="card-body p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <div class="d-flex align-items-center gap-3">
-                    <img src="assets/potm2209a.jpg" class="rounded-circle" width="40" height="40" alt="Avatar">
+                    <img [src]="(post.avater_user || 'apiUrl')" class="rounded-circle" width="40" height="40" alt="Avatar">
                     <div>
                         <a class="fw-medium text-decoration-none " href="/profile/sarah_codes">{{post.firstname }}
                             {{post.lastname}}</a>
