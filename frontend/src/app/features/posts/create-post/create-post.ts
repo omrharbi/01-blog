@@ -66,6 +66,8 @@ export class CreatePost {
       this.isEdit = params['edit'] === "true";
     })
     const editData = this.sharedServicePost.getEditPost();
+    // console.log();
+    
     if (editData) {
       this.postData = { ...editData };
       this.content = this.uploadImage.replaceImage(this.postData.htmlContent ?? "", this.postData);
