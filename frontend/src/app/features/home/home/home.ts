@@ -26,7 +26,7 @@ export class Home {
  
     this.postservice.getAllPost().subscribe(res => {
       this.posts = res.data;
-      console.log(this.posts);
+      // console.log(this.posts);
       
     });
     // listen for new post coming from create page

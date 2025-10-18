@@ -23,7 +23,7 @@ export class JwtService {
 
   getRoleFromToken(token: string): string | null {
     const payload = this.decodeToken(token);
-      console.log(payload);
+      // console.log(payload);
 
     return payload?.uuid || null;
   }

@@ -55,8 +55,8 @@
                 </svg>
                 <p class="text-muted mb-3 text font-playfair">Add a cover image to make your story stand out</p>
 
-                <input #imageInput type="file" accept="image/*" (change)="onImageSelected($event)" class="d-none"
-                  id="cover-upload">
+                <input #imageInput   type="file" accept="image/*" (change)="onImageSelected($event)" class="d-none"
+                  id="cover-upload" required>
                 <label for="cover-upload" #titleRef (click)="triggerFileInput()" contenteditable="true"
                   class="btn btn-outline-secondary d-inline-flex align-items-center cursor-pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
@@ -66,7 +66,12 @@
                   </svg>
                   Upload Image
                 </label>
+                <!-- Error -->
 
+
+                <!-- <div *ngIf="imageCover.invalid && (imageCover.dirty || imageCover.touched || submitted)" class="error-message">
+                  image  Cover is required
+                </div> -->
               </div>
             </div>
             <!-- cover image -->
@@ -86,7 +91,12 @@
           <div class="card-body hover">
             <!-- <p>{{postData.title}} **************</p> -->
             <input class="form-control border-0 fs-2 fw-bold font-playfair" [(ngModel)]="postData.title"
-              (input)="onTitle($event.target.value)" placeholder="Write your story title..." />
+              (input)="onTitle($event.target.value)" placeholder="Write your story title..." #title="ngModel"
+              required />
+          </div>
+
+          <div *ngIf="title.invalid && (title.dirty || title.touched || submitted)" class="error-message">
+            title is required
           </div>
         </div>
 
@@ -95,6 +105,7 @@
         <div *ngIf="!previewMode">
           <app-markdown-editor [(content)]="content" (contentChange)="onContentChange($event)">
           </app-markdown-editor>
+
         </div>
         <!--  -->
       </div>
@@ -137,8 +148,8 @@
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Add a tag..." (keyup.enter)="addTag()"
                   [disabled]="tags.length >= 5" [(ngModel)]="newTags" [value]="newTags" />
-                <button class="btn btn-outline-secondary btn-add" (click)="addTag()" [disabled]="tags.length >= 5" >
-                  <mat-icon class="fs-5 align-content-center" >add</mat-icon>
+                <button class="btn btn-outline-secondary btn-add" (click)="addTag()" [disabled]="tags.length >= 5">
+                  <mat-icon class="fs-5 align-content-center">add</mat-icon>
                 </button>
               </div>
               <!-- Display added tags -->

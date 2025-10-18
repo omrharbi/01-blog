@@ -10,12 +10,12 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
 
 @Component({
   selector: 'app-post-list',
-  imports: [Materaile,Comment],
+  imports: [Materaile, Comment],
   templateUrl: './post-list.html',
   styleUrl: './post-list.scss'
 })
 export class PostList {
-  constructor(private postSerivce: PostService, private preview: PreviewService, private route: ActivatedRoute,private replceimge :UploadImage) { }
+  constructor(private postSerivce: PostService, private preview: PreviewService, private route: ActivatedRoute, private replceimge: UploadImage) { }
   apiUrl = apiUrl
   post: PostResponse = {
     id: 0,
@@ -23,7 +23,7 @@ export class PostList {
     content: "",
     htmlContent: "",
     excerpt: "",
-    createdAt:"",
+    createdAt: "",
     medias: [],
     tags: []
   };
@@ -35,7 +35,7 @@ export class PostList {
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
           this.post = response.data;
-          let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "",this.post );
+          let htmlContent = this.replceimge.replaceImageSrcs(this.post.htmlContent ?? "", this.post.medias ?? []);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
 
         },
@@ -47,5 +47,5 @@ export class PostList {
     })
   }
 
- 
+
 }

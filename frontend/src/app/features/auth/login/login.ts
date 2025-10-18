@@ -30,7 +30,7 @@ export class Login {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           if (response.status) {
-            console.log(response);
+            // console.log(response);
             this.router.navigate(['/']); //navigate to home ✅
           } else {
             this.errorMessage.push(response.error || 'Login failed');
@@ -44,7 +44,7 @@ export class Login {
   }
 
   continueWithGoogle(): void {
-    console.log('Continue with Google');
+    // console.log('Continue with Google');
     // Implement Google OAuth logic
   }
 

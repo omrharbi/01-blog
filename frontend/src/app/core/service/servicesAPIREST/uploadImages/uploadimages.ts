@@ -12,15 +12,24 @@ import { MediaRequest } from '../../../models/postData/postRequest';
 export class Uploadimages {
   token = localStorage.getItem('USER_TOKEN');
   constructor(private http: HttpClient) { }
-  saveImages(files: File[], isEdit:boolean): Observable<MediaResponse[]> {
+
+  saveImages(files: File[]): Observable<MediaResponse[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`
     })
 
     const formData = new FormData()
+
+    // console.log('FormData entries:');
+    // for (let [key, value] of (formData as any).entries()) {
+    //   console.log(key, value);
+    // }
     files.forEach((file) => {
       formData.append('files', file);
     });
+
+    // console.log("formData",formData);
+    
     return this.http.post<MediaResponse[]>(
       `${environment.uploads.Uploadimages}`,
       formData,

@@ -8,7 +8,7 @@ export interface PostRequest {
 }
 export interface MediaRequest {
   filename?: string;
-  filePath?: string;
+  filePath: string;
   fileType?: string;
   fileSize?: number;
   displayOrder?: number;

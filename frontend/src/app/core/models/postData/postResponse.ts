@@ -12,9 +12,11 @@ export interface PostResponse {
   tags?: Tags[]
 }
 export interface MediaResponse {
-  filePath?: string;
-  displayOrder?: number;
+  filePath: string;
+  displayOrder: number;
   filename: string;
+  fileType: string;
+  fileSize: number;
 }
 export interface Tags {
   _id?: number;
