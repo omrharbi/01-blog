@@ -66,62 +66,105 @@ export class CreatePost {
       this.isEdit = params['edit'] === "true";
     })
     const editData = this.sharedServicePost.getEditPost();
-    // console.log();
-    
-    if (editData) {
-      this.postData = { ...editData };
-      this.content = this.uploadImage.replaceImage(this.postData.htmlContent ?? "", this.postData);
-      if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
-        this.coverImageSrc = apiUrl + this.postData.medias[0].filePath;
-        this.isSelect = true;
-        console.log("edit data", this.postData);
-      } else {
-        this.coverImageSrc = '';
-      }
-    } else {
-      this.content = '';
-      this.postData.content = '';
-    }
+    this.InitializeData(editData)
+
+    // this.postData = { ...editData };
+    // this.content = this.uploadImage.replaceImage(this.postData.htmlContent ?? "", this.postData);
+    // if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
+    //   this.coverImageSrc = apiUrl + this.postData.medias[0].filePath;
+    //   this.isSelect = true;
+    //   console.log("edit data", this.postData);
+    // } else {
+    //   this.coverImageSrc = '';
+    // }
+
 
   }
-  submitPost() {
 
+  EditPost() {
     let uploadedMedias = this.uploadImage.returnfiles();
     let contentWithoutHTML = this.removeImage(this.content);
     let contenHtml = this.removeSrcImage(this.content);
     this.selectedFiles = this.uploadImage.uploadfiles();
 
+    let finalMedias = uploadedMedias;
+    if (uploadedMedias.length === 0 && this.isSelect && this.coverImageSrc) {
+      finalMedias = this.postData.medias || [];
+    }
 
     this.images.saveImages(this.selectedFiles, this.isEdit).subscribe({
       next: (response) => {
         if (Array.isArray(response)) {
           response.forEach((fileResponse, index) => {
             uploadedMedias[index].filePath = fileResponse.filePath;
-            uploadedMedias[index].filename = fileResponse.filename
-            // console.log(`File ${index}:`, fileResponse.filename, fileResponse.filePath);
+            uploadedMedias[index].filename = fileResponse.filename;
           });
+          finalMedias = uploadedMedias;
         }
 
         const postRequest: PostRequest = {
-          title: this.title,
-          excerpt: this.excerpt,
-          content: contentWithoutHTML,
-          htmlContent: contenHtml,
-          medias: uploadedMedias,
-          tags: this.tags
+          title: this.title || '', // Use current title
+          excerpt: this.excerpt || '', // Use current excerpt
+          content: contentWithoutHTML || '', // Use current content
+          htmlContent: contenHtml || '', // Use current HTML content
+          medias: finalMedias, // Use current medias
+          tags: this.tags // Use current tags
         };
-        // console.log(postRequest,"*******************/*******");
-        if (this.isEdit) {
-          this.postService.editPost(postRequest, this.postData.id).subscribe({
-            next: (response) => {
-              this.sharedServicePost.setNewPost(response.data)
-              this.router.navigate(['/home']);
-            },
-            error: (error) => {
-              console.error("error to update  post", error);
-            }
-          })
-        } else {
+
+        console.log('Sending update with:', postRequest);
+
+        this.postService.editPost(postRequest, this.postData.id).subscribe({
+          next: (response) => {
+            this.sharedServicePost.setNewPost(response.data);
+            this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error("Error updating post", error);
+          }
+        });
+      },
+      error: (error) => {
+        console.log("Error uploading images", error);
+      }
+    });
+
+
+    console.log('=== EDIT POST DEBUG ===');
+    console.log('Current title:', this.title);
+    console.log('Current excerpt:', this.excerpt);
+    console.log('Current content:', this.content);
+    console.log('Current tags:', this.tags);
+    console.log('Selected files:', this.selectedFiles);
+    console.log('Cover image selected:', this.isSelect);
+    console.log('====================');
+  }
+  submitPost() {
+    if (this.isEdit) {
+      this.EditPost()
+    } else {
+      let uploadedMedias = this.uploadImage.returnfiles();
+      let contentWithoutHTML = this.removeImage(this.content);
+      let contenHtml = this.removeSrcImage(this.content);
+      this.selectedFiles = this.uploadImage.uploadfiles();
+
+      this.images.saveImages(this.selectedFiles, this.isEdit).subscribe({
+        next: (response) => {
+          if (Array.isArray(response)) {
+            response.forEach((fileResponse, index) => {
+              uploadedMedias[index].filePath = fileResponse.filePath;
+              uploadedMedias[index].filename = fileResponse.filename
+            });
+          }
+
+          const postRequest: PostRequest = {
+            title: this.title,
+            excerpt: this.excerpt,
+            content: contentWithoutHTML,
+            htmlContent: contenHtml,
+            medias: uploadedMedias,
+            tags: this.tags
+          };
+
           this.postService.createPosts(postRequest).subscribe({
             next: (response) => {
               this.sharedServicePost.setNewPost(response.data)
@@ -131,15 +174,15 @@ export class CreatePost {
               console.error("error to save post", error);
             }
           })
+          // }
+
+        },
+        error: (error) => {
+          console.log("error", error);
+
         }
-
-      },
-      error: (error) => {
-        console.log("error", error);
-
-      }
-    });
-
+      });
+    }
   }
   addTag() {
     if (this.newTags.trim() && this.newTags.trim() != null || this.tags.length <= 5) {
@@ -160,7 +203,30 @@ export class CreatePost {
     this.tags.splice(index, 1);
   }
 
+  InitializeData(editData: PostResponse) {
+    if (editData) {
+      this.postData = { ...editData }
+      this.title = editData.title || "";
+      this.excerpt = this.postData.excerpt || '';
+      this.content = this.uploadImage.replaceImage(this.postData.htmlContent ?? "", this.postData);
 
+      this.tags = editData.tags ? [...editData.tags] : []
+      if (this.postData.medias && this.postData.medias.length > 0 && this.postData.medias[0].filePath) {
+        this.coverImageSrc = apiUrl + this.postData.medias[0].filePath;
+        this.isSelect = true;
+      } else {
+        this.coverImageSrc = '';
+      }
+    } else {
+      // Reset everything for new post
+      this.title = '';
+      this.excerpt = '';
+      this.content = '';
+      this.tags = [];
+      this.coverImageSrc = '';
+      this.isSelect = false;
+    }
+  }
   triggerFileInput() {
     this.imageInput.nativeElement.click();
   }
@@ -170,6 +236,10 @@ export class CreatePost {
   }
   onTitle(newTitle: string) {
     this.title = newTitle;
+  }
+
+  onExcerptInput(excerpt: string) {
+    this.excerpt = excerpt;
   }
   private removeSrcImage(html: string) {
     const pars = new DOMParser();

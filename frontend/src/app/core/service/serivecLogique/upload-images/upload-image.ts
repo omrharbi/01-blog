@@ -81,8 +81,6 @@ export class UploadImage {
 
     let index = 1;
     const media = post.medias ?? [];
-
-
     const processHtml = html.replace(
       /<img([^>]*) ([^>]*)>/gi,
       (match, after) => {
