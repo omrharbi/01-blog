@@ -17,13 +17,13 @@
       (click)="applyFormat('[','](https://)','link text',$event)">Link</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('- ','','list item',$event)">List</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('> ','','quote',$event)">Quote</button>
-     
-    
+
+
     <!-- <button class="btn btn-sm btn-outline-secondary" (click)="upload()" [disabled]="isUploading">
       upload
     </button> -->
     <!-- Image Upload -->
-    <input type="file" #imageInput style="display:none" (change)="onImageSelected($event)">
+    <input type="file" #imageInput style="display:none" (change)="onImageSelected($event)" multiple accept="image/*" multiple>
     <button class="btn btn-sm btn-outline-secondary" (click)="imageInput.click()" [disabled]="isUploading">
       {{ isUploading ? 'Uploading...' : 'Image' }}
     </button>
@@ -38,7 +38,7 @@
   <!-- Editor-->
   <div class="card-body d-flex flex-column flex-lg-row gap-3">
     <div #textareaRef contenteditable="true" class="form-control flex-fill textarea" (input)="onContentChange()"
-      style="min-height: 200px; overflow-y: auto;" placeholder="Write your markdown here..." >
+      style="min-height: 200px; overflow-y: auto;" placeholder="Write your markdown here...">
     </div>
 
   </div>

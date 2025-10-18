@@ -1,19 +1,26 @@
-import { Component, Input, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
-import { MarkdownModule } from 'ngx-markdown';
-// import { MarkdownEditor } from '../markdown-editor/markdown-editor';
-// import { Preview } from '../preview/preview';
-import { MediaRequest, PostRequest } from '../../../core/models/postData/postRequest';
+import { MarkdownModule, MarkdownService } from 'ngx-markdown';
+import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
+import { Preview } from '../../../shared/components/preview/preview';
+import { PostRequest } from '../../../core/models/postData/postRequest';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
-import { MediaResponse, PostResponse, Tags } from '../../../core/models/postData/postResponse';
+import { PostResponse, Tags } from '../../../core/models/postData/postResponse';
 import { apiUrl } from '../../../core/constant/constante';
-import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
-import { Preview } from '../../../shared/components/preview/preview';
 
 @Component({
   selector: 'app-create-post',
@@ -22,20 +29,29 @@ import { Preview } from '../../../shared/components/preview/preview';
   templateUrl: './create-post.html',
   styleUrl: './create-post.scss',
 })
-export class CreatePost implements OnInit, OnDestroy {
-  @Input() post: any;
-  @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
+export class CreatePost {
+  constructor(
+    private router: Router,
+    private preview: PreviewService,
+    private sharedServicePost: SharedServicePost,
+    private uploadImage: UploadImage,
+    private postService: PostService,
+    private images: Uploadimages,
+    private route: ActivatedRoute
+  ) { }
 
   previewMode = false;
-  isPreviewMode = true;
   content: string = '';
+  submitted = false;
   title: string = '';
   excerpt: string = '';
+  isPreviewMode = true;
   coverImageSrc: string = '';
-  isSelect = false;
-  submitted = false;
-  isEdit = false;
-
+  isSelect: boolean = false;
+  selectedFiles: File[] = [];
+  newFiles: File[] = [];
+  oldFiles: any[] = [];
+  allFiles: any[] = [];
   postData: PostResponse = {
     id: 0,
     title: '',
@@ -48,70 +64,149 @@ export class CreatePost implements OnInit, OnDestroy {
     createdAt: ''
   };
 
+  @Input() post: any;
+  @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('titleRef') titleRef!: ElementRef<HTMLDivElement>;
+
   newTags: string = '';
   tags: Tags[] = [];
-
-  constructor(
-    private router: Router,
-    private preview: PreviewService,
-    private sharedServicePost: SharedServicePost,
-    private uploadImage: UploadImage,
-    private postService: PostService,
-    private images: Uploadimages,
-    private route: ActivatedRoute
-  ) { }
+  isEdit: boolean = false;
+  showtitle = '';
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.isEdit = params['edit'] === 'true';
     });
-
     const editData = this.sharedServicePost.getEditPost();
-    this.initializeData(editData);
-  }
-
-  ngOnDestroy(): void {
-    this.uploadImage.clearAll();
-  }
-
-
-  private initializeData(editData: PostResponse | null): void {
-    this.uploadImage.clearAll();
-
-    if (editData && this.isEdit) {
+    if (editData) {
       this.postData = { ...editData };
-      this.title = editData.title || '';
-      this.excerpt = editData.excerpt || '';
-      this.tags = editData.tags ? [...editData.tags] : [];
-
-      // Load existing media for edit mode
-      if (editData.medias && editData.medias.length > 0) {
-        this.uploadImage.convertToFile(editData.medias);
-
-        if (editData.medias[0]?.filePath) {
-          this.coverImageSrc = apiUrl + editData.medias[0].filePath;
-          this.isSelect = true;
-        }
-
-        // Replace blob URLs with backend paths for display
-        this.content = this.uploadImage.replaceImageSrcs(
-          editData.htmlContent || '',
-          editData.medias
-        );
-      } else {
-        this.content = editData.htmlContent || '';
-      }
+      this.content = this.postData.content;
+      this.title = this.postData.title;
+      this.excerpt = this.postData.excerpt;
     } else {
-      this.title = '';
-      this.excerpt = '';
       this.content = '';
-      this.tags = [];
-      this.coverImageSrc = '';
-      this.isSelect = false;
+      this.postData.content = '';
     }
   }
 
-  onImageSelected(event: Event): void {
+  submitPost() {
+    this.newFiles = this.uploadImage.uploadfiles();
+ 
+    this.images.saveImages(this.newFiles).subscribe({
+      next: (response) => {
+        const uploadedMedias: any[] = [];
+        if (Array.isArray(response)) {
+          response.forEach((fileResponse, index) => {
+            uploadedMedias.push({
+              filePath: fileResponse.filePath,
+              filename: fileResponse.filename,
+              fileType: fileResponse.fileType || this.getFileType(fileResponse.filename),
+              fileSize: fileResponse.fileSize || 0
+            });
+          });
+        }
+        this.submitPostData(uploadedMedias);
+      },
+      error: (error) => {
+        console.log('error uploading images', error);
+      }
+    });
+
+  }
+
+  private submitPostData(allMedias: any[]) {
+    const contentWithoutHTML = this.removeImage(this.content);
+    const contenHtml = this.removeSrcImage(this.content);
+
+    const finalMedias = allMedias.map((media, index) => ({
+      ...media,
+      displayOrder: index + 1
+    }));
+
+    console.log("find all media ", finalMedias);
+    
+    const postRequest: PostRequest = {
+      title: this.title,
+      excerpt: this.excerpt,
+      content: contentWithoutHTML,
+      htmlContent: contenHtml,
+      medias: finalMedias,
+      tags: this.tags
+    };
+
+    if (this.isEdit) {
+      
+        this.postService.removeMedia(this.postData.id).subscribe({
+          
+        })
+      this.postService.editPost(postRequest, this.postData.id).subscribe({
+        next: (response) => {
+          this.sharedServicePost.setNewPost(response.data);
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('error to update post', error);
+        }
+      });
+    } else {
+      this.postService.createPosts(postRequest).subscribe({
+        next: (response) => {
+          this.sharedServicePost.setNewPost(response.data);
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('error to save post', error);
+        }
+      });
+    }
+  }
+
+  addTag() {
+    if ((this.newTags.trim() && this.newTags.trim() != null) && this.tags.length < 6) {
+      const existTag = this.tags.some(tag => tag.tag === this.newTags.trim());
+      if (!existTag) {
+        const newTag: Tags = {
+          tag: this.newTags.trim()
+        };
+        this.tags.push(newTag);
+        this.newTags = '';
+      }
+    }
+  }
+
+  removeTag(index: number) {
+    this.tags.splice(index, 1);
+  }
+
+  triggerFileInput() {
+    this.imageInput.nativeElement.click();
+  }
+
+  get previewHtml(): string {
+    let text_content = this.preview.renderMarkdownWithMedia(this.content);
+    return text_content;
+  }
+
+  onTitle(newTitle: string) {
+    this.title = newTitle;
+  }
+
+  private removeSrcImage(html: string) {
+    const pars = new DOMParser();
+    const doc = pars.parseFromString(html, 'text/html');
+    const imgs = doc.querySelectorAll('img');
+    imgs.forEach(img => {
+      img.src = '';
+    });
+    return doc.body.innerHTML;
+  }
+
+  private removeImage(html: string): string {
+    if (!html) return '';
+    return html.replace(/<img\b[^>]*>/gi, '');
+  }
+
+  onImageSelected(event: Event) {
     this.uploadImage.onImageSelected(event, (imgHTML: string) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(imgHTML, 'text/html');
@@ -123,225 +218,48 @@ export class CreatePost implements OnInit, OnDestroy {
     });
   }
 
-  removeCoverImage(): void {
-    if (this.imageInput?.nativeElement) {
-      this.imageInput.nativeElement.value = '';
-    }
-    this.uploadImage.clearAll();
+  removeCoverImage() {
+    this.postData.medias = [];
+    this.uploadImage.clearFiles();
     this.isSelect = false;
     this.coverImageSrc = '';
-    this.postData.medias = [];
+    this.selectedFiles = [];
+    if (this.imageInput && this.imageInput.nativeElement) {
+      this.imageInput.nativeElement.value = '';
+    }
+    console.log("remov some this here ");
+
   }
 
-
-  onContentChange(newContent: string): void {
+  onContentChange(newContent: string) {
     this.content = newContent;
     this.postData.content = newContent;
-
-    // Sync: remove images deleted from content
-    this.uploadImage.syncImagesWithContent(newContent);
-  }
-  submitPost(): void {
-    this.submitted = true;
-
-    if (!this.isFormValid()) {
-      return;
-    }
-
-    if (this.isEdit) {
-      this.editPost();
-    } else {
-      this.createPost();
-    }
   }
 
-  private createPost(): void {
-    // Sync images before submission
-    this.uploadImage.syncImagesWithContent(this.content);
-
-    const newFiles = this.uploadImage.getNewFiles();
-    const medias = this.uploadImage.getMedias();
-
-    this.images.saveImages(newFiles).subscribe({
-      next: (response) => {
-        // Update media paths from backend response
-        if (Array.isArray(response)) {
-          response.forEach((fileResponse, index) => {
-            const newFileIndices = Array.from(this.uploadImage.getNewFiles().keys());
-            if (index < medias.length) {
-              medias[index].filePath = fileResponse.filePath;
-              medias[index].filename = fileResponse.filename;
-            }
-          });
-        }
-
-        const cleanContent = this.uploadImage.removeImageTags(this.content);
-        const htmlContent = this.uploadImage.clearImageSrcs(this.content);
-
-        const postRequest: PostRequest = {
-          title: this.title,
-          excerpt: this.excerpt,
-          content: cleanContent,
-          htmlContent: htmlContent,
-          medias: medias,
-          tags: this.tags
-        };
-
-        // this.postService.createPosts(postRequest).subscribe({
-        //   next: (response) => {
-        //     this.sharedServicePost.setNewPost(response.data);
-        //     this.router.navigate(['/home']);
-        //   },
-        //   error: (error) => {
-        //     console.error('Error creating post:', error);
-        //   }
-        // });
-      },
-      error: (error) => {
-        console.error('Error uploading images:', error);
-      }
-    });
-  }
-
-  /**
-   * Edit existing post
-   */
-  private editPost(): void {
-    // Sync images before submission
-    this.uploadImage.syncImagesWithContent(this.content);
-
-    const newFiles = this.uploadImage.getNewFiles();
-    const allMedias = this.uploadImage.getMedias();
-
-    // If there are new files, upload them
-    if (newFiles.length > 0) {
-      this.images.saveImages(newFiles).subscribe({
-        next: (response) => {
-          this.updatePostWithNewMedias(response, allMedias);
-        },
-        error: (error) => {
-          console.error('Error uploading images:', error);
-        }
-      });
-    } else {
-      // No new images, just update post with existing medias
-      this.sendEditPostRequest(allMedias);
-    }
-  }
-
-  /**
-   * Update media paths after upload and send edit request
-   */
-  private updatePostWithNewMedias(uploadResponse: any, allMedias: MediaRequest[]): void {
-    if (Array.isArray(uploadResponse)) {
-      uploadResponse.forEach((fileResponse, index) => {
-        // Find and update the media that corresponds to this upload
-        allMedias.forEach(media => {
-
-          if (media.filePath.startsWith('blob:')) {
-            media.filePath = fileResponse.filePath;
-            media.filename = fileResponse.filename;
-          }
-        });
-      });
-    }
-    this.sendEditPostRequest(allMedias);
-  }
-  onTitle(newTitle: string): void {
-    this.title = newTitle;
-    this.postData.title = newTitle;
-  }
-  /**
-   * Send edit post request to backend
-   */
-  private sendEditPostRequest(medias: MediaRequest[]): void {
-    const cleanContent = this.uploadImage.removeImageTags(this.content);
-    const htmlContent = this.uploadImage.clearImageSrcs(this.content);
-
-    const postRequest: PostRequest = {
-      title: this.title,
-      excerpt: this.excerpt,
-      content: cleanContent,
-      htmlContent: htmlContent,
-      medias: medias,
-      tags: this.tags
-    };
-
-    this.postService.editPost(postRequest, this.postData.id).subscribe({
-      next: (response) => {
-        this.sharedServicePost.setNewPost(response.data);
-        this.router.navigate(['/home']);
-      },
-      error: (error) => {
-        console.error('Error updating post:', error);
-      }
-    });
-  }
-
-  /**
-   * Add tag
-   */
-  addTag(): void {
-    if (this.newTags.trim() && this.tags.length < 5) {
-      const existTag = this.tags.some(tag => tag.tag === this.newTags.trim());
-      if (!existTag) {
-        this.tags.push({ tag: this.newTags.trim() });
-        this.newTags = '';
-      }
-    }
-  }
-
-  /**
-   * Remove tag
-   */
-  removeTag(index: number): void {
-    this.tags.splice(index, 1);
-  }
-
-  /**
-   * Show preview
-   */
-  showPreview(): void {
+  showPreview() {
     this.previewMode = true;
   }
 
-  /**
-   * Back to edit
-   */
-  backToEdit(): void {
-    this.previewMode = false;
-  }
-
-  /**
-   * Get preview HTML
-   */
-  get previewHtml(): string {
-    return this.preview.renderMarkdownWithMedia(this.content);
-  }
-
-  /**
-   * Validate form
-   */
-  isFormValid(): boolean {
-    return (
-      this.content.trim() !== '' &&
-      this.title.trim() !== '' &&
-      this.tags.length > 0 &&
-      this.coverImageSrc.trim() !== ''
-    );
-  }
-
-  /**
-   * Check if field has error
-   */
   isValid(fieldValue: any): boolean {
     return this.submitted && (!fieldValue || fieldValue.trim() === '');
   }
 
-  /**
-   * Trigger file input
-   */
-  triggerFileInput(): void {
-    this.imageInput.nativeElement.click();
+  backToEdit() {
+    this.previewMode = false;
+  }
+
+  private getFileType(filename: string): string {
+    if (!filename) return 'application/octet-stream';
+    const ext = filename.split('.').pop()?.toLowerCase();
+    const mimeTypes: { [key: string]: string } = {
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'png': 'image/png',
+      'gif': 'image/gif',
+      'webp': 'image/webp',
+      'svg': 'image/svg+xml',
+      'pdf': 'application/pdf'
+    };
+    return mimeTypes[ext || ''] || 'application/octet-stream';
   }
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,5 +44,18 @@ public class MediaController {
 
         return ResponseEntity.ok(medias);
     }
- 
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> removeMedia(@PathVariable UUID postId) {
+
+        int medias = mediaRepository.deleteByPostId(postId);
+
+        // if (medias == null) {
+        //     logger.warn("MediaRepository returned null for postId: {}", postId);
+        //     return ResponseEntity.notFound().build();
+        // }
+
+        // logger.debug("Found {} media items for postId: {}", medias.size(), postId);
+        return ResponseEntity.ok(medias);
+    }
+
 }

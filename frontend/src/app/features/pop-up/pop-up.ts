@@ -19,10 +19,12 @@ export class PopUp {
   @Input() isOwner: boolean = false;
   isAuthenticated: boolean = false;
   uuid: string = "0";
+  @Input() post!: PostResponse;
   ngOnInit() {
+    console.log(this.post);
+    
     this.isAuthenticated = this.auth.isAuthenticated();
   }
-  @Input() post!: PostResponse;
   isEdit: boolean = false;
 
   @Output() editPost = new EventEmitter<any>();

@@ -103,7 +103,7 @@
         <!-- Content -->
 
         <div *ngIf="!previewMode">
-          <app-markdown-editor [(content)]="content" (contentChange)="onContentChange($event)">
+          <app-markdown-editor [(content)]="content" (contentChange)="onContentChange($event)" >
           </app-markdown-editor>
 
         </div>

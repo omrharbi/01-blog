@@ -8,11 +8,13 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.MediaResponse;
 import com.__blog.model.dto.response.PostResponse;
 import com.__blog.model.dto.response.TagsResponse;
+import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
@@ -67,12 +69,20 @@ public class PostService {
             existingPost.setContent(postRequest.getContent());
             existingPost.setHtmlContent(postRequest.getHtmlContent());
             existingPost.setExcerpt(postRequest.getExcerpt());
-            if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
-                 mediaService.replacePostMedias(existingPost, postRequest.getMedias());
-            } 
-            else if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
-                mediaService.deleteAllmedia(existingPost);
+
+            if (postRequest.getMedias() != null) {
+                existingPost.getMedias().clear();
+                for (MediaRequest tagRequest : postRequest.getMedias()) {
+                    Media    media = mediaService.convertToMediaEntity(tagRequest, existingPost);
+                    existingPost.addMedia(media);
+                }
             }
+            // if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
+            //      mediaService.replacePostMedias(existingPost, postRequest.getMedias());
+            // } 
+            // else if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
+            //     mediaService.deleteAllmedia(existingPost);
+            // }
 
             if (postRequest.getTags() != null) {
                 existingPost.getTags().clear();

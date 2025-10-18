@@ -35,7 +35,7 @@ export class PostList {
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
           this.post = response.data;
-          let htmlContent = this.replceimge.replaceImageSrcs(this.post.htmlContent ?? "", this.post.medias ?? []);
+          let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
 
         },

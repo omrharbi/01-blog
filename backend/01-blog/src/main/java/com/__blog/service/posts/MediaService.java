@@ -35,17 +35,18 @@ public class MediaService {
         for (MediaRequest mediaRequest : newMediaRequests) {
             Media media = convertToMediaEntity(mediaRequest, post);
             // media = mediaRepository.save(media);
-            System.out.println("MediaService.replacePostMedias()"+media.getFilename());
+            System.out.println("MediaService.replacePostMedias()" + media.getFilename());
             post.addMedia(media);
         }
     }
 
-    public void deleteAllmedia(Post post) {
+    public int deleteAllmedia(Post post) {
         // var med=mediaRepository.findAllByPostId(post.getId());
-          mediaRepository.deleteByPostId(post.getId());
+        int r = mediaRepository.deleteByPostId(post.getId());
         // for(var l:med){
         //     System.err.println("all media "+l.getFilename());
         // }
+        return r;
     }
 
     protected Media convertToMediaEntity(MediaRequest mediaDTO, Post postDTO) {

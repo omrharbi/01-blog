@@ -14,6 +14,7 @@ export const environment = {
     savepost: {
         post: apiUrl + "api/posts/create",
         edit: apiUrl + "api/posts/post/edit/",
+        removeMedia: apiUrl + "/api/media/",
     },
     getpost: {
         posts: apiUrl + "api/posts/getallPost",

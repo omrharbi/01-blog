@@ -1,9 +1,9 @@
 export interface PostResponse {
   id: number,
-  title?: string,
+  title: string,
   content: string,
-  htmlContent?: string
-  excerpt?: string,
+  htmlContent: string
+  excerpt: string,
   firstname?: string,
   lastname?: string,
   avater_user?: string,

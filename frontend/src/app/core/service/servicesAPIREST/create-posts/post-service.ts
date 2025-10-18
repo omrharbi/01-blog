@@ -30,7 +30,8 @@ export class PostService {
       Authorization: `Bearer ${this.token}`,
       'Content-Type': 'application/json'
     });
-
+    // console.log(id,"");
+    
     return this.http.put<ApiResponse<PostResponse>>(
       `${environment.savepost.edit}${id}`,
       postRequest,
@@ -38,6 +39,17 @@ export class PostService {
     );
   }
 
+   removeMedia( id:number): Observable<number> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+    
+    return this.http.delete<number>(
+      `${environment.savepost.removeMedia}${id}`,
+       { headers }
+    );
+  }
   getAllPost(): Observable<ApiResponse<PostResponse[]>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${this.token}`,

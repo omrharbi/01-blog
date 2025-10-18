@@ -19,7 +19,7 @@ public interface MediaRepository extends JpaRepository<Media, UUID> {
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM media WHERE posts_id = :postId", nativeQuery = true)
-    void deleteByPostId(@Param("postId") UUID postId);
+    Integer deleteByPostId(@Param("postId") UUID postId);
 //    List<Media> deleteAllByPostId(UUID postId);
 
     // List<Media> findAllByPostId(UUID postId);
