@@ -3,6 +3,7 @@ package com.__blog.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import com.__blog.service.posts.PostService;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -28,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok(userProfile);
     }
 
-    @GetMapping("/getAllPosts")
+    @GetMapping("/getMyPosts")
     public ResponseEntity<?> getAllPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         // return userService.findByUsername(username);
         var posts = postService.getPostsFromUserId(userPrincipal.getId());

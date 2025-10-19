@@ -1,6 +1,7 @@
 package com.__blog.service.posts;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class MediaService {
     }
 
     public void replacePostMedias(Post post, List<MediaRequest> newMediaRequests) {
-        deleteAllmedia(post);
+        deleteAllmedia(post.getId());
         post.getMedias().clear();
 
         for (MediaRequest mediaRequest : newMediaRequests) {
@@ -40,9 +41,18 @@ public class MediaService {
         }
     }
 
-    public int deleteAllmedia(Post post) {
+    public List<Media> deleteAllmedia(UUID postId) {
+        List<Media> deletedMedia = mediaRepository.findByPost_Id(postId);
+
+        if (!deletedMedia.isEmpty()) {
+            mediaRepository.deleteAll(deletedMedia);
+        }
+        return deletedMedia;
+    }
+
+    public List<Media> findByPostId(UUID postId) {
         // var med=mediaRepository.findAllByPostId(post.getId());
-        int r = mediaRepository.deleteByPostId(post.getId());
+        List<Media> r = mediaRepository.findByPost_Id(postId);
         // for(var l:med){
         //     System.err.println("all media "+l.getFilename());
         // }

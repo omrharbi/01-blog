@@ -14,6 +14,7 @@ import { ExploreStories } from './features/explore-stories/explore-stories';
 import { Following } from './features/following/following';
 import { LikedPosts } from './features/liked-posts/liked-posts';
 import { Profile } from './features/profile/profile';
+import { CanDeactivateGuard } from './core/guards/CanDeactivateGuard/CanDeactivateGuard';
 // import { Bookmarks } from './features/bookmarks/bookmarks';
 export const routes: Routes = [
   {
@@ -31,7 +32,8 @@ export const routes: Routes = [
       { path: 'create', component: CreatePost, canActivate: [authGuard] },
       {
         path: 'edit', component: CreatePost,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
+        canDeactivate: [CanDeactivateGuard]
       },
       { path: 'following', component: Following, canActivate: [authGuard] },
       { path: 'liked', component: LikedPosts, canActivate: [authGuard] },

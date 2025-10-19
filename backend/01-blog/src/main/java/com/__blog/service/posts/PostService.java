@@ -67,6 +67,12 @@ public class PostService {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
             Post existingPost = post.get();
+            List<Media> mediaDelete = mediaService.deleteAllmedia(existingPost.getId());
+            for (var v : mediaDelete) {
+                System.err.println("*********************" + v.getFilename());
+
+            }
+
             existingPost.setTitle(postRequest.getTitle());
             existingPost.setContent(postRequest.getContent());
             existingPost.setHtmlContent(postRequest.getHtmlContent());
@@ -79,7 +85,6 @@ public class PostService {
                     existingPost.addMedia(media);
                 }
             }
-    
 
             if (postRequest.getTags() != null) {
                 existingPost.getTags().clear();
@@ -183,16 +188,20 @@ public class PostService {
             var tagDTO = convertToTagsResponse(tag);
             tags.add(tagDTO);
         }
-        Media firstImage=post.getMedias().stream().findFirst().orElse(null);
+        Optional<Media> firstImage = post.getMedias().stream().findFirst();
+        String image = "";
+        if (firstImage.isPresent()) {
+            image = firstImage.get().getFilePath();
+        }
         PostResponse postResponse = PostResponse.builder()
                 .id(post.getId())
                 .uuid_user(post.getUser().getId())
-                .firstImage(firstImage.getFilePath())
+                .firstImage(image)
                 .content(post.getContent())
                 .title(post.getTitle())
                 .createdAt(post.getCreatedAt())
                 .avater_user(post.getUser().getAvatarUrl())
-                 .tags(tags)
+                .tags(tags)
                 .build();
 
         return postResponse;

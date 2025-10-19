@@ -79,7 +79,6 @@ export class UploadImage {
   }
 
   replaceImage(html: string, post: PostResponse): string {
-
     let index = 1;
     const media = post.medias ?? [];
 
@@ -97,4 +96,6 @@ export class UploadImage {
     )
     return processHtml;
   }
+
+   
 }

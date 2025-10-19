@@ -1,46 +1,47 @@
- <main class="container-fluid px-3 px-lg-4 py-4  "  >
-        <div class="mb-5">
-            <!-- Cover Image -->
-            <div class="position-relative mb-5">
-                <div class="cover-image">
-                    <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200" alt="Cover">
-                </div>
-                
-                <!-- Profile Avatar -->
-                <div class="profile-avatar">
-                    <img  [src]="(userProfile.avatar || 'apiUrl')" alt="John Developer">
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="position-absolute bottom-0 end-0 p-3 d-flex gap-2">
-                    <button class="btn btn-custom-secondary d-flex align-items-center gap-2" (click)="EditPorfile()">
-                        <i class="bi bi-gear"></i>
-                        <span class="d-none d-sm-inline">Edit Profile</span>
-                    </button>
-                    <button class="btn btn-custom-primary d-flex align-items-center gap-2">
-                        <i class="bi bi-plus"></i>
-                        <span class="d-none d-sm-inline">Write Story</span>
-                    </button>
-                </div>
+<main class="container-fluid px-3 px-lg-4 py-4  ">
+    <div class="mb-5">
+        <!-- Cover Image -->
+        <div class="position-relative mb-5">
+            <div class="cover-image">
+                <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200" alt="Cover">
             </div>
-            <ng-container *ngIf="!editProfile">
+
+            <!-- Profile Avatar -->
+            <div class="profile-avatar">
+                <img [src]="(userProfile.avatar || 'apiUrl')" alt="John Developer">
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="position-absolute bottom-0 end-0 p-3 d-flex gap-2">
+                <button class="btn btn-custom-secondary d-flex align-items-center gap-2" (click)="EditPorfile()">
+                    <i class="bi bi-gear"></i>
+                    <span class="d-none d-sm-inline">Edit Profile</span>
+                </button>
+                <button class="btn btn-custom-primary d-flex align-items-center gap-2">
+                    <i class="bi bi-plus"></i>
+                    <span class="d-none d-sm-inline">Write Story</span>
+                </button>
+            </div>
+        </div>
+        <ng-container *ngIf="!editProfile">
             <!-- Profile Info -->
-                <div class="px-4" style="padding-top: 4rem;">
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <h1 class="h2 font-playfair fw-bold mb-0">{{userProfile.firstname | uppercase}} {{userProfile.lastname | uppercase}}</h1>
-                            <!-- <span class="badge badge-verified">Verified</span> -->
-                        </div>
-                        <p class="fs-5 text-muted-custom mb-3">@{{userProfile.username}}</p>
+            <div class="px-4" style="padding-top: 4rem;">
+                <div class="mb-4">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <h1 class="h2 font-playfair fw-bold mb-0">{{userProfile.firstname | uppercase}}
+                            {{userProfile.lastname | uppercase}}</h1>
+                        <!-- <span class="badge badge-verified">Verified</span> -->
                     </div>
+                    <p class="fs-5 text-muted-custom mb-3">@{{userProfile.username}}</p>
+                </div>
 
-                    <p class="mb-4 text-secondary-custom" style="max-width: 600px; line-height: 1.6;">
-                        {{userProfile.about}}
-                        <!-- Full-stack developer passionate about React, Node.js, and building great user experiences. Sharing my learning journey and insights from 5+ years in tech. -->
-                    </p>
+                <p class="mb-4 text-secondary-custom" style="max-width: 600px; line-height: 1.6;">
+                    {{userProfile.about}}
+                    <!-- Full-stack developer passionate about React, Node.js, and building great user experiences. Sharing my learning journey and insights from 5+ years in tech. -->
+                </p>
 
-                    <!-- Meta Info -->
-                    <!-- <div class="d-flex flex-wrap gap-4 mb-4 small text-muted-custom">
+                <!-- Meta Info -->
+                <!-- <div class="d-flex flex-wrap gap-4 mb-4 small text-muted-custom">
                         <div class="d-flex align-items-center gap-1">
                             <i class="bi bi-geo-alt"></i>
                             <span>San Francisco, CA</span>
@@ -55,70 +56,75 @@
                         </div>
                     </div> -->
 
-                    <!-- Stats -->
-                    <div class="d-flex gap-5 mb-4">
-                        <div class="text-center">
-                            <div class="h3 fw-bold mb-0">567</div>
-                            <div class="small text-muted-custom">Following</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="h3 fw-bold mb-0">1,234</div>
-                            <div class="small text-muted-custom">Followers</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="h3 fw-bold mb-0">42</div>
-                            <div class="small text-muted-custom">Stories</div>
-                        </div>
+                <!-- Stats -->
+                <div class="d-flex gap-5 mb-4">
+                    <div class="text-center">
+                        <div class="h3 fw-bold mb-0">567</div>
+                        <div class="small text-muted-custom">Following</div>
                     </div>
-
-                    <!-- Tags -->
-                    <div class="d-flex flex-wrap gap-2 mb-4">
-                        <span class="tag">React</span>
-                        <span class="tag">Node.js</span>
-                        <span class="tag">TypeScript</span>
-                        <span class="tag">AWS</span>
-                        <span class="tag">GraphQL</span>
+                    <div class="text-center">
+                        <div class="h3 fw-bold mb-0">1,234</div>
+                        <div class="small text-muted-custom">Followers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="h3 fw-bold mb-0">42</div>
+                        <div class="small text-muted-custom">Stories</div>
                     </div>
                 </div>
 
-                <!-- Tabs -->
-                <ul class="nav nav-tabs-custom mt-5" id="profileTabs" role="tablist">
-                    <li class="nav-item flex-fill" role="presentation">
-                        <button class="nav-link active w-100" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button" role="tab">
-                            <i class="bi bi-file-text me-2"></i>Posts (42)
-                        </button>
-                    </li>
-                    <li class="nav-item flex-fill" role="presentation">
-                        <button class="nav-link w-100" id="likes-tab" data-bs-toggle="tab" data-bs-target="#likes" type="button" role="tab">
-                            <i class="bi bi-heart me-2"></i>Likes
-                        </button>
-                    </li>
-                    <!-- <li class="nav-item flex-fill" role="presentation">
+                <!-- Tags -->
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">AWS</span>
+                    <span class="tag">GraphQL</span>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs-custom mt-5" id="profileTabs" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link active w-100" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts"
+                        type="button" role="tab">
+                        <i class="bi bi-file-text me-2"></i>Posts (42)
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="likes-tab" data-bs-toggle="tab" data-bs-target="#likes"
+                        type="button" role="tab">
+                        <i class="bi bi-heart me-2"></i>Likes
+                    </button>
+                </li>
+                <!-- <li class="nav-item flex-fill" role="presentation">
                         <button class="nav-link w-100" id="bookmarks-tab" data-bs-toggle="tab" data-bs-target="#bookmarks" type="button" role="tab">
                             <i class="bi bi-bookmark me-2"></i>Bookmarks
                         </button>
                     </li> -->
-                    <li class="nav-item flex-fill" role="presentation">
-                        <button class="nav-link w-100" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">
-                            <i class="bi bi-person me-2"></i>About
-                        </button>
-                    </li>
-                </ul>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="about-tab" data-bs-toggle="tab" data-bs-target="#about"
+                        type="button" role="tab">
+                        <i class="bi bi-person me-2"></i>About
+                    </button>
+                </li>
+            </ul>
 
-                <!-- Tab Content -->
-                <div class="tab-content mt-4" id="profileTabsContent">
-                    <!-- Posts Tab -->
-                    <div class="tab-pane fade show active" id="posts" role="tabpanel">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h2 class="h3 font-playfair fw-bold">Published Stories</h2>
-                            <!-- <div class="btn-group">
+            <!-- Tab Content -->
+            <div class="tab-content mt-4" id="profileTabsContent">
+                <!-- Posts Tab -->
+                <div class="tab-pane fade show active" id="posts" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="h3 font-playfair fw-bold">Published Stories</h2>
+                        <!-- <div class="btn-group">
                                 <button class="btn btn-sm btn-custom-secondary">Latest</button>
                                 <button class="btn btn-sm btn-custom-secondary">Popular</button>
                             </div> -->
-                        </div>
+                    </div>
 
-                       
-                        <!-- Story Card 2 -->
+
+                    <!-- Story Card 2 -->
+                    <ng-container *ngFor="let p of post">
+
                         <div class="card card-custom mb-4">
                             <div class="card-body p-4">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
@@ -127,7 +133,9 @@
                                             <img [src]="(userProfile.avatar || 'apiUrl')" alt="userProfile.username">
                                         </div>
                                         <div>
-                                            <a href="#" class="fw-medium text-decoration-none link-hover" style="color: var(--foreground-color);">John Developer</a>
+                                            <a href="#" class="fw-medium text-decoration-none link-hover"
+                                                style="color: var(--foreground-color);">{{userProfile.firstname }}
+                                                {{userProfile.lastname }}</a>
                                             <div class="small text-muted-custom">1 week ago · 12 min read</div>
                                         </div>
                                     </div>
@@ -138,11 +146,15 @@
 
                                 <div class="row g-4">
                                     <div class="col-md-8">
-                                        <a routerLink="/post/{{userProfile.id}}"class="text-decoration-none" style="color: var(--foreground-color);">
-                                            <h3 class="h5 font-playfair fw-bold mb-2 line-clamp-2">Why I Switched from REST to GraphQL (And You Should Too)</h3>
-                                            <p class="text-muted-custom mb-3 line-clamp-3">GraphQL has transformed how I think about API design and data fetching. Here's my experience making the transition and the benefits I've discovered...</p>
+                                        <a routerLink="/post/{{p.id}}" class="text-decoration-none"
+                                            style="color: var(--foreground-color);">
+                                            <h3 class="h5 font-playfair fw-bold mb-2 line-clamp-2">{{p.title}}</h3>
+                                            <div class="text-muted-custom mb-3 line-clamp-3" [innerHTML]="p.content">
+                                                <!-- {{p.content}} -->
+                                            </div>
+                                          <!-- <div ></div> -->
                                         </a>
-                                        
+
                                         <div class="d-flex flex-wrap gap-2 mb-3">
                                             <span class="tag tag-muted">GraphQL</span>
                                             <span class="tag tag-muted">API</span>
@@ -173,83 +185,82 @@
                                     <div class="col-md-4">
                                         <a href="#">
                                             <div class="card-image">
-                                                <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=800" alt="Article">
+                                                <img [src]="apiUrl+(p.firstImage || '')" alt="Article">
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="text-center mt-5">
-                            <button class="btn btn-lg btn-custom-secondary">Load More Stories</button>
-                        </div>
+                    </ng-container>
+                    <div class="text-center mt-5">
+                        <button class="btn btn-lg btn-custom-secondary">Load More Stories</button>
                     </div>
+                </div>
 
-                    <!-- Likes Tab -->
-                    <div class="tab-pane fade" id="likes" role="tabpanel">
-                        <div class="empty-state">
-                            <i class="bi bi-heart"></i>
-                            <h3 class="h5 mb-2">You haven't liked any posts yet</h3>
-                            <p class="text-muted-custom">Start exploring and like posts that interest you.</p>
-                        </div>
+                <!-- Likes Tab -->
+                <div class="tab-pane fade" id="likes" role="tabpanel">
+                    <div class="empty-state">
+                        <i class="bi bi-heart"></i>
+                        <h3 class="h5 mb-2">You haven't liked any posts yet</h3>
+                        <p class="text-muted-custom">Start exploring and like posts that interest you.</p>
                     </div>
+                </div>
 
-                    <!-- Bookmarks Tab -->
-                    <!-- <div class="tab-pane fade" id="bookmarks" role="tabpanel">
-                        <div class="empty-state">
-                            <i class="bi bi-bookmark"></i>
-                            <h3 class="h5 mb-2">No bookmarks yet</h3>
-                            <p class="text-muted-custom">Save posts to read later by bookmarking them.</p>
-                        </div>
-                    </div> -->
+            
 
-                    <!-- About Tab -->
-                    <div class="tab-pane fade" id="about" role="tabpanel">
-                        <div class="row g-4">
-                            <div class="col-lg-6">
-                                <div class="stats-card">
-                                    <h4 class="h6 font-playfair fw-bold mb-3">About John Developer</h4>
-                                    <p class="mb-3" style="line-height: 1.6;">Full-stack developer passionate about React, Node.js, and building great user experiences. Sharing my learning journey and insights from 5+ years in tech.</p>
-                                    <hr class="my-3">
-                                    <div class="mb-2">
-                                        <strong>Location:</strong> San Francisco, CA
-                                    </div>
-                                    <div class="mb-2">
-                                        <strong>Website:</strong> <a href="https://johndev.com" target="_blank" style="color: var(--brand-primary);">https://johndev.com</a>
-                                    </div>
-                                    <div>
-                                        <strong>Member since:</strong> March 2021
-                                    </div>
+                <!-- About Tab -->
+                <div class="tab-pane fade" id="about" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="stats-card">
+                                <h4 class="h6 font-playfair fw-bold mb-3">About John Developer</h4>
+                                <p class="mb-3" style="line-height: 1.6;">Full-stack developer passionate about React,
+                                    Node.js, and building great user experiences. Sharing my learning journey and
+                                    insights from 5+ years in tech.</p>
+                                <hr class="my-3">
+                                <div class="mb-2">
+                                    <strong>Location:</strong> San Francisco, CA
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Website:</strong> <a href="https://johndev.com" target="_blank"
+                                        style="color: var(--brand-primary);">https://johndev.com</a>
+                                </div>
+                                <div>
+                                    <strong>Member since:</strong> March 2021
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="stats-card">
-                                    <h4 class="h6 font-playfair fw-bold mb-3">Activity Stats</h4>
-                                    <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
-                                        <span>Stories published</span>
-                                        <strong>42</strong>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
-                                        <span>Total followers</span>
-                                        <strong>1,234</strong>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
-                                        <span>Following</span>
-                                        <strong>567</strong>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Account status</span>
-                                        <span class="badge badge-verified">Active</span>
-                                    </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="stats-card">
+                                <h4 class="h6 font-playfair fw-bold mb-3">Activity Stats</h4>
+                                <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
+                                    <span>Stories published</span>
+                                    <strong>42</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
+                                    <span>Total followers</span>
+                                    <strong>1,234</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
+                                    <span>Following</span>
+                                    <strong>567</strong>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Account status</span>
+                                    <span class="badge badge-verified">Active</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </ng-container>
-            <ng-container *ngIf="editProfile">
-                <app-edit-profile></app-edit-profile>
-            </ng-container>
-        </div>
-    </main>
+
+            </div>
+        </ng-container>
+
+
+        <ng-container *ngIf="editProfile">
+            <app-edit-profile></app-edit-profile>
+        </ng-container>
+    </div>
+</main>

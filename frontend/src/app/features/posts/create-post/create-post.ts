@@ -21,6 +21,7 @@ import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 import { PostResponse, Tags } from '../../../core/models/post/postResponse';
 import { apiUrl } from '../../../core/constant/constante';
+import { CanComponentDeactivate } from '../../../core/models/CanComponentDeactivate/CanComponentDeactivate';
 
 @Component({
   selector: 'app-create-post',
@@ -29,7 +30,7 @@ import { apiUrl } from '../../../core/constant/constante';
   templateUrl: './create-post.html',
   styleUrl: './create-post.scss',
 })
-export class CreatePost {
+export class CreatePost implements CanComponentDeactivate {
   constructor(
     private router: Router,
     private preview: PreviewService,
@@ -50,11 +51,11 @@ export class CreatePost {
   isSelect: boolean = false;
   selectedFiles: File[] = [];
   newFiles: File[] = [];
- 
+
   postData: PostResponse = {
     id: 0,
     title: '',
-    firstImage:"",
+    firstImage: "",
     content: '',
     htmlContent: '',
     excerpt: '',
@@ -72,8 +73,13 @@ export class CreatePost {
   tags: Tags[] = [];
   isEdit: boolean = false;
   showtitle = '';
-
+  canDeactivate(): boolean {
+    console.log('Clearing files...');
+    this.uploadImage.clearFiles();
+    return true; // Allow navigation
+  }
   ngOnInit(): void {
+    // this.uploadImage.clearFiles()
     this.route.queryParams.subscribe(params => {
       this.isEdit = params['edit'] === 'true';
     });
@@ -91,17 +97,17 @@ export class CreatePost {
 
   submitPost() {
     this.newFiles = this.uploadImage.uploadfiles();
- 
     this.images.saveImages(this.newFiles).subscribe({
       next: (response) => {
         const uploadedMedias: any[] = [];
         if (Array.isArray(response)) {
-          response.forEach((fileResponse) => {
+          response.forEach((fileResponse, index) => {
             uploadedMedias.push({
               filePath: fileResponse.filePath,
               filename: fileResponse.filename,
               fileType: fileResponse.fileType || this.getFileType(fileResponse.filename),
-              fileSize: fileResponse.fileSize || 0
+              fileSize: fileResponse.fileSize || 0,
+              displayOrder: index
             });
           });
         }
@@ -118,27 +124,37 @@ export class CreatePost {
     const contentWithoutHTML = this.removeImage(this.content);
     const contenHtml = this.removeSrcImage(this.content);
 
-    const finalMedias = allMedias.map((media, index) => ({
-      ...media,
-      displayOrder: index + 1
-    }));
+    // const finalMedias = allMedias.map((media, index) => ({
+    //   ...media,
+    //   displayOrder: index 
+    // }));
 
-    console.log("find all media ", finalMedias);
-    
+    console.log("find all media ", allMedias);
+
     const postRequest: PostRequest = {
       title: this.title,
       excerpt: this.excerpt,
       content: contentWithoutHTML,
       htmlContent: contenHtml,
-      medias: finalMedias,
+      medias: allMedias,
       tags: this.tags
     };
 
     if (this.isEdit) {
-      
-        this.postService.removeMedia(this.postData.id).subscribe({
-          
-        })
+
+      // this.postService.removeMedia(this.postData.id).subscribe({
+      //   next: response => {
+      //     console.log(response,"response");
+
+      //   },
+      //   error: err => {
+      //     console.log("error", err);
+
+      //   }
+      // })
+
+      // console.log(postRequest);
+
       this.postService.editPost(postRequest, this.postData.id).subscribe({
         next: (response) => {
           this.sharedServicePost.setNewPost(response.data);
@@ -218,8 +234,9 @@ export class CreatePost {
     });
   }
 
-  cancel(){
+  cancel() {
     this.router.navigate(['/'])
+    this.uploadImage.clearFiles()
   }
   removeCoverImage() {
     this.postData.medias = [];

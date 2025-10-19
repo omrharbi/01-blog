@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../models/authentication/autResponse-module';
 import { UserProfile } from '../../../models/user/userProfileResponse';
 import { environment, token } from '../../../constant/constante';
+import { PostResponse } from '../../../models/post/postResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,19 @@ export class ProfileService {
     })
     return this.http.get<ApiResponse<UserProfile>>(
       `${environment.user.getMe}`, {
+      headers
+    }
+    )
+  }
+
+
+  GetMyPosts(): Observable<ApiResponse<PostResponse[]>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.get<ApiResponse<PostResponse[]>>(
+      `${environment.user.getMyPosts}`, {
       headers
     }
     )

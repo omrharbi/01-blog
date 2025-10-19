@@ -15,7 +15,8 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
   styleUrl: './post-list.scss'
 })
 export class PostList {
-  constructor(private postSerivce: PostService, private preview: PreviewService, private route: ActivatedRoute, private replceimge: UploadImage) { }
+  constructor(private postSerivce: PostService, private preview: PreviewService, 
+    private route: ActivatedRoute, private replceimge: UploadImage) { }
   apiUrl = apiUrl
   post: PostResponse = {
     id: 0,
