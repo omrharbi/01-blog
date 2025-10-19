@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,9 @@ import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.MediaResponse;
-import com.__blog.model.dto.response.PostResponse;
 import com.__blog.model.dto.response.TagsResponse;
+import com.__blog.model.dto.response.post.PostResponse;
+import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
@@ -36,7 +38,7 @@ public class PostService {
     public ApiResponse<PostResponse> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
         Post post = convertToEntity(postRequest);
-        post.setUser_posts(user);
+        post.setUser(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
 
             for (var medai : postRequest.getMedias()) {
@@ -53,7 +55,7 @@ public class PostService {
             });
         }
         Post savedPost = postRepository.save(post);
-        PostResponse postResponse = convertToPostResponse(savedPost);
+        PostResponse postResponse = ConvertPostResponse(savedPost);
         return ApiResponse.<PostResponse>builder()
                 .status(true)
                 .data(postResponse)
@@ -73,16 +75,11 @@ public class PostService {
             if (postRequest.getMedias() != null) {
                 existingPost.getMedias().clear();
                 for (MediaRequest tagRequest : postRequest.getMedias()) {
-                    Media    media = mediaService.convertToMediaEntity(tagRequest, existingPost);
+                    Media media = mediaService.convertToMediaEntity(tagRequest, existingPost);
                     existingPost.addMedia(media);
                 }
             }
-            // if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
-            //      mediaService.replacePostMedias(existingPost, postRequest.getMedias());
-            // } 
-            // else if (postRequest.getMedias() != null && !postRequest.getMedias().isEmpty()) {
-            //     mediaService.deleteAllmedia(existingPost);
-            // }
+    
 
             if (postRequest.getTags() != null) {
                 existingPost.getTags().clear();
@@ -92,7 +89,7 @@ public class PostService {
                 }
             }
             Post savedPost = postRepository.save(existingPost);
-            PostResponse response = convertToPostResponse(savedPost);
+            PostResponse response = ConvertPostResponse(savedPost);
             return ApiResponse.<PostResponse>builder()
                     .status(true)
                     .data(response)
@@ -104,35 +101,55 @@ public class PostService {
                 .error("create post").build();
     }
 
-    public ApiResponse<PostResponse> getPostById(UUID postid) {
-        ApiResponse<PostResponse> convResponse = getPostWithId(postid);
-        return ApiResponse.<PostResponse>builder().status(true).data(convResponse.getData()).build();
+    public ApiResponse<PostResponseWithMedia> getPostById(UUID postid) {
+        ApiResponse<PostResponseWithMedia> convResponse = getPostId(postid);
+        return ApiResponse.<PostResponseWithMedia>builder().status(true).data(convResponse.getData()).build();
     }
 
-    private ApiResponse<PostResponse> getPostWithId(UUID post_id) {
+    // this func 
+    private ApiResponse<PostResponseWithMedia> getPostId(UUID post_id) {
         Optional<Post> postOptional = postRepository.findByIdWithMedias(post_id);
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
-            PostResponse postResponse = convertToPostResponse(post);
-            return ApiResponse.<PostResponse>builder().status(true).data(postResponse).build();
+            PostResponseWithMedia postResponse = convertToPostWithMediaResponse(post);
+            return ApiResponse.<PostResponseWithMedia>builder().status(true).data(postResponse).build();
         } else {
-            return ApiResponse.<PostResponse>builder().status(true).error("this id is not found").build();
+            return ApiResponse.<PostResponseWithMedia>builder().status(true).error("this id is not found").build();
 
         }
+    }
+
+    @Transactional
+    public ApiResponse<List<PostResponse>> getPostsFromUserId(UUID id) {
+        Optional<List<Post>> posts = postRepository.findByUserId(id);
+        if (posts.isPresent()) {
+
+            List<PostResponse> postResponses = new ArrayList<>();
+            for (var post : posts.get()) {
+                Hibernate.initialize(post.getTags());
+                PostResponse postDTO = ConvertPostResponse(post);
+                postResponses.add(postDTO);
+            }
+
+            return ApiResponse.<List<PostResponse>>builder().status(true).data(postResponses).build();
+        } else {
+            return ApiResponse.<List<PostResponse>>builder().status(false).error("Error to Get this Post").build();
+        }
+
     }
 
     public ApiResponse<List<PostResponse>> getPosts() {
         List<Post> posts = postRepository.findAllWithMedias();
         List<PostResponse> allPosts = new ArrayList<>();
         for (var p : posts) {
-            PostResponse convert = convertToPostResponse(p);
+            PostResponse convert = ConvertPostResponse(p);
             allPosts.add(convert);
         }
         return ApiResponse.<List<PostResponse>>builder()
                 .status(true).data(allPosts).build();
     }
 
-    private PostResponse convertToPostResponse(Post post) {
+    private PostResponseWithMedia convertToPostWithMediaResponse(Post post) {
         List<MediaResponse> mediaResponses = new ArrayList<>();
         for (var media : post.getMedias()) {
             var mediaDTO = mediaService.convertToPostResponse(media);
@@ -144,20 +161,41 @@ public class PostService {
             var tagDTO = convertToTagsResponse(tag);
             tags.add(tagDTO);
         }
-        PostResponse response = PostResponse.builder().title(post.getTitle()).id(post.getId())
+        PostResponseWithMedia response = PostResponseWithMedia.builder().title(post.getTitle()).id(post.getId())
                 .content(post.getContent())
                 .excerpt(post.getExcerpt())
                 .htmlContent(post.getHtmlContent())
-                .uuid_user(post.getUser_posts().getId())
+                .uuid_user(post.getUser().getId())
                 .createdAt(post.getCreatedAt())
                 .medias(mediaResponses)
-                .avater_user(post.getUser_posts().getAvatarUrl())
+                .avater_user(post.getUser().getAvatarUrl())
                 .tags(tags)
-                .firstname(post.getUser_posts().getFirstname())
-                .lastname(post.getUser_posts().getLastname())
+                .firstname(post.getUser().getFirstname())
+                .lastname(post.getUser().getLastname())
                 .build();
 
         return response;
+    }
+
+    private PostResponse ConvertPostResponse(Post post) {
+        List<TagsResponse> tags = new ArrayList<>();
+        for (var tag : post.getTags()) {
+            var tagDTO = convertToTagsResponse(tag);
+            tags.add(tagDTO);
+        }
+        Media firstImage=post.getMedias().stream().findFirst().orElse(null);
+        PostResponse postResponse = PostResponse.builder()
+                .id(post.getId())
+                .uuid_user(post.getUser().getId())
+                .firstImage(firstImage.getFilePath())
+                .content(post.getContent())
+                .title(post.getTitle())
+                .createdAt(post.getCreatedAt())
+                .avater_user(post.getUser().getAvatarUrl())
+                 .tags(tags)
+                .build();
+
+        return postResponse;
     }
 
     private Post convertToEntity(PostRequest postDTO) {
@@ -181,7 +219,4 @@ public class PostService {
         return tags;
     }
 
-    private void deleteOldMedia(Post post) {
-
-    }
 }

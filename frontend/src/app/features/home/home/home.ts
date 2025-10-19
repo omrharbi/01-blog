@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CardShare } from '../card-share/card-share';
 import { Materaile } from '../../../modules/materaile-module';
 import { PostCard } from '../../posts/post-card/post-card';
-import { PostResponse } from '../../../core/models/postData/postResponse';
+import { PostResponse } from '../../../core/models/post/postResponse';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { Route, Router } from '@angular/router';
@@ -18,7 +18,9 @@ import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-ser
 })
 export class Home {
   posts: PostResponse[] = [];
-  constructor(private postservice: PostService, private postDatashard: SharedServicePost, private auth: AuthService) { }
+  constructor(private postservice: 
+    PostService, private postDatashard: 
+    SharedServicePost, private auth: AuthService) { }
   isAuthenticated: boolean = false;
 
   ngOnInit() {
@@ -26,7 +28,7 @@ export class Home {
  
     this.postservice.getAllPost().subscribe(res => {
       this.posts = res.data;
-      // console.log(this.posts);
+      console.log(this.posts);
       
     });
     // listen for new post coming from create page

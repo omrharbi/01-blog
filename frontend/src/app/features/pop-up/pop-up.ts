@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PostResponse } from '../../core/models/postData/postResponse';
+import { PostResponse } from '../../core/models/post/postResponse';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { JwtService } from '../../core/service/JWT/jwt-service';
 import { Materaile } from '../../modules/materaile-module';

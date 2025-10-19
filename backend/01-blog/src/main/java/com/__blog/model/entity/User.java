@@ -76,7 +76,7 @@ public class User {
     @Column(name = "avatar", nullable = true)
     private String avatar;
 
-    @OneToMany(mappedBy = "user_posts", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 

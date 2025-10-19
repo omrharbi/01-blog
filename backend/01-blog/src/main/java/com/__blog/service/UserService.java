@@ -5,8 +5,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.User;
 import com.__blog.repository.UserRepository;
+import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 
 @Service
@@ -14,6 +16,8 @@ public class UserService {
 
     @Autowired
     private UserRepository repouser;
+    // @Autowired
+    // private final  UserResponse response;
 
     public ApiResponse<User> finduser(UUID id) {
         var user = repouser.findById(id);// .orElseThrow(() -> new ExecutionException("this user not alowd" + id));
@@ -61,4 +65,26 @@ public class UserService {
 
         }
     }
+
+    public ApiResponse<UserResponse> profile(UserPrincipal userPrincipal) {
+        User user = userPrincipal.getUser();
+        UserResponse userResponse = ConvertResponse(user);
+        return ApiResponse.<UserResponse>builder().status(true)
+                .data(userResponse).build();
+    }
+
+    public UserResponse ConvertResponse(User user) {
+        UserResponse userResponse = UserResponse.builder()
+                .id(user.getId())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .avatar(user.getAvatarUrl())
+                .about(user.getAbout())
+                .username(user.getUsername())
+                .build();
+        return userResponse;
+    }
+
+    // public List
+
 }

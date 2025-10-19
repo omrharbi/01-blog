@@ -26,8 +26,8 @@ public class AuthService {
     private AuthenticationManager manager;
     @Autowired
     private JwtTokenProvider tokenProvider;
-    @Autowired
-    private RefreshTokenService refreshTokenService;
+//     @Autowired
+//     private RefreshTokenService refreshTokenService;
 
     @Autowired
     private UserService userService;

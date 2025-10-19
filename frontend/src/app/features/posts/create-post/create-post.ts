@@ -12,14 +12,14 @@ import { Materaile } from '../../../modules/materaile-module';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
-import { PostRequest } from '../../../core/models/postData/postRequest';
+import { PostRequest } from '../../../core/models/post/postRequest';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
-import { PostResponse, Tags } from '../../../core/models/postData/postResponse';
+import { PostResponse, Tags } from '../../../core/models/post/postResponse';
 import { apiUrl } from '../../../core/constant/constante';
 
 @Component({
@@ -50,11 +50,11 @@ export class CreatePost {
   isSelect: boolean = false;
   selectedFiles: File[] = [];
   newFiles: File[] = [];
-  oldFiles: any[] = [];
-  allFiles: any[] = [];
+ 
   postData: PostResponse = {
     id: 0,
     title: '',
+    firstImage:"",
     content: '',
     htmlContent: '',
     excerpt: '',
@@ -96,7 +96,7 @@ export class CreatePost {
       next: (response) => {
         const uploadedMedias: any[] = [];
         if (Array.isArray(response)) {
-          response.forEach((fileResponse, index) => {
+          response.forEach((fileResponse) => {
             uploadedMedias.push({
               filePath: fileResponse.filePath,
               filename: fileResponse.filename,
@@ -218,6 +218,9 @@ export class CreatePost {
     });
   }
 
+  cancel(){
+    this.router.navigate(['/'])
+  }
   removeCoverImage() {
     this.postData.medias = [];
     this.uploadImage.clearFiles();

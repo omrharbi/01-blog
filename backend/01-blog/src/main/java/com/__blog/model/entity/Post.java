@@ -73,7 +73,7 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user_posts;
+    private User user;
 
     @OneToMany(mappedBy = "post_comments", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
@@ -108,5 +108,8 @@ public class Post {
         tag.setPost(null);
     }
 
-     
+    // public User getUser(User user) {
+    //     this.
+    // }
+
 }

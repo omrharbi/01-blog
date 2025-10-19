@@ -12,7 +12,6 @@ import com.__blog.model.entity.RefreshToken;
 import com.__blog.model.entity.User;
 import com.__blog.repository.RefreshTokenRepository;
 import com.__blog.repository.UserRepository;
-import com.__blog.security.JwtTokenProvider;
 
 import jakarta.transaction.Transactional;
 
@@ -24,8 +23,8 @@ public class RefreshTokenService {
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
-    @Autowired
-    private   JwtTokenProvider jwtTokenProvider;
+    // @Autowired
+    // private   JwtTokenProvider jwtTokenProvider;
     @Autowired
     private UserRepository userRepository;
 

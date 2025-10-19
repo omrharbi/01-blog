@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/
 import { Materaile } from '../../../modules/materaile-module';
 import { apiUrl } from '../../../core/constant/constante';
 import { PopUp } from '../../pop-up/pop-up';
-import { PostResponse } from '../../../core/models/postData/postResponse';
+import { PostResponse } from '../../../core/models/post/postResponse';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';

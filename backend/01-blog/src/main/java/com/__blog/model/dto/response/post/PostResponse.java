@@ -1,17 +1,19 @@
-package com.__blog.model.dto.response;
+package com.__blog.model.dto.response.post;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.__blog.model.dto.response.TagsResponse;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 public class PostResponse {
 
@@ -19,13 +21,11 @@ public class PostResponse {
     private UUID uuid_user;
     private String title;
     private String content;
-    private String htmlContent;
-    private String excerpt;
     private String firstname;
     private String lastname;
     private String avater_user;
     private LocalDateTime createdAt;
-    private List<MediaResponse> medias;
+    private String firstImage;
     private List<TagsResponse> tags;
 
     // public PostResponse(Integer id, String title, String content, String htmlContent, String excerpt,

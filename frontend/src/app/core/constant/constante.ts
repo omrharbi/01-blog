@@ -1,5 +1,6 @@
 
 export const apiUrl = "http://localhost:9090/";
+export const token = localStorage.getItem('USER_TOKEN');
 export const environment = {
     auth: {
         login: apiUrl + "auth/login",
@@ -7,7 +8,7 @@ export const environment = {
         refreshToken: apiUrl + "auth/refreshtoken",
     },
     user: {
-        getMe: apiUrl + "users/me",
+        getMe: apiUrl + "api/user/profile",
         updateMe: apiUrl + "users/update-me",
         changePassword: apiUrl + "users/change-password",
     },

@@ -1,0 +1,23 @@
+package com.__blog.model.dto.response.user;
+
+import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
+public class UserResponse {
+
+    private UUID id;
+    private String firstname;
+    private String lastname;
+    private String about;
+    private String username;
+    private String avatar;
+
+}

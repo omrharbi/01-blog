@@ -2,6 +2,7 @@ export interface PostResponse {
   id: number,
   title: string,
   content: string,
+  firstImage:string,
   htmlContent: string
   excerpt: string,
   firstname?: string,
@@ -22,8 +23,6 @@ export interface Tags {
   _id?: number;
   tag?: string;
 }
-
-
 export interface ApiResponse<T> {
   status?: boolean;
   message?: string;

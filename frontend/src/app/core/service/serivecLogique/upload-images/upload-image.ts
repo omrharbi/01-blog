@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { MediaRequest } from '../../../models/postData/postRequest';
+import { MediaRequest } from '../../../models/post/postRequest';
 import { Uploadimages } from '../../servicesAPIREST/uploadImages/uploadimages';
-import { MediaResponse, PostResponse } from '../../../models/postData/postResponse';
+import { MediaResponse, PostResponse } from '../../../models/post/postResponse';
 import { apiUrl } from '../../../constant/constante';
 
 @Injectable({

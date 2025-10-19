@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { UploadImage } from '../../serivecLogique/upload-images/upload-image';
-import { ApiResponse, MediaResponse } from '../../../models/postData/postResponse';
+import { ApiResponse, MediaResponse } from '../../../models/post/postResponse';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../constant/constante';
-import { MediaRequest } from '../../../models/postData/postRequest';
+import { MediaRequest } from '../../../models/post/postRequest';
 
 @Injectable({
   providedIn: 'root'
