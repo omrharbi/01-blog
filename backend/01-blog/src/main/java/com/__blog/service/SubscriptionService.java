@@ -40,4 +40,18 @@ public class SubscriptionService {
         return follow;
     }
 
+    public List<UserResponse> getUsersNotFollowing(UUID id) {
+        // List<Subscription> user = subscriptionRepository.findBySubscribedTo_Id(userId);
+
+        return null;
+    }
+
+    public List<UserResponse> followUser(UUID userid, UUID targetUserId) {
+        return null;
+
+    }
+
+    public void unfollowUser(UUID userid, UUID targetUserId) {
+
+    }
 }

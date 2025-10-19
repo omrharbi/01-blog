@@ -25,13 +25,13 @@ public class SubscriptionController {
 
     @Autowired
     private SubscriptionService subscriptionService;
+
     @GetMapping("/following")
     public ResponseEntity<?> getFollowing(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         var user = subscriptionService.getFollowingUser(userPrincipal.getId());
 
         return ResponseEntity.ok(user);
     }
-
 
     @GetMapping("/followers")
     public ResponseEntity<?> getFollowers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
@@ -40,20 +40,20 @@ public class SubscriptionController {
         return ResponseEntity.ok(user);
     }
 
-
     // Get users I DON'T follow (for Explore page)
     @GetMapping("/explore/{userId}")
     public ResponseEntity<List<UserResponse>> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return ResponseEntity.ok(subscriptionService.getUsersNotFollowing(userPrincipal.getId()));
+        var user = subscriptionService.getUsersNotFollowing(userPrincipal.getId());
+        return ResponseEntity.ok(null);
     }
-    
+
     // Follow a user
     @PostMapping("/follow/{userId}/{targetUserId}")
     public ResponseEntity<Void> followUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
         subscriptionService.followUser(userPrincipal.getId(), targetUserId);
         return ResponseEntity.ok().build();
     }
-    
+
     // Unfollow a user
     @DeleteMapping("/unfollow/{userId}/{targetUserId}")
     public ResponseEntity<Void> unfollowUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
