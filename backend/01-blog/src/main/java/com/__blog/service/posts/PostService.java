@@ -9,11 +9,11 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.__blog.Component.MediaMapper;
+import com.__blog.Component.PostMapper;
 import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
-import com.__blog.model.dto.response.MediaResponse;
-import com.__blog.model.dto.response.TagsResponse;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
@@ -33,16 +33,20 @@ public class PostService {
     private PostRepository postRepository;
     @Autowired
     private MediaService mediaService;
+    @Autowired
+    private PostMapper postMapper;
+    @Autowired
+    private MediaMapper mediaMapper;
 
     @Transactional
     public ApiResponse<PostResponse> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
-        Post post = convertToEntity(postRequest);
+        Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
 
             for (var medai : postRequest.getMedias()) {
-                var mediaDTO = mediaService.convertToMediaEntity(medai, post);
+                var mediaDTO = mediaMapper.convertToMediaEntity(medai, post);
                 post.addMedia(mediaDTO);
             }
 
@@ -50,12 +54,12 @@ public class PostService {
 
         if ((postRequest.getTags() != null && !postRequest.getTags().isEmpty())) {
             postRequest.getTags().forEach(tagName -> {
-                var tag = convertToTagsEntity(tagName);
+                var tag = postMapper.convertToTagsEntity(tagName);
                 post.addTag(tag);
             });
         }
         Post savedPost = postRepository.save(post);
-        PostResponse postResponse = ConvertPostResponse(savedPost);
+        PostResponse postResponse = postMapper.ConvertPostResponse(savedPost);
         return ApiResponse.<PostResponse>builder()
                 .status(true)
                 .data(postResponse)
@@ -81,7 +85,7 @@ public class PostService {
             if (postRequest.getMedias() != null) {
                 existingPost.getMedias().clear();
                 for (MediaRequest tagRequest : postRequest.getMedias()) {
-                    Media media = mediaService.convertToMediaEntity(tagRequest, existingPost);
+                    Media media = mediaMapper.convertToMediaEntity(tagRequest, existingPost);
                     existingPost.addMedia(media);
                 }
             }
@@ -89,12 +93,12 @@ public class PostService {
             if (postRequest.getTags() != null) {
                 existingPost.getTags().clear();
                 for (TagsRequest tagRequest : postRequest.getTags()) {
-                    Tags tag = convertToTagsEntity(tagRequest);
+                    Tags tag = postMapper.convertToTagsEntity(tagRequest);
                     existingPost.addTag(tag);
                 }
             }
             Post savedPost = postRepository.save(existingPost);
-            PostResponse response = ConvertPostResponse(savedPost);
+            PostResponse response = postMapper.ConvertPostResponse(savedPost);
             return ApiResponse.<PostResponse>builder()
                     .status(true)
                     .data(response)
@@ -116,7 +120,7 @@ public class PostService {
         Optional<Post> postOptional = postRepository.findByIdWithMedias(post_id);
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
-            PostResponseWithMedia postResponse = convertToPostWithMediaResponse(post);
+            PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post);
             return ApiResponse.<PostResponseWithMedia>builder().status(true).data(postResponse).build();
         } else {
             return ApiResponse.<PostResponseWithMedia>builder().status(true).error("this id is not found").build();
@@ -132,7 +136,7 @@ public class PostService {
             List<PostResponse> postResponses = new ArrayList<>();
             for (var post : posts.get()) {
                 Hibernate.initialize(post.getTags());
-                PostResponse postDTO = ConvertPostResponse(post);
+                PostResponse postDTO = postMapper.ConvertPostResponse(post);
                 postResponses.add(postDTO);
             }
 
@@ -147,85 +151,11 @@ public class PostService {
         List<Post> posts = postRepository.findAllWithMedias();
         List<PostResponse> allPosts = new ArrayList<>();
         for (var p : posts) {
-            PostResponse convert = ConvertPostResponse(p);
+            PostResponse convert = postMapper.ConvertPostResponse(p);
             allPosts.add(convert);
         }
         return ApiResponse.<List<PostResponse>>builder()
                 .status(true).data(allPosts).build();
-    }
-
-    private PostResponseWithMedia convertToPostWithMediaResponse(Post post) {
-        List<MediaResponse> mediaResponses = new ArrayList<>();
-        for (var media : post.getMedias()) {
-            var mediaDTO = mediaService.convertToPostResponse(media);
-            mediaResponses.add(mediaDTO);
-        }
-
-        List<TagsResponse> tags = new ArrayList<>();
-        for (var tag : post.getTags()) {
-            var tagDTO = convertToTagsResponse(tag);
-            tags.add(tagDTO);
-        }
-        PostResponseWithMedia response = PostResponseWithMedia.builder().title(post.getTitle()).id(post.getId())
-                .content(post.getContent())
-                .excerpt(post.getExcerpt())
-                .htmlContent(post.getHtmlContent())
-                .uuid_user(post.getUser().getId())
-                .createdAt(post.getCreatedAt())
-                .medias(mediaResponses)
-                .avater_user(post.getUser().getAvatarUrl())
-                .tags(tags)
-                .firstname(post.getUser().getFirstname())
-                .lastname(post.getUser().getLastname())
-                .build();
-
-        return response;
-    }
-
-    private PostResponse ConvertPostResponse(Post post) {
-        List<TagsResponse> tags = new ArrayList<>();
-        for (var tag : post.getTags()) {
-            var tagDTO = convertToTagsResponse(tag);
-            tags.add(tagDTO);
-        }
-        Optional<Media> firstImage = post.getMedias().stream().findFirst();
-        String image = "";
-        if (firstImage.isPresent()) {
-            image = firstImage.get().getFilePath();
-        }
-        PostResponse postResponse = PostResponse.builder()
-                .id(post.getId())
-                .uuid_user(post.getUser().getId())
-                .firstImage(image)
-                .content(post.getContent())
-                .title(post.getTitle())
-                .createdAt(post.getCreatedAt())
-                .avater_user(post.getUser().getAvatarUrl())
-                .tags(tags)
-                .build();
-
-        return postResponse;
-    }
-
-    private Post convertToEntity(PostRequest postDTO) {
-        Post post = new Post();
-        post.setTitle(postDTO.getTitle());
-        post.setContent(postDTO.getContent());
-        post.setHtmlContent(postDTO.getHtmlContent());
-        post.setExcerpt(postDTO.getExcerpt());
-        // post.setUser_posts(user);
-        return post;
-    }
-
-    private Tags convertToTagsEntity(TagsRequest tag) {
-        Tags tags = new Tags();
-        tags.setTags(tag.getTag());
-        return tags;
-    }
-
-    private TagsResponse convertToTagsResponse(Tags tag) {
-        TagsResponse tags = TagsResponse.builder().id(tag.getId()).tag(tag.getTags()).build();
-        return tags;
     }
 
 }

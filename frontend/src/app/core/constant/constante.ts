@@ -12,6 +12,7 @@ export const environment = {
         updateMe: apiUrl + "users/update-me",
         getMyPosts: apiUrl + "api/user/getMyPosts",
         changePassword: apiUrl + "users/change-password",
+        getAllUSer: apiUrl + "api/user/AllUser",
     },
     savepost: {
         post: apiUrl + "api/posts/create",

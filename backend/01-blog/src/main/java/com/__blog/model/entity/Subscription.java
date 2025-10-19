@@ -13,10 +13,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+
 @Table
 @Entity(name = "subscription")
 @Data
 public class Subscription {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -26,10 +28,11 @@ public class Subscription {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
     @ManyToOne
-    @JoinColumn(name = "subscriber_id", nullable = false)//folloding
-    private User subscriber_User;
+    @JoinColumn(name = "subscriber_id", nullable = false)
+    private User subscriberUser;  // ✅ Matches mappedBy = "subscriberUser"
+
     @ManyToOne
-    @JoinColumn(name = "subscribed_to_id", nullable = false)//followd
+    @JoinColumn(name = "subscribed_to_id", nullable = false)
     private User subscribedTo;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

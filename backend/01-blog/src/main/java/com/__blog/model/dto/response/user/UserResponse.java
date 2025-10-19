@@ -1,5 +1,6 @@
 package com.__blog.model.dto.response.user;
 
+import java.util.Set;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -19,5 +20,5 @@ public class UserResponse {
     private String about;
     private String username;
     private String avatar;
-
+    private Set<String> skills; 
 }

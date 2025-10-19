@@ -4,7 +4,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -13,13 +15,16 @@ import com.__blog.model.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -80,7 +85,7 @@ public class User {
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "subscriber_User", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "subscriberUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Subscription> following = new ArrayList<>();
 
@@ -112,6 +117,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Roles role = Roles.USER;
+
+
+    
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "skill")
+    private Set<String> skills = new HashSet<>();
 
     public String getAvatarUrl() {
         if (avatar != null && !avatar.isEmpty()) {

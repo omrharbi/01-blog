@@ -31,11 +31,24 @@ public class UserController {
     }
 
     @GetMapping("/getMyPosts")
-    public ResponseEntity<?> getAllPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<?> getAllMyPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         // return userService.findByUsername(username);
         var posts = postService.getPostsFromUserId(userPrincipal.getId());
 
         return ResponseEntity.ok(posts);
     }
+    @GetMapping("/AllUser")
+    public ResponseEntity<?> getUsers() {
+        var users = userService.getAllUsers();
 
+        return ResponseEntity.ok(users);
+    }
+    // @PutMapping("/{userId}/profile")
+    // public ResponseEntity<UserProfileResponse> updateProfile(
+    //         @PathVariable UUID userId,
+    //         @RequestBody UpdateProfileRequest request) {
+    //     User updatedUser = userService.updateProfile(userId, request);
+    //     UserProfileResponse response = mapToResponse(updatedUser);
+    //     return ResponseEntity.ok(response);
+    // }
 }
