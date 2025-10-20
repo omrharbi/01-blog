@@ -19,6 +19,7 @@ export const environment = {
         followers: apiUrl + "api/subscriptions/followers",
         explore: apiUrl + "api/subscriptions/explore",
         addFollow: apiUrl + "api/subscriptions/follow",
+        unfollow: apiUrl + "api/subscriptions/unfollow",
     },
     savepost: {
         post: apiUrl + "api/posts/create",

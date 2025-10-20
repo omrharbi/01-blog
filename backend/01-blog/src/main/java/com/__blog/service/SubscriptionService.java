@@ -140,6 +140,7 @@ public class SubscriptionService {
                     .status(true)
                     .message("Successfully followed " + subscribedTo.get().getUsername())
                     // .data(subscription)
+                    .data(null)
                     .build();
         } catch (Exception e) {
 
@@ -151,12 +152,46 @@ public class SubscriptionService {
         }
     }
 
-    public void unfollowUser(UUID userid, UUID targetUserId) {
+    public ApiResponse<UserResponse> unfollowUser(UUID userid, UUID targetUserId) {
+        Optional<User> subscriber = userRepository.findById(userid);
+        if (!subscriber.isPresent()) {
+            return ApiResponse.< UserResponse>builder()
+                    .status(false)
+                    .error("Subscriber user not found")
+                    .build();
+        }
 
+        Optional<User> subscribedTo = userRepository.findById(targetUserId);
+        if (!subscribedTo.isPresent()) {
+            return ApiResponse.< UserResponse>builder()
+                    .status(false)
+                    .error("Target user not found")
+                    .build();
+        }
+        if (userid.equals(targetUserId)) {
+            return ApiResponse.< UserResponse>builder()
+                    .status(false)
+                    .error("You cannot follow yourself")
+                    .build();
+        }
+        var subscription = subscriptionRepository.findBySubscriberUser_IdAndSubscribedTo_Id(userid, targetUserId);
+        if (subscription.isEmpty()) {
+            return ApiResponse.< UserResponse>builder()
+                    .status(false)
+                    .error("You are not following this user")
+                    .build();
+        }
+
+        subscriptionRepository.delete(subscription.get());
+        return ApiResponse.<UserResponse>builder()
+                .status(true)
+                .data(null)
+                .message("Successfully unfollowed")
+                .build();
     }
 
     private ApiResponse<List<UserResponse>> returnSameDatApiResponse(List<Subscription> user, UUID userId) {
-        
+
         var follow = user.stream()
                 .map(sub -> userMapper.ConvertResponse(sub.getSubscriberUser(), userId))
                 .collect(Collectors.toList());

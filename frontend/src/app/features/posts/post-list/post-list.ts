@@ -39,7 +39,8 @@ export class PostList {
           this.post = response.data;
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
-
+          console.log(this.post);
+          
         },
         error: (error) => {
           console.log("error to get post", error);

@@ -56,8 +56,17 @@ export class Following {
     })
   }
 
-  Unfollow() {
+  Unfollow(id: string) {
+    this.users.unfollow(id).subscribe({
+      next: response => {
+        // this.explor = response.data
+        console.log(response, "followUser**");
+      },
+      error: error => {
+        console.log("error", error);
 
+      }
+    })
   }
   follow(id: string) {
     console.log(id);

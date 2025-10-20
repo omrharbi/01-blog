@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.__blog.model.dto.request.PostRequest;
@@ -17,13 +18,14 @@ import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 @Component
 public class PostMapper {
-
+    @Autowired
+    private  MediaMapper mediaMapper;
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post) {
         List<MediaResponse> mediaResponses = new ArrayList<>();
-        // for (var media : post.getMedias()) {
-        //     // var mediaDTO = mediaService.convertToPostResponse(media);
-        //     // mediaResponses.add(mediaDTO);
-        // }
+        for (var media : post.getMedias()) {
+            var mediaDTO = mediaMapper.convertToPostResponse(media);
+            mediaResponses.add(mediaDTO);
+        }
 
         List<TagsResponse> tags = new ArrayList<>();
         for (var tag : post.getTags()) {

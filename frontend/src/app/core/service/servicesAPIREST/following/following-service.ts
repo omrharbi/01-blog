@@ -64,4 +64,17 @@ export class FollowingService {
     }
     )
   }
+
+
+  unfollow(iduserIfFollow: string) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.delete<ApiResponse<UserProfile[]>>(
+      `${environment.subscriptions.unfollow}/${iduserIfFollow}`, {
+      headers
+    }
+    )
+  }
 }
