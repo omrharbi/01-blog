@@ -24,7 +24,20 @@ export class PostCard {
   isLiked: likeResponse = {
     isLiked: false
   };
-  @Input() post: any;
+  @Input() post: PostResponse = {
+    id: 0,
+    title: "",
+    content: "",
+    firstImage: "",
+    htmlContent: "",
+    excerpt: "",
+    createdAt: "",
+    medias: [],
+    tags: [],
+    liked: false,
+    likesCount: 0,
+    commentCount: 0,
+  };
   @Output() editPost = new EventEmitter<any>();
   show = false;
 
@@ -49,13 +62,28 @@ export class PostCard {
     this.router.navigate(['/edit'], { queryParams: { edit: true } });
   }
 
-  toggleLikePost(id: string) {
-    this.like.toggleLikePost(id).subscribe({
+  tempLikes = new Map<String, { liked: boolean, likesCount: number }>();
+  toggleLikePost(postId: string) {
+    // const post = this.post.find(p => p.id === id);
+    // if (!post) return;
+    const originalLiked = this.post.liked;
+    const originalLikesCount = this.post.likesCount || 0;
+
+
+    const currentLiked = this.post.liked || this.tempLikes.get(postId)?.liked || false;
+    const newLiked = !currentLiked;
+    const newLikesCount = newLiked ? originalLikesCount + 1 : Math.max(0, originalLikesCount - 1);
+    // حفظ التغيير المؤقت
+    this.tempLikes[postId] = {
+      isLiked: newLiked,
+      likesCount: newLikesCount
+    };
+    this.like.toggleLikePost(postId).subscribe({
       next: response => {
         // console.log(response);
         this.isLiked.isLiked = response.status
         // console.log();
-        
+
       },
       error: error => {
         console.log(error);
