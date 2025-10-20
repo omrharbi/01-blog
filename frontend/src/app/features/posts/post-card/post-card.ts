@@ -62,34 +62,58 @@ export class PostCard {
     this.router.navigate(['/edit'], { queryParams: { edit: true } });
   }
 
-  tempLikes = new Map<String, { liked: boolean, likesCount: number }>();
+  // استخدام Map مع String كمفتاح
+  tempLikes = new Map<string, { liked: boolean, likesCount: number }>();
+
   toggleLikePost(postId: string) {
-    // const post = this.post.find(p => p.id === id);
-    // if (!post) return;
     const originalLiked = this.post.liked;
     const originalLikesCount = this.post.likesCount || 0;
 
-
+    // حساب الحالة الجديدة - استخدام get مع Map
     const currentLiked = this.post.liked || this.tempLikes.get(postId)?.liked || false;
     const newLiked = !currentLiked;
     const newLikesCount = newLiked ? originalLikesCount + 1 : Math.max(0, originalLikesCount - 1);
-    // حفظ التغيير المؤقت
-    this.tempLikes[postId] = {
-      isLiked: newLiked,
+
+    // حفظ التغيير المؤقت - استخدام set مع Map
+    this.tempLikes.set(postId, {
+      liked: newLiked,  // تصحيح: كان isLiked يجب أن يكون liked
       likesCount: newLikesCount
-    };
+    });
+
     this.like.toggleLikePost(postId).subscribe({
       next: response => {
-        // console.log(response);
-        this.isLiked.isLiked = response.status
-        // console.log();
+        this.isLiked.isLiked = response.status;
 
+        // تحديث الـ post مع البيانات الجديدة من الخادم
+        this.post.liked = response.data.isLiked;
+
+        // إذا كان الرد يحتوي على likesCount، قم بتحديثه
+        if (response.likesCount !== undefined) {
+          this.post.likesCount = response.likesCount;
+        }
+
+        // مسح التغيير المؤقت بعد التحديث الناجح
+        this.tempLikes.delete(postId);
       },
       error: error => {
         console.log(error);
-
+        // التراجع عن التغيير المؤقت في حالة الخطأ
+        this.tempLikes.delete(postId);
       }
-    })
+    });
+  }
 
+  // دالة للحصول على الحالة الحالية
+  getCurrentLikeStatus(): { liked: boolean, likesCount: number } {
+    const tempLike = this.tempLikes.get(this.post.id);
+
+    if (tempLike) {
+      return tempLike;
+    } else {
+      return {
+        liked: this.post.liked,
+        likesCount: this.post.likesCount || 0
+      };
+    }
   }
 }
