@@ -23,7 +23,7 @@ export class Following {
       next: response => {
         this.following = response.data
         this.countFollowing = this.followers.length;
-        console.log(this.countFollowing, "*following ");
+        console.log(this.following, "*following ");
       },
       error: error => {
         console.log("error", error);
@@ -47,7 +47,7 @@ export class Following {
     this.users.explor().subscribe({
       next: response => {
         this.explor = response.data
-        console.log(response.data, "explor**");
+        console.log(response, "explor**");
       },
       error: error => {
         console.log("error", error);
@@ -59,10 +59,22 @@ export class Following {
   Unfollow() {
 
   }
-  follow(id:string){
-    console.log(id,"id use");
-    
+  follow(id: string) {
+    console.log(id);
+    this.users.followUser(id).subscribe({
+      next: response => {
+        // this.explor = response.data
+        console.log(response, "followUser**");
+      },
+      error: error => {
+        console.log("error", error);
+
+      }
+    })
+
   }
 }
-// f196e108-0cdd-4b43-a359-ceb83c8a8062
+
+
 // 867e6d5e-24db-4e90-b66c-4d74adc860d7
+// f196e108-0cdd-4b43-a359-ceb83c8a8062

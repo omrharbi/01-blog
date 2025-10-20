@@ -15,6 +15,7 @@ import com.__blog.service.posts.PostService;
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin
+// @Transactional
 public class UserController {
 
     @Autowired

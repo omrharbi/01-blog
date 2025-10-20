@@ -20,10 +20,10 @@ public class PostMapper {
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post) {
         List<MediaResponse> mediaResponses = new ArrayList<>();
-        for (var media : post.getMedias()) {
-            // var mediaDTO = mediaService.convertToPostResponse(media);
-            // mediaResponses.add(mediaDTO);
-        }
+        // for (var media : post.getMedias()) {
+        //     // var mediaDTO = mediaService.convertToPostResponse(media);
+        //     // mediaResponses.add(mediaDTO);
+        // }
 
         List<TagsResponse> tags = new ArrayList<>();
         for (var tag : post.getTags()) {

@@ -26,8 +26,8 @@ public class SubscriptionController {
 
     //   Get users I follow
     @GetMapping("/following")
-    public ResponseEntity<?> getFollowing(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        var user = subscriptionService.getFollowingUser(userPrincipal.getId());
+    public ResponseEntity<?> getUsersIFollow(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        var user = subscriptionService.getUsersIFollow(userPrincipal.getId());
         return ResponseEntity.ok(user);
     }
 
@@ -47,15 +47,15 @@ public class SubscriptionController {
     }
 
     // Follow a user
-    @PostMapping("/follow/{userId}/{targetUserId}")
-    public ResponseEntity<Void> followUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
+    @PostMapping("/follow/{targetUserId}")
+    public ResponseEntity<?> followUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
         subscriptionService.followUser(userPrincipal.getId(), targetUserId);
         return ResponseEntity.ok().build();
     }
 
     // Unfollow a user
-    @DeleteMapping("/unfollow/{userId}/{targetUserId}")
-    public ResponseEntity<Void> unfollowUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
+    @DeleteMapping("/unfollow/{targetUserId}")
+    public ResponseEntity<?> unfollowUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
         subscriptionService.unfollowUser(userPrincipal.getId(), targetUserId);
         return ResponseEntity.ok().build();
     }

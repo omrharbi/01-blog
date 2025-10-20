@@ -53,14 +53,13 @@ export class FollowingService {
   }
 
 
-  followUser(myid: string, iduserIfFollow: string) {
+  followUser(iduserIfFollow: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-
     return this.http.post<ApiResponse<UserProfile[]>>(
-      `${environment.subscriptions.addFollow}/${myid}/${iduserIfFollow}`, {
+      `${environment.subscriptions.addFollow}/${iduserIfFollow}`, {
       headers
     }
     )

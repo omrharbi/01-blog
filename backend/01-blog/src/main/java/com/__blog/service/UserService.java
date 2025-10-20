@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,6 @@ import com.__blog.repository.UserRepository;
 import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 
-import jakarta.transaction.Transactional;
-
 @Service
 public class UserService {
 
@@ -25,10 +22,9 @@ public class UserService {
     // @Autowired
     @Autowired
     private UserMapper userMapper;
-    // private final  UserResponse response;
 
     public ApiResponse<User> finduser(UUID id) {
-        var user = repouser.findById(id);// .orElseThrow(() -> new ExecutionException("this user not alowd" + id));
+        var user = repouser.findById(id);
         if (user.isPresent()) {
             return ApiResponse.<User>builder()
                     .status(true).data(user.get()).build();
@@ -76,18 +72,18 @@ public class UserService {
 
     public ApiResponse<UserResponse> profile(UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
-        UserResponse userResponse = userMapper.ConvertResponse(user);
+        UserResponse userResponse = userMapper.ConvertResponse(user, user.getId());
         return ApiResponse.<UserResponse>builder().status(true)
                 .data(userResponse).build();
     }
 
-    @Transactional
+    // @Transactional
     public ApiResponse<List<UserResponse>> getAllUsers() {
         List<User> users = repouser.findAll();
         List<UserResponse> allUser = new ArrayList<>();
         for (var u : users) {
-            Hibernate.initialize(u.getSkills());
-            UserResponse userResponses = userMapper.ConvertResponse(u);
+
+            UserResponse userResponses = userMapper.ConvertResponse(u, u.getId());
             allUser.add(userResponses);
         }
         return ApiResponse.<List<UserResponse>>builder()
