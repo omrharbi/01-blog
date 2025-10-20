@@ -30,4 +30,5 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findAllWithMedias();
 
     Optional<List<Post>> findByUserId(UUID id);
+    int  countByUserId(UUID id);
 }

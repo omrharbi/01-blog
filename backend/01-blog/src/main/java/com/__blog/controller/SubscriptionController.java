@@ -1,6 +1,5 @@
 package com.__blog.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.SubscriptionService;
 
@@ -26,13 +24,14 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
 
+    //   Get users I follow
     @GetMapping("/following")
     public ResponseEntity<?> getFollowing(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         var user = subscriptionService.getFollowingUser(userPrincipal.getId());
-
         return ResponseEntity.ok(user);
     }
 
+    // Get my followers
     @GetMapping("/followers")
     public ResponseEntity<?> getFollowers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         var user = subscriptionService.getFollowers(userPrincipal.getId());
@@ -41,10 +40,10 @@ public class SubscriptionController {
     }
 
     // Get users I DON'T follow (for Explore page)
-    @GetMapping("/explore/{userId}")
-    public ResponseEntity<List<UserResponse>> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    @GetMapping("/explore")
+    public ResponseEntity<?> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         var user = subscriptionService.getUsersNotFollowing(userPrincipal.getId());
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(user);
     }
 
     // Follow a user

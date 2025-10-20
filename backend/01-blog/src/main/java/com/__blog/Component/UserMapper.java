@@ -9,6 +9,7 @@ import com.__blog.model.entity.User;
 public class UserMapper {
 
     public UserResponse ConvertResponse(User user) {
+        
         UserResponse userResponse = UserResponse.builder()
                 .id(user.getId())
                 .firstname(user.getFirstname())
@@ -16,6 +17,7 @@ public class UserMapper {
                 .avatar(user.getAvatarUrl())
                 .about(user.getAbout())
                 // .skills(user.getSkills())
+                // .countFollowrs(countFollowrs)
                 .username(user.getUsername())
                 .build();
         return userResponse;

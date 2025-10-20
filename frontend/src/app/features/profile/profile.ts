@@ -26,6 +26,10 @@ export class Profile {
     about: "",
     username: "",
     avatar: "",
+    followersCount: 0,
+    followingCount: 0,
+    postsCount: 0,
+    followingMe: false,
   };
   apiUrl = apiUrl;
 

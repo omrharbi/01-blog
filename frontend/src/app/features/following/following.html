@@ -35,22 +35,27 @@
                         <div class="mb-4">
                             <div class="d-flex align-items-center gap-2 mb-4">
                                 <i class="bi bi-people-fill text-primary fs-5"></i>
-                                <h2 class="h3 fw-semibold font-playfair mb-0">Following (1)</h2>
+                                <h2 class="h3 fw-semibold font-playfair mb-0">Following ({{countFollowing}})</h2>
                             </div>
 
                             <!-- Following User Card -->
-                            <div class="custom-card mb-4">
+
+                            <div class="custom-card mb-4" *ngFor="let follow of following">
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-start gap-3">
-                                        <img src="/placeholder.svg" alt="Maria Garcia" class="avatar">
+
+                                        <img [src]="(follow.avatar || 'apiUrl')" alt="Maria Garcia" class="avatar">
                                         <div class="flex-grow-1 min-width-0">
                                             <div class="d-flex align-items-center gap-2 mb-2">
-                                                <h3 class="h5 fw-semibold text-truncate mb-0">Maria Garcia</h3>
-                                                <span class="custom-badge verified-badge">Verified</span>
+                                                <h3 class="h5 fw-semibold text-truncate mb-0">{{follow.firstname}}
+                                                    {{follow.lastname}}</h3>
+                                                <!-- <span class="custom-badge verified-badge">Verified</span> -->
                                             </div>
-                                            <p class="text-muted-custom small mb-2">@maria_js</p>
+                                            <p class="text-muted-custom small mb-2">@{{follow.username}}</p>
                                             <p class="small mb-3 line-clamp-2">
-                                                JavaScript fundamentals and advanced concepts explained simply
+                                                <!-- JavaScript fundamentals and advanced concepts explained simply
+                                                  -->
+                                                {{follow.about}}
                                             </p>
 
                                             <!-- Tags -->
@@ -66,7 +71,7 @@
                                                     <span>756 followers</span>
                                                     <span>35 posts</span>
                                                 </div>
-                                                <button
+                                                <button (click)="Unfollow()"
                                                     class="btn btn-following btn-sm d-flex align-items-center gap-2">
                                                     <i class="bi bi-check-lg"></i>
                                                     Following
@@ -88,18 +93,20 @@
                             </div>
 
                             <!-- Suggested User Cards -->
-                            <div class="custom-card mb-4">
+                            <div class="custom-card mb-4" *ngFor="let exp of explor">
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-start gap-3">
-                                        <img src="/placeholder.svg" alt="Sarah Chen" class="avatar">
+                                        <img [src]="(exp.avatar || 'apiUrl')" [alt]="exp.username" class="avatar">
                                         <div class="flex-grow-1 min-width-0">
                                             <div class="d-flex align-items-center gap-2 mb-2">
-                                                <h3 class="h5 fw-semibold text-truncate mb-0">Sarah Chen</h3>
-                                                <span class="custom-badge verified-badge">Verified</span>
+                                                <h3 class="h5 fw-semibold text-truncate mb-0">{{exp.firstname}}
+                                                    {{exp.lastname}}</h3>
+                                                <!-- <span class="custom-badge verified-badge">Verified</span> -->
                                             </div>
-                                            <p class="text-muted-custom small mb-2">@sarah_codes</p>
+                                            <p class="text-muted-custom small mb-2">@{{exp.username}}</p>
                                             <p class="small mb-3 line-clamp-2">
-                                                Full-stack developer sharing React and Node.js insights
+                                                {{exp.about}}
+                                                <!-- Full-stack developer sharing React and Node.js insights -->
                                             </p>
 
                                             <!-- Tags -->
@@ -112,12 +119,23 @@
                                             <!-- Stats and Button -->
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex gap-3 small text-muted-custom">
-                                                    <span>1,234 followers</span>
-                                                    <span>42 posts</span>
+                                                    <span>{{exp.followersCount}} followers</span>
+                                                    <span>{{exp.postsCount}} posts</span>
                                                 </div>
-                                                <button class="btn btn-follow btn-sm d-flex align-items-center gap-2">
+                                                <button class="btn btn-follow btn-sm d-flex align-items-center gap-2"
+                                                    (click)="follow(exp.id)">
                                                     <i class="bi bi-plus-lg"></i>
-                                                    Follow
+
+                                                    <span *ngIf="exp.followingMe; else followNormal">
+                                                        <i class="fas fa-user-plus me-1"></i>
+                                                        Follow Back
+                                                    </span>
+
+                                                    <ng-template #followNormal>
+                                                        <i class="fas fa-plus me-1"></i>
+                                                        Follow
+                                                    </ng-template>
+                                                    <!-- Follow -->
                                                 </button>
                                             </div>
                                         </div>
@@ -125,77 +143,6 @@
                                 </div>
                             </div>
 
-                            <div class="custom-card mb-4">
-                                <div class="card-body p-4">
-                                    <div class="d-flex align-items-start gap-3">
-                                        <img src="/placeholder.svg" alt="Alex Kumar" class="avatar">
-                                        <div class="flex-grow-1 min-width-0">
-                                            <div class="d-flex align-items-center gap-2 mb-2">
-                                                <h3 class="h5 fw-semibold text-truncate mb-0">Alex Kumar</h3>
-                                            </div>
-                                            <p class="text-muted-custom small mb-2">@alex_dev</p>
-                                            <p class="small mb-3 line-clamp-2">
-                                                Learning in public: From bootcamp to senior developer
-                                            </p>
-
-                                            <!-- Tags -->
-                                            <div class="d-flex flex-wrap gap-1 mb-3">
-                                                <span class="custom-badge">Career</span>
-                                                <span class="custom-badge">Learning</span>
-                                                <span class="custom-badge">Python</span>
-                                            </div>
-
-                                            <!-- Stats and Button -->
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="d-flex gap-3 small text-muted-custom">
-                                                    <span>892 followers</span>
-                                                    <span>28 posts</span>
-                                                </div>
-                                                <button class="btn btn-follow btn-sm d-flex align-items-center gap-2">
-                                                    <i class="bi bi-plus-lg"></i>
-                                                    Follow
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="custom-card">
-                                <div class="card-body p-4">
-                                    <div class="d-flex align-items-start gap-3">
-                                        <img src="/placeholder.svg" alt="David Kim" class="avatar">
-                                        <div class="flex-grow-1 min-width-0">
-                                            <div class="d-flex align-items-center gap-2 mb-2">
-                                                <h3 class="h5 fw-semibold text-truncate mb-0">David Kim</h3>
-                                            </div>
-                                            <p class="text-muted-custom small mb-2">@david_design</p>
-                                            <p class="small mb-3 line-clamp-2">
-                                                UI/UX designer transitioning to frontend development
-                                            </p>
-
-                                            <!-- Tags -->
-                                            <div class="d-flex flex-wrap gap-1 mb-3">
-                                                <span class="custom-badge">UI/UX</span>
-                                                <span class="custom-badge">Frontend</span>
-                                                <span class="custom-badge">Design</span>
-                                            </div>
-
-                                            <!-- Stats and Button -->
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="d-flex gap-3 small text-muted-custom">
-                                                    <span>654 followers</span>
-                                                    <span>19 posts</span>
-                                                </div>
-                                                <button class="btn btn-follow btn-sm d-flex align-items-center gap-2">
-                                                    <i class="bi bi-plus-lg"></i>
-                                                    Follow
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

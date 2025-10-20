@@ -9,16 +9,60 @@ import { ApiResponse } from '../../../models/authentication/autResponse-module';
 })
 export class FollowingService {
   constructor(private http: HttpClient) { }
-  getAllUser() {
+  //   Get users I follow
+  following() {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
 
-     return this.http.get<ApiResponse<UserProfile[]>>(
-          `${environment.user.getAllUSer}`, {
-          headers
-        }
-        )
+    return this.http.get<ApiResponse<UserProfile[]>>(
+      `${environment.subscriptions.following}`, {
+      headers
+    }
+    )
+  }
+
+  // Get my followers
+
+  followers() {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+
+    return this.http.get<ApiResponse<UserProfile[]>>(
+      `${environment.subscriptions.followers}`, {
+      headers
+    }
+    )
+  }
+
+
+  explor() {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+
+    return this.http.get<ApiResponse<UserProfile[]>>(
+      `${environment.subscriptions.explore}`, {
+      headers
+    }
+    )
+  }
+
+
+  followUser(myid: string, iduserIfFollow: string) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+
+    return this.http.post<ApiResponse<UserProfile[]>>(
+      `${environment.subscriptions.addFollow}/${myid}/${iduserIfFollow}`, {
+      headers
+    }
+    )
   }
 }

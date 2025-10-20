@@ -20,5 +20,9 @@ public class UserResponse {
     private String about;
     private String username;
     private String avatar;
-    private Set<String> skills; 
+    private Set<String> skills;
+    private int followersCount;
+    private int followingCount;
+    private boolean followingMe;
+    private int postsCount;
 }
