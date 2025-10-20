@@ -2,7 +2,7 @@ export interface PostResponse {
   id: number,
   title: string,
   content: string,
-  firstImage:string,
+  firstImage: string,
   htmlContent: string
   excerpt: string,
   firstname?: string,
@@ -11,6 +11,9 @@ export interface PostResponse {
   createdAt: string;
   medias?: MediaResponse[]
   tags?: Tags[]
+  liked: boolean,
+  likesCount: number;
+  commentCount: number;
 }
 export interface MediaResponse {
   filePath: string;

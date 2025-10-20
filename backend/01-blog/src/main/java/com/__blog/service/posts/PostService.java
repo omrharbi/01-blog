@@ -59,7 +59,8 @@ public class PostService {
             });
         }
         Post savedPost = postRepository.save(post);
-        PostResponse postResponse = postMapper.ConvertPostResponse(savedPost);
+
+        PostResponse postResponse = postMapper.ConvertPostResponse(savedPost, user.getId());
         return ApiResponse.<PostResponse>builder()
                 .status(true)
                 .data(postResponse)
@@ -67,16 +68,10 @@ public class PostService {
     }
 
     @Transactional
-    public ApiResponse<PostResponse> editPost(PostRequest postRequest, UUID id) {
+    public ApiResponse<PostResponse> editPost(PostRequest postRequest, UUID id, UUID userId) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
             Post existingPost = post.get();
-            List<Media> mediaDelete = mediaService.deleteAllmedia(existingPost.getId());
-            for (var v : mediaDelete) {
-                System.err.println("*********************" + v.getFilename());
-
-            }
-
             existingPost.setTitle(postRequest.getTitle());
             existingPost.setContent(postRequest.getContent());
             existingPost.setHtmlContent(postRequest.getHtmlContent());
@@ -98,7 +93,8 @@ public class PostService {
                 }
             }
             Post savedPost = postRepository.save(existingPost);
-            PostResponse response = postMapper.ConvertPostResponse(savedPost);
+
+            PostResponse response = postMapper.ConvertPostResponse(savedPost, userId);
             return ApiResponse.<PostResponse>builder()
                     .status(true)
                     .data(response)
@@ -129,14 +125,15 @@ public class PostService {
     }
 
     @Transactional
-    public ApiResponse<List<PostResponse>> getPostsFromUserId(UUID id) {
-        Optional<List<Post>> posts = postRepository.findByUserId(id);
+    public ApiResponse<List<PostResponse>> getPostsFromUserId(UUID userId) {
+        Optional<List<Post>> posts = postRepository.findByUserId(userId);
         if (posts.isPresent()) {
 
             List<PostResponse> postResponses = new ArrayList<>();
             for (var post : posts.get()) {
                 Hibernate.initialize(post.getTags());
-                PostResponse postDTO = postMapper.ConvertPostResponse(post);
+
+                PostResponse postDTO = postMapper.ConvertPostResponse(post, userId);
                 postResponses.add(postDTO);
             }
 
@@ -147,11 +144,12 @@ public class PostService {
 
     }
 
-    public ApiResponse<List<PostResponse>> getPosts() {
+    public ApiResponse<List<PostResponse>> getPosts(UUID userId) {
         List<Post> posts = postRepository.findAllWithMedias();
+        // postRepository.existsById(id)
         List<PostResponse> allPosts = new ArrayList<>();
         for (var p : posts) {
-            PostResponse convert = postMapper.ConvertPostResponse(p);
+            PostResponse convert = postMapper.ConvertPostResponse(p, userId);
             allPosts.add(convert);
         }
         return ApiResponse.<List<PostResponse>>builder()

@@ -29,6 +29,9 @@ export const environment = {
     getpost: {
         posts: apiUrl + "api/posts/getallPost",
         postByID: apiUrl + "api/posts/getPostById/"
+    },
+    like: {
+        toggleLikePost: apiUrl + "api/likes/toggleLikePost"
     }
     ,
     uploads: {

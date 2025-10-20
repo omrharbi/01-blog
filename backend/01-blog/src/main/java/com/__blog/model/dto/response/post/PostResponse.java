@@ -27,6 +27,9 @@ public class PostResponse {
     private LocalDateTime createdAt;
     private String firstImage;
     private List<TagsResponse> tags;
+    private boolean isLiked;
+    private int likesCount;
+    private int commentCount;
 
     // public PostResponse(Integer id, String title, String content, String htmlContent, String excerpt,
     //         String username,

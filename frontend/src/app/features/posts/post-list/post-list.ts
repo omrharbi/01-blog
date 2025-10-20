@@ -15,19 +15,22 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
   styleUrl: './post-list.scss'
 })
 export class PostList {
-  constructor(private postSerivce: PostService, private preview: PreviewService, 
+  constructor(private postSerivce: PostService, private preview: PreviewService,
     private route: ActivatedRoute, private replceimge: UploadImage) { }
   apiUrl = apiUrl
   post: PostResponse = {
     id: 0,
     title: "",
     content: "",
-    firstImage:"",
+    firstImage: "",
     htmlContent: "",
     excerpt: "",
     createdAt: "",
     medias: [],
-    tags: []
+    tags: [],
+    liked: false,
+    likesCount: 0,
+    commentCount: 0,
   };
   loading: boolean = true;
   error: string = '';
@@ -40,7 +43,7 @@ export class PostList {
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
           console.log(this.post);
-          
+
         },
         error: (error) => {
           console.log("error to get post", error);

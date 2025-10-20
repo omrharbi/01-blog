@@ -62,7 +62,10 @@ export class CreatePost implements CanComponentDeactivate {
     avater_user: '',
     medias: [],
     tags: [],
-    createdAt: ''
+    createdAt: '',
+    liked: false,
+    likesCount: 0,
+    commentCount: 0,
   };
 
   @Input() post: any;

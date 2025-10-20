@@ -40,15 +40,15 @@ public class PostController {
     }
 
     @PutMapping("/post/edit/{postid}")
-    public ResponseEntity<?> createPost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest) {
-        ApiResponse<PostResponse> post = postservice.editPost(postRequest, postId);
+    public ResponseEntity<?> editPost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest, @AuthenticationPrincipal UserPrincipal userPrincipa) {
+        ApiResponse<PostResponse> post = postservice.editPost(postRequest, postId, userPrincipa.getId());
         return ResponseEntity.ok(post);
     }
 
     @GetMapping("/getallPost")
-    public ResponseEntity<?> getPosts() {
+    public ResponseEntity<?> getPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
 
-        ApiResponse<List<PostResponse>> post = postservice.getPosts();
+        ApiResponse<List<PostResponse>> post = postservice.getPosts(userPrincipal.getId());
 
         return ResponseEntity.ok(post);
     }

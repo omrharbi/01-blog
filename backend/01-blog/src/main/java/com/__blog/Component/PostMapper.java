@@ -3,6 +3,7 @@ package com.__blog.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,17 @@ import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
+import com.__blog.repository.PostRepository;
+
 @Component
 public class PostMapper {
+
     @Autowired
-    private  MediaMapper mediaMapper;
+    private MediaMapper mediaMapper;
+
+    @Autowired
+    private PostRepository postRepository;
+
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post) {
         List<MediaResponse> mediaResponses = new ArrayList<>();
         for (var media : post.getMedias()) {
@@ -48,7 +56,11 @@ public class PostMapper {
         return response;
     }
 
-    public PostResponse ConvertPostResponse(Post post) {
+    public PostResponse ConvertPostResponse(Post post, UUID userid) {
+        System.err.println(post.getId()+"************************");
+        boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
+        int countComment = postRepository.countByCommentsPostId(post.getId());
+        int countLike = postRepository.countBylikesPostId(post.getId());
         List<TagsResponse> tags = new ArrayList<>();
         for (var tag : post.getTags()) {
             var tagDTO = convertToTagsResponse(tag);
@@ -63,11 +75,16 @@ public class PostMapper {
                 .id(post.getId())
                 .uuid_user(post.getUser().getId())
                 .firstImage(image)
+                .firstname(post.getUser().getUsername())
+                .lastname(post.getUser().getLastname())
                 .content(post.getContent())
                 .title(post.getTitle())
                 .createdAt(post.getCreatedAt())
                 .avater_user(post.getUser().getAvatarUrl())
                 .tags(tags)
+                .isLiked(isLiked)
+                .commentCount(countComment)
+                .likesCount(countLike)
                 .build();
 
         return postResponse;

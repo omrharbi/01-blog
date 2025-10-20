@@ -35,7 +35,7 @@ public class LikeService {
             likeRepository.delete(existingLike.get());
             return ApiResponse.<LikePostResponse>builder()
                     .message("Post unliked")
-                    .status(true)
+                    .status(false)
                     .build();
         }
         var post = postRepository.findById(postid);
@@ -53,7 +53,7 @@ public class LikeService {
         likeRepository.save(like);
         return ApiResponse.<LikePostResponse>builder()
                 .message("Post liked")
-                .status(false)
+                .status(true)
                 .build();
     }
 }
