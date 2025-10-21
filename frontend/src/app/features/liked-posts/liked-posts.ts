@@ -14,12 +14,14 @@ import { apiUrl } from '../../core/constant/constante';
 })
 export class LikedPosts {
   constructor(private likedPost: LikesService, private like: likesServiceLogique) { }
-  posts: PostResponse[]=[];
-   apiUrl = apiUrl
+  posts: PostResponse[] = [];
+  apiUrl = apiUrl
+  countPost = 0;
   ngOnInit() {
     this.likedPost.LikedPost().subscribe({
       next: response => {
         this.posts = response.data;
+        this.countPost=this.posts.length
         console.log(this.posts);
 
       },
@@ -33,5 +35,5 @@ export class LikedPosts {
     this.like.toggleLikePost(postId, post);
   }
 
-  popUp(){}
+  popUp() { }
 }

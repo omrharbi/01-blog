@@ -42,7 +42,6 @@ export class Following {
       },
       error: error => {
         console.log("error", error);
-
       }
     })
 
@@ -59,24 +58,24 @@ export class Following {
     })
   }
   follow(id: string) {
-    const userindex = this.explor.findIndex(user => user.id == id);
-    if (userindex === -1) return;
-    const userToFollow = this.explor[userindex];
+    // const userindex = this.explor.findIndex(user => user.id == id);
+    // if (userindex === -1) return;
+    // const userToFollow = this.explor[userindex];
 
-    this.users.followUser(id).subscribe({
-      next: response => {
-         if (response.status === true) {
-          this.following.unshift(userToFollow);
-          this.explor.splice(userindex, 1);
-          this.countFollowing++;
-        }
-        console.log(response, "followUser**");
-      },
-      error: error => {
-        console.log("error", error);
+    // this.users.followUser(id).subscribe({
+    //   next: response => {
+    //      if (response.status === true) {
+    //       this.following.unshift(userToFollow);
+    //       this.explor.splice(userindex, 1);
+    //       this.countFollowing++;
+    //     }
+    //     console.log(response, "followUser**");
+    //   },
+    //   error: error => {
+    //     console.log("error", error);
 
-      }
-    })
+    //   }
+    // })
 
   }
   Unfollow(id: string) {
@@ -102,6 +101,4 @@ export class Following {
 
 }
 
-
-// 867e6d5e-24db-4e90-b66c-4d74adc860d7
-// f196e108-0cdd-4b43-a359-ceb83c8a8062
+ 

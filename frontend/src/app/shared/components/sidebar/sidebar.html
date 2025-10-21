@@ -1,12 +1,12 @@
 <div data-sidebar="content"
   class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3 py-6 sidebar-dark">
-  <div data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 button-create write-story-btn" >
+  <div data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 button-create write-story-btn">
     <div data-sidebar="group-content" class="w-full text-sm" *ngIf="isAuthenticated">
       <ul data-sidebar="menu" class="list-unstyled flex w-full min-w-0 flex-col gap-1">
         <li data-sidebar="menu-item" class="group/menu-item relative nav-item">
           <a data-sidebar="menu-button " data-size="default" data-active="false" [routerLink]="['/create']"
             class="text-decoration-none rounded-2">
-            <div 
+            <div
               class="btn-enabled flex items-center rounded-1 justify-center gap-3 p-2 hover:bg-primary-hover transition-smooth font-medium">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -105,9 +105,9 @@
     <div class="rounded-lg border text-card-foreground shadow-sm border-border/50 bg-card/50">
       <div class="p-4">
         <div class="flex items-center gap-2 mb-3 ">
-          <svg  xmlns="http://www.w3.org/2000/svg" style="color: var(--accent);" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-trending-up h-4 w-4 text-accent">
+          <svg xmlns="http://www.w3.org/2000/svg" style="color: var(--accent);" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-trending-up h-4 w-4 text-accent">
             <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
             <polyline points="16 7 22 7 22 13"></polyline>
           </svg><span class="text-sm font-medium">Hot This Week</span>
@@ -137,9 +137,9 @@
     <div class="rounded-lg border text-card-foreground shadow-sm border-border/50 bg-card/50">
       <div class="p-4">
         <div class="flex items-center gap-2 mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" style="color: var(--accent);"  width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-sparkles h-4 w-4 text-accent">
+          <svg xmlns="http://www.w3.org/2000/svg" style="color: var(--accent);" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-sparkles h-4 w-4 text-accent">
             <path
               d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z">
             </path>
@@ -150,33 +150,17 @@
           </svg><span class="text-sm font-medium">Authors to Follow</span>
         </div>
         <div class="space-y-3">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between" *ngFor="let exp of explor | slice:0:5">
             <div>
-              <div class="text-sm font-medium">Sarah Chen</div>
-              <div class="text-xs text-muted-foreground">42 stories</div>
+              <div class="text-sm font-medium">{{exp.firstname }}
+                {{exp.lastname}}</div>
+              <div class="text-xs text-muted-foreground">{{exp.postsCount }} stories</div>
             </div>
             <button class="text-xs text-primary hover:text-primary-hover font-medium">
               Follow
             </button>
           </div>
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-sm font-medium">Alex Kumar</div>
-              <div class="text-xs text-muted-foreground">28 stories</div>
-            </div>
-            <button class="text-xs text-primary hover:text-primary-hover font-medium">
-              Follow
-            </button>
-          </div>
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-sm font-medium">Maria Garcia</div>
-              <div class="text-xs text-muted-foreground">35 stories</div>
-            </div>
-            <button class="text-xs text-primary hover:text-primary-hover font-medium">
-              Follow
-            </button>
-          </div>
+
         </div>
       </div>
     </div>
