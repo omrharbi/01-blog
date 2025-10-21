@@ -8,6 +8,7 @@ import { PostResponse } from '../../core/models/post/postResponse';
 import { UploadImage } from '../../core/service/serivecLogique/upload-images/upload-image';
 import { PreviewService } from '../../core/service/serivecLogique/preview/preview.service';
 import { apiUrl } from '../../core/constant/constante';
+import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,7 @@ import { apiUrl } from '../../core/constant/constante';
   styleUrl: './profile.scss'
 })
 export class Profile {
-  constructor(private auth: AuthService, private profile: ProfileService, private replceimge: UploadImage, private preview: PreviewService) { }
+  constructor(private like: likesServiceLogique,private auth: AuthService, private profile: ProfileService, private replceimge: UploadImage, private preview: PreviewService) { }
   isAuthenticated: boolean = false;
   editProfile = false;
   userProfile: UserProfile = {
@@ -32,7 +33,7 @@ export class Profile {
     followingMe: false,
   };
   apiUrl = apiUrl;
-
+  countPost=0;
   post: PostResponse[] = [];
   EditPorfile() {
     this.editProfile = !this.editProfile;
@@ -46,12 +47,16 @@ export class Profile {
 
     this.profile.GetMyPosts().subscribe(res => {
       this.post = res.data;
-      console.log(this.post, "ppp");
+      // console.log(this.post, "ppp");
+      // this.countPost
       // let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
       this.post.forEach(p => {
-
         p.htmlContent = this.preview.renderMarkdownWithMedia(p.content);// htmlContent;
       })
     })
+  }
+
+  toggleLikePost(postId: string, post: PostResponse) {
+    this.like.toggleLikePost(postId, post);
   }
 }

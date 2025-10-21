@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { ActivatedRoute, } from '@angular/router';
@@ -22,10 +22,7 @@ export class PostList {
     private like: likesServiceLogique,
     private cdr: ChangeDetectorRef) { }
   apiUrl = apiUrl
-  // isLiked: likeResponse = {
-  //   isLiked: false,
-  //   countLike: 0,
-  // };
+   @ViewChild('commentsSection') commentsSection!: ElementRef;
   post: PostResponse = {
     id: "",
     title: "",
@@ -47,7 +44,6 @@ export class PostList {
       const id = params["id"];
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
-          // this.post = response.data;
           Object.assign(this.post, response.data);
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;

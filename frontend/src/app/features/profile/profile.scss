@@ -257,3 +257,42 @@
  .text-muted {
      color: var(--muted) !important;
  }
+
+
+
+  
+.liked .liked-icon {
+    color: var(--accent) !important;
+    animation: heartBeat 0.6s ease;
+}
+
+.liked .liked-text {
+    color: var(--accent) !important;
+    font-weight: 600;
+}
+
+ 
+.not-liked .not-liked-icon {
+    color: var(--muted) !important; /* Bootstrap text-muted color */
+}
+
+.not-liked .not-liked-text {
+    color: var(--muted) !important;
+}
+ 
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.3); }
+    50% { transform: scale(1.1); }
+    75% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* hover effect */
+.like-btn:hover .not-liked-icon {
+    color: var(--accent) !important; /* Bootstrap danger color */
+}
+
+.like-btn:hover .not-liked-text {
+    color: var(--accent) !important;
+}

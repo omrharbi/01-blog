@@ -8,7 +8,7 @@ import { apiUrl } from '../../core/constant/constante';
 
 @Component({
   selector: 'app-liked-posts',
-  imports: [Materaile, PopUp],
+  imports: [Materaile],//PopUp
   templateUrl: './liked-posts.html',
   styleUrl: './liked-posts.scss'
 })

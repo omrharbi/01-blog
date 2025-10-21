@@ -24,7 +24,9 @@ export class FollowingLogiqueService {
   countFollowers$ = this.countFollowersSubject.asObservable();
 
   loadingData() {
-
+    this.loadingExplore();
+    this.loadingFollowers();
+    this.loadingFollowing()
   }
 
   private loadingFollowing() {
@@ -39,12 +41,13 @@ export class FollowingLogiqueService {
     })
   }
 
-
   private loadingFollowers() {
-    this.users.following().subscribe({
+    this.users.followers().subscribe({
       next: respnse => {
         this.followersSubject.next(respnse.data);
         this.countFollowersSubject.next(respnse.data.length)
+        // console.log(respnse, "loadingFollowers ");
+
       },
       error: error => {
         console.log("Error loading following:", error);
@@ -54,9 +57,11 @@ export class FollowingLogiqueService {
 
 
   private loadingExplore() {
-    this.users.following().subscribe({
+    this.users.explore().subscribe({
       next: respnse => {
         this.exploreSubject.next(respnse.data);
+        // console.log(respnse, "loadingExplore ");
+
       },
       error: error => {
         console.log("Error loading following:", error);
@@ -65,8 +70,7 @@ export class FollowingLogiqueService {
   }
   follow(id: string) {
     const currentExpler = this.exploreSubject.value;
-
-
+ 
     const userindex = currentExpler.findIndex(user => user.id == id);
     if (userindex === -1) return;
     const userToFollow = currentExpler[userindex];
@@ -74,12 +78,43 @@ export class FollowingLogiqueService {
     this.users.followUser(id).subscribe({
       next: response => {
         if (response.status === true) {
-          const currentFollowing = this.followersSubject.value;
-          this.followersSubject.next([userToFollow, ...currentFollowing])
+          const currentFollowing = this.followingSubject.value;
+          this.followingSubject.next([userToFollow, ...currentFollowing])
           const updateExplore = [...currentExpler]
           updateExplore.splice(userindex, 1)
           this.exploreSubject.next(updateExplore)
           this.countFollowingSubject.next(currentFollowing.length + 1);
+        }
+      },
+      error: error => {
+        console.log("error", error);
+
+      }
+    })
+  }
+
+
+
+  Unfollow(id: string) {
+    const currentFollowing = this.followingSubject.value;
+    const userIndex = currentFollowing.findIndex(user => user.id == id)
+    if (userIndex === -1) return;
+    const userUnFollow = currentFollowing[userIndex];
+    console.log(userUnFollow,"userUnFollow");
+    
+    this.users.unfollow(id).subscribe({
+      next: response => {
+        if (response.status === true) {
+          const updateFollowing = [...currentFollowing]
+
+          updateFollowing.splice(userIndex, 1);
+
+          this.followingSubject.next(updateFollowing);
+
+          const currentExpler = this.exploreSubject.value;
+          this.exploreSubject.next([...currentExpler, userUnFollow])
+
+          this.countFollowingSubject.next(updateFollowing.length)
         }
         console.log(response, "followUser**");
       },
@@ -89,6 +124,5 @@ export class FollowingLogiqueService {
       }
     })
   }
-
 
 }

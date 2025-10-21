@@ -110,3 +110,8 @@
 
 
 /* border-right: 1px solid var(--sidebar-border) !important; */
+
+
+.text-xs.text-muted-foreground.story {
+  font-size: 12px;
+}
