@@ -3,8 +3,6 @@ package com.__blog.model.entity;
 import java.time.Instant;
 import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,12 +16,8 @@ import jakarta.persistence.Table;
 @Table(name = "refresh_tokens")
 public class RefreshToken {
 
-@Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @Id
+    @GeneratedValue
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 

@@ -3,8 +3,6 @@ package com.__blog.model.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,11 +19,7 @@ import lombok.Data;
 public class Subscription {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GeneratedValue
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
     @ManyToOne(fetch = FetchType.LAZY)
