@@ -24,7 +24,7 @@ export class PostService {
     );
   }
 
-  editPost(postRequest: PostRequest, id: number): Observable<ApiResponse<PostResponse>> {
+  editPost(postRequest: PostRequest, id: string): Observable<ApiResponse<PostResponse>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ export class PostService {
     );
   }
 
-  removeMedia(id: number): Observable<number> {
+  removeMedia(id: string): Observable<number> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'

@@ -6,12 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class LikePostResponse {
-    private  boolean  liked;
-    private  UUID postId;
+
+    private boolean liked;
+    private UUID postId;
+    private int countLike;
     // private UUID post
 }

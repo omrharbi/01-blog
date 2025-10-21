@@ -34,7 +34,7 @@
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle overflow-hidden" style="width: 48px; height: 48px;">
-                                            <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg"
+                                            <img class="w-100 h-100 object-fit-cover" [src]="(post.avater_user || 'apiUrl')"
                                                 [alt]="'Image by ' + post.firstname + ' ' + post.lastname">
                                         </div>
                                         <div>
@@ -71,29 +71,29 @@
                                 <div
                                     class="d-flex align-items-center justify-content-between py-3 border-top border-bottom ">
                                     <div class="d-flex align-items-center gap-3">
-                                        <button
-                                            class="btn  
-                                            d-inline-flex align-items-center px-3 py-2  hover-text-accent transition-smooth">
-                                            <i class="material-icons me-1" style="font-size: 20px;">favorite_border</i>
-                                            127
+                                        <button [class.liked]="post.liked" [class.not-liked]="!(post.liked)"
+                                            (click)="toggleLikePost(post.id,post)"
+                                            class="btn btn-link text-decoration-none p-0 d-flex align-items-center gap-2 like-btn"
+
+                                            >
+
+                                            <mat-icon [class.liked-icon]="post.liked"
+                                                [class.not-liked-icon]="!(post.liked)">
+                                                {{ post.liked ? 'favorite' : 'favorite_border' }}
+                                            </mat-icon>
+
+                                            <span [ngClass]="{
+                                                'liked-text': post.liked,
+                                                'not-liked-text': !post.liked
+                                                }">
+                                                {{ post.likesCount }}
+                                            </span>
                                         </button>
                                         <button
-                                            class="btn  d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground transition-smooth">
+                                            class="btn text-muted d-inline-flex align-items-center px-3 py-2 ">
                                             <i class="material-icons me-1"
                                                 style="font-size: 20px;">chat_bubble_outline</i>
                                             24
-                                        </button>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button
-                                            class="btn  d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-primary transition-smooth"
-                                            style="width: 40px; height: 40px;">
-                                            <i class="material-icons" style="font-size: 20px;">bookmark_border</i>
-                                        </button>
-                                        <button
-                                            class="btn  d-inline-flex align-items-center justify-content-center rounded-circle text-muted-foreground hover-text-foreground transition-smooth"
-                                            style="width: 40px; height: 40px;">
-                                            <i class="material-icons" style="font-size: 20px;">share</i>
                                         </button>
                                     </div>
                                 </div>
@@ -113,9 +113,9 @@
             <div class="col-12">
                 <hr class="border-border">
             </div>
-                <app-comment></app-comment>
+            <app-comment [post]="post"></app-comment>
             <!-- Comments Section -->
-            
+
         </div>
     </div>
 </main>

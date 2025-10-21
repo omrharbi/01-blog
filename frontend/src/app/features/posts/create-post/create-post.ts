@@ -53,7 +53,7 @@ export class CreatePost implements CanComponentDeactivate {
   newFiles: File[] = [];
 
   postData: PostResponse = {
-    id: 0,
+    id: "",
     title: '',
     firstImage: "",
     content: '',

@@ -28,7 +28,11 @@ public class PostMapper {
     @Autowired
     private PostRepository postRepository;
 
-    public PostResponseWithMedia convertToPostWithMediaResponse(Post post) {
+    public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
+
+        boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
+        int countComment = postRepository.countByCommentsPostId(post.getId());
+        int countLike = postRepository.countBylikesPostId(post.getId());
         List<MediaResponse> mediaResponses = new ArrayList<>();
         for (var media : post.getMedias()) {
             var mediaDTO = mediaMapper.convertToPostResponse(media);
@@ -49,6 +53,9 @@ public class PostMapper {
                 .medias(mediaResponses)
                 .avater_user(post.getUser().getAvatarUrl())
                 .tags(tags)
+                .isLiked(isLiked)
+                .commentCount(countComment)
+                .likesCount(countLike)
                 .firstname(post.getUser().getFirstname())
                 .lastname(post.getUser().getLastname())
                 .build();
@@ -57,7 +64,7 @@ public class PostMapper {
     }
 
     public PostResponse ConvertPostResponse(Post post, UUID userid) {
-        System.err.println(post.getId()+"************************");
+        // System.err.println(post.getId()+"************************");
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
         int countLike = postRepository.countBylikesPostId(post.getId());

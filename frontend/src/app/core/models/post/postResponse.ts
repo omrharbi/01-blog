@@ -1,5 +1,5 @@
 export interface PostResponse {
-  id: number,
+  id: string,
   title: string,
   content: string,
   firstImage: string,

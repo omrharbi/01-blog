@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @GetMapping("/getPostById/{id}")
-    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(@PathVariable UUID id, @AuthenticationPrincipal UserPrincipal userPrincipa) {
 
         try {
             if (id.equals(new UUID(0, 0))) {
@@ -64,7 +64,7 @@ public class PostController {
                         .build()
                 );
             }
-            ApiResponse<PostResponseWithMedia> getpost = postservice.getPostById(id);
+            ApiResponse<PostResponseWithMedia> getpost = postservice.getPostById(id, userPrincipa.getId());
 
             if (getpost.getData() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -80,4 +80,7 @@ public class PostController {
             );
         }
     }
+
+
+    
 }

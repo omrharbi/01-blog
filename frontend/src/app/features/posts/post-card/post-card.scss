@@ -102,7 +102,7 @@
     transition: all 0.3s ease;
 }
 
-/* عندما يكون liked */
+ 
 .liked .liked-icon {
     color: var(--accent) !important;
     animation: heartBeat 0.6s ease;
@@ -113,7 +113,7 @@
     font-weight: 600;
 }
 
-/* عندما لا يكون liked */
+ 
 .not-liked .not-liked-icon {
     color: var(--muted) !important; /* Bootstrap text-muted color */
 }
@@ -121,8 +121,7 @@
 .not-liked .not-liked-text {
     color: var(--muted) !important;
 }
-
-/* animation للقلب */
+ 
 @keyframes heartBeat {
     0% { transform: scale(1); }
     25% { transform: scale(1.3); }

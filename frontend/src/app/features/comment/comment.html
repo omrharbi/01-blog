@@ -1,24 +1,29 @@
 <section class="col-12" id="comments">
 
-    <div class=" border   shadow-sm">
-  <div class=" p-4">
-    <div class="d-flex align-items-start gap-3">
-      <img class="rounded-circle flex-shrink-0" src="/placeholder.svg" width="40" height="40">
-      <div class="w-100">
-        <textarea class="form-control border rounded-3" rows="4" placeholder="What are your thoughts?"></textarea>
-        <div class="d-flex justify-content-end mt-3">
-          <button class="btn  btn-sm d-flex align-items-center" disabled>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
-              <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path>
-              <path d="m21.854 2.147-10.94 10.939"></path>
-            </svg>
-            Post Comment
-          </button>
+    <div class="card bg-card text-card-foreground shadow-sm ">
+        <div class=" p-4">
+            <div class="d-flex align-items-start gap-3">
+                <img class="rounded-circle flex-shrink-0" [src]="(post.avater_user || 'apiUrl')" width="40" height="40">
+                <div class="w-100">
+                    <textarea class="form-control border rounded-3 textarea " rows="4"
+                        placeholder="What are your thoughts?"></textarea>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button class="btn  btn-sm d-flex align-items-center  btn-enabled ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="me-2">
+                                <path
+                                    d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z">
+                                </path>
+                                <path d="m21.854 2.147-10.94 10.939"></path>
+                            </svg>
+                            Post Comment
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
     <div class="row g-3">
         <div class="col-12">
             <h2 class="fs-2 fw-bold font-playfair">Comments (2)</h2>
@@ -63,38 +68,7 @@
                 </div>
 
                 <!-- Comment 2 -->
-                <div class="col-12">
-                    <div class="card bg-card text-card-foreground shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="d-flex gap-3">
-                                <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
-                                    <img class="w-100 h-100 object-fit-cover" src="/placeholder.svg" alt="Maria Garcia">
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex align-items-center gap-2 mb-2">
-                                        <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
-                                            href="/profile/maria_js">Maria Garcia</a>
-                                        <span class="small text-muted-foreground">1 day ago</span>
-                                    </div>
-                                    <p class="text-foreground mb-3 lh-base">Thanks for sharing your
-                                        experience! I'm curious about your AsyncStorage usage - did you
-                                        consider any alternatives like MMKV?</p>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <button
-                                            class="btn 
-                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-accent">
-                                            <i class="material-icons me-1" style="font-size: 16px;">favorite_border</i>
-                                            8
-                                        </button>
-                                        <button
-                                            class="btn 
-                                                         d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

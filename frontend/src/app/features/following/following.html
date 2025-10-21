@@ -17,12 +17,12 @@
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-center align-items-center gap-5 text-center">
                             <div>
-                                <div class="h2 fw-bold">1</div>
+                                <div class="h2 fw-bold">{{countFollowing}}</div>
                                 <div class="text-muted-custom small">Following</div>
                             </div>
                             <div class="vertical-divider"></div>
                             <div>
-                                <div class="h2 fw-bold">156</div>
+                                <div class="h2 fw-bold">{{countFollowers}}</div>
                                 <div class="text-muted-custom small">Followers</div>
                             </div>
                         </div>
@@ -68,8 +68,8 @@
                                             <!-- Stats and Button -->
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex gap-3 small text-muted-custom">
-                                                    <span>756 followers</span>
-                                                    <span>35 posts</span>
+                                                    <span>{{follow.followersCount}} followers</span>
+                                                    <span>{{follow.postsCount}} posts</span>
                                                 </div>
                                                 <button (click)="Unfollow(follow.id)"
                                                     class="btn btn-following btn-sm d-flex align-items-center gap-2">

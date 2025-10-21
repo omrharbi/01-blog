@@ -1,4 +1,4 @@
-import { Component, } from '@angular/core';
+import { ChangeDetectorRef, Component, } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { ActivatedRoute, } from '@angular/router';
@@ -7,6 +7,8 @@ import { apiUrl } from '../../../core/constant/constante';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 import { Comment } from '../../comment/comment';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
+import { likeResponse } from '../../../core/models/like/likeResponse';
+import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
 
 @Component({
   selector: 'app-post-list',
@@ -16,10 +18,16 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
 })
 export class PostList {
   constructor(private postSerivce: PostService, private preview: PreviewService,
-    private route: ActivatedRoute, private replceimge: UploadImage) { }
+    private route: ActivatedRoute, private replceimge: UploadImage,
+    private like: likesServiceLogique,
+    private cdr: ChangeDetectorRef) { }
   apiUrl = apiUrl
+  // isLiked: likeResponse = {
+  //   isLiked: false,
+  //   countLike: 0,
+  // };
   post: PostResponse = {
-    id: 0,
+    id: "",
     title: "",
     content: "",
     firstImage: "",
@@ -39,11 +47,13 @@ export class PostList {
       const id = params["id"];
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
-          this.post = response.data;
+          // this.post = response.data;
+          Object.assign(this.post, response.data);
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
-          console.log(this.post);
-
+        
+          console.log(response.data);
+          
         },
         error: (error) => {
           console.log("error to get post", error);
@@ -51,6 +61,11 @@ export class PostList {
         }
       })
     })
+  }
+
+  toggleLikePost(postId: string, post: PostResponse) {
+    this.like.toggleLikePost(postId, post);
+    this.cdr.detectChanges();
   }
 
 

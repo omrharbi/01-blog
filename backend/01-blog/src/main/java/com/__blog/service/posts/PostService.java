@@ -27,24 +27,21 @@ import com.__blog.util.ApiResponse;
 import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class PostService {
 
     @Autowired
     private PostRepository postRepository;
     @Autowired
-    private MediaService mediaService;
-    @Autowired
     private PostMapper postMapper;
     @Autowired
     private MediaMapper mediaMapper;
 
-    @Transactional
     public ApiResponse<PostResponse> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
         Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
-
             for (var medai : postRequest.getMedias()) {
                 var mediaDTO = mediaMapper.convertToMediaEntity(medai, post);
                 post.addMedia(mediaDTO);
@@ -67,7 +64,6 @@ public class PostService {
                 .error("create post").build();
     }
 
-    @Transactional
     public ApiResponse<PostResponse> editPost(PostRequest postRequest, UUID id, UUID userId) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
@@ -106,17 +102,16 @@ public class PostService {
                 .error("create post").build();
     }
 
-    public ApiResponse<PostResponseWithMedia> getPostById(UUID postid) {
-        ApiResponse<PostResponseWithMedia> convResponse = getPostId(postid);
+    public ApiResponse<PostResponseWithMedia> getPostById(UUID postid, UUID userId) {
+        ApiResponse<PostResponseWithMedia> convResponse = getPostId(postid, userId);
         return ApiResponse.<PostResponseWithMedia>builder().status(true).data(convResponse.getData()).build();
     }
 
-    // this func 
-    private ApiResponse<PostResponseWithMedia> getPostId(UUID post_id) {
+    private ApiResponse<PostResponseWithMedia> getPostId(UUID post_id, UUID userId) {
         Optional<Post> postOptional = postRepository.findByIdWithMedias(post_id);
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
-            PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post);
+            PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post, userId);
             return ApiResponse.<PostResponseWithMedia>builder().status(true).data(postResponse).build();
         } else {
             return ApiResponse.<PostResponseWithMedia>builder().status(true).error("this id is not found").build();
@@ -124,7 +119,6 @@ public class PostService {
         }
     }
 
-    @Transactional
     public ApiResponse<List<PostResponse>> getPostsFromUserId(UUID userId) {
         Optional<List<Post>> posts = postRepository.findByUserId(userId);
         if (posts.isPresent()) {
