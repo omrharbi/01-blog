@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { apiUrl } from '../../../core/constant/constante';
 import { PopUp } from '../../pop-up/pop-up';
 import { PostResponse } from '../../../core/models/post/postResponse';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { LikesService } from '../../../core/service/servicesAPIREST/like/likes-service';
 import { likeResponse } from '../../../core/models/like/likeResponse';
@@ -17,7 +17,7 @@ import { likesServiceLogique } from '../../../core/service/serivecLogique/like/l
   styleUrl: './post-card.scss'
 })
 export class PostCard {
-  constructor(private auth: AuthService, private sharedService: SharedServicePost, private router: Router
+  constructor(private auth: AuthService, private route: ActivatedRoute, private sharedService: SharedServicePost, private router: Router
     , private like: likesServiceLogique,
   ) { }
   apiUrl = apiUrl
@@ -25,6 +25,8 @@ export class PostCard {
   //   isLiked: false,
   //   countLike: 0,
   // };
+  @ViewChild('commentsSection') commentsSection!: ElementRef;
+
   @Input() post: PostResponse = {
     id: "",
     title: "",
@@ -41,7 +43,21 @@ export class PostCard {
   };
   @Output() editPost = new EventEmitter<any>();
   show = false;
+  // ngOnInit() {
+  //   // this.route.queryParams.subscribe(params => {
+  //   //   if (params['scrollTo'] === 'comments') {
+  //   //     setTimeout(() => this.scrollToComments(), 500);
+  //   //   }
+  //   // });
 
+  //   if (this.router.url.includes('/comments/')) {
+  //     // 
+      
+  //     setTimeout(() => {
+  //       this.scrollToComments();
+  //     }, 1000);
+  //   }
+  // }
   isPostOwner(post: any): boolean {
     const check = post.uuid_user === this.auth.getCurrentUserUUID();
     return check
@@ -64,5 +80,8 @@ export class PostCard {
   toggleLikePost(postId: string, post: PostResponse) {
     this.like.toggleLikePost(postId, post);
   }
+
+ 
+  
 
 }

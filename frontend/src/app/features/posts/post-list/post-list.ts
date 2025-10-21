@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
 import { ActivatedRoute, } from '@angular/router';
@@ -22,7 +22,7 @@ export class PostList {
     private like: likesServiceLogique,
     private cdr: ChangeDetectorRef) { }
   apiUrl = apiUrl
-   @ViewChild('commentsSection') commentsSection!: ElementRef;
+  @ViewChild('commentsSection') commentsSection!: QueryList<ElementRef>;
   post: PostResponse = {
     id: "",
     title: "",
@@ -40,6 +40,14 @@ export class PostList {
   loading: boolean = true;
   error: string = '';
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      // console.log("***********************");
+
+      if (params['scrollTo'] === 'comments') {
+        setTimeout(() => this.scrollToComments(), 500);
+      }
+    });
     this.route.params.subscribe(params => {
       const id = params["id"];
       this.postSerivce.getpostByID(id).subscribe({
@@ -47,9 +55,9 @@ export class PostList {
           Object.assign(this.post, response.data);
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
-        
+
           console.log(response.data);
-          
+
         },
         error: (error) => {
           console.log("error to get post", error);
@@ -57,6 +65,17 @@ export class PostList {
         }
       })
     })
+
+
+  }
+  scrollToComments() {
+    const commentsSection = document.getElementById('commentsSection');
+    if (commentsSection) {
+      commentsSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 
   toggleLikePost(postId: string, post: PostResponse) {

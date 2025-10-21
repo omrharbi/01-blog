@@ -30,7 +30,7 @@
               <h3>❌ NO POSTS IN ARRAY</h3>
               <p>Posts array is empty even though data was received</p>
             </div> -->
-            <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+            <app-post-card *ngFor="let post of posts; let i = index" [post]="post"></app-post-card>
           </div>
           <!-- Repeat cards here -->
 
