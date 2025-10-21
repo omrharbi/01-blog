@@ -31,7 +31,8 @@ export const environment = {
         postByID: apiUrl + "api/posts/getPostById/"
     },
     like: {
-        toggleLikePost: apiUrl + "api/likes/toggleLikePost"
+        toggleLikePost: apiUrl + "api/likes/toggleLikePost",
+        likedPosts: apiUrl + "api/likes/liked-posts"
     }
     ,
     uploads: {

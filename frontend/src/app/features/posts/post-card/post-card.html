@@ -7,7 +7,8 @@
                     <img [src]="(post.avater_user || 'apiUrl')" class="rounded-circle" width="40" height="40"
                         alt="Avatar">
                     <div>
-                        <a class="fw-medium text-decoration-none " href="/profile/sarah_codes">{{post.firstname }}
+                        <a class="fw-medium text-decoration-none "
+                         href="/profile/sarah_codes">{{post.firstname }}
                             {{post.lastname}}</a>
                         <div class="small text-muted">2 days ago · 5 min read</div>
                     </div>
@@ -17,7 +18,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-three-dots" viewBox="0 0 16 16">
                             <path
-                                d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 
+                                0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                         </svg>
                     </button>
 
@@ -36,7 +38,6 @@
                     </a>
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <ng-container *ngIf="post.tags && post.tags.length>0">
-
                             <span *ngFor="let tag of post.tags" class="badge border rounded-pill me-2 mb-2">
                                 {{tag.tag}}
                             </span>

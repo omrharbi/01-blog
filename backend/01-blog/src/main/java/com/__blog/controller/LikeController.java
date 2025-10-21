@@ -31,7 +31,7 @@ public class LikeController {
 
     @GetMapping("/liked-posts")
     public ResponseEntity<?> likedPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        // var like = likeService.toggleLikePost(userPrincipal.getId(), target);
+        var like = likeService.getLikedPostsByUser(userPrincipal.getId());
         return ResponseEntity.ok(like);
     }
 }

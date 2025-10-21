@@ -38,4 +38,6 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     int countBylikesPostId(UUID id);
 
     boolean existsByLikesPostIdAndLikesUserId(UUID postId, UUID userId);
+
+    List<Post> findByLikesUserIdOrderByCreatedAtDesc(UUID userId);
 }

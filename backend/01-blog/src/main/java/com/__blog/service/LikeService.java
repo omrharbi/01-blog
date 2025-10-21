@@ -1,5 +1,7 @@
 package com.__blog.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.__blog.Component.LikePostMapper;
+import com.__blog.Component.PostMapper;
 import com.__blog.model.dto.response.LikePostResponse;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.entity.Like;
@@ -34,6 +37,8 @@ public class LikeService {
     private UserRepository userRepository;
     @Autowired
     private LikePostMapper likePostMapper;
+    @Autowired
+    private PostMapper postMapper;
 
     public ApiResponse<LikePostResponse> toggleLikePost(UUID userId, UUID postid) {
         Optional<Like> existingLike = likeRepository.findByUserIdAndPostId(userId, postid);
@@ -70,12 +75,18 @@ public class LikeService {
                 .build();
     }
 
-    public ApiResponse<PostResponse> getLikedPostsByUser(UUID userId) {
-        var 
-        return ApiResponse.<PostResponse>builder()
-                .message("Post unliked")
+    public ApiResponse<List<PostResponse>> getLikedPostsByUser(UUID userId) {
+        List<Post> postLiked = postRepository.findByLikesUserIdOrderByCreatedAtDesc(userId);
+        List<PostResponse> response = new ArrayList<>();
+
+        for (var liked : postLiked) {
+            PostResponse postResponse = postMapper.ConvertPostResponse(liked, userId);
+            response.add(postResponse);
+        }
+        return ApiResponse.<List<PostResponse>>builder()
+                .message("Liked Posts")
                 .status(false)
-                // .data(response)
+                .data(response)
                 .build();
     }
 

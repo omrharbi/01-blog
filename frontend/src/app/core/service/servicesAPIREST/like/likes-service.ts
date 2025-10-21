@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment, token } from '../../../constant/constante';
 import { ApiResponse } from '../../../models/authentication/autResponse-module';
 import { likeResponse } from '../../../models/like/likeResponse';
+import { PostResponse } from '../../../models/post/postResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { likeResponse } from '../../../models/like/likeResponse';
 export class LikesService {
   constructor(private http: HttpClient) { }
 
-  toggleLikePost( targetid: string) {
+  toggleLikePost(targetid: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
@@ -23,7 +24,19 @@ export class LikesService {
       }
     )
   }
+  LikedPost() {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      "Content-Typer": "application/json"
+    })
+
+    return this.http.get<ApiResponse<PostResponse[]>>(
+      `${environment.like.likedPosts}`,
+      {
+        headers
+      }
+    )
+  }
 
 
-  
 }
