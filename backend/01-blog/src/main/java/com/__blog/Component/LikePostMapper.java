@@ -9,13 +9,14 @@ import com.__blog.model.entity.Like;
 
 @Component
 public class LikePostMapper {
-    public LikePostResponse convertLikePostResponse(Like like, int countLike, UUID postId) {
+    public LikePostResponse convertLikePostOrCommentResponse(Like like, int countLike, UUID postId) {
         LikePostResponse response = LikePostResponse.builder()
                 .countLike(countLike)
                 .liked(like.isPostLiked())
-                .postId(postId)
+                .postIdOrComment(postId)
                 .build();
 
         return response;
     }
+
 }

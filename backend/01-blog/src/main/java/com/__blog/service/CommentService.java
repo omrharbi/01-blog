@@ -47,7 +47,7 @@ public class CommentService {
             }
 
             commentRespository.save(comment);
-            CommentResponse response = commentMapper.convertToResponseComment(comment);
+            CommentResponse response = commentMapper.convertToResponseComment(comment, userPrincipal.getId());
             return ApiResponse.<CommentResponse>builder()
                     .status(true)
                     .message("create Comment")
@@ -62,14 +62,15 @@ public class CommentService {
                 .build();
     }
 
-    public ApiResponse<List<CommentResponse>> getCommentWithPost(UUID postId) {
-        // Sys
+    public ApiResponse<List<CommentResponse>> getCommentWithPost(UUID postId, UserPrincipal userPrincipal) {
+
         List<Comment> AllCommentByPost = commentRespository.findByPostId(postId);
         if (AllCommentByPost != null) {
             List<CommentResponse> commentResponses = new ArrayList<>();
             for (var comment : AllCommentByPost) {
-                CommentResponse commentResponse = commentMapper.convertToResponseComment(comment);
-                if (commentResponse.getParentCommentId()==null){}
+                CommentResponse commentResponse = commentMapper.convertToResponseComment(comment, userPrincipal.getId());
+                if (commentResponse.getParentCommentId() == null) {
+                }
                 commentResponses.add(commentResponse);
             }
 

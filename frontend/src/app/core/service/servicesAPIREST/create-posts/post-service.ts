@@ -29,8 +29,7 @@ export class PostService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    // console.log(id,"");
-
+ 
     return this.http.put<ApiResponse<PostResponse>>(
       `${environment.savepost.edit}${id}`,
       postRequest,

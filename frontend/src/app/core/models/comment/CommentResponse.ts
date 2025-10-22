@@ -1,9 +1,10 @@
 export interface CommentResponse {
-    Content: "",
+    id: "",
+    content: "",
     avatar: "",
     firstname: "",
     lastname: "",
     createdAt: "",
-    // parentCommentId; 
-    //    replies;
+    liked: boolean,
+    likesCount: number;
 }

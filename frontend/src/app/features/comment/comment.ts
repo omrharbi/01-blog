@@ -4,6 +4,11 @@ import { CommentService } from '../../core/service/servicesAPIREST/comment/comme
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
 import { CommentRequest } from '../../core/models/comment/commentRequest';
 import { Materaile } from '../../modules/materaile-module';
+import { SharedServicePost } from '../../core/service/serivecLogique/shared-service/shared-service-post';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, Subscriber, Subscription } from 'rxjs';
+import { Login } from '../auth/login/login';
+import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
 
 @Component({
   selector: 'app-comment',
@@ -14,26 +19,30 @@ import { Materaile } from '../../modules/materaile-module';
 export class Comment {
   @Input() post!: PostResponse;
 
-  constructor(private comment: CommentService) { }
+  constructor(private comment: CommentService,private like: likesServiceLogique, 
+
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
   commentResponse?: CommentResponse;
   getAllComment: CommentResponse[] = [];
   content: string = "";
   postId: string = "";
-  addComment: CommentRequest = {
+   addComment: CommentRequest = {
     content: "",
     postId: ""
   };
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   console.log(this.post.avater_user);
-    
-  //   // this.getComments();
-  // }
+
+  ngOnInit() {
+    this.postId = this.route.snapshot.paramMap.get('id') || '';
+    this.getComments()
+  }
   AddComment(id: string) {
 
     this.addComment.content = this.content;
     this.addComment.postId = id;
-    console.log(this.addComment);
+    // console.log(this.addComment);
     this.comment.AddComment(this.addComment).subscribe({
       next: response => {
         this.commentResponse = response.data;
@@ -46,17 +55,22 @@ export class Comment {
   }
 
 
-  getComments(id:string) {
-    this.comment.getComments(id).subscribe({
+  getComments() {
+
+    this.comment.getComments(this.postId).subscribe({
       next: response => {
         this.getAllComment = response.data;
-        console.log(this.getAllComment);
-
+        console.log(this.getAllComment, "***********");
       },
       error: error => {
         console.log("Error to get comment ", error);
 
       }
     })
+  }
+
+  toggleLikePost(commentId: string, comment: CommentResponse) {
+    this.like.toggleLikeComment(commentId, comment);
+    // this.cdr.detectChanges();
   }
 }

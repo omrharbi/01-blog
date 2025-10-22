@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class LikePostResponse {
 
     private boolean liked;
-    private UUID postId;
+    private UUID postIdOrComment;
     private int countLike;
     // private UUID post
 }

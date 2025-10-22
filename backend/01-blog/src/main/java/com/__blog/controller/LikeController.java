@@ -29,6 +29,12 @@ public class LikeController {
         return ResponseEntity.ok(like);
     }
 
+    @PostMapping("/toggleLikeComment/{target}")
+    public ResponseEntity<?> toggleLikeComment(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID target) {
+        var like = likeService.toggleLikeComment(userPrincipal.getId(), target);
+        return ResponseEntity.ok(like);
+    }
+
     @GetMapping("/liked-posts")
     public ResponseEntity<?> likedPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         var like = likeService.getLikedPostsByUser(userPrincipal.getId());

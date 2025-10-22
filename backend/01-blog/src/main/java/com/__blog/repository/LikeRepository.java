@@ -13,5 +13,6 @@ import com.__blog.model.entity.Like;
 public interface LikeRepository extends JpaRepository<Like, UUID> {
 
     Optional<Like> findByUserIdAndPostId(UUID userId, UUID postid);
+    Optional<Like> findByUserIdAndCommentId(UUID userId, UUID postid);
     Optional<List<Like>> findByUserId(UUID userId);
 }

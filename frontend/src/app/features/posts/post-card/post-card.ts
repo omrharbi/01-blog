@@ -18,7 +18,7 @@ import { likesServiceLogique } from '../../../core/service/serivecLogique/like/l
 })
 export class PostCard {
   constructor(private auth: AuthService, private route: ActivatedRoute, private sharedService: SharedServicePost, private router: Router
-    , private like: likesServiceLogique,
+    , private like: likesServiceLogique
   ) { }
   apiUrl = apiUrl
   // isLiked: likeResponse = {
@@ -56,7 +56,10 @@ export class PostCard {
     this.show = !this.show;
     this.editPost.emit({ post: this.post });
   }
-
+  ngOnInit() {
+    this.sharedService.setCurrentPostId(this.post.id)
+    localStorage.setItem("post-id", this.post.id)
+  }
   onEditPost(post: any) {
     this.sharedService.editPost(post);
     this.router.navigate(['/edit'], { queryParams: { edit: true } });
@@ -66,7 +69,7 @@ export class PostCard {
     this.like.toggleLikePost(postId, post);
   }
 
- 
-  
+
+
 
 }

@@ -37,6 +37,7 @@ export const environment = {
     },
     like: {
         toggleLikePost: apiUrl + "api/likes/toggleLikePost",
+        toggleLikeComment: apiUrl + "api/likes/toggleLikeComment",
         likedPosts: apiUrl + "api/likes/liked-posts"
     }
     ,

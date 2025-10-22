@@ -37,9 +37,9 @@ public class CommentController {
     }
 
     @GetMapping("/getCommentsWithPost/{postId}")
-    public ResponseEntity<?> getCommentsWithPost(@PathVariable UUID postId) {
+    public ResponseEntity<?> getCommentsWithPost(@PathVariable UUID postId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         // System.out.println("CommentController.AddComment()" + userPrincipal.getUsername() + "*****" + commentRequest.getContent());
-        var comment = commentService.getCommentWithPost(postId);
+        var comment = commentService.getCommentWithPost(postId, userPrincipal);
         return ResponseEntity.ok(comment);
     }
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { PostResponse } from '../../../models/post/postResponse';
 import { LikesService } from '../../servicesAPIREST/like/likes-service';
 import { BehaviorSubject } from 'rxjs';
+import { CommentResponse } from '../../../models/comment/CommentResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,26 @@ export class likesServiceLogique {
     });
   }
 
+  toggleLikeComment(commentId: string, comment: CommentResponse) {
+    // console.log(commentId);
+    
+    const previousLiked = comment.liked;
+    comment.liked = !comment.liked;
+    comment.likesCount += comment.liked ? 1 : -1;
 
+    this.like.toggleLikeComment(commentId).subscribe({
+      next: (response) => {
+        if (response.data.isLiked != null) {
+          comment.liked = response.data.isLiked;
+          comment.likesCount = response.data.countLike;
+          console.log();
+          
+        }
+      },
+      error: (err) => {
+        console.log(err, "*** ", previousLiked);
+      }
+    });
+  }
 
 }

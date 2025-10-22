@@ -17,28 +17,14 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CommentResponse {
 
+    private UUID id;
     private String Content;
     private String avatar;
     private String firstname;
     private String lastname;
     private Date createdAt;
-
-    private UUID parentCommentId; // ⭐ لـ replies
+    private boolean isLiked;
+    private int likesCount;
+    private UUID parentCommentId;
     private List<Comment> replies;
-
-    // public Date getCreatedAt() {
-    //     return createdAt;
-    // }
-    // public String getContent() {
-    //     return Content;
-    // }
-    // public String getAvatar() {
-    //     return avatar;
-    // }
-    // public String getFirstname() {
-    //     return firstname;
-    // }
-    // public String getLastname() {
-    //     return lastname;
-    // }
 }

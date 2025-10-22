@@ -7,11 +7,22 @@ import { PostResponse } from '../../../models/post/postResponse';
 })
 export class SharedServicePost {
   private newPostData = new BehaviorSubject<any>(null);
- 
+  private currentPostIdSubject = new BehaviorSubject<String>("");
+
+  currentPostId$ = this.currentPostIdSubject.asObservable()
   private postToEdit: any = null;
+
+  setCurrentPostId(id: string) {
+    this.currentPostIdSubject.next(id);
+  }
+
+
   newpost$ = this.newPostData.asObservable();
-   setNewPost(post: any) {
+  setNewPost(post: any) {
     this.newPostData.next(post)
+  }
+  getCurrentPostId(): String {
+    return this.currentPostIdSubject.value || localStorage.getItem('post-id');
   }
   editPost(post: PostResponse) {
     this.postToEdit = post;

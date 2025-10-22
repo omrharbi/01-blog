@@ -24,6 +24,22 @@ export class LikesService {
       }
     )
   }
+
+  toggleLikeComment(targetid: string) {
+    // console.log(targetid);
+    
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+
+    return this.http.post<ApiResponse<likeResponse>>(
+      `${environment.like.toggleLikeComment}/${targetid}`,
+      {
+        headers
+      }
+    )
+  }
   LikedPost() {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
