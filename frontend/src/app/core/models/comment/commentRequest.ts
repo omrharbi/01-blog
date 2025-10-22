@@ -1,7 +1,7 @@
 
 
 
-export interface commentRequest{
-    content:string,
-
+export interface CommentRequest {
+    content: string,
+    postId: string;
 }

@@ -19,15 +19,15 @@ public class CommentMapper {
         return comment;
     }
 
-    public CommentResponse convertToResponseComment(Comment comment, User user) {
+    public CommentResponse convertToResponseComment(Comment comment) {
         CommentResponse commentResponse = CommentResponse.builder()
                 .Content(comment.getContent())
-                .avatar(user.getAvatarUrl())
-                .firstname(user.getFirstname())
-                .lastname(user.getLastname())
+                .avatar(comment.getUser().getAvatarUrl())
+                .firstname(comment.getUser().getFirstname())
+                .lastname(comment.getUser().getLastname())
                 .createdAt(comment.getCreate_at())
-                .parentCommentId(comment.getParentComment().getId())
-                .replies(comment.getReplies())
+                // .parentCommentId(comment.getParentComment().getId() )
+                // .replies(comment.getReplies())
                 .build();
         return commentResponse;
     }

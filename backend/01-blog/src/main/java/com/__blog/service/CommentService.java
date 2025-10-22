@@ -1,6 +1,9 @@
 package com.__blog.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,6 @@ import com.__blog.repository.UserRepository;
 import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 
-import jakarta.transaction.Transactional;
-
 @Service
 public class CommentService {
 
@@ -31,7 +32,7 @@ public class CommentService {
     private UserRepository userRepository;
     @Autowired
     private CommentMapper commentMapper;
-    @Transactional
+
     public ApiResponse<CommentResponse> AddComment(UserPrincipal userPrincipal, CommentRequest request) {
         Optional<User> user = userRepository.findById(userPrincipal.getId());
         Optional<Post> post = postRepository.findById(request.getPostId());
@@ -39,14 +40,14 @@ public class CommentService {
             Comment comment = commentMapper.convertToEntityComment(request, post.get(), user.get());
 
             if (request.getParentCommentId() != null) {
-                Optional<Comment> parentComment=commentRespository.findById(request.getParentCommentId());
-                if (parentComment.isPresent()){
+                Optional<Comment> parentComment = commentRespository.findById(request.getParentCommentId());
+                if (parentComment.isPresent()) {
                     comment.setParentComment(parentComment.get());
                 }
             }
 
             commentRespository.save(comment);
-            CommentResponse response = commentMapper.convertToResponseComment(comment, user.get());
+            CommentResponse response = commentMapper.convertToResponseComment(comment);
             return ApiResponse.<CommentResponse>builder()
                     .status(true)
                     .message("create Comment")
@@ -55,6 +56,30 @@ public class CommentService {
         }
 
         return ApiResponse.<CommentResponse>builder()
+                .status(false)
+                .error("Cannot create Comment ")
+                // .data(response)
+                .build();
+    }
+
+    public ApiResponse<List<CommentResponse>> getCommentWithPost(UUID postId) {
+        // Sys
+        List<Comment> AllCommentByPost = commentRespository.findByPostId(postId);
+        if (AllCommentByPost != null) {
+            List<CommentResponse> commentResponses = new ArrayList<>();
+            for (var comment : AllCommentByPost) {
+                CommentResponse commentResponse = commentMapper.convertToResponseComment(comment);
+                if (commentResponse.getParentCommentId()==null){}
+                commentResponses.add(commentResponse);
+            }
+
+            return ApiResponse.<List<CommentResponse>>builder()
+                    .status(false)
+                    .error("Cannot create Comment ")
+                    .data(commentResponses)
+                    .build();
+        }
+        return ApiResponse.<List<CommentResponse>>builder()
                 .status(false)
                 .error("Cannot create Comment ")
                 // .data(response)
