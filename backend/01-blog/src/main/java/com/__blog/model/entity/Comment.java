@@ -31,7 +31,7 @@ public class Comment {
     @Column(name = "content")
     private String content;
     @Column(name = "created_at", nullable = false)  // corrected
-    private Date create_at = new Date();
+    private Date createAt = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)

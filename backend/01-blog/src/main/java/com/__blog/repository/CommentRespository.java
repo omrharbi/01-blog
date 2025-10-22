@@ -13,7 +13,7 @@ import com.__blog.model.entity.Comment;
 public interface CommentRespository extends JpaRepository<Comment, UUID> {
 
     @EntityGraph(attributePaths = {"user", "post"})
-    List<Comment> findByPostIdOrderByCreatedAtAsc(UUID postId);
+    List<Comment> findByPostIdOrderByCreateAtDesc(UUID postId);
 
     int countBylikesCommentId(UUID id);
    boolean existsByLikesCommentIdAndLikesUserId(UUID commentId,UUID userId);

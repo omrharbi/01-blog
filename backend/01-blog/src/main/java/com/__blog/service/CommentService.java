@@ -64,7 +64,7 @@ public class CommentService {
 
     public ApiResponse<List<CommentResponse>> getCommentWithPost(UUID postId, UserPrincipal userPrincipal) {
 
-        List<Comment> AllCommentByPost = commentRespository.findByPostIdOrderByCreatedAtAsc(postId);
+        List<Comment> AllCommentByPost = commentRespository.findByPostIdOrderByCreateAtDesc(postId);
         if (AllCommentByPost != null) {
             List<CommentResponse> commentResponses = new ArrayList<>();
             for (var comment : AllCommentByPost) {
