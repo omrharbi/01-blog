@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_blog?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+    username: omrharbi
+    password: omrharbi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-init-sql: SET SESSION sql_mode='TRADITIONAL'
+      maximum-pool-size: 15
+      minimum-idle: 2
+      idle-timeout: 1800000
+      max-lifetime: 2000000
+      connection-timeout: 1800000
+  
+  devtools:
+    livereload:
+      enabled: false
+  
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 2GB
+  
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        # show_sql: true
+        # format_sql: true
+    show-sql: true
+
+file:
+  upload-dir: ./uploads
+
+jwt:
+  secret: ${JWT_SECRET:mySecretKeyForJWT1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789}
+  access-token-expiration: 3000000
+  refresh-token-expiration: 604800000
+
+server:
+  port: 9090
+
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          devtools: DEBUG
+    com:
+      yourpackage: DEBUG
