@@ -45,12 +45,7 @@ public class Comment {
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
-    // Helper methods
-    public void addReply(Comment reply) {
-        replies.add(reply);
-        reply.setParentComment(this);
-    }
-
+  
     public void removeReply(Comment reply) {
         replies.remove(reply);
         reply.setParentComment(null);

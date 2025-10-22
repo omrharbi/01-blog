@@ -42,8 +42,6 @@ export class PostList {
   ngOnInit() {
 
     this.route.queryParams.subscribe(params => {
-      // console.log("***********************");
-
       if (params['scrollTo'] === 'comments') {
         setTimeout(() => this.scrollToComments(), 500);
       }
@@ -55,10 +53,7 @@ export class PostList {
           Object.assign(this.post, response.data);
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
-
-          console.log(response.data);
-
-        },
+         },
         error: (error) => {
           console.log("error to get post", error);
 
@@ -82,6 +77,5 @@ export class PostList {
     this.like.toggleLikePost(postId, post);
     this.cdr.detectChanges();
   }
-
 
 }

@@ -43,21 +43,6 @@ export class PostCard {
   };
   @Output() editPost = new EventEmitter<any>();
   show = false;
-  // ngOnInit() {
-  //   // this.route.queryParams.subscribe(params => {
-  //   //   if (params['scrollTo'] === 'comments') {
-  //   //     setTimeout(() => this.scrollToComments(), 500);
-  //   //   }
-  //   // });
-
-  //   if (this.router.url.includes('/comments/')) {
-  //     // 
-      
-  //     setTimeout(() => {
-  //       this.scrollToComments();
-  //     }, 1000);
-  //   }
-  // }
   isPostOwner(post: any): boolean {
     const check = post.uuid_user === this.auth.getCurrentUserUUID();
     return check
