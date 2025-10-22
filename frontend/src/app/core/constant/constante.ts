@@ -21,6 +21,11 @@ export const environment = {
         addFollow: apiUrl + "api/subscriptions/follow",
         unfollow: apiUrl + "api/subscriptions/unfollow",
     },
+    comment: {
+        addComment: apiUrl + "api/comment/create",
+        getComments: apiUrl + "api/comment/getCommentsWithPost",
+    },
+
     savepost: {
         post: apiUrl + "api/posts/create",
         edit: apiUrl + "api/posts/post/edit/",

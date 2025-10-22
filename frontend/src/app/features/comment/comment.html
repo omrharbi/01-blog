@@ -6,9 +6,15 @@
                 <img class="rounded-circle flex-shrink-0" [src]="(post.avater_user || 'apiUrl')" width="40" height="40">
                 <div class="w-100">
                     <textarea class="form-control border rounded-3 textarea " rows="4"
-                        placeholder="What are your thoughts?"></textarea>
+                        placeholder="What are your thoughts?"
+                        [(ngModel)]="content"
+                        
+                        ></textarea>
                     <div class="d-flex justify-content-end mt-3">
-                        <button class="btn  btn-sm d-flex align-items-center  btn-enabled ">
+                        <button class="btn  btn-sm d-flex align-items-center  btn-enabled "
+
+                            (click)="AddComment(post.id)"
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="me-2">
