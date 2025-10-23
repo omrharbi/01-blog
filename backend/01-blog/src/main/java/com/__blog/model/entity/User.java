@@ -56,7 +56,7 @@ public class User {
     @Column(name = "lastname", nullable = false)
     private String lastname;
 
-    @Column(name = "about", nullable = true)
+    @Column(name = "about", nullable = true, columnDefinition = "TEXT")
     private String about;
 
     @Column(name = "date_of_birth")
@@ -72,7 +72,7 @@ public class User {
     @Column(name = "created_at", nullable = false) // corrected
     private Date create_at = new Date();
 
-    @Column(name = "avatar", nullable = true)
+    @Column(name = "avatar", nullable = true, columnDefinition = "TEXT")
     private String avatar;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

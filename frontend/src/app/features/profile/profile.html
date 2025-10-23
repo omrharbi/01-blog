@@ -85,13 +85,15 @@
                 </div>
 
                 <!-- Tags -->
-                <div class="d-flex flex-wrap gap-2 mb-4">
-                    <span class="tag">React</span>
-                    <span class="tag">Node.js</span>
-                    <span class="tag">TypeScript</span>
-                    <span class="tag">AWS</span>
-                    <span class="tag">GraphQL</span>
-                </div>
+                 <div class="skills d-flex ">
+
+                     <ng-container *ngFor="let skl of userProfile.skills ">
+                         <div class="d-flex flex-wrap gap-2 mb-4 p-1">
+                             <span class="tag">{{skl}}</span>
+                         </div>
+                     </ng-container>
+                 </div>
+
             </div>
 
             <!-- Tabs -->

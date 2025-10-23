@@ -67,12 +67,14 @@ export class AuthService {
 
   getCurrentUserRole(): string | null {
     const token = this.getToken();
+    // console.log(token);
+    
     return token ? this.jwtService.getRoleFromToken(token) : null;
   }
 
   getCurrentUserUUID(): string | null {
     const token = this.getToken();
-    return token ? this.jwtService.getRoleFromToken(token) : null;
+    return token ? this.jwtService.getUUIDFromToken(token) : null;
   }
 
 

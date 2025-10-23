@@ -44,6 +44,8 @@ export class PostCard {
   @Output() editPost = new EventEmitter<any>();
   show = false;
   isPostOwner(post: any): boolean {
+    console.log(post.uuid_user,"owner ", this.auth.getCurrentUserUUID());
+    
     const check = post.uuid_user === this.auth.getCurrentUserUUID();
     return check
   }

@@ -23,13 +23,11 @@ export class JwtService {
 
   getRoleFromToken(token: string): string | null {
     const payload = this.decodeToken(token);
-      // console.log(payload);
-
-    return payload?.uuid || null;
+    return payload?.role || null;
   }
   getUUIDFromToken(token: string): string | null {
     const payload = this.decodeToken(token);
-    return payload?.role || null;
+    return payload?.uuid || null;
   }
 
   // Check if token is expired

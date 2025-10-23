@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.__blog.Component.UserMapper;
+import com.__blog.model.dto.request.auth.UpdateProfileRequest;
 import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.User;
 import com.__blog.repository.UserRepository;
+import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 
 @Service
@@ -99,5 +101,48 @@ public class UserService {
                 .build();
     }
 
+    public ApiResponse<UserResponse> updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request) {
+        Optional<User> user = repouser.findById(userPrincipal.getId());
+        if (!user.isPresent()) {
+            return ApiResponse.<UserResponse>builder()
+                    .status(false)
+                    .error("User not found")
+                    .build();
+        }
+        User existingUser = user.get();
+        if (request.getEmail() != null) {
+            existingUser.setEmail(request.getEmail());
+        }
+        if (request.getUsername() != null) {
+            existingUser.setUsername(request.getUsername());
+        }
+
+        if (request.getFirstname() != null) {
+            existingUser.setFirstname(request.getFirstname());
+        }
+
+        if (request.getLastname() != null) {
+            existingUser.setLastname(request.getLastname());
+        }
+
+        if (request.getAbout() != null) {
+            // System.err.println("about"+);
+            existingUser.setAbout(request.getAbout());
+        }
+        if (request.getAvatar() != null) {
+            // ApiResponse<List<Map<String, String>>> uploadFile = uploadService.uploadFile(files, uploadPath);
+            existingUser.setAvatar(request.getAvatar());
+        }
+        if (request.getSkills() != null) {
+            existingUser.setSkills(request.getSkills());
+        }
+
+        User userUpdate = repouser.save(existingUser);
+        UserResponse response = userMapper.ConvertResponse(userUpdate, existingUser.getId());
+        return ApiResponse.<UserResponse>builder()
+                .status(true)
+                .data(response)
+                .build();
+    }
     // public List
 }

@@ -18,9 +18,18 @@ export class Sidebar {
   explore: UserProfile[] = [];
   private subscription = new Subscription();
   username: string | null = null;
+  IsAdmin: boolean =false;
+
   ngOnInit() {
     this.username = this.auth.getCurrentUsername();
+    // this.username = this.auth.getCurrentUserRole();
     this.isAuthenticated = this.auth.isLoggedIn();
+    if (this.auth.hasRole('ADMIN')) {
+      this.IsAdmin = true;
+    } 
+    // console.log(this.auth.getCurrentUserRole (),"**************");
+
+    // this.isAuthenticated = this.auth.is();
     if (this.isAuthenticated) {
       this.followingLogic.loadingData();
       this.subscription.add(

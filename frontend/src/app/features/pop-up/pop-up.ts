@@ -21,8 +21,6 @@ export class PopUp {
   uuid: string = "0";
   @Input() post!: PostResponse;
   ngOnInit() {
-    // console.log(this.post);
-    
     this.isAuthenticated = this.auth.isAuthenticated();
   }
   isEdit: boolean = false;

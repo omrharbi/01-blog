@@ -43,12 +43,13 @@ export class Profile {
     followingCount: 0,
     postsCount: 0,
     followingMe: false,
+    skills: [],
   };
 
   apiUrl = apiUrl;
   countPost = 0;
   post: PostResponse[] = [];
-   isFollowing: boolean = false;
+  isFollowing: boolean = false;
   EditProfile() {
     this.editProfile = !this.editProfile;
   }
@@ -62,14 +63,14 @@ export class Profile {
   //  get isOwner(): boolean {
   //   return this.isPostOwner(this.post);
   // }
- 
+
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username') || '';
 
     this.isAuthenticated = this.auth.isLoggedIn();
     this.profile.profile(username).subscribe({
       next: (respone) => {
-        console.log(respone, 'usrename ');
+        // console.log(respone, 'usrename ');
         this.userProfile = respone.data;
         if (respone.status === false && respone.error != null) {
           this.showMessage.showError(respone.error, false);
@@ -82,9 +83,8 @@ export class Profile {
 
     this.profile.GetMyPosts(username).subscribe((res) => {
       this.post = res.data;
-      console.log(res,"data ");
-      
-      
+      console.log(res, 'data ');
+
       this.post.forEach((p) => {
         p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
       });
