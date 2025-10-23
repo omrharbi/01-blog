@@ -1,7 +1,6 @@
 package com.__blog.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,8 +27,7 @@ public class AuthService {
         private JwtTokenProvider tokenProvider;
         // @Autowired
         // private RefreshTokenService refreshTokenService;
-        @Value("${app.base-url}")
-        private String baseUrl;
+
         @Autowired
         private UserService userService;
         @Autowired
@@ -80,7 +78,7 @@ public class AuthService {
                                         .id(userEntity.getId())
                                         .username(userEntity.getUsername())
                                         .email(userEntity.getEmail())
-                                        .avater(userEntity.getAvatarUrl(baseUrl))
+                                        .avater(userEntity.getAvatarUrl())
                                         .build();
 
                         return ApiResponse.<LoginResponse>builder()
