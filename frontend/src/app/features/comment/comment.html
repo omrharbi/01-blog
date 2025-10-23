@@ -45,7 +45,7 @@
                                 <div class="flex-grow-1">
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
-                                            href="/profile/john_dev">{{comment.firstname }} {{comment.lastname }}</a>
+                                           [routerLink]="['/profile/'+comment.username]">{{comment.firstname }} {{comment.lastname }}</a>
                                         <span class="small text-muted-foreground">{{comment.createdAt | timeAgo}}</span>
                                     </div>
                                     <p class="text-foreground mb-3 lh-base">{{comment.content }}</p>

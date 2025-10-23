@@ -36,6 +36,7 @@ public class CommentMapper {
                 .avatar(comment.getUser().getAvatarUrl())
                 .firstname(comment.getUser().getFirstname())
                 .lastname(comment.getUser().getLastname())
+                .username(comment.getUser().getUsername())
                 .createdAt(comment.getCreateAt())
                 .isLiked(isLiked)
                 .likesCount(countLike)

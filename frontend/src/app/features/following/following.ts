@@ -28,42 +28,6 @@ export class Following {
   countFollowers = 0;
   ngOnInit() {
     this.followingLogic.loadingData();
-    // this.users.following().subscribe({
-    //   next: response => {
-    //     this.following = response.data
-    //     this.countFollowing = this.following.length;
-    //     console.log(this.following, "*following ");
-    //   },
-    //   error: error => {
-    //     console.log("error", error);
-
-    //   }
-    // })
-
-    // // Get my followers
-    // this.users.followers().subscribe({
-    //   next: response => {
-    //     this.followers = response.data
-    //     this.countFollowers = this.followers.length;
-    //     console.log(response.data, "followers**");
-    //   },
-    //   error: error => {
-    //     console.log("error", error);
-    //   }
-    // })
-
-    // // users not follow 
-    // this.users.explor().subscribe({
-    //   next: response => {
-    //     this.explor = response.data
-    //     console.log(response, "explor**");
-    //   },
-    //   error: error => {
-    //     console.log("error", error);
-
-    //   }
-    // })
-
     this.subscriptions.add(
       this.followingLogic.following$.subscribe(following => {
         this.following = following;

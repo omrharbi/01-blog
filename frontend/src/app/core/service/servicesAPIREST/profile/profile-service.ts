@@ -24,13 +24,13 @@ export class ProfileService {
   }
 // f196e108-0cdd-4b43-a359-ceb83c8a8062 
 // 867e6d5e-24db-4e90-b66c-4d74adc860d7
-  GetMyPosts(): Observable<ApiResponse<PostResponse[]>> {
+  GetMyPosts(username:string): Observable<ApiResponse<PostResponse[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
     return this.http.get<ApiResponse<PostResponse[]>>(
-      `${environment.user.getMyPosts}`, {
+      `${environment.user.getMyPosts}/${username}/posts`, {
       headers
     }
     )

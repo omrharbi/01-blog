@@ -48,6 +48,7 @@ export class Profile {
   apiUrl = apiUrl;
   countPost = 0;
   post: PostResponse[] = [];
+   isFollowing: boolean = false;
   EditProfile() {
     this.editProfile = !this.editProfile;
   }
@@ -61,7 +62,7 @@ export class Profile {
   //  get isOwner(): boolean {
   //   return this.isPostOwner(this.post);
   // }
-  isFollowing: boolean = false;
+ 
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username') || '';
 
@@ -79,8 +80,11 @@ export class Profile {
       },
     });
 
-    this.profile.GetMyPosts().subscribe((res) => {
+    this.profile.GetMyPosts(username).subscribe((res) => {
       this.post = res.data;
+      console.log(res,"data ");
+      
+      
       this.post.forEach((p) => {
         p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
       });
@@ -113,11 +117,12 @@ export class Profile {
       },
     });
   }
+
   toggleFollow(userId: string) {
     if (this.isFollowing) {
       this.Unfollow(userId);
     } else {
-      this.followUser(userId);
+      // this.followUser(userId);
     }
     // Toggle the state
     this.isFollowing = !this.isFollowing;

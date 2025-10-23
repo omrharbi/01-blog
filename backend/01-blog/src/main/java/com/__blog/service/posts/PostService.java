@@ -21,6 +21,7 @@ import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
 import com.__blog.repository.PostRepository;
+import com.__blog.repository.UserRepository;
 import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 
@@ -32,6 +33,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private PostMapper postMapper;
     @Autowired
@@ -119,21 +123,27 @@ public class PostService {
         }
     }
 
-    public ApiResponse<List<PostResponse>> getPostsFromUserId(UUID userId) {
-        Optional<List<Post>> posts = postRepository.findByUserId(userId);
-        if (posts.isPresent()) {
+    public ApiResponse<List<PostResponse>> getPostsFromUserId(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            Optional<List<Post>> posts = postRepository.findByUserId(user.get().getId());
+            if (posts.isPresent()) {
 
-            List<PostResponse> postResponses = new ArrayList<>();
-            for (var post : posts.get()) {
-                Hibernate.initialize(post.getTags());
+                List<PostResponse> postResponses = new ArrayList<>();
+                for (var post : posts.get()) {
+                    Hibernate.initialize(post.getTags());
 
-                PostResponse postDTO = postMapper.ConvertPostResponse(post, userId);
-                postResponses.add(postDTO);
+                    PostResponse postDTO = postMapper.ConvertPostResponse(post, user.get().getId());
+                    postResponses.add(postDTO);
+                }
+
+                return ApiResponse.<List<PostResponse>>builder().status(true).data(postResponses).build();
+            } else {
+                return ApiResponse.<List<PostResponse>>builder().status(false).error("Error to Get this Post").build();
             }
-
-            return ApiResponse.<List<PostResponse>>builder().status(true).data(postResponses).build();
         } else {
-            return ApiResponse.<List<PostResponse>>builder().status(false).error("Error to Get this Post").build();
+            return ApiResponse.<List<PostResponse>>builder().status(false).error("Error to Get this User Post").build();
+
         }
 
     }

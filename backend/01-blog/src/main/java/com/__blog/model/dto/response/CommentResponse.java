@@ -26,5 +26,6 @@ public class CommentResponse {
     private boolean isLiked;
     private int likesCount;
     private UUID parentCommentId;
+    private String username;
     private List<Comment> replies;
 }

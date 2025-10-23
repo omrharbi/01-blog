@@ -40,7 +40,7 @@
                                         </div>
                                         <div>
                                             <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
-                                                href="/profile/sarah_codes">{{post.firstname}} {{post.lastname}}</a>
+                                                [routerLink]="['/profile/'+post.username]">{{post.firstname}} {{post.lastname}}</a>
                                             <div class="small text-muted-foreground">{{post.createdAt |timeAgo }}</div>
                                         </div>
                                     </div>

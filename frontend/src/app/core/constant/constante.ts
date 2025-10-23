@@ -10,7 +10,7 @@ export const environment = {
     user: {
         getMe: apiUrl + "api/user/profile",
         updateMe: apiUrl + "users/update-me",
-        getMyPosts: apiUrl + "api/user/getMyPosts",
+        getMyPosts: apiUrl + "api/user/usersProfile",
         changePassword: apiUrl + "users/change-password",
     },
 
