@@ -54,7 +54,7 @@ public class PostMapper {
                 .uuid_user(post.getUser().getId())
                 .createdAt(post.getCreatedAt())
                 .medias(mediaResponses)
-                .avatarUser(+post.getUser().getAvatarUrl())
+                .avatarUser(post.getUser().getAvatarUrl())
                  .username(post.getUser().getUsername())
                 .tags(tags)
                 .isLiked(isLiked)
