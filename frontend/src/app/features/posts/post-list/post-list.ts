@@ -9,10 +9,11 @@ import { Comment } from '../../comment/comment';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { likeResponse } from '../../../core/models/like/likeResponse';
 import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
+import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
 
 @Component({
   selector: 'app-post-list',
-  imports: [Materaile, Comment],
+  imports: [Materaile, Comment, TimeAgoPipe],
   templateUrl: './post-list.html',
   styleUrl: './post-list.scss'
 })
@@ -30,6 +31,7 @@ export class PostList {
     firstImage: "",
     htmlContent: "",
     excerpt: "",
+    username:"",
     createdAt: "",
     medias: [],
     tags: [],
@@ -50,6 +52,8 @@ export class PostList {
       const id = params["id"];
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
+          console.log(response.data.commentCount);
+          
           Object.assign(this.post, response.data);
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;

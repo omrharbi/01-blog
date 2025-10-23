@@ -7,4 +7,5 @@ export interface CommentResponse {
     createdAt: "",
     liked: boolean,
     likesCount: number;
+    // likesCount: number;
 }

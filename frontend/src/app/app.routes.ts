@@ -28,9 +28,9 @@ export const routes: Routes = [
       { path: 'post/:id', component: PostList },
       { path: 'posts', component: PostList },
       { path: 'preview', component: Preview },
-      { path: 'explore', component: ExplorePosts },
+      // { path: 'explore', component: ExplorePosts },
       
-      { path: 'profile', component: Profile , canActivate: [authGuard]},
+      { path: 'profile/:username', component: Profile , canActivate: [authGuard]},
       { path: 'create', component: CreatePost, canActivate: [authGuard] },
       {
         path: 'edit', component: CreatePost,

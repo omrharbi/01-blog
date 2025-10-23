@@ -6,13 +6,12 @@ import { PostResponse } from '../../../core/models/post/postResponse';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
-import { LikesService } from '../../../core/service/servicesAPIREST/like/likes-service';
-import { likeResponse } from '../../../core/models/like/likeResponse';
 import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
+import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
 
 @Component({
   selector: 'app-post-card',
-  imports: [Materaile, PopUp],
+  imports: [Materaile, PopUp,TimeAgoPipe],
   templateUrl: './post-card.html',
   styleUrl: './post-card.scss'
 })
@@ -34,6 +33,7 @@ export class PostCard {
     firstImage: "",
     htmlContent: "",
     excerpt: "",
+    username:"",
     createdAt: "",
     medias: [],
     tags: [],

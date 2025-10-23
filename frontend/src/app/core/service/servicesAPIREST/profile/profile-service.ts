@@ -11,13 +11,13 @@ import { PostResponse } from '../../../models/post/postResponse';
 })
 export class ProfileService {
   constructor(private http: HttpClient) { }
-  profile(): Observable<ApiResponse<UserProfile>> {
+  profile(username:string): Observable<ApiResponse<UserProfile>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
     return this.http.get<ApiResponse<UserProfile>>(
-      `${environment.user.getMe}`, {
+      `${environment.user.getMe}/${username}`, {
       headers
     }
     )

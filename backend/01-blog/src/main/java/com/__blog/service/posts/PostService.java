@@ -150,4 +150,10 @@ public class PostService {
                 .status(true).data(allPosts).build();
     }
 
+    public ApiResponse<List<PostResponse>> deletePost(UUID postId, UUID userId) {
+        postRepository.deleteById(postId);
+        ApiResponse<List<PostResponse>> allPosts = getPosts(userId);
+        return ApiResponse.<List<PostResponse>>builder()
+                .status(true).data(allPosts.getData()).build();
+    }
 }

@@ -24,6 +24,7 @@ public class PostResponse {
     private String firstname;
     private String lastname;
     private String avater_user;
+    private String username;
     private LocalDateTime createdAt;
     private String firstImage;
     private List<TagsResponse> tags;

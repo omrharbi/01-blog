@@ -23,6 +23,8 @@ export class NotificationService {
             if (redirectToLogin) {
                 this.authService.logout();
                 this.router.navigate(['/login']);
+            }else{
+                 this.router.navigate(['/']);
             }
         });
 

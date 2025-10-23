@@ -2,6 +2,7 @@ package com.__blog.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.User;
 import com.__blog.repository.UserRepository;
-import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 
 @Service
@@ -70,11 +70,18 @@ public class UserService {
         }
     }
 
-    public ApiResponse<UserResponse> profile(UserPrincipal userPrincipal) {
-        User user = userPrincipal.getUser();
-        UserResponse userResponse = userMapper.ConvertResponse(user, user.getId());
-        return ApiResponse.<UserResponse>builder().status(true)
-                .data(userResponse).build();
+    public ApiResponse<UserResponse> profile(String username) {
+        Optional<User> user = repouser.findByUsername(username);
+        if (user.isPresent()) {
+
+            UserResponse userResponse = userMapper.ConvertResponse(user.get(), user.get().getId());
+            return ApiResponse.<UserResponse>builder().status(true)
+                    .data(userResponse).build();
+        }
+        return ApiResponse.<UserResponse>builder()
+                .status(false)
+                .error("Sory this user Not Found")
+                .build();
     }
 
     // @Transactional

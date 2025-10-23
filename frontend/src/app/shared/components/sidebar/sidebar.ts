@@ -10,37 +10,24 @@ import { Subscription } from 'rxjs';
   selector: 'app-sidebar',
   imports: [Materaile],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css'
+  styleUrl: './sidebar.css',
 })
 export class Sidebar {
-  constructor(private auth: AuthService, private followingLogic: FollowingLogiqueService) { }
+  constructor(private auth: AuthService, private followingLogic: FollowingLogiqueService) {}
   isAuthenticated: boolean = false;
-  explore: UserProfile[] = []
-  private subscription = new Subscription()
+  explore: UserProfile[] = [];
+  private subscription = new Subscription();
+  username: string | null = null;
   ngOnInit() {
+    this.username = this.auth.getCurrentUsername();
     this.isAuthenticated = this.auth.isLoggedIn();
     if (this.isAuthenticated) {
       this.followingLogic.loadingData();
-      // this.users.explore().subscribe({
-      //   next: response => {
-      //     this.explor = response.data
-      //     console.log(response, "explor**");
-      //   },
-      //   error: error => {
-      //     console.log("error", error);
-      //   }
-      // })
       this.subscription.add(
-        this.followingLogic.explore$.subscribe(explose => {
-          // console.log(explose,"side bar");
-          
-          this.explore = explose
+        this.followingLogic.explore$.subscribe((explose) => {
+          this.explore = explose;
         })
-      )
-
-
-
+      );
     }
   }
-
 }

@@ -1,17 +1,18 @@
 export interface PostResponse {
-  id: string,
-  title: string,
-  content: string,
-  firstImage: string,
-  htmlContent: string
-  excerpt: string,
-  firstname?: string,
-  lastname?: string,
-  avater_user?: string,
+  id: string;
+  title: string;
+  content: string;
+  firstImage: string;
+  htmlContent: string;
+  excerpt: string;
+  username: string;
+  firstname?: string;
+  lastname?: string;
+  avater_user?: string;
   createdAt: string;
-  medias?: MediaResponse[]
-  tags?: Tags[]
-  liked: boolean,
+  medias?: MediaResponse[];
+  tags?: Tags[];
+  liked: boolean;
   likesCount: number;
   commentCount: number;
 }
