@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.__blog.model.dto.request.PostRequest;
@@ -27,6 +28,8 @@ public class PostMapper {
 
     @Autowired
     private PostRepository postRepository;
+    @Value("${base-url}")
+    private String baseUrl;
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
@@ -51,8 +54,8 @@ public class PostMapper {
                 .uuid_user(post.getUser().getId())
                 .createdAt(post.getCreatedAt())
                 .medias(mediaResponses)
-                .avater_user(post.getUser().getAvatarUrl())
-                .username(post.getUser().getUsername())
+                .avatarUser(+post.getUser().getAvatarUrl())
+                 .username(post.getUser().getUsername())
                 .tags(tags)
                 .isLiked(isLiked)
                 .commentCount(countComment)
@@ -65,7 +68,6 @@ public class PostMapper {
     }
 
     public PostResponse ConvertPostResponse(Post post, UUID userid) {
-        // System.err.println(post.getId()+"************************");
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
         int countLike = postRepository.countBylikesPostId(post.getId());
@@ -89,7 +91,7 @@ public class PostMapper {
                 .title(post.getTitle())
                 .createdAt(post.getCreatedAt())
                 .username(post.getUser().getUsername())
-                .avater_user(post.getUser().getAvatarUrl())
+                .avatarUser(post.getUser().getAvatarUrl())
                 .tags(tags)
                 .isLiked(isLiked)
                 .commentCount(countComment)

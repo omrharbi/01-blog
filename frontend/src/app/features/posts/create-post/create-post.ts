@@ -60,7 +60,7 @@ export class CreatePost implements CanComponentDeactivate {
     htmlContent: '',
     excerpt: '',
     username:"",
-    avater_user: '',
+    avatar_user: '',
     medias: [],
     tags: [],
     createdAt: '',

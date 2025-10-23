@@ -118,10 +118,10 @@ public class User {
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "skill")
     private Set<String> skills = new HashSet<>();
-
+    
     public String getAvatarUrl() {
         if (avatar != null && !avatar.isEmpty()) {
-            return avatar;
+            return   avatar;
         }
         // Generate default avatar based on name
         return generateDefaultAvatar();

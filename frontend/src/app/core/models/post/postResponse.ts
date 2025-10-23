@@ -8,7 +8,8 @@ export interface PostResponse {
   username: string;
   firstname?: string;
   lastname?: string;
-  avater_user?: string;
+  avatar_user?: string;
+  avatarUserHttps?: string;
   createdAt: string;
   medias?: MediaResponse[];
   tags?: Tags[];

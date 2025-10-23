@@ -19,11 +19,6 @@ export class Uploadimages {
     })
 
     const formData = new FormData()
-
-    // console.log('FormData entries:');
-    // for (let [key, value] of (formData as any).entries()) {
-    //   console.log(key, value);
-    // }
     files.forEach((file) => {
       formData.append('files', file);
     });

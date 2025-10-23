@@ -3,12 +3,13 @@
     <div class="card border rounded-3 shadow-sm mb-4 group transition-smooth hover-shadow-elegant bg-card">
         <div class="card-body p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
+                <p>{{post.avatar_user}}</p>
                 <div class="d-flex align-items-center gap-3">
-                    <img [src]="(post.avater_user || 'apiUrl')" class="rounded-circle" width="40" height="40"
-                        alt="Avatar">
+                    <img [src]="post.avatar_user" class="rounded-circle" width="40"
+                        height="40" alt="Avatar">
                     <div>
                         <a class="fw-medium text-decoration-none "
-                         [routerLink]="['/profile/'+post.username]">{{post.firstname }}
+                            [routerLink]="['/profile/'+post.username]">{{post.firstname }}
                             {{post.lastname}}</a>
                         <div class="small text-muted"> {{post.createdAt |timeAgo}}</div>
                     </div>
@@ -17,8 +18,7 @@
                     <button class="btn btn-link text-muted p-2" (click)="popUp()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-three-dots" viewBox="0 0 16 16">
-                            <path
-                                d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 
+                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 
                                 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                         </svg>
                     </button>
@@ -47,12 +47,11 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
 
-                            <button [class.liked]="post.liked"
-                                [class.not-liked]="!(post.liked)" (click)="toggleLikePost(post.id, post)"
+                            <button [class.liked]="post.liked" [class.not-liked]="!(post.liked)"
+                                (click)="toggleLikePost(post.id, post)"
                                 class="btn btn-link text-decoration-none p-0 d-flex align-items-center gap-2 like-btn">
 
-                                 <mat-icon [class.liked-icon]="post.liked"
-                                    [class.not-liked-icon]="!(post.liked)">
+                                <mat-icon [class.liked-icon]="post.liked" [class.not-liked-icon]="!(post.liked)">
                                     {{ post.liked ? 'favorite' : 'favorite_border' }}
                                 </mat-icon>
 
@@ -65,10 +64,7 @@
                             </button>
                             <!-- href="/post/1#comments" -->
                             <a class="btn btn-link text-muted text-decoration-none p-0 d-flex align-items-center gap-2"
-                                [queryParams]="{ scrollTo: 'comments' }"
-                                routerLink="/comments/{{post.id}}"
- 
-                                >
+                                [queryParams]="{ scrollTo: 'comments' }" routerLink="/comments/{{post.id}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-chat" viewBox="0 0 16 16">
                                     <path
@@ -81,13 +77,13 @@
                 </div>
                 <div class="col-md-4 order-1 order-md-2">
 
-                        <a routerLink="/post/{{post.id}}" >
-                            <div class="aspect-video aspect-md-square rounded-3 overflow-hidden bg-light">
-                                <img [src]="apiUrl+(post.firstImage || '')"
-                                    alt="Building My First React Native App: Lessons Learned"
-                                    class="w-100 h-100 object-fit-cover hover-scale">
-                            </div>
-                        </a>
+                    <a routerLink="/post/{{post.id}}">
+                        <div class="aspect-video aspect-md-square rounded-3 overflow-hidden bg-light">
+                            <img [src]="apiUrl+(post.firstImage || '')"
+                                alt="Building My First React Native App: Lessons Learned"
+                                class="w-100 h-100 object-fit-cover hover-scale">
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

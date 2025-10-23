@@ -5,18 +5,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.__blog.model.dto.request.auth.UpdateProfileRequest;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.UserService;
 import com.__blog.service.posts.PostService;
 
- 
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin
@@ -52,8 +53,10 @@ public class UserController {
     @PatchMapping("/EditMyProfile")
     public ResponseEntity<?> updateProfile(
             @AuthenticationPrincipal UserPrincipal user,
-            @RequestBody UpdateProfileRequest request) {
-        var updatedUser = userService.updateProfile(user, request);
+            @ModelAttribute UpdateProfileRequest request,
+            @RequestParam(value = "files", required = false) MultipartFile[] files) {
+                // System.out.println("UserController.updateProfile()"+Arrays.toString(files));
+        var updatedUser = userService.updateProfile(user, request, files);
         // UserProfileResponse response = mapToResponse(updatedUser);
         return ResponseEntity.ok(updatedUser);
     }

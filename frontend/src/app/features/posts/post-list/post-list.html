@@ -30,12 +30,14 @@
                             </div>
 
                             <!-- Author Info and Actions -->
+                            <!-- <p>{{apiUrl}}{{post.avater_user}}************</p> -->
                             <div class="col-12">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle overflow-hidden" style="width: 48px; height: 48px;">
                                             <img class="w-100 h-100 object-fit-cover"
-                                                [src]="(post.avater_user || 'apiUrl')"
+                                                [src]="post.avatar_user ? apiUrl + post.avatar_user : post.avatarUserHttps"
+                                                
                                                 [alt]="'Image by ' + post.firstname + ' ' + post.lastname">
                                         </div>
                                         <div>

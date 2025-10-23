@@ -23,7 +23,8 @@ public class PostResponse {
     private String content;
     private String firstname;
     private String lastname;
-    private String avater_user;
+    private String avatarUser;
+    private String avatarUserHttps;
     private String username;
     private LocalDateTime createdAt;
     private String firstImage;

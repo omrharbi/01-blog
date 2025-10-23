@@ -1,12 +1,18 @@
 package com.__blog.service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.request.auth.UpdateProfileRequest;
@@ -24,6 +30,11 @@ public class UserService {
     // @Autowired
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UploadFilesService uploadService;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     public ApiResponse<User> finduser(UUID id) {
         var user = repouser.findById(id);
@@ -101,7 +112,8 @@ public class UserService {
                 .build();
     }
 
-    public ApiResponse<UserResponse> updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request) {
+    public ApiResponse<UserResponse> updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request,
+            MultipartFile[] files) {
         Optional<User> user = repouser.findById(userPrincipal.getId());
         if (!user.isPresent()) {
             return ApiResponse.<UserResponse>builder()
@@ -129,9 +141,24 @@ public class UserService {
             // System.err.println("about"+);
             existingUser.setAbout(request.getAbout());
         }
-        if (request.getAvatar() != null) {
-            // ApiResponse<List<Map<String, String>>> uploadFile = uploadService.uploadFile(files, uploadPath);
-            existingUser.setAvatar(request.getAvatar());
+        if (files != null) {
+            try {
+
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                ApiResponse<List<Map<String, String>>> uploadFile = uploadService.uploadFile(files, uploadPath);
+                String pathString = uploadFile.getData().get(0).get("filePath");
+                existingUser.setAvatar(pathString);
+
+            } catch (Exception e) {
+                return ApiResponse.<UserResponse>builder()
+                        .status(true)
+                        // .data(response)
+                        .error("Error To Upload")
+                        .build();
+            }
         }
         if (request.getSkills() != null) {
             existingUser.setSkills(request.getSkills());
