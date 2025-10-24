@@ -29,7 +29,7 @@ export class PostService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
- 
+
     return this.http.put<ApiResponse<PostResponse>>(
       `${environment.savepost.edit}${id}`,
       postRequest,
@@ -53,19 +53,28 @@ export class PostService {
       // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.getpost.posts}`, {
+    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.post.posts}`, {
       headers
     });
   }
 
-  getpostByID(id: number): Observable<ApiResponse<PostResponse>> {
+  getpostByID(id: string): Observable<ApiResponse<PostResponse>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    const url = `${environment.getpost.postByID}${id}`
+    const url = `${environment.post.postByID}${id}`
     return this.http.get<ApiResponse<PostResponse>>(url, {
       headers
     });
+  }
+  DeletePost(id: string): Observable<ApiResponse<PostResponse>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.delete<ApiResponse<PostResponse>>(`${environment.post.deletePost}/${id}`, {
+      headers
+    })
   }
 }

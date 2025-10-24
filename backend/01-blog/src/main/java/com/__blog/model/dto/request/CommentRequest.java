@@ -1,15 +1,8 @@
 package com.__blog.model.dto.request;
 
 import java.util.UUID;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+import lombok.Data;
+@Data
 public class CommentRequest {
 
      private String content;

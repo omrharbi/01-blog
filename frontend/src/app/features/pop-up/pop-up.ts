@@ -4,6 +4,7 @@ import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-servic
 import { JwtService } from '../../core/service/JWT/jwt-service';
 import { Materaile } from '../../modules/materaile-module';
 import { CommonModule } from '@angular/common';
+import { PostService } from '../../core/service/servicesAPIREST/posts/post-service';
 
 @Component({
   selector: 'app-pop-up',
@@ -14,7 +15,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './pop-up.scss'
 })
 export class PopUp {
-  constructor(private auth: AuthService, private user: JwtService) {
+  constructor(private auth: AuthService, private user: JwtService,private postService:PostService) {
   }
   @Input() isOwner: boolean = false;
   isAuthenticated: boolean = false;
@@ -31,4 +32,17 @@ export class PopUp {
     this.editPost.emit(this.post);
   }
 
+  onDelete() {
+    console.log(this.post.id);
+    this.postService.DeletePost(this.post.id).subscribe({
+      next:response=>{
+        console.log(response);
+        
+      },
+      error:error=>{
+        console.log(error);
+        
+      }
+    })
+  }
 }

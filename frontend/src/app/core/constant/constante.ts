@@ -31,9 +31,10 @@ export const environment = {
         edit: apiUrl + "api/posts/post/edit/",
         removeMedia: apiUrl + "api/media/",
     },
-    getpost: {
+    post: {
         posts: apiUrl + "api/posts/getallPost",
-        postByID: apiUrl + "api/posts/getPostById/"
+        postByID: apiUrl + "api/posts/getPostById/",
+        deletePost: apiUrl + "api/posts/post/delete"
     },
     like: {
         toggleLikePost: apiUrl + "api/likes/toggleLikePost",

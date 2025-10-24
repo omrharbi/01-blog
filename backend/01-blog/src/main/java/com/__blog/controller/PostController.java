@@ -85,8 +85,8 @@ public class PostController {
 
 
     @DeleteMapping("/post/delete/{postid}")
-    public ResponseEntity<?> deletePost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest, @AuthenticationPrincipal UserPrincipal userPrincipa) {
-        ApiResponse<PostResponse> post = postservice.editPost(postRequest, postId, userPrincipa.getId());
+    public ResponseEntity<?> deletePost(@PathVariable("postid") UUID postId, @AuthenticationPrincipal UserPrincipal userPrincipa) {
+        ApiResponse<List<PostResponse>> post = postservice.deletePost(postId, userPrincipa.getId());
         return ResponseEntity.ok(post);
     }
     
