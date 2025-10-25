@@ -24,7 +24,7 @@ import { Global } from '../../core/service/serivecLogique/popup/global';
 export class Comment {
   @Input() post!: PostResponse;
 
-  constructor(private comment: CommentService, private like: likesServiceLogique,
+  constructor(private commentService: CommentService, private like: likesServiceLogique,
     private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router
@@ -48,7 +48,7 @@ export class Comment {
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'comment') {
         console.log('Editing comment:', event.data);
-        this.comment = event.data;
+        this.content = event.data;
         this.content = event.data.content;
         this.isEdit = true;
       }
@@ -67,7 +67,7 @@ export class Comment {
     } else {
       this.addComment.content = this.content;
       this.addComment.postId = id;
-      this.comment.AddComment(this.addComment).subscribe({
+      this.commentService.AddComment(this.addComment).subscribe({
         next: response => {
           this.commentResponse = response.data;
           this.getAllComment.unshift(response.data)
@@ -95,7 +95,7 @@ export class Comment {
   }
   getComments() {
 
-    this.comment.getComments(this.postId).subscribe({
+    this.commentService.getComments(this.postId).subscribe({
       next: response => {
         this.getAllComment = response.data;
         console.log(this.getAllComment, "***********");
@@ -115,10 +115,10 @@ export class Comment {
   }
 
   EditComment(id: string) {
-    this.comment.editComment(id, this.content).subscribe({
+    this.commentService.editComment(id, this.addComment).subscribe({
       next: response => {
         console.log(response, "comment");
-        
+
       },
       error: error => {
         console.log(error);

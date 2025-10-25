@@ -45,9 +45,9 @@ public class CommentController {
     }
 
     @PutMapping("editComment/{idComment}")
-    public ResponseEntity<?> editComment(@PathVariable("idComment") UUID postId,) {
-        var comment = commentService.getCommentWithPost(postId, userPrincipal);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<?> editComment(@PathVariable("idComment") UUID postId, @Valid @RequestBody CommentRequest commentRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        var comment = commentService.editPost(postId, commentRequest, userPrincipal.getId());
+        return ResponseEntity.ok(comment);
     }
 
     //  @PostMapping("/create")

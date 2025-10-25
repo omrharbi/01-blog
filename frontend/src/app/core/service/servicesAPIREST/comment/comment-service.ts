@@ -36,14 +36,13 @@ export class CommentService {
   }
 
 
-  editComment(id: string, content: string): Observable<ApiResponse<CommentResponse>> {
-
+  editComment(id: string, content: CommentRequest): Observable<ApiResponse<CommentResponse>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
     return this.http.put<ApiResponse<CommentResponse>>(
-      `${environment.comment.getComments}/${id}`, content, { headers }
+      `${environment.comment.editComment}/${id}`, content, { headers }
     )
   }
 }
