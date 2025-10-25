@@ -21,6 +21,14 @@ export class SharedServicePost {
   setNewPost(post: any) {
     this.newPostData.next(post)
   }
+
+  deletePostLocally(postId: string) {
+    const currentPost=this.newPostData.value;
+    if (currentPost){
+      const updatePosts=currentPost.filter((p:any)=>p.id!==postId);
+      this.newPostData.next(updatePosts);
+    }
+  }
   getCurrentPostId(): String {
     return this.currentPostIdSubject.value || localStorage.getItem('post-id');
   }

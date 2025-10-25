@@ -68,12 +68,12 @@ export class PostService {
       headers
     });
   }
-  DeletePost(id: string): Observable<ApiResponse<PostResponse>> {
+  DeletePost(id: string): Observable<string> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.delete<ApiResponse<PostResponse>>(`${environment.post.deletePost}/${id}`, {
+    return this.http.delete<string>(`${environment.post.deletePost}/${id}`, {
       headers
     })
   }

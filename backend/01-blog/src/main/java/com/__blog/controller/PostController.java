@@ -1,5 +1,5 @@
 package com.__blog.controller;
-
+ 
 import java.util.List;
 import java.util.UUID;
 
@@ -35,13 +35,15 @@ public class PostController {
     private PostService postservice;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest postRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest postRequest,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
         ApiResponse<PostResponse> post = postservice.createPost(postRequest, userPrincipal);
         return ResponseEntity.ok(post);
     }
 
     @PutMapping("/post/edit/{postid}")
-    public ResponseEntity<?> editPost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest, @AuthenticationPrincipal UserPrincipal userPrincipa) {
+    public ResponseEntity<?> editPost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest,
+            @AuthenticationPrincipal UserPrincipal userPrincipa) {
         ApiResponse<PostResponse> post = postservice.editPost(postRequest, postId, userPrincipa.getId());
         return ResponseEntity.ok(post);
     }
@@ -55,21 +57,22 @@ public class PostController {
     }
 
     @GetMapping("/getPostById/{id}")
-    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(@PathVariable UUID id, @AuthenticationPrincipal UserPrincipal userPrincipa) {
+    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(@PathVariable UUID id,
+            @AuthenticationPrincipal UserPrincipal userPrincipa) {
 
         try {
             if (id.equals(new UUID(0, 0))) {
                 return ResponseEntity.badRequest().body(ApiResponse.<PostResponseWithMedia>builder()
                         .status(false)
                         .error("Invalid post ID " + id)
-                        .build()
-                );
+                        .build());
             }
             ApiResponse<PostResponseWithMedia> getpost = postservice.getPostById(id, userPrincipa.getId());
 
             if (getpost.getData() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ApiResponse.<PostResponseWithMedia>builder().status(false).error("Post not found with ID: " + id).build());
+                        .body(ApiResponse.<PostResponseWithMedia>builder().status(false)
+                                .error("Post not found with ID: " + id).build());
             }
             return ResponseEntity.ok(getpost);
 
@@ -77,17 +80,16 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.<PostResponseWithMedia>builder()
                     .status(false)
                     .error("Post not found with ID:" + id)
-                    .build()
-            );
+                    .build());
         }
     }
 
-
-
     @DeleteMapping("/post/delete/{postid}")
-    public ResponseEntity<?> deletePost(@PathVariable("postid") UUID postId, @AuthenticationPrincipal UserPrincipal userPrincipa) {
-        ApiResponse<List<PostResponse>> post = postservice.deletePost(postId, userPrincipa.getId());
+    public ResponseEntity<?> deletePost(@PathVariable("postid") UUID postId) {
+        UUID post = postservice.deletePost(postId );
+        // IO.println();
+        System.err.println("*****"+post);
         return ResponseEntity.ok(post);
     }
-    
+
 }

@@ -103,3 +103,22 @@
 2025-10-25 09:15:53.785 GMT [1136817] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
 2025-10-25 09:15:53.787 GMT [1136820] LOG:  database system was shut down at 2025-10-23 18:09:25 GMT
 2025-10-25 09:15:53.790 GMT [1136817] LOG:  database system is ready to accept connections
+2025-10-25 09:20:53.838 GMT [1136818] LOG:  checkpoint starting: time
+2025-10-25 09:20:54.257 GMT [1136818] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.404 s, sync=0.006 s, total=0.419 s; sync files=6, longest=0.004 s, average=0.001 s; distance=6 kB, estimate=6 kB; lsn=0/19AEB88, redo lsn=0/19AEB30
+2025-10-25 09:47:50.225 GMT [1136817] LOG:  received smart shutdown request
+2025-10-25 09:47:50.225 GMT [1148241] FATAL:  terminating connection due to administrator command
+2025-10-25 09:47:50.227 GMT [1149756] FATAL:  terminating connection due to administrator command
+2025-10-25 09:47:50.231 GMT [1136817] LOG:  background worker "logical replication launcher" (PID 1136823) exited with exit code 1
+2025-10-25 09:47:50.231 GMT [1136818] LOG:  shutting down
+2025-10-25 09:47:50.235 GMT [1136818] LOG:  checkpoint starting: shutdown immediate
+2025-10-25 09:47:50.244 GMT [1136818] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.014 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=6 kB; lsn=0/19AEC38, redo lsn=0/19AEC38
+2025-10-25 09:47:50.247 GMT [1136817] LOG:  database system is shut down
+2025-10-25 12:39:11.838 GMT [1157038] LOG:  starting PostgreSQL 17.4 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-10-25 12:39:11.839 GMT [1157038] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-10-25 12:39:11.841 GMT [1157038] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-10-25 12:39:11.848 GMT [1157041] LOG:  database system was shut down at 2025-10-25 09:47:50 GMT
+2025-10-25 12:39:11.852 GMT [1157038] LOG:  database system is ready to accept connections
+2025-10-25 12:44:11.947 GMT [1157039] LOG:  checkpoint starting: time
+2025-10-25 12:44:12.461 GMT [1157039] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.504 s, sync=0.002 s, total=0.514 s; sync files=7, longest=0.001 s, average=0.001 s; distance=7 kB, estimate=7 kB; lsn=0/19B0AF8, redo lsn=0/19B0AA0
+2025-10-25 12:59:11.654 GMT [1157039] LOG:  checkpoint starting: time
+2025-10-25 12:59:12.667 GMT [1157039] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.004 s, sync=0.002 s, total=1.013 s; sync files=11, longest=0.002 s, average=0.001 s; distance=18 kB, estimate=18 kB; lsn=0/19B5538, redo lsn=0/19B54E0

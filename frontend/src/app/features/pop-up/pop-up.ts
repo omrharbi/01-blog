@@ -36,14 +36,14 @@ export class PopUp {
   }
 
   onDelete() {
-    console.log(this.post.id);
+    // console.log(this.post.id);
     this.postService.DeletePost(this.post.id).subscribe({
       next:response=>{
-        this.postServiceLogique.setNewPost(response.data)
-        // console.log(response);
+        this.postServiceLogique.deletePostLocally(this.post.id)
+        console.log(response);
       },
       error:error=>{
-        console.log(error);
+        console.log(error,"error");
         
       }
     })
