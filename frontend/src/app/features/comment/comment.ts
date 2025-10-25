@@ -51,10 +51,14 @@ export class Comment {
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'comment') {
         console.log('Editing comment:', event.data);
-        // this.content = event.data;
         this.idComment = event.data.id
         this.content = event.data.content;
         this.isEdit = true;
+      }
+
+      if (event.type === 'Deletecomment') {
+        console.log('Deletecomment comment:', event.data);
+        this.delete(event.data.id)
       }
     })
     this.postId = this.route.snapshot.paramMap.get('id') || '';
@@ -113,11 +117,23 @@ export class Comment {
   }
   popUp(commentId: string) {
     console.log(commentId);
-    
+
     this.showPopUp[commentId] = !this.showPopUp[commentId];
     // this.show = !this.show;
   }
+  delete(id: string) {
+    this.commentService.delete(id).subscribe({
+      next: response => {
+        if (response.status) {
+          console.log("delete it ");
+        }
+      },
+      error: error => {
+        console.log(error);
 
+      }
+    })
+  }
   EditComment(id: string) {
 
 

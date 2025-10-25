@@ -113,4 +113,26 @@ public class CommentService {
                 .build();
     }
 
+
+
+    public ApiResponse<CommentResponse> delete(UUID commentId) {
+        // var 
+        var findcomment = commentRespository.findById(commentId);
+         if (findcomment.isPresent() ) { 
+            commentRespository.deleteById(commentId);
+            
+            CommentResponse commentResponse = commentMapper.convertToResponseComment(findcomment.get(), commentId);
+            return ApiResponse.<CommentResponse>builder()
+            .status(true)
+            .error(" edit  Comment ")
+            .data(commentResponse)
+            .build();
+        }
+        System.err.println("*************0"+findcomment.isPresent());
+        return ApiResponse.<CommentResponse>builder()
+        .status(false)
+        .error("Cannot create Comment ")
+        // .data(response)
+                .build();
+    }
 }

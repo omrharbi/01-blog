@@ -39,7 +39,7 @@ export class PopUp {
   @Output() editPost = new EventEmitter<any>();
 
   onEdit() {
-    if (this.isComment === true) {      
+    if (this.isComment === true) {
       this.global.sharedData.emit({ type: 'comment', data: this.comment });
     } else {
       this.global.sharedData.emit({ type: 'post', data: this.post });
@@ -47,14 +47,22 @@ export class PopUp {
   }
 
   onDelete() {
-    this.postService.DeletePost(this.post.id).subscribe({
-      next: response => {
-        console.log(response);
-      },
-      error: error => {
-        console.log(error, "error");
 
-      }
-    })
+    if (this.isComment === true) {
+      this.global.sharedData.emit({ type: 'Deletecomment', data: this.comment });
+    } else {
+      this.global.sharedData.emit({ type: 'Deletepost', data: this.post });
+    }
+
+
+    // this.postService.DeletePost(this.post.id).subscribe({
+    //   next: response => {
+    //     console.log(response);
+    //   },
+    //   error: error => {
+    //     console.log(error, "error");
+
+    //   }
+    // })
   }
 }

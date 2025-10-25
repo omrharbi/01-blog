@@ -45,4 +45,15 @@ export class CommentService {
       `${environment.comment.editComment}/${id}`, content, { headers }
     )
   }
+
+
+  delete(id: string): Observable<ApiResponse<CommentResponse>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.delete<ApiResponse<CommentResponse>>(
+      `${environment.comment.deleteComment}/${id}`, { headers }
+    )
+  }
 }
