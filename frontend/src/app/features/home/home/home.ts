@@ -46,14 +46,7 @@ export class Home {
   //   }
   //   return true
   // }
-
-  deletePostLocally(postId: string) {
-    const currentPost=this.posts;
-    if (currentPost){
-      const updatePosts=currentPost.filter((p:any)=>p.id!==postId);
-      this.posts = [...updatePosts];
-    }
-  }
+ 
   private updatePostInList(updatedPost: PostResponse) {
     this.posts.unshift(updatedPost);
     this.posts = [...this.posts]; // Trigger change detection

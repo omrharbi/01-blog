@@ -55,14 +55,6 @@ export class PopUp {
     }
 
 
-    // this.postService.DeletePost(this.post.id).subscribe({
-    //   next: response => {
-    //     console.log(response);
-    //   },
-    //   error: error => {
-    //     console.log(error, "error");
-
-    //   }
-    // })
+ 
   }
 }
