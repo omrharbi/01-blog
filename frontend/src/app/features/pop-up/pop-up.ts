@@ -31,7 +31,7 @@ export class PopUp {
   @Input() post!: PostResponse;
   @Input() comment!: CommentResponse;
   ngOnInit() {
-    console.log(this.isComment, "******");
+    // console.log(this.comment.id, "******");
 
     this.isAuthenticated = this.auth.isAuthenticated();
   }

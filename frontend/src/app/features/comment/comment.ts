@@ -44,11 +44,15 @@ export class Comment {
   show: boolean = false;
   @Input() comments?: CommentResponse;
   isEdit = false
+  idComment = "";
+
+  showPopUp: { [commentId: string]: boolean } = {};
   ngOnInit() {
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'comment') {
         console.log('Editing comment:', event.data);
-        this.content = event.data;
+        // this.content = event.data;
+        this.idComment = event.data.id
         this.content = event.data.content;
         this.isEdit = true;
       }
@@ -57,10 +61,7 @@ export class Comment {
     this.getComments()
   }
 
-  onEditPost(post: any) {
-    this.sharedService.editPost(post);
-    console.log(post);
-  }
+
   submitComment(id: string) {
     if (this.isEdit) {
       this.EditComment(id)
@@ -110,15 +111,32 @@ export class Comment {
   toggleLikePost(commentId: string, comment: CommentResponse) {
     this.like.toggleLikeComment(commentId, comment);
   }
-  popUp() {
-    this.show = !this.show;
+  popUp(commentId: string) {
+    console.log(commentId);
+    
+    this.showPopUp[commentId] = !this.showPopUp[commentId];
+    // this.show = !this.show;
   }
 
   EditComment(id: string) {
-    this.commentService.editComment(id, this.addComment).subscribe({
-      next: response => {
-        console.log(response, "comment");
 
+
+    const idComment = this.idComment;
+    this.addComment.content = this.content;
+    this.addComment.postId = id;
+    this.commentService.editComment(idComment, this.addComment).subscribe({
+      next: response => {
+        if (response.status) {
+          const index = this.getAllComment.findIndex(c => c.id === this.idComment);
+          if (index !== -1) {
+            this.getAllComment[index].content = response.data.content; // update only content
+          }
+
+          // reset edit mode
+          this.isEdit = false;
+          this.idComment = "";
+          this.content = '';
+        }
       },
       error: error => {
         console.log(error);

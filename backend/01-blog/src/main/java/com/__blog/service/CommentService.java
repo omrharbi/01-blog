@@ -90,9 +90,12 @@ public class CommentService {
     public ApiResponse<CommentResponse> editPost(UUID commentId, CommentRequest commentRequest, UUID userId) {
         // var 
         var findcomment = commentRespository.findById(commentId);
-        if (findcomment.isPresent()) {
-            Comment saveNewComment = new Comment();
+        Optional<Post> post = postRepository.findById(commentRequest.getPostId());
+        if (findcomment.isPresent() && post.isPresent()) {
+            Comment saveNewComment = findcomment.get();
             saveNewComment.setContent(commentRequest.getContent());
+            // saveNewComment.setPost(post.get());
+            
             commentRespository.save(saveNewComment);
             
             CommentResponse commentResponse = commentMapper.convertToResponseComment(saveNewComment, commentId);
