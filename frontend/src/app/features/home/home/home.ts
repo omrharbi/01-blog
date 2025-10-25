@@ -16,8 +16,8 @@ import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-ser
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
-export class Home {
-  posts: PostResponse[] = [];
+  export class Home {
+    posts: PostResponse[] = [];
   constructor(private postservice: 
     PostService, private postDatashard: 
     SharedServicePost, private auth: AuthService) { }
@@ -25,9 +25,11 @@ export class Home {
 
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
+
+    this.postDatashard.posts$.subscribe(posts => this.posts = posts);
     this.postservice.getAllPost().subscribe(res => {
       this.posts = res.data;
-      console.log(this.posts);
+      this.postDatashard.setPosts(res.data); 
     });
     // listen for new post coming from create page
     this.postDatashard.newpost$.subscribe(post => {

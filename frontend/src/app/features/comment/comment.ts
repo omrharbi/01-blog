@@ -14,6 +14,7 @@ import { apiUrl } from '../../core/constant/constante';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { PopUp } from '../pop-up/pop-up';
 import { Global } from '../../core/service/serivecLogique/popup/global';
+import { PostService } from '../../core/service/servicesAPIREST/posts/post-service';
 
 @Component({
   selector: 'app-comment',
@@ -29,6 +30,7 @@ export class Comment {
     private route: ActivatedRoute,
     private router: Router
     ,
+    private postService: PostService,
     private sharedService: SharedServicePost,
     private global: Global
   ) { }
@@ -125,6 +127,7 @@ export class Comment {
     this.commentService.delete(id).subscribe({
       next: response => {
         if (response.status) {
+          this.removeComment(id);
           console.log("delete it ");
         }
       },
@@ -133,6 +136,12 @@ export class Comment {
 
       }
     })
+  }
+
+  removeComment(commentid: string) {
+    const posts = this.getAllComment.filter(p => p.id !== commentid);
+    this.getAllComment = [...posts]
+    // this.commentSubject.next(posts);
   }
   EditComment(id: string) {
 

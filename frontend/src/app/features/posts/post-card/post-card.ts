@@ -22,8 +22,7 @@ export class PostCard {
   constructor(private auth: AuthService, private route: ActivatedRoute, private sharedService: SharedServicePost, private router: Router
     , private like: likesServiceLogique,
     private global: Global,
-
-    private postService: PostService,
+     private postService: PostService,
   ) { }
   apiUrl = apiUrl
 
@@ -69,8 +68,7 @@ export class PostCard {
         console.log("delete ");
         this.postService.DeletePost(event.data.id).subscribe({
           next: response => {
-            console.log("delete,",response);
-
+            this.sharedService.removePost(response);
           },
           error: error => {
             console.log(error);
@@ -93,12 +91,6 @@ export class PostCard {
   }
 
   deletePostLocally(postId: string) {
-
-    // const currentPost=this.newPostData.value;
-    // if (currentPost){
-    //   const updatePosts=currentPost.filter((p:any)=>p.id!==postId);
-    //   this.newPostData.next(updatePosts);
-    // }
   }
 
 

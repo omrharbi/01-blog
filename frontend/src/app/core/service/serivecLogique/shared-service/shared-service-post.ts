@@ -12,6 +12,24 @@ export class SharedServicePost {
   currentPostId$ = this.currentPostIdSubject.asObservable()
   private postToEdit: any = null;
 
+
+  private postsSubject = new BehaviorSubject<PostResponse[]>([]);
+  posts$ = this.postsSubject.asObservable();
+  private commentSubject = new BehaviorSubject<PostResponse[]>([]);
+  comment$ = this.commentSubject.asObservable();
+  setPosts(posts: PostResponse[]) {
+    this.postsSubject.next(posts);
+  }
+
+  removePost(postId: string) {
+    const posts = this.postsSubject.getValue().filter(p => p.id !== postId);
+    this.postsSubject.next(posts);
+  }
+
+  removeComment(commentid: string) {
+    const posts = this.commentSubject.getValue().filter(p => p.id !== commentid);
+    this.commentSubject.next(posts);
+  }
   setCurrentPostId(id: string) {
     this.currentPostIdSubject.next(id);
   }
@@ -22,13 +40,6 @@ export class SharedServicePost {
     this.newPostData.next(post)
   }
 
-  // deletePostLocally(postId: string) {
-  //   const currentPost=this.newPostData.value;
-  //   if (currentPost){
-  //     const updatePosts=currentPost.filter((p:any)=>p.id!==postId);
-  //     this.newPostData.next(updatePosts);
-  //   }
-  // }
   getCurrentPostId(): String {
     return this.currentPostIdSubject.value || localStorage.getItem('post-id');
   }

@@ -54,7 +54,5 @@ export class PopUp {
       this.global.sharedData.emit({ type: 'Deletepost', data: this.post });
     }
 
-
- 
   }
 }
