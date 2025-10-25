@@ -112,8 +112,6 @@ public class User {
     @Column(name = "role", nullable = false)
     private Roles role = Roles.USER;
 
-
-    
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "skill")

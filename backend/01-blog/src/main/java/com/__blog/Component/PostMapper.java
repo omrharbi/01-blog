@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.__blog.model.dto.request.PostRequest;
@@ -28,8 +27,7 @@ public class PostMapper {
 
     @Autowired
     private PostRepository postRepository;
-    @Value("${base-url}")
-    private String baseUrl;
+ 
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
@@ -81,6 +79,7 @@ public class PostMapper {
         if (firstImage.isPresent()) {
             image = firstImage.get().getFilePath();
         }
+        System.err.println(post.getUser().getAvatarUrl()+"**************");
         PostResponse postResponse = PostResponse.builder()
                 .id(post.getId())
                 .uuid_user(post.getUser().getId())

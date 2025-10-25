@@ -36,7 +36,7 @@
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle overflow-hidden" style="width: 48px; height: 48px;">
                                             <img class="w-100 h-100 object-fit-cover"
-                                                [src]="post.avatar_user ? apiUrl + post.avatar_user : post.avatarUserHttps"
+                                                 [src]="(post.avatarUser?.startsWith('http')?post.avatarUser:apiUrl+post.avatarUser)"
                                                 
                                                 [alt]="'Image by ' + post.firstname + ' ' + post.lastname">
                                         </div>

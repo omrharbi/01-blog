@@ -8,9 +8,8 @@ export interface PostResponse {
   username: string;
   firstname?: string;
   lastname?: string;
-  avatar_user?: string;
-  avatarUserHttps?: string;
-  createdAt: string;
+  avatarUser?: string;
+   createdAt: string;
   medias?: MediaResponse[];
   tags?: Tags[];
   liked: boolean;

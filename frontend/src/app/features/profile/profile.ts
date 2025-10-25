@@ -59,18 +59,14 @@ export class Profile {
     console.log(check);
     return check;
   }
-
-  //  get isOwner(): boolean {
-  //   return this.isPostOwner(this.post);
-  // }
-
+ 
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username') || '';
 
     this.isAuthenticated = this.auth.isLoggedIn();
     this.profile.profile(username).subscribe({
       next: (respone) => {
-        // console.log(respone, 'usrename ');
+        console.log(respone, 'usrename ');
         this.userProfile = respone.data;
         if (respone.status === false && respone.error != null) {
           this.showMessage.showError(respone.error, false);
