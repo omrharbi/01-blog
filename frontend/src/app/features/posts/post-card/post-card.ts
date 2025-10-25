@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
 import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
+import { Global } from '../../../core/service/serivecLogique/popup/global';
 
 @Component({
   selector: 'app-post-card',
@@ -17,13 +18,11 @@ import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
 })
 export class PostCard {
   constructor(private auth: AuthService, private route: ActivatedRoute, private sharedService: SharedServicePost, private router: Router
-    , private like: likesServiceLogique
+    , private like: likesServiceLogique,
+    private global: Global
   ) { }
   apiUrl = apiUrl
-  // isLiked: likeResponse = {
-  //   isLiked: false,
-  //   countLike: 0,
-  // };
+ 
   @ViewChild('commentsSection') commentsSection!: ElementRef;
 
   @Input() post: PostResponse = {
@@ -44,8 +43,7 @@ export class PostCard {
   @Output() editPost = new EventEmitter<any>();
   show = false;
   isPostOwner(post: any): boolean {
-    // console.log(post.uuid_user,"owner ", this.auth.getCurrentUserUUID());
-    const check = post.uuid_user === this.auth.getCurrentUserUUID();
+     const check = post.uuid_user === this.auth.getCurrentUserUUID();
     return check
   }
 
@@ -58,6 +56,12 @@ export class PostCard {
     this.editPost.emit({ post: this.post });
   }
   ngOnInit() {
+    this.global.sharedData.subscribe((event)=>{
+      if (event.type==='post'){
+        this.onEditPost(event.data);
+      }
+    })
+
     this.sharedService.setCurrentPostId(this.post.id)
     localStorage.setItem("post-id", this.post.id)
   }

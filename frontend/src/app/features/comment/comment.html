@@ -9,7 +9,7 @@
                         placeholder="What are your thoughts?" [(ngModel)]="content"></textarea>
                     <div class="d-flex justify-content-end mt-3">
                         <button class="btn  btn-sm d-flex align-items-center  btn-enabled "
-                            (click)="AddComment(post.id)">
+                            (click)="submitComment(post.id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="me-2">
@@ -18,7 +18,8 @@
                                 </path>
                                 <path d="m21.854 2.147-10.94 10.939"></path>
                             </svg>
-                            Post Comment
+                            {{!isEdit?"Post Comment": "edit Post"}}
+                            <!-- Post Comment -->
                         </button>
                     </div>
                 </div>
@@ -35,19 +36,51 @@
             <div class="row g-3">
                 <!-- Comment 1 -->
                 <div class="col-12" *ngFor="let comment of getAllComment">
+
                     <div class="card bg-card text-card-foreground shadow-sm">
                         <div class="card-body p-4">
                             <div class="d-flex gap-3">
 
-                                <img class="rounded-circle flex-shrink-0" [src]="(comment.avatar || 'apiUrl')"
-                                    width="40" height="40">
+                                <!--  -->
 
                                 <div class="flex-grow-1">
-                                    <div class="d-flex align-items-center gap-2 mb-2">
-                                        <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
-                                           [routerLink]="['/profile/'+comment.username]">{{comment.firstname }} {{comment.lastname }}</a>
-                                        <span class="small text-muted-foreground">{{comment.createdAt | timeAgo}}</span>
+                                    <div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="rounded-circle overflow-hidden"
+                                                    style="width: 48px; height: 48px;">
+                                                    <img class="rounded-circle flex-shrink-0"
+                                                        [src]="(comment.avatar || 'apiUrl')" width="40" height="40">
+
+                                                </div>
+                                                <div><a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
+                                                        href="/profile/omrharbi">{{comment.firstname }}
+                                                        {{comment.lastname }}</a>
+                                                    <div
+                                                        class="small fw-semibold text-decoration-none  text transition-smooth">
+                                                        {{comment.createdAt | timeAgo}} </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="position-relative d-inline-block">
+                                                <button
+                                                    class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle"
+                                                    style="width: 40px; height: 40px;" (click)="popUp()"><i
+                                                        class="material-icons"
+                                                        style="font-size: 16px;">more_horiz</i></button>
+
+                                                <ng-container *ngIf="show">
+                                                    <app-pop-up [isOwner]="isOwner" [isComment]="isComment"
+                                                        [comment]="comment"></app-pop-up>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+
                                     </div>
+
+
+
                                     <p class="text-foreground mb-3 lh-base">{{comment.content }}</p>
                                     <div class="d-flex align-items-center gap-3">
                                         <button [class.liked]="comment.liked" [class.not-liked]="!(comment.liked)"
@@ -71,6 +104,8 @@
                                                          d-inline-flex align-items-center px-3 py-2 text-muted-foreground hover-text-foreground">Reply</button> -->
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>

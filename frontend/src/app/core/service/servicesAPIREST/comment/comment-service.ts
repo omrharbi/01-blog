@@ -24,8 +24,8 @@ export class CommentService {
 
 
   getComments(id: string): Observable<ApiResponse<CommentResponse[]>> {
-    console.log(id,"******************************");
-    
+    console.log(id, "******************************");
+
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
@@ -35,4 +35,15 @@ export class CommentService {
     )
   }
 
+
+  editComment(id: string, content: string): Observable<ApiResponse<CommentResponse>> {
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.put<ApiResponse<CommentResponse>>(
+      `${environment.comment.getComments}/${id}`, content, { headers }
+    )
+  }
 }

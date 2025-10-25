@@ -145,20 +145,7 @@ export class CreatePost implements CanComponentDeactivate {
     };
 
     if (this.isEdit) {
-
-      // this.postService.removeMedia(this.postData.id).subscribe({
-      //   next: response => {
-      //     console.log(response,"response");
-
-      //   },
-      //   error: err => {
-      //     console.log("error", err);
-
-      //   }
-      // })
-
-      // console.log(postRequest);
-
+ 
       this.postService.editPost(postRequest, this.postData.id).subscribe({
         next: (response) => {
           this.sharedServicePost.setNewPost(response.data);

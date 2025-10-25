@@ -10,54 +10,89 @@ import { filter, Subscriber, Subscription } from 'rxjs';
 import { Login } from '../auth/login/login';
 import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
+import { apiUrl } from '../../core/constant/constante';
+import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
+import { PopUp } from '../pop-up/pop-up';
+import { Global } from '../../core/service/serivecLogique/popup/global';
 
 @Component({
   selector: 'app-comment',
-  imports: [Materaile, TimeAgoPipe],
+  imports: [Materaile, TimeAgoPipe, PopUp],
   templateUrl: './comment.html',
   styleUrl: './comment.scss'
 })
 export class Comment {
   @Input() post!: PostResponse;
 
-  constructor(private comment: CommentService,private like: likesServiceLogique, 
-
+  constructor(private comment: CommentService, private like: likesServiceLogique,
+    private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router
+    ,
+    private sharedService: SharedServicePost,
+    private global: Global
   ) { }
   commentResponse?: CommentResponse;
   getAllComment: CommentResponse[] = [];
   content: string = "";
   postId: string = "";
-   addComment: CommentRequest = {
+  addComment: CommentRequest = {
     content: "",
     postId: ""
   };
-
-
+  apiUrl = apiUrl;
+  show: boolean = false;
+  @Input() comments?: CommentResponse;
+  isEdit = false
   ngOnInit() {
+    this.global.sharedData.subscribe((event) => {
+      if (event.type === 'comment') {
+        console.log('Editing comment:', event.data);
+        this.comment = event.data;
+        this.content = event.data.content;
+        this.isEdit = true;
+      }
+    })
     this.postId = this.route.snapshot.paramMap.get('id') || '';
     this.getComments()
   }
-  AddComment(id: string) {
 
-    this.addComment.content = this.content;
-    this.addComment.postId = id;
-    // console.log(this.addComment);
-    this.comment.AddComment(this.addComment).subscribe({
-      next: response => {
-        this.commentResponse = response.data;
-        this.getAllComment.unshift(response.data)
-        this.content="";
-      },
-      error: error => {
-        console.log("Error To Add Comment ", error);
+  onEditPost(post: any) {
+    this.sharedService.editPost(post);
+    console.log(post);
+  }
+  submitComment(id: string) {
+    if (this.isEdit) {
+      this.EditComment(id)
+    } else {
+      this.addComment.content = this.content;
+      this.addComment.postId = id;
+      this.comment.AddComment(this.addComment).subscribe({
+        next: response => {
+          this.commentResponse = response.data;
+          this.getAllComment.unshift(response.data)
+          this.content = "";
+        },
+        error: error => {
+          console.log("Error To Add Comment ", error);
 
-      }
-    })
+        }
+      })
+    }
   }
 
+  get isOwner(): boolean {
+    return this.isPostOwner(this.post);
+  }
 
+  get isComment(): boolean {
+    return true
+  }
+
+  isPostOwner(comment: any): boolean {
+    const check = comment.uuid_user === this.auth.getCurrentUserUUID();
+    return check
+  }
   getComments() {
 
     this.comment.getComments(this.postId).subscribe({
@@ -74,6 +109,21 @@ export class Comment {
 
   toggleLikePost(commentId: string, comment: CommentResponse) {
     this.like.toggleLikeComment(commentId, comment);
-    // this.cdr.detectChanges();
+  }
+  popUp() {
+    this.show = !this.show;
+  }
+
+  EditComment(id: string) {
+    this.comment.editComment(id, this.content).subscribe({
+      next: response => {
+        console.log(response, "comment");
+        
+      },
+      error: error => {
+        console.log(error);
+
+      }
+    })
   }
 }

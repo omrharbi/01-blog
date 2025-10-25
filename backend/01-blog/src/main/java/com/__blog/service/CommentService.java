@@ -87,4 +87,30 @@ public class CommentService {
                 .build();
     }
 
+    public ApiResponse<CommentResponse> editPost(UUID commentId, CommentRequest commentRequest,UUID userId) {
+        // var 
+        var findcomment = commentRespository.findById(commentId);
+        if (findcomment.isPresent()) {
+            Comment  saveNewComment=new Comment();
+            saveNewComment.setContent(commentRequest.getContent());
+            commentRespository.save(saveNewComment);
+
+            CommentResponse commentResponse= commentMapper.convertToResponseComment(saveNewComment, commentId);
+        }   
+
+
+        // List<CommentResponse> commentResponses = new ArrayList<>();
+        return ApiResponse.<CommentResponse>builder()
+                .status(false)
+                .error("Cannot create Comment ")
+                .data(null)
+                .build();
+
+        // return ApiResponse.<CommentResponse>builder()
+        //         .status(false)
+        //         .error("Cannot create Comment ")
+        //         // .data(response)
+        //         .build();
+    }
+
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,10 +38,16 @@ public class CommentController {
     }
 
     @GetMapping("/getCommentsWithPost/{postId}")
-    public ResponseEntity<?> getCommentsWithPost(@PathVariable UUID postId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") UUID postId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         // System.out.println("CommentController.AddComment()" + userPrincipal.getUsername() + "*****" + commentRequest.getContent());
         var comment = commentService.getCommentWithPost(postId, userPrincipal);
         return ResponseEntity.ok(comment);
+    }
+
+    @PutMapping("editComment/{idComment}")
+    public ResponseEntity<?> editComment(@PathVariable("idComment") UUID postId,) {
+        var comment = commentService.getCommentWithPost(postId, userPrincipal);
+        return ResponseEntity.ok(null);
     }
 
     //  @PostMapping("/create")

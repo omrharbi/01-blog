@@ -24,6 +24,7 @@ export const environment = {
     comment: {
         addComment: apiUrl + "api/comment/create",
         getComments: apiUrl + "api/comment/getCommentsWithPost",
+        editComment: apiUrl + "api/comment/editComment",
     },
 
     savepost: {
