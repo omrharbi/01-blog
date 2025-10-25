@@ -27,7 +27,6 @@ public class PostMapper {
 
     @Autowired
     private PostRepository postRepository;
- 
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 

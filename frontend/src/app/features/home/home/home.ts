@@ -3,7 +3,7 @@ import { CardShare } from '../card-share/card-share';
 import { Materaile } from '../../../modules/materaile-module';
 import { PostCard } from '../../posts/post-card/post-card';
 import { PostResponse } from '../../../core/models/post/postResponse';
-import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
+import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { Route, Router } from '@angular/router';
 import { use } from 'marked';

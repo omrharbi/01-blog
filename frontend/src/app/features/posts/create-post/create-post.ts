@@ -13,7 +13,7 @@ import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
 import { PostRequest } from '../../../core/models/post/postRequest';
-import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
+import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';

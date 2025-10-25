@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
-import { PostService } from '../../../core/service/servicesAPIREST/create-posts/post-service';
+import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
 import { ActivatedRoute, } from '@angular/router';
 import { PostResponse } from '../../../core/models/post/postResponse';
 import { apiUrl } from '../../../core/constant/constante';

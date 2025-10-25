@@ -6,15 +6,12 @@ import java.util.UUID;
 
 import com.__blog.model.entity.Comment;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
+
 
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
+@Data
 public class CommentResponse {
 
     private UUID id;
