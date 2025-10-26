@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Notification } from '../../../models/Notification/Notification';
 import { Client, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { token } from '../../../constant/constante';
 @Injectable({
   providedIn: 'root'
 })
@@ -79,20 +80,30 @@ export class NotificationsServiceLogique {
   }
   private stompClient?: Client;
   private wsUrl = 'http://localhost:9090/ws';
-
   connect(userId: string): void {
-    const socket = new SockJS(this.wsUrl);
-    this.stompClient = Stomp.over(socket);
+    // const socket = new SockJS(this.wsUrl);
+    this.stompClient = new Client({
+      webSocketFactory: () => new SockJS(this.wsUrl),
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+      onConnect: () => {
+        console.log('✅ Connected to WebSocket');
 
-    this.stompClient.onConnect = () => {
-      console.log('✅ Connected to WebSocket');
-      this.stompClient?.subscribe(`/user/${userId}/notification`, (message) => {
-        const notif = JSON.parse(message.body);
-        console.log('📩 New notification:', notif);
-        const current = this.notificationsSubject.value;
-        this.notificationsSubject.next([notif, ...current]);
-      });
-    };
+        this.stompClient.subscribe(
+          `/user/${userId}/notification`,
+          (message) => {
+            const notif = JSON.parse(message.body);
+            console.log('📩 New notification:', notif);
+
+            const current = this.notificationsSubject.value;
+            this.notificationsSubject.next([notif, ...current]);
+          }
+        );
+      },
+
+
+    })
 
     this.stompClient.onStompError = (error) => {
       console.error('❌ WebSocket error', error);
