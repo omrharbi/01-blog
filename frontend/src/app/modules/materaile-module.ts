@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list'; // for mat-grid-list / mat-grid-tile
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DiractiveEvenet } from '../core/Customdiractive/diractive-evenet';
  const materaile = [
   CommonModule,
   RouterModule,
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   MatIconModule,
   MatDividerModule,
   MatGridListModule,
-  FormsModule,ReactiveFormsModule
+  FormsModule,ReactiveFormsModule,
+  DiractiveEvenet
 ];
 
 @NgModule({

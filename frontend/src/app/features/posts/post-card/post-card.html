@@ -1,4 +1,4 @@
-<div class="mb-4 bg-card">
+<div class="mb-4 bg-card" (click)="closePopUp()">
     <!-- Post 1 -->
     <div class="card border rounded-3 shadow-sm mb-4 group transition-smooth hover-shadow-elegant bg-card">
         <div class="card-body p-4">
@@ -14,8 +14,8 @@
                         <div class="small text-muted"> {{post.createdAt |timeAgo}}</div>
                     </div>
                 </div>
-                <div class="position-relative d-inline-block">
-                    <button class="btn btn-link text-muted p-2" (click)="popUp()">
+                <div class="position-relative d-inline-block" >
+                    <button class="btn btn-link text-muted p-2" (clickedInside)="OnPopUp($event)"  appDiractiveEvenet>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-three-dots" viewBox="0 0 16 16">
                             <path

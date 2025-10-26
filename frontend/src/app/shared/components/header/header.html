@@ -49,11 +49,14 @@
 
           <!-- Notifications -->
           <button
+            (clickedInside)="notification($event)"  appDiractiveEvenet
             class="btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0"
             *ngIf="isAuthenticated" title="Notifications">
             <!-- Notification badge -->
             <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
           </button>
+         
+          <!-- <div ></div> -->
           <!-- Create Post -->
           <button
             class="btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0"
@@ -61,6 +64,10 @@
             <mat-icon class="fs-5 align-content-center">add</mat-icon>
           </button>
         </div>
+
+         <ng-container *ngIf="isNotificated">
+            <app-notifications  ></app-notifications>
+          </ng-container>
         <!-- Authentication Links -->
         <div class="hidden md:flex items-center ml-2 gap-3 ms-2" *ngIf="!isAuthenticated">
           <a class="btn btn-signIn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
@@ -87,6 +94,8 @@
 
           <!-- Profile dropdown can be added here -->
         </div>
+
+        
       </div>
     </div>
   </div>

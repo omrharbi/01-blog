@@ -13,7 +13,7 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 import { apiUrl } from '../../core/constant/constante';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { PopUp } from '../pop-up/pop-up';
-import { Global } from '../../core/service/serivecLogique/popup/global';
+import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 import { PostService } from '../../core/service/servicesAPIREST/posts/post-service';
 
 @Component({
@@ -29,9 +29,7 @@ export class Comment {
     private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router
-    ,
-    private postService: PostService,
-    private sharedService: SharedServicePost,
+    , 
     private global: Global
   ) { }
   commentResponse?: CommentResponse;
@@ -117,11 +115,14 @@ export class Comment {
   toggleLikePost(commentId: string, comment: CommentResponse) {
     this.like.toggleLikeComment(commentId, comment);
   }
-  popUp(commentId: string) {
-    console.log(commentId);
+  OnPopUp(isInside: boolean, commentId: string) {
+    if (isInside) {
+      this.showPopUp[commentId] = !this.showPopUp[commentId];
 
-    this.showPopUp[commentId] = !this.showPopUp[commentId];
-    // this.show = !this.show;
+    } else {
+      this.showPopUp[commentId] = false
+
+    }
   }
   delete(id: string) {
     this.commentService.delete(id).subscribe({

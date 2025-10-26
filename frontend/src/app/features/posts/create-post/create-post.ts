@@ -59,7 +59,7 @@ export class CreatePost implements CanComponentDeactivate {
     content: '',
     htmlContent: '',
     excerpt: '',
-    username:"",
+    username: "",
     avatarUser: '',
     medias: [],
     tags: [],
@@ -78,9 +78,8 @@ export class CreatePost implements CanComponentDeactivate {
   isEdit: boolean = false;
   showtitle = '';
   canDeactivate(): boolean {
-    console.log('Clearing files...');
     this.uploadImage.clearFiles();
-    return true; // Allow navigation
+    return true;
   }
   ngOnInit(): void {
     // this.uploadImage.clearFiles()
@@ -145,7 +144,7 @@ export class CreatePost implements CanComponentDeactivate {
     };
 
     if (this.isEdit) {
- 
+
       this.postService.editPost(postRequest, this.postData.id).subscribe({
         next: (response) => {
           this.sharedServicePost.setNewPost(response.data);

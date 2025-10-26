@@ -28,6 +28,8 @@ import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-ser
 
     this.postDatashard.posts$.subscribe(posts => this.posts = posts);
     this.postservice.getAllPost().subscribe(res => {
+      // console.log(res);
+      
       this.posts = res.data;
       this.postDatashard.setPosts(res.data); 
     });

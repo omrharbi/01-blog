@@ -8,7 +8,7 @@ import { PostService } from '../../core/service/servicesAPIREST/posts/post-servi
 import { SharedServicePost } from '../../core/service/serivecLogique/shared-service/shared-service-post';
 import { Home } from '../home/home/home';
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
-import { Global } from '../../core/service/serivecLogique/popup/global';
+import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 
 @Component({
   selector: 'app-pop-up',
@@ -31,8 +31,6 @@ export class PopUp {
   @Input() post!: PostResponse;
   @Input() comment!: CommentResponse;
   ngOnInit() {
-    // console.log(this.comment.id, "******");
-
     this.isAuthenticated = this.auth.isAuthenticated();
   }
   isEdit: boolean = false;
@@ -47,7 +45,6 @@ export class PopUp {
   }
 
   onDelete() {
-
     if (this.isComment === true) {
       this.global.sharedData.emit({ type: 'Deletecomment', data: this.comment });
     } else {

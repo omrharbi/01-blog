@@ -49,7 +49,7 @@ public class JwtAuthenticationEntryPoint {
                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))   
                 .addFilterBefore(filer, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

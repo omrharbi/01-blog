@@ -85,14 +85,14 @@
                 </div>
 
                 <!-- Tags -->
-                 <div class="skills d-flex ">
+                <div class="skills d-flex ">
 
-                     <ng-container *ngFor="let skl of userProfile.skills ">
-                         <div class="d-flex flex-wrap gap-2 mb-4 p-1">
-                             <span class="tag">{{skl}}</span>
-                         </div>
-                     </ng-container>
-                 </div>
+                    <ng-container *ngFor="let skl of userProfile.skills ">
+                        <div class="d-flex flex-wrap gap-2 mb-4 p-1">
+                            <span class="tag">{{skl}}</span>
+                        </div>
+                    </ng-container>
+                </div>
 
             </div>
 
@@ -195,7 +195,8 @@
                                                     </span>
                                                 </button>
                                                 <a class="btn btn-link text-muted text-decoration-none p-0 d-flex align-items-center gap-2"
-                                                    href="/post/1#comments">
+                                                    [queryParams]="{ scrollTo: 'comments' }"
+                                                    routerLink="/comments/{{p.id}}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
                                                         <path

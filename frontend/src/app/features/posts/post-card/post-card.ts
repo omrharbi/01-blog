@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { apiUrl } from '../../../core/constant/constante';
 import { PopUp } from '../../pop-up/pop-up';
@@ -8,9 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
 import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
-import { Global } from '../../../core/service/serivecLogique/popup/global';
+import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
 import { Login } from '../../auth/login/login';
+import { flatMap } from 'rxjs';
 
 @Component({
   selector: 'app-post-card',
@@ -22,7 +23,7 @@ export class PostCard {
   constructor(private auth: AuthService, private route: ActivatedRoute, private sharedService: SharedServicePost, private router: Router
     , private like: likesServiceLogique,
     private global: Global,
-     private postService: PostService,
+    private postService: PostService,
   ) { }
   apiUrl = apiUrl
 
@@ -53,12 +54,25 @@ export class PostCard {
   get isOwner(): boolean {
     return this.isPostOwner(this.post);
   }
-  popUp() {
-    this.isPostOwner(this.post);
-    this.show = !this.show;
-    this.editPost.emit({ post: this.post });
+
+
+
+  OnPopUp(isInside: boolean) {
+ 
+    if (isInside) {
+      this.isPostOwner(this.post);
+      this.show = !this.show;
+      this.editPost.emit({ post: this.post });
+    } else {
+      this.show = false;;
+    }
+  }
+  closePopUp() {
+    // this.show = false;
+
   }
   ngOnInit() {
+    // this.show=false
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'post') {
         this.onEditPost(event.data);

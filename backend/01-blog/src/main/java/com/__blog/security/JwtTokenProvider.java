@@ -121,9 +121,9 @@ public class JwtTokenProvider {
     public Boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .setSigningKey(generateKey())
+                    .verifyWith(generateKey())
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;

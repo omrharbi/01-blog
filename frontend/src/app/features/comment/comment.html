@@ -65,7 +65,9 @@
                                             <div class="position-relative d-inline-block">
                                                 <button
                                                     class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle"
-                                                    style="width: 40px; height: 40px;" (click)="popUp(comment.id)"><i
+                                                    style="width: 40px; height: 40px;" 
+                                                    (clickedInside)="OnPopUp($event, comment.id)"  appDiractiveEvenet
+                                                    ><i
                                                         class="material-icons"
                                                         style="font-size: 16px;">more_horiz</i></button>
 
