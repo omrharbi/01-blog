@@ -48,13 +48,7 @@ export class Home {
 
   }
   OnPopUp(isInside: boolean) {
-    console.log(isInside,"---");
-    
     if (!isInside) {
-
-      // this.show = !this.show;
-      // this.editPost.emit({ post: this.post });
-
       this.isNotificated = false;;
     }
   }
