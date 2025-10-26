@@ -1,10 +1,12 @@
 package com.__blog.Component;
 
+import org.springframework.stereotype.Component;
+
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.NotificationResponse;
 import com.__blog.model.entity.Notification;
 import com.__blog.model.entity.User;
-
+@Component
 public class NotificationMapper {
 
     public NotificationResponse ConvertToDtoNotification(Notification notif) {

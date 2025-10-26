@@ -69,7 +69,7 @@ export class Profile {
         console.log(respone, 'usrename ');
         this.userProfile = respone.data;
         if (respone.status === false && respone.error != null) {
-          this.showMessage.showError(respone.error, false);
+          // this.showMessage.showError(respone.error, false);
         }
       },
       error: (error) => {

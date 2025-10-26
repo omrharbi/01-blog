@@ -157,7 +157,7 @@ export class CreatePost implements CanComponentDeactivate {
         next: (response) => {
           this.toasterService.success("create Posts Success");
           this.sharedServicePost.setNewPost(response.data);
-          // this.router.navigate(['/home']);
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('error to save post', error);
