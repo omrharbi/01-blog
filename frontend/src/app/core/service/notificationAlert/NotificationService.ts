@@ -10,7 +10,8 @@ import { AuthService } from "../servicesAPIREST/auth/auth-service";
 })
 
 export class NotificationService {
-    constructor(private dialog: MatDialog, private router: Router, private authService: AuthService) { }
+    constructor(private dialog: MatDialog, private router: Router,
+         private authService: AuthService) { }
 
     showError(message: string, redirectToLogin: boolean = false) {
         const dialogRef = this.dialog.open(NotificationDialog, {

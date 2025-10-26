@@ -22,6 +22,7 @@ import { PreviewService } from '../../../core/service/serivecLogique/preview/pre
 import { PostResponse, Tags } from '../../../core/models/post/postResponse';
 import { apiUrl } from '../../../core/constant/constante';
 import { CanComponentDeactivate } from '../../../core/models/CanComponentDeactivate/CanComponentDeactivate';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-post',
@@ -38,7 +39,8 @@ export class CreatePost implements CanComponentDeactivate {
     private uploadImage: UploadImage,
     private postService: PostService,
     private images: Uploadimages,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toasterService: ToastrService
   ) { }
 
   previewMode = false;
@@ -117,6 +119,8 @@ export class CreatePost implements CanComponentDeactivate {
         this.submitPostData(uploadedMedias);
       },
       error: (error) => {
+           this.toasterService.error(error);
+
         console.log('error uploading images', error);
       }
     });
@@ -126,14 +130,6 @@ export class CreatePost implements CanComponentDeactivate {
   private submitPostData(allMedias: any[]) {
     const contentWithoutHTML = this.removeImage(this.content);
     const contenHtml = this.removeSrcImage(this.content);
-
-    // const finalMedias = allMedias.map((media, index) => ({
-    //   ...media,
-    //   displayOrder: index 
-    // }));
-
-    console.log("find all media ", allMedias);
-
     const postRequest: PostRequest = {
       title: this.title,
       excerpt: this.excerpt,
@@ -148,17 +144,20 @@ export class CreatePost implements CanComponentDeactivate {
       this.postService.editPost(postRequest, this.postData.id).subscribe({
         next: (response) => {
           this.sharedServicePost.setNewPost(response.data);
+          this.toasterService.success("Edite Posts Posts Success");
           this.router.navigate(['/home']);
         },
         error: (error) => {
+           this.toasterService.error(error);
           console.error('error to update post', error);
         }
       });
     } else {
       this.postService.createPosts(postRequest).subscribe({
         next: (response) => {
+          this.toasterService.success("create Posts Success");
           this.sharedServicePost.setNewPost(response.data);
-          this.router.navigate(['/home']);
+          // this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('error to save post', error);

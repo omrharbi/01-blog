@@ -5,19 +5,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MarkdownModule } from 'ngx-markdown';
 import { AuthService } from './core/service/servicesAPIREST/auth/auth-service';
 import { MatDialogModule } from '@angular/material/dialog';
-  
+import { provideToastr, ToastrModule, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-root',
-   standalone: true,
-  imports: [RouterOutlet, MatSlideToggleModule,MatIconModule,MarkdownModule,MatDialogModule],
+  standalone: true,
+  imports: [RouterOutlet,
+    MatSlideToggleModule, MatIconModule, MarkdownModule, MatDialogModule,
+
+  ], 
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  
+
 })
 export class App {
- constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private toastr: ToastrService) { }
 
   ngOnInit() {
-     this.authService.isLoggedIn();
+    this.authService.isLoggedIn();
   }
 }

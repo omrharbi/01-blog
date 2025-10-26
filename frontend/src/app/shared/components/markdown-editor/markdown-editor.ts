@@ -54,9 +54,8 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
     });
   }
 
-  /**
-   * Apply text formatting (bold, italic, etc.)
-   */
+
+ 
   applyFormat(
     prefix: string,
     suffix: string,
@@ -114,7 +113,7 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
   onVideoSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-
+  
     if (!file) {
       console.log('No video file selected');
       return;
