@@ -38,6 +38,7 @@ public class JwtAuthenticationEntryPoint {
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight
                 .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/ws/**").permitAll()
                 // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
@@ -45,6 +46,7 @@ public class JwtAuthenticationEntryPoint {
                 .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/posts/getallPost").permitAll()
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
+
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()

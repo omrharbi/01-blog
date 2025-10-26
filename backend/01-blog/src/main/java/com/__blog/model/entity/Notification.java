@@ -3,8 +3,12 @@ package com.__blog.model.entity;
 import java.util.Date;
 import java.util.UUID;
 
+import com.__blog.model.enums.Notifications;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -22,16 +26,16 @@ public class Notification {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 // Type of notification (e.g., SUBSCRIPTION, MESSAGE)
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private String type;
+    private Notifications type;
 
     @Column(name = "status")
-    private boolean status;
+    private boolean status; // false = unread, true = read
 
     @Column(name = "created_at", nullable = false)
     private Date create_at = new Date();
 
- 
     @ManyToOne
     @JoinColumn(name = "receiver", nullable = false)
     private User receiver;
@@ -39,5 +43,6 @@ public class Notification {
     @ManyToOne
     @JoinColumn(name = "trigger_user_id", nullable = false)
     private User triggerUser;
-
+    @Column(name = "message", length = 255)
+    private String message;
 }

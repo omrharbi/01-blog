@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.__blog.Component.UserMapper;
+import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.Subscription;
 import com.__blog.model.entity.User;
+import com.__blog.model.enums.Notifications;
 import com.__blog.repository.SubscriptionRepository;
 import com.__blog.repository.UserRepository;
 import com.__blog.util.ApiResponse;
@@ -32,6 +34,8 @@ public class SubscriptionService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationService notificationService;
 
     public ApiResponse<List<UserResponse>> getUsersIFollow(UUID userid) {
         List<Subscription> userSubscriptions = subscriptionRepository.findBySubscriberUser_Id(userid);
@@ -136,6 +140,15 @@ public class SubscriptionService {
 
             subscriptionRepository.save(subscription);
 
+            NotificationRequest request = NotificationRequest.builder()
+                    .type(Notifications.FOLLOW)
+                    .triggerUserId(userid)
+                    .receiverId(subscribedTo.get().getId())
+                    .message(subscriber.get().getUsername() + " started following you.")
+                    .build();
+
+            notificationService.sendNotification(subscribedTo.get().getId(), request);
+            notificationService.saveNotification(request, subscribedTo.get(), subscriber.get());
             return ApiResponse.< UserResponse>builder()
                     .status(true)
                     .message("Successfully followed " + subscribedTo.get().getUsername())
