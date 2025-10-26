@@ -5,10 +5,11 @@ import { Materaile } from '../../../modules/materaile-module';
 import { routes } from '../../../app.routes';
 import { Router } from '@angular/router';
 import { NotificationPopup } from '../../../features/notifications/notifications';
+import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 
 @Component({
   selector: 'app-header',
-  imports: [Materaile, NotificationPopup],
+  imports: [Materaile],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -17,7 +18,7 @@ export class Header {
   authService = inject(AuthService);
   router = inject(Router);
   themeService = inject(ThemeService);
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private global: Global) { }
   isAuthenticated: boolean = false;
   isNotificated = false;
   ngOnInit() {
@@ -42,14 +43,15 @@ export class Header {
     this.authService.logout();
     window.location.href = '/';
   }
-
-  notification(isNotification: boolean) {
-    if (isNotification) {
-      // console.log("jhkjlhflkjqhwlkjfew");
-      
-      this.isNotificated = !this.isNotificated
-    } else {
-      this.isNotificated = false
-    }
+  // onEdit() {
+  //   if (this.isComment === true) {
+  //     this.global.sharedData.emit({ type: 'comment', data: this.comment });
+  //   } else {
+  //     this.global.sharedData.emit({ type: 'post', data: this.post });
+  //   }
+  // }
+  notification() {
+    this.isNotificated = !this.isNotificated
+    this.global.sharedData.emit({ type: 'notification', data: this.isNotificated });
   }
 }

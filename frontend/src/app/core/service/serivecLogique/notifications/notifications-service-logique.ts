@@ -51,8 +51,6 @@ export class NotificationsServiceLogique {
   ];
 
   loadingNotifications() {
-    // this.unreadCount.next(this.unreadNotificationCount())
-    // this.notificationsSubject.next(this.notifications)
     this.allNotifications()
     this.unreadNotificationCount()
   }
@@ -61,8 +59,7 @@ export class NotificationsServiceLogique {
   }
   unreadNotificationCount() {
     let numbers = this.notifications.filter(n => !n.read).length;
-    // console.log(numbers,"-----------");
-    
+
     this.unreadCountSubject.next(numbers)
 
   }

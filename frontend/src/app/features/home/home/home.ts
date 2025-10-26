@@ -8,49 +8,57 @@ import { SharedServicePost } from '../../../core/service/serivecLogique/shared-s
 import { Route, Router } from '@angular/router';
 import { use } from 'marked';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
+import { NotificationPopup } from '../../notifications/notifications';
+import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CardShare, PostCard, Materaile],
+  imports: [CardShare, PostCard, Materaile, NotificationPopup],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
-  export class Home {
-    posts: PostResponse[] = [];
-  constructor(private postservice: 
-    PostService, private postDatashard: 
-    SharedServicePost, private auth: AuthService) { }
+export class Home {
+  posts: PostResponse[] = [];
+  constructor(private postservice:
+    PostService, private postDatashard:
+      SharedServicePost, private auth: AuthService, private global: Global) { }
   isAuthenticated: boolean = false;
-
+  isNotificated = false;
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
-
     this.postDatashard.posts$.subscribe(posts => this.posts = posts);
     this.postservice.getAllPost().subscribe(res => {
-      // console.log(res);
-      
       this.posts = res.data;
-      this.postDatashard.setPosts(res.data); 
+      this.postDatashard.setPosts(res.data);
     });
-    // listen for new post coming from create page
     this.postDatashard.newpost$.subscribe(post => {
       if (post) {
         this.updatePostInList(post);
       }
     });
+    this.global.sharedData.subscribe((event) => {
+      if (event.type === "notification") {
 
+        this.isNotificated = event.data;
+
+      }
+
+    })
 
   }
-  // isAuthenticated(): boolean {
-  //   console.log(this.auth.isLoggedIn(), "******");
+  OnPopUp(isInside: boolean) {
+    console.log(isInside,"---");
+    
+    if (!isInside) {
 
-  //   if (!this.auth.isLoggedIn()) {
-  //     return false;
-  //   }
-  //   return true
-  // }
- 
+      // this.show = !this.show;
+      // this.editPost.emit({ post: this.post });
+
+      this.isNotificated = false;;
+    }
+  }
+
   private updatePostInList(updatedPost: PostResponse) {
     this.posts.unshift(updatedPost);
     this.posts = [...this.posts]; // Trigger change detection

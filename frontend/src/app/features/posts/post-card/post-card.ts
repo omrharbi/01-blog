@@ -16,7 +16,7 @@ import { flatMap } from 'rxjs';
 @Component({
   selector: 'app-post-card',
   imports: [Materaile, PopUp, TimeAgoPipe],
-  templateUrl: './post-card.html',
+  templateUrl:'./post-card.html',
   styleUrl: './post-card.scss'
 })
 export class PostCard {
@@ -67,10 +67,7 @@ export class PostCard {
       this.show = false;;
     }
   }
-  closePopUp() {
-    // this.show = false;
 
-  }
   ngOnInit() {
     // this.show=false
     this.global.sharedData.subscribe((event) => {
@@ -104,8 +101,6 @@ export class PostCard {
     this.like.toggleLikePost(postId, post);
   }
 
-  deletePostLocally(postId: string) {
-  }
-
+  
 
 }
