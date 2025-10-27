@@ -147,7 +147,7 @@ public class SubscriptionService {
                     .message(subscriber.get().getUsername() + " started following you.")
                     .build();
 
-            notificationService.sendNotification(subscribedTo.get(), request);
+            notificationService.sendNotification(subscribedTo.get().getId(), request);
             notificationService.saveNotification(request, subscribedTo.get(), subscriber.get());
             return ApiResponse.< UserResponse>builder()
                     .status(true)

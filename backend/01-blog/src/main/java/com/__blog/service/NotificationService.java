@@ -1,5 +1,7 @@
 package com.__blog.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,10 @@ public class NotificationService {
     @Autowired
     private NotificationMapper notificationMapper;
 
-    public void sendNotification(User user, NotificationRequest notification) {
-        log.info("Sending Ws notification to {} with payload {}", user.getUsername(), notification);
+    public void sendNotification(UUID userId, NotificationRequest notification) {
+        log.info("Sending Ws notification to {} with payload {}", userId, notification);
         messagingTemplate.convertAndSendToUser(
-                user.getUsername(),
+                userId.toString(),
                 "/notification",
                 notification
         );
