@@ -4,12 +4,13 @@ import { Notification } from '../../../models/Notification/Notification';
 import SockJS from 'sockjs-client';
 import * as Stomp from "stompjs"
 import { token } from '../../../constant/constante';
+import { JwtService } from '../../JWT/jwt-service';
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsServiceLogique {
 
-
+  constructor(private jwt: JwtService) { }
   private notificationsSubject = new BehaviorSubject<any>(null);
   notifications$ = this.notificationsSubject.asObservable();
   private notificationsSubscription: any;
@@ -86,34 +87,39 @@ export class NotificationsServiceLogique {
     this.stompClient.debug = (str: string) => {
       console.log('🔍 STOMP:', str);
     };
-    this.stompClient.connect({ 'Authorization': `Bearer ${token}` },
-      (frame: any) => {
-        console.log('✅ WebSocket connected:', frame);
-        console.log('✅ WebSocket connected!');
-        console.log('👤 Frame headers:', frame.headers);
-        console.log('👤 Authenticated user:', frame.headers); //
+    if (token) {
 
-        this.notificationsSubscription = this.stompClient.subscribe(
-          `/user/notification`,
-          (message: any) => {
-            // ✅ These logs will ONLY run when a message arrives
-            console.log('📨 ===== MESSAGE RECEIVED =====');
-            console.log('📨 Raw message:', message);
-            console.log('📨 Message body:', message.body);
-            try {
-              const notification = JSON.parse(message.body);
-              console.log('📨 Parsed notification:', notification);
-            } catch (e) {
-              console.log('📨 Message is not JSON:', message.body);
+      const currentUserId = this.jwt.getUUIDFromToken(token); // Replace with actual user ID
+
+      this.stompClient.connect({ 'Authorization': `Bearer ${token}` },
+        (frame: any) => {
+          console.log('✅ WebSocket connected:', frame);
+          console.log('✅ WebSocket connected!');
+          console.log('👤 Frame headers:', frame.headers);
+          console.log('👤 Authenticated user:', frame.headers); //
+
+          this.notificationsSubscription = this.stompClient.subscribe(
+            `/topic/user.${currentUserId}.notification`,
+            (message: any) => {
+              // ✅ These logs will ONLY run when a message arrives
+              console.log('📨 ===== MESSAGE RECEIVED =====');
+              console.log('📨 Raw message:', message);
+              console.log('📨 Message body:', message.body);
+              try {
+                const notification = JSON.parse(message.body);
+                console.log('📨 Parsed notification:', notification);
+              } catch (e) {
+                console.log('📨 Message is not JSON:', message.body);
+              }
             }
-          }
-        )
-          , (error: any) => {
-            console.error('❌ WebSocket error:', error);
-          }
-      }
+          )
+            , (error: any) => {
+              console.error('❌ WebSocket error:', error);
+            }
+        }
 
-    )
+      )
+    }
   }
 
   disconnect(): void {

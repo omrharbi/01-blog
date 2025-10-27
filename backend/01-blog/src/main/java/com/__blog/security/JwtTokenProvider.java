@@ -19,7 +19,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -113,11 +112,6 @@ public class JwtTokenProvider {
         }
     }
 
-    // public String generateRefreshToken(UserDetails userDetails) {
-    //     Map<String, Object> claims = new HashMap<>();
-    //     return createToken(claims, userDetails.getUsername(), jwtRefreshExpiration);
-    // }
-
     public Boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -144,11 +138,11 @@ public class JwtTokenProvider {
 
     private String createToken(Map<String, Object> claims, String subject, long expiration) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(generateKey(), SignatureAlgorithm.HS256)
+                .claims(claims)
+                .subject(subject)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(generateKey(), Jwts.SIG.HS256)
                 .compact();
     }
 

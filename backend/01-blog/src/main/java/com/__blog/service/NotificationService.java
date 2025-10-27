@@ -28,13 +28,23 @@ public class NotificationService {
     @Autowired
     private NotificationMapper notificationMapper;
 
-    public void sendNotification(UUID userId, NotificationRequest notification) {
-        log.info("Sending Ws notification to {} with payload {}", userId, notification);
-        messagingTemplate.convertAndSendToUser(
-                userId.toString(),
-                "/notification",
-                notification
-        );
+    public void sendNotification(UUID username, NotificationRequest notification) {
+        try {
+              String destination = "/topic/user." + username + ".notification";
+
+            log.info("🔔 SENDING NOTIFICATION:");
+            log.info("🔔 To user ID: {}", username);
+            log.info("🔔 Destination: {}", destination);
+            log.info("🔔 Payload: {}", notification);
+
+            // Try both methods for testing
+            messagingTemplate.convertAndSend(destination, notification);
+
+            log.info("✅ Notification sent via convertAndSendToUser");
+
+        } catch (Exception e) {
+            log.error("❌ Error sending notification: {}", e.getMessage(), e);
+        }
     }
 
     public void saveNotification(NotificationRequest notification, User receiver, User triggerUser) {
