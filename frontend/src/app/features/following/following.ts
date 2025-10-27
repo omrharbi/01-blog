@@ -6,6 +6,7 @@ import { apiUrl } from '../../core/constant/constante';
 import { use } from 'marked';
 import { FollowingLogiqueService } from '../../core/service/serivecLogique/following/following-logique-service';
 import { Subscription } from 'rxjs';
+import { NotificationsServiceLogique } from '../../core/service/serivecLogique/notifications/notifications-service-logique';
 
 @Component({
   selector: 'app-following',
@@ -16,7 +17,7 @@ import { Subscription } from 'rxjs';
 export class Following {
 
   constructor(private users: FollowingService,
-
+    private notifLogique: NotificationsServiceLogique,
     private followingLogic: FollowingLogiqueService
   ) { }
   private subscriptions = new Subscription();
@@ -60,6 +61,7 @@ export class Following {
   }
   follow(id: string) {
     this.followingLogic.follow(id)
+    // this.notifLogique.connect();
   }
   Unfollow(id: string) {
     this.followingLogic.Unfollow(id);

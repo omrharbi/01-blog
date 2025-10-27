@@ -25,8 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
 @RequiredArgsConstructor
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
-
-    @Override
+     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/user");
         registry.setApplicationDestinationPrefixes("/app");
@@ -45,6 +44,11 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
                 .withSockJS();
     }
 
+    // @Override
+    // public void configureClientInboundChannel(ChannelRegistration registration) {
+    //     registration.interceptors(webSocketAuthInterceptor);  // ← ADD THIS!
+    // }
+
     @Override
     public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
         DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
@@ -54,7 +58,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
         converter.setContentTypeResolver(resolver);
         messageConverters.add(converter);
 
-        return false; 
+        return false;
     }
 
 }

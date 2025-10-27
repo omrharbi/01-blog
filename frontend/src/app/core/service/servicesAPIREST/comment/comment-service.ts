@@ -24,7 +24,7 @@ export class CommentService {
 
 
   getComments(id: string): Observable<ApiResponse<CommentResponse[]>> {
-    console.log(id, "******************************");
+    // console.log(id, "******************************");
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,

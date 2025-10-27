@@ -27,8 +27,7 @@ export class Sidebar {
     if (this.auth.hasRole('ADMIN')) {
       this.IsAdmin = true;
     } 
-    // console.log(this.auth.getCurrentUserRole (),"**************");
-
+ 
     // this.isAuthenticated = this.auth.is();
     if (this.isAuthenticated) {
       this.followingLogic.loadingData();

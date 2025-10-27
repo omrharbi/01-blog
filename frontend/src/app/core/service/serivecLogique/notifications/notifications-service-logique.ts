@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Notification } from '../../../models/Notification/Notification';
-import { Client, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import * as Stomp from "stompjs"
 import { token } from '../../../constant/constante';
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class NotificationsServiceLogique {
 
   private notificationsSubject = new BehaviorSubject<any>(null);
   notifications$ = this.notificationsSubject.asObservable();
-
+  private notificationsSubscription: any;
 
   private unreadCountSubject = new BehaviorSubject<number>(0);
   unreadCount$ = this.unreadCountSubject.asObservable();
@@ -78,46 +78,49 @@ export class NotificationsServiceLogique {
   markAllAsRead(): void {
     this.notifications.forEach(n => n.read = true)
   }
-  private stompClient?: Client;
+  private stompClient?: any = null;
   private wsUrl = 'http://localhost:9090/ws';
-  connect(userId: string): void {
-    // const socket = new SockJS(this.wsUrl);
-    this.stompClient = new Client({
-      webSocketFactory: () => new SockJS(this.wsUrl),
-      connectHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-      onConnect: () => {
-        console.log('✅ Connected to WebSocket');
-
-        this.stompClient.subscribe(
-          `/user/${userId}/notification`,
-          (message) => {
-            const notif = JSON.parse(message.body);
-            console.log('📩 New notification:', notif);
-
-            const current = this.notificationsSubject.value;
-            this.notificationsSubject.next([notif, ...current]);
-          }
-        );
-      },
-
-
-    })
-
-    this.stompClient.onStompError = (error) => {
-      console.error('❌ WebSocket error', error);
+  connect(): void {
+    const socket = new SockJS(this.wsUrl);
+    this.stompClient = Stomp.over(socket)
+    this.stompClient.debug = (str: string) => {
+      console.log('🔍 STOMP:', str);
     };
+    this.stompClient.connect({ 'Authorization': `Bearer ${token}` },
+      (frame: any) => {
+        console.log('✅ WebSocket connected:', frame);
+        console.log('✅ WebSocket connected!');
+        console.log('👤 Frame headers:', frame.headers);
+        console.log('👤 Authenticated user:', frame.headers); //
 
-    // Activate the connection
-    this.stompClient.activate();
+        this.notificationsSubscription = this.stompClient.subscribe(
+          `/user/notification`,
+          (message: any) => {
+            // ✅ These logs will ONLY run when a message arrives
+            console.log('📨 ===== MESSAGE RECEIVED =====');
+            console.log('📨 Raw message:', message);
+            console.log('📨 Message body:', message.body);
+            try {
+              const notification = JSON.parse(message.body);
+              console.log('📨 Parsed notification:', notification);
+            } catch (e) {
+              console.log('📨 Message is not JSON:', message.body);
+            }
+          }
+        )
+          , (error: any) => {
+            console.error('❌ WebSocket error:', error);
+          }
+      }
+
+    )
   }
 
   disconnect(): void {
-    if (this.stompClient && this.stompClient.connected) {
-      this.stompClient.deactivate();
-      console.log('🔌 Disconnected');
-    }
+    // if (this.stompClient && this.stompClient.connected) {
+    //   this.stompClient.deactivate();
+    //   console.log('🔌 Disconnected');
+    // }
   }
 
   getNotifications() {

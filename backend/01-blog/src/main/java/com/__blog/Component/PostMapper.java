@@ -78,8 +78,7 @@ public class PostMapper {
         if (firstImage.isPresent()) {
             image = firstImage.get().getFilePath();
         }
-        System.err.println(post.getUser().getAvatarUrl()+"**************");
-        PostResponse postResponse = PostResponse.builder()
+         PostResponse postResponse = PostResponse.builder()
                 .id(post.getId())
                 .uuid_user(post.getUser().getId())
                 .firstImage(image)
