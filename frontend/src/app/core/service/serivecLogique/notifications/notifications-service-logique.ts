@@ -70,14 +70,10 @@ export class NotificationsServiceLogique {
       next: response => {
         this.notifications = response.data;
         this.notificationsSubject.next(this.notifications)
-        // if (response.data)
-        // this.checkIsHasNotificationNotRead()
+
       }
     })
   }
-  // checkIsHasNotificationNotRead() {
-
-  // }
   connect(): void {
     const socket = new SockJS(this.wsUrl);
     this.stompClient = Stomp.over(socket)
@@ -96,6 +92,8 @@ export class NotificationsServiceLogique {
               try {
                 const notifications: NotificationResponse = JSON.parse(message.body);
                 this.notificationIconsSubject.next(true);
+                // console.log(message);
+
                 if (notifications) {
                   const newNotification: NotificationResponse = {
                     id: notifications.id,

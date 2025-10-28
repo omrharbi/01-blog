@@ -48,15 +48,12 @@
           </button>
 
           <!-- Notifications -->
-          <button type="button"
-          (click)="notification()"
-            class="  position-relative 
+          <button type="button"  (click)="toggleNotification($event)" class="  position-relative 
             btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0
             
             ">
-           <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
-            <span
-            *ngIf="hasUnreadNotifications"
+            <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
+            <span *ngIf="hasUnreadNotifications"
               class="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-light rounded-circle"></span>
           </button>
 

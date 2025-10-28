@@ -54,7 +54,7 @@ public class CommentService {
                     .type(Notifications.POST_COMMENTED)
                     .triggerUserId(userPrincipal.getId())
                     .receiverId(post.get().getId())
-                    .message(user.get().getUsername() + " started following you.")
+                    .message(user.get().getUsername() + "Comment for your Post.")
                     .build();
             notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(), user.get());
             commentRespository.save(comment);
@@ -79,7 +79,8 @@ public class CommentService {
         if (AllCommentByPost != null) {
             List<CommentResponse> commentResponses = new ArrayList<>();
             for (var comment : AllCommentByPost) {
-                CommentResponse commentResponse = commentMapper.convertToResponseComment(comment, userPrincipal.getId());
+                CommentResponse commentResponse = commentMapper.convertToResponseComment(comment,
+                        userPrincipal.getId());
                 if (commentResponse.getParentCommentId() == null) {
                 }
                 commentResponses.add(commentResponse);
@@ -99,7 +100,7 @@ public class CommentService {
     }
 
     public ApiResponse<CommentResponse> editPost(UUID commentId, CommentRequest commentRequest, UUID userId) {
-        // var 
+        // var
         var findcomment = commentRespository.findById(commentId);
         Optional<Post> post = postRepository.findById(commentRequest.getPostId());
         if (findcomment.isPresent() && post.isPresent()) {
@@ -123,7 +124,7 @@ public class CommentService {
     }
 
     public ApiResponse<CommentResponse> delete(UUID commentId) {
-        // var 
+        // var
         var findcomment = commentRespository.findById(commentId);
         if (findcomment.isPresent()) {
             commentRespository.deleteById(commentId);

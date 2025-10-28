@@ -94,8 +94,8 @@
       </div>
 
     </div>
-    <ng-container *ngIf="isNotificated" (clickedInside)="OnPopUp($event)"  appDiractiveEvenet>
+    <div *ngIf="isNotificated" appClickOutside (clickOutside)="closeNotification()">
       <app-notifications></app-notifications>
-    </ng-container>
+    </div>
   </div>
 </main>

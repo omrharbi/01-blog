@@ -26,17 +26,18 @@ export class Header implements OnInit, OnDestroy {
   hasUnreadNotifications = false;
   // private subscription?: Subscription;
   ngOnInit() {
-    // console.log(this.notifLogique.checkIsNotAllAsRead(),"-----------------");
     this.notifLogique.loadingNotifications();
-    // if (this.notifLogique.checkIsNotAllAsRead()) {
-
-    //   this.hasUnreadNotifications = true
-    // }
     this.notificationIcons.notificationIcons$.subscribe({
       next: isNotification => {
         this.hasUnreadNotifications = isNotification
       }
     })
+
+    this.global.sharedData.subscribe((event) => {
+      if (event.type === "notification") {
+        this.isNotificated = event.data;
+      }
+    });
     this.isAuthenticated = this.auth.isLoggedIn();
   }
   onSearch() {
@@ -60,15 +61,15 @@ export class Header implements OnInit, OnDestroy {
     this.authService.logout();
     window.location.href = '/';
   }
-  // onEdit() {
-  //   if (this.isComment === true) {
-  //     this.global.sharedData.emit({ type: 'comment', data: this.comment });
-  //   } else {
-  //     this.global.sharedData.emit({ type: 'post', data: this.post });
-  //   }
-  // }
-  notification() {
+
+  toggleNotification(event: MouseEvent) {
+    // event.stopPropagation();
     this.isNotificated = !this.isNotificated
-    this.global.sharedData.emit({ type: 'notification', data: this.isNotificated });
+    this.global.sharedData.emit({
+      type: 'notification',
+      data: this.isNotificated
+    });
   }
+
+
 }

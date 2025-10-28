@@ -28,7 +28,7 @@ export class Home {
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
     this.postDatashard.posts$.subscribe(posts => this.posts = posts);
-    
+
     this.postservice.getAllPost().subscribe(res => {
       this.posts = res.data;
       this.postDatashard.setPosts(res.data);
@@ -46,12 +46,8 @@ export class Home {
     })
 
   }
-  OnPopUp(isInside: boolean) {
-    // console.log(isInside,"********");
-
-    if (!isInside) {
-      this.isNotificated = false;;
-    }
+  closeNotification(): void {
+    this.isNotificated = false;
   }
 
   private updatePostInList(updatedPost: PostResponse) {

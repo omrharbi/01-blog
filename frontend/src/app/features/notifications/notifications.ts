@@ -22,14 +22,12 @@ export class NotificationPopup {
     this.notifLogique.loadingNotifications();
     this.subscriptions.add(
       this.notifLogique.notifications$.subscribe(notif => {
-        // console.log(notif);
-        
         this.notifications = notif
       })
     )
     this.subscriptions.add(
       this.notifLogique.unreadCount$.subscribe(count => {
-        console.log(count, "notiificatin");
+        // console.log(count, "notiificatin");
         this.unreadCount = count
       })
 
