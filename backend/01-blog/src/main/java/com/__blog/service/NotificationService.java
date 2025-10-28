@@ -1,5 +1,6 @@
 package com.__blog.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,14 +56,15 @@ public class NotificationService {
         List<Notification> notificationRequest = notificationRepository
                 .findByReceiverIdOrderByCreatedAtDesc(user.getId());
         if (notificationRequest != null) {
+            List<NotificationResponse> notification = new ArrayList<>();
             for (Notification elem : notificationRequest) {
-                var  notificationResponse= convertToResponse(elem);
-            }
-            // var convert=convertToResponse()
+                var notificationResponse = notificationMapper.ConvertToDtoNotification(elem);
+                notification.add(notificationResponse);
+            } 
             return ApiResponse.<List<NotificationResponse>>builder()
                     .status(true)
                     .message("notifications")
-                    // .data(notificationRequest)
+                    .data(notification)
                     .build();
         } else {
             return ApiResponse.<List<NotificationResponse>>builder()
@@ -73,16 +75,16 @@ public class NotificationService {
         }
     }
 
-    private NotificationResponse convertToResponse(Notification notification) {
-        return NotificationResponse.builder()
-                .id(notification.getId())
-                .type(notification.getType())
-                .message(notification.getMessage())
-                // .read(notification.getr)
-                .createdAt(notification.getCreatedAt())
-                // .triggerUserId(convertToUserResponse(notification.getTriggerUser()))
-                .build();
-    }
+    // private NotificationResponse convertToResponse(Notification notification) {
+    //     return NotificationResponse.builder()
+    //             .id(notification.getId())
+    //             .type(notification.getType())
+    //             .message(notification.getMessage())
+    //             // .read(notification.getr)
+    //             .createdAt(notification.getCreatedAt())
+    //             // .triggerUserId(convertToUserResponse(notification.getTriggerUser()))
+    //             .build();
+    // }
 
     private UserResponse convertToUserResponse(User user) {
         if (user == null) {
