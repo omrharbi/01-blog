@@ -1,5 +1,6 @@
 package com.__blog.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.__blog.Component.NotificationMapper;
 import com.__blog.model.dto.request.NotificationRequest;
+import com.__blog.model.dto.response.NotificationResponse;
 import com.__blog.model.entity.Notification;
 import com.__blog.model.entity.User;
 import com.__blog.repository.NotificationRepository;
+import com.__blog.util.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +33,7 @@ public class NotificationService {
 
     public void sendNotification(UUID username, NotificationRequest notification) {
         try {
-              String destination = "/topic/user." + username + ".notification";
+            String destination = "/topic/user." + username + ".notification";
             messagingTemplate.convertAndSend(destination, notification);
         } catch (Exception e) {
             log.error("❌ Error sending notification: {}", e.getMessage(), e);
@@ -41,10 +44,22 @@ public class NotificationService {
         Notification notif = notificationMapper.ConvertToEntityNotification(notification, receiver, triggerUser);
         notificationRepository.save(notif);
     }
-    public void getAllNotificationByUser(User user){
-        var notification=notificationRepository.findById(user.getId());
-        if (notification.isPresent()){
 
+    public ApiResponse<List<NotificationResponse>> getAllNotificationByUser(User user) {
+        var notification = notificationRepository.findById(user.getId());
+        if (notification.isPresent()) {
+            List<NotificationResponse> notificationRequest = notificationRepository.findByReceiverId(user.getId());
+            return ApiResponse.<List<NotificationResponse>>builder()
+                    .status(true)
+                    .message("notifications")
+                    .data(notificationRequest)
+                    .build();
+        } else {
+            return ApiResponse.<List<NotificationResponse>>builder()
+                    .status(false)
+                    .message("notifications")
+                    // .data(notificationRequest)
+                    .build();
         }
     }
 }

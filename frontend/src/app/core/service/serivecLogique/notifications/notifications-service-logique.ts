@@ -119,7 +119,7 @@ export class NotificationsServiceLogique {
                     read: false,
                     type: notifications.type,
                     sender: notifications.sender
-                  }                  
+                  }
                   this.toasterService.info(notifications.message, notifications.type)
                   this.addNotification(newNotification);
                   this.showBrowserNotification(newNotification);
@@ -136,6 +136,27 @@ export class NotificationsServiceLogique {
 
       )
     }
+  }
+
+  getNotificationMessage(type: string, message: string): string {
+    switch (type) {
+      case "FOLLOW":
+        return message
+      case "NEW_POST":
+        return message
+      case "POST_LIKED":
+        return message
+      case "POST_COMMENTED":
+        return message
+      case "ADMIN_REPORT_POST":
+        return message
+      case "ADMIN_REPORT_USER":
+        return message
+      case "ADMIN_WARNING":
+        return message
+      default:
+        return 'You have a new notification';
+     }
   }
   private showBrowserNotification(notification: NotificationRequest): void {
     if ('Notification' in window && Notification.permission === 'granted') {
