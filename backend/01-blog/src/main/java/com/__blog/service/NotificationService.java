@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.__blog.Component.NotificationMapper;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.NotificationResponse;
-import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.Notification;
 import com.__blog.model.entity.User;
 import com.__blog.repository.NotificationRepository;
@@ -70,19 +69,5 @@ public class NotificationService {
                     // .data(notificationRequest)
                     .build();
         }
-    }
-
-
-    private UserResponse convertToUserResponse(User user) {
-        if (user == null) {
-            return null;
-        }
-        return UserResponse.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .firstname(user.getFirstname())
-                .lastname(user.getLastname())
-                .avatar(user.getAvatarUrl())
-                .build();
     }
 }
