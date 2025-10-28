@@ -50,9 +50,6 @@ public class NotificationService {
 
     public ApiResponse<List<NotificationResponse>> getAllNotificationByUser(UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
-        // var notification = notificationRepository.findById(user.getId());
-        // log.info("user {}", notification.get().getId());
-        // if (notification.isPresent()) {
         List<Notification> notificationRequest = notificationRepository
                 .findByReceiverIdOrderByCreatedAtDesc(user.getId());
         if (notificationRequest != null) {
@@ -75,16 +72,6 @@ public class NotificationService {
         }
     }
 
-    // private NotificationResponse convertToResponse(Notification notification) {
-    //     return NotificationResponse.builder()
-    //             .id(notification.getId())
-    //             .type(notification.getType())
-    //             .message(notification.getMessage())
-    //             // .read(notification.getr)
-    //             .createdAt(notification.getCreatedAt())
-    //             // .triggerUserId(convertToUserResponse(notification.getTriggerUser()))
-    //             .build();
-    // }
 
     private UserResponse convertToUserResponse(User user) {
         if (user == null) {
