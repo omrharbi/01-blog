@@ -49,6 +49,12 @@ export const environment = {
         // postByID: apiUrl + "api/posts/getPostById/"
     }
 
+    ,
+    notification: {
+        getNotification: apiUrl + "api/notifications/getAllNotifications",
+        // postByID: apiUrl + "api/posts/getPostById/"
+    }
+
 }
 
 export const LocalstorageKey = {

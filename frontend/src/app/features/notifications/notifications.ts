@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Notification } from '../../core/models/Notification/Notification';
 import { Materaile } from '../../modules/materaile-module';
 import { NotificationsServiceLogique } from '../../core/service/serivecLogique/notifications/notifications-service-logique';
 import { Subscription } from 'rxjs';
+import { NotificationRequest } from '../../core/models/Notification/Notification';
 
 @Component({
   selector: 'app-notifications',
@@ -12,12 +12,12 @@ import { Subscription } from 'rxjs';
 })
 export class NotificationPopup {
   isOpen = false;
-  notifications: Notification[] = []
+  notifications: NotificationRequest[] = []
   constructor(private notifLogique: NotificationsServiceLogique) { }
   private subscriptions = new Subscription();
   unreadCount = 0;
   ngOnInit() {
-    
+
     this.notifLogique.loadingNotifications();
     this.subscriptions.add(
       this.notifLogique.notifications$.subscribe(notif => {
@@ -39,7 +39,7 @@ export class NotificationPopup {
     this.isOpen = !this.isOpen;
   }
 
-  markAsRead(id: number): void {
+  markAsRead(id: string): void {
     // const notification = this.notifications.find(n => n.id === id);
     // if (notification) {
     //   notification.read = true;

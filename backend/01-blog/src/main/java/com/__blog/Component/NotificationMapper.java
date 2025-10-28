@@ -17,7 +17,7 @@ public class NotificationMapper {
                 .read(notif.isStatus())
                 .senderUsername(notif.getTriggerUser().getUsername())
                 .senderAvatar(notif.getTriggerUser().getAvatarUrl())
-                .createdAt(notif.getCreate_at())
+                .createdAt(notif.getCreatedAt())
                 .build();
     }
 

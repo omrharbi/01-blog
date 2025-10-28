@@ -33,4 +33,4 @@ build/
 .vscode/
 
 # Ignore Spring Boot application config with secrets
-backend/01-blog/src/main/resources/application.yaml
+# backend/01-blog/src/main/resources/application.yaml

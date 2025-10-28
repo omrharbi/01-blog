@@ -17,5 +17,26 @@
             "username": "root",
             "password": ""
         }
-    ]
+    ],
+    "cSpell.words": [
+        "notif"
+    ],
+    "workbench.editor.autoLockGroups": {
+        "workbench.editor.chatSession": false
+    },
+    "workbench.editor.centeredLayoutAutoResize": true,
+    "workbench.editor.closeEmptyGroups": true,
+    "workbench.editor.customLabels.enabled": true,
+    "workbench.editor.dragToOpenWindow": true,
+    "workbench.editor.decorations.badges": true,
+    "workbench.editor.enablePreview": true,
+    "workbench.editor.enablePreviewFromCodeNavigation": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.editor.focusRecentEditorAfterClose": true,
+    "workbench.editor.highlightModifiedTabs": false,
+    "workbench.editor.historyBasedLanguageDetection": true,
+    "workbench.editor.languageDetection": true,
+    "workbench.editor.mouseBackForwardToNavigate": true,
+    "editor.find.addExtraSpaceOnTop": true,
+    "editor.find.cursorMoveOnType": true
 }
