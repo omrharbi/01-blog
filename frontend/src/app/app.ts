@@ -31,8 +31,7 @@ export class App implements OnInit, OnDestroy {
   private subscription = new Subscription();
   ngOnInit() {
     this.subscription = this.global.sharedData.subscribe((event) => {
-      // console.log(event,"*******************************");
-      if (event.type === "notification") {
+       if (event.type === "notification") {
         this.isNotificated = event.data;
       }
     });

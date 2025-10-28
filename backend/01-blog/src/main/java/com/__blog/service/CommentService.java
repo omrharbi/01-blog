@@ -54,7 +54,7 @@ public class CommentService {
                     .type(Notifications.POST_COMMENTED)
                     .triggerUserId(userPrincipal.getId())
                     .receiverId(post.get().getId())
-                    .message(user.get().getUsername() + "Comment for your Post.")
+                    .message("from " + user.get().getUsername() + " New comment on your post")
                     .build();
             notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(), user.get());
             commentRespository.save(comment);
