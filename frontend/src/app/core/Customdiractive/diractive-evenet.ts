@@ -9,13 +9,12 @@ export class DiractiveEvenet {
   @Output() clickedInside = new EventEmitter<boolean>();
   @HostListener('click', ['$event'])
   handleButtonClick(event: MouseEvent) {
-    event.stopPropagation(); // Prevent event from bubbling to document
+    // console.log("click", this.clickedInside);
+    event.stopPropagation();
     this.clickedInside.emit(true);
   }
   @HostListener('document:click', ['$event']) OnPopUp(event: MouseEvent) {
     const isClicked = this.element.nativeElement.contains(event.target)
-    // console.log("is clicked ", isClicked);
-    
      if (!isClicked) {
       this.clickedInside.emit(false);
     }

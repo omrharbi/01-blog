@@ -58,7 +58,7 @@ export class PostCard {
 
 
   OnPopUp(isInside: boolean) {
-    console.log(isInside,"****");
+    // console.log(isInside,"****");
     if (isInside) {
       this.isPostOwner(this.post);
       this.show = !this.show;

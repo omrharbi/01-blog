@@ -55,12 +55,12 @@ export class Header implements OnInit, OnDestroy {
     window.location.href = '/';
   }
   OnPopUp(isInside: boolean) {
-    // console.log(isInside, "****");
+    console.log(isInside, "****");
     if (isInside) {
+      this.global.sharedData.emit({ type: 'notification', data: true });
       this.isNotificated = !this.isNotificated;
-      // this.isShowPopUp.emit(true)
-      // this.editPost.emit({ post: this.post });
     } else {
+      this.global.sharedData.emit({ type: 'notification', data: false });
       this.isNotificated = false;
     }
   }
