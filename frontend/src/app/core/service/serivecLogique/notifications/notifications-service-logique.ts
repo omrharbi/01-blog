@@ -127,8 +127,7 @@ export class NotificationsServiceLogique {
               } catch (e) {
                 console.log('📨 Message is not JSON:', message.body);
               }
->>>>>>> 76d02c914bf478355fdd195cdc3df80fb23746fc
-            }
+             }
           )
             , (error: any) => {
               console.error('❌ WebSocket error:', error);
