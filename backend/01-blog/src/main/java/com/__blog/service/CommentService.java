@@ -56,7 +56,12 @@ public class CommentService {
                     .receiverId(post.get().getId())
                     .message("from " + user.get().getUsername() + " New comment on your post")
                     .build();
-            notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(), user.get());
+
+            if (user.get() != userPrincipal.getUser()) {
+
+                notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(),
+                        user.get());
+            }
             commentRespository.save(comment);
             CommentResponse response = commentMapper.convertToResponseComment(comment, userPrincipal.getId());
             return ApiResponse.<CommentResponse>builder()
