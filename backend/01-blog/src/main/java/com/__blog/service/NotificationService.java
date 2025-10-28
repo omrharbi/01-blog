@@ -13,6 +13,7 @@ import com.__blog.model.dto.response.NotificationResponse;
 import com.__blog.model.entity.Notification;
 import com.__blog.model.entity.User;
 import com.__blog.repository.NotificationRepository;
+import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,8 @@ public class NotificationService {
         notificationRepository.save(notif);
     }
 
-    public ApiResponse<List<NotificationResponse>> getAllNotificationByUser(User user) {
+    public ApiResponse<List<NotificationResponse>> getAllNotificationByUser(UserPrincipal userPrincipal) {
+        User user = userPrincipal.getUser();
         var notification = notificationRepository.findById(user.getId());
         if (notification.isPresent()) {
             List<NotificationResponse> notificationRequest = notificationRepository.findByReceiverId(user.getId());
