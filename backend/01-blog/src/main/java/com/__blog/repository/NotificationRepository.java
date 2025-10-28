@@ -10,5 +10,5 @@ import com.__blog.model.entity.Notification;
 @Repository
 public interface  NotificationRepository extends JpaRepository<Notification, UUID> {
 
-    
+    // List<NotificationResponse>
 }

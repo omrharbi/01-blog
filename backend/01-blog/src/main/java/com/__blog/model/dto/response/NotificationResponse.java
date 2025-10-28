@@ -16,7 +16,7 @@ import lombok.ToString;
 @Builder
 public class NotificationResponse {
     private UUID id;
-    private String type;        // enum name, e.g. "NEW_POST"
+    private String type; // enum name, e.g. "NEW_POST"
     private String message;
     private boolean read;
     private String senderUsername;
