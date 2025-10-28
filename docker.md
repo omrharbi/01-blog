@@ -29,3 +29,20 @@ docker exec -it postgres psql -U postgres -d blog_db
 
 -- Show table with column details
 \d+ users
+
+
+
+# Stop all containers
+docker-compose down
+
+# Remove all stopped containers
+docker container prune -f
+
+# Remove all unused images
+docker image prune -a -f
+
+# Remove all unused volumes
+docker volume prune -f
+
+# Remove all unused networks
+docker network prune -f
