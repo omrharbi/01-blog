@@ -34,7 +34,7 @@ public class Notification {
     private boolean status; // false = unread, true = read
 
     @Column(name = "created_at", nullable = false)
-    private Date create_at = new Date();
+    private Date createdAt = new Date();
 
     @ManyToOne
     @JoinColumn(name = "receiver", nullable = false)

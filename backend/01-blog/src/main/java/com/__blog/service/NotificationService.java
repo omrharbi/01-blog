@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.__blog.Component.NotificationMapper;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.NotificationResponse;
+import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.Notification;
 import com.__blog.model.entity.User;
 import com.__blog.repository.NotificationRepository;
@@ -48,13 +49,20 @@ public class NotificationService {
 
     public ApiResponse<List<NotificationResponse>> getAllNotificationByUser(UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
-        var notification = notificationRepository.findById(user.getId());
-        if (notification.isPresent()) {
-            List<NotificationResponse> notificationRequest = notificationRepository.findByReceiverId(user.getId());
+        // var notification = notificationRepository.findById(user.getId());
+        // log.info("user {}", notification.get().getId());
+        // if (notification.isPresent()) {
+        List<Notification> notificationRequest = notificationRepository
+                .findByReceiverIdOrderByCreatedAtDesc(user.getId());
+        if (notificationRequest != null) {
+            for (Notification elem : notificationRequest) {
+                var  notificationResponse= convertToResponse(elem);
+            }
+            // var convert=convertToResponse()
             return ApiResponse.<List<NotificationResponse>>builder()
                     .status(true)
                     .message("notifications")
-                    .data(notificationRequest)
+                    // .data(notificationRequest)
                     .build();
         } else {
             return ApiResponse.<List<NotificationResponse>>builder()
@@ -63,5 +71,29 @@ public class NotificationService {
                     // .data(notificationRequest)
                     .build();
         }
+    }
+
+    private NotificationResponse convertToResponse(Notification notification) {
+        return NotificationResponse.builder()
+                .id(notification.getId())
+                .type(notification.getType())
+                .message(notification.getMessage())
+                // .read(notification.getr)
+                .createdAt(notification.getCreatedAt())
+                // .triggerUserId(convertToUserResponse(notification.getTriggerUser()))
+                .build();
+    }
+
+    private UserResponse convertToUserResponse(User user) {
+        if (user == null) {
+            return null;
+        }
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .avatar(user.getAvatarUrl())
+                .build();
     }
 }
