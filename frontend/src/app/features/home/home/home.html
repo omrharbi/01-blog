@@ -94,7 +94,9 @@
       </div>
 
     </div>
-    <div *ngIf="isNotificated" appClickOutside (clickOutside)="closeNotification()">
+    <!-- Your existing content -->
+
+    <div *ngIf="isNotificated" appClickOutside (clickOutside)="closeNotification()" class="notification-wrapper">
       <app-notifications></app-notifications>
     </div>
   </div>

@@ -20,7 +20,6 @@ import { ClickOutsideDirective } from '../core/Customdiractive/diractive-evenet'
   MatDividerModule,
   MatGridListModule,
   FormsModule,ReactiveFormsModule,
-  ClickOutsideDirective
 ];
 
 @NgModule({

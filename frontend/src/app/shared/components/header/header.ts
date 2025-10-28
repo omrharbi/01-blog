@@ -5,14 +5,16 @@ import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
 import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 import { NotificationsServiceLogique } from '../../../core/service/serivecLogique/notifications/notifications-service-logique';
+import { ClickOutsideDirective } from '../../../core/Customdiractive/diractive-evenet';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [Materaile],
+  imports: [Materaile, ClickOutsideDirective],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header implements OnInit, OnDestroy {
+export class Header implements OnInit {
   searchQuery = '';
   authService = inject(AuthService);
   router = inject(Router);
@@ -22,9 +24,8 @@ export class Header implements OnInit, OnDestroy {
     private notifLogique: NotificationsServiceLogique) { }
   isAuthenticated: boolean = false;
   isNotificated = false;
-
+  
   hasUnreadNotifications = false;
-  // private subscription?: Subscription;
   ngOnInit() {
     this.notifLogique.loadingNotifications();
     this.notificationIcons.notificationIcons$.subscribe({
@@ -33,11 +34,7 @@ export class Header implements OnInit, OnDestroy {
       }
     })
 
-    this.global.sharedData.subscribe((event) => {
-      if (event.type === "notification") {
-        this.isNotificated = event.data;
-      }
-    });
+    
     this.isAuthenticated = this.auth.isLoggedIn();
   }
   onSearch() {
@@ -45,9 +42,7 @@ export class Header implements OnInit, OnDestroy {
       console.log('Searching for:', this.searchQuery);
     }
   }
-  ngOnDestroy() {
-    // this.subscription?.unsubscribe();
-  }
+ 
   toggleTheme() {
     this.themeService.toggleTheme();
   }

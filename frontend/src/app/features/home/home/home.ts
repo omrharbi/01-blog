@@ -8,7 +8,7 @@ import { SharedServicePost } from '../../../core/service/serivecLogique/shared-s
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { NotificationPopup } from '../../notifications/notifications';
 import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
-import { NotificationsServiceLogique } from '../../../core/service/serivecLogique/notifications/notifications-service-logique';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +25,7 @@ export class Home {
   ) { }
   isAuthenticated: boolean = false;
   isNotificated = false;
+  private subscription = new Subscription();
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
     this.postDatashard.posts$.subscribe(posts => this.posts = posts);
@@ -39,17 +40,26 @@ export class Home {
       }
     });
     this.global.sharedData.subscribe((event) => {
+      console.log(event);
+
       if (event.type === "notification") {
         this.isNotificated = event.data;
       }
 
     })
-
+    this.subscription = this.global.sharedData.subscribe((event) => {
+      console.log(event);
+      if (event.type === "notification") {
+        this.isNotificated = event.data;
+      }
+    });
   }
-  closeNotification(): void {
-    this.isNotificated = false;
+  // c
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
-
   private updatePostInList(updatedPost: PostResponse) {
     this.posts.unshift(updatedPost);
     this.posts = [...this.posts]; // Trigger change detection
