@@ -2,17 +2,18 @@ import { Component } from '@angular/core';
 import { Materaile } from '../../modules/materaile-module';
 import { NotificationsServiceLogique } from '../../core/service/serivecLogique/notifications/notifications-service-logique';
 import { Subscription } from 'rxjs';
-import { NotificationRequest } from '../../core/models/Notification/Notification';
+import { NotificationRequest, NotificationResponse } from '../../core/models/Notification/Notification';
+import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 
 @Component({
   selector: 'app-notifications',
-  imports: [Materaile],
+  imports: [Materaile, TimeAgoPipe],
   templateUrl: './notifications.html',
   styleUrl: './notifications.scss',
 })
 export class NotificationPopup {
   isOpen = false;
-  notifications: NotificationRequest[] = []
+  notifications: NotificationResponse[] = []
   constructor(private notifLogique: NotificationsServiceLogique) { }
   private subscriptions = new Subscription();
   unreadCount = 0;
@@ -21,8 +22,8 @@ export class NotificationPopup {
     this.notifLogique.loadingNotifications();
     this.subscriptions.add(
       this.notifLogique.notifications$.subscribe(notif => {
-
-
+        // console.log(notif);
+        
         this.notifications = notif
       })
     )

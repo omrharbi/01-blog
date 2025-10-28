@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -33,18 +34,49 @@ public class NotificationService {
     @Autowired
     private NotificationMapper notificationMapper;
 
-    public void sendNotification(UUID username, NotificationRequest notification) {
+    private ApiResponse<String> sendNotification(UUID userid, NotificationRequest notification) {
         try {
-            String destination = "/topic/user." + username + ".notification";
+            String destination = "/topic/user." + userid + ".notification";
             messagingTemplate.convertAndSend(destination, notification);
-        } catch (Exception e) {
+            return ApiResponse.<String>builder()
+                    .status(true)
+                    .message("send Notifcation")
+                    .build();
+        } catch (MessagingException e) {
             log.error("❌ Error sending notification: {}", e.getMessage(), e);
+            return ApiResponse.<String>builder()
+                    .status(false)
+                    .error("❌ Error sending notification: {}" + e.getMessage())
+                    .build();
         }
     }
 
-    public void saveNotification(NotificationRequest notification, User receiver, User triggerUser) {
+    private void saveNotification(NotificationRequest notification, User receiver, User triggerUser) {
         Notification notif = notificationMapper.ConvertToEntityNotification(notification, receiver, triggerUser);
         notificationRepository.save(notif);
+    }
+
+    public void broadcasts() {
+        // List<Subscription> followers 
+    }
+
+    public ApiResponse<String> saveAndSendNotification(NotificationRequest notification, User receiver, User triggerUser) {
+        ApiResponse<String> sendResponse = sendNotification(receiver.getId(), notification);
+
+        if (sendResponse.isStatus()) {
+            // Only save if sending succeeded
+            saveNotification(notification, receiver, triggerUser);
+            return ApiResponse.<String>builder()
+                    .status(true)
+                    .message("✅ Notification sent and saved successfully")
+                    .build();
+        }
+
+        // If sending failed, return the same error
+        return ApiResponse.<String>builder()
+                .status(false)
+                .error(sendResponse.getError() != null ? sendResponse.getError() : "❌ Error sending notification")
+                .build();
     }
 
     public ApiResponse<List<NotificationResponse>> getAllNotificationByUser(UserPrincipal userPrincipal) {
@@ -56,7 +88,7 @@ public class NotificationService {
             for (Notification elem : notificationRequest) {
                 var notificationResponse = notificationMapper.ConvertToDtoNotification(elem);
                 notification.add(notificationResponse);
-            } 
+            }
             return ApiResponse.<List<NotificationResponse>>builder()
                     .status(true)
                     .message("notifications")

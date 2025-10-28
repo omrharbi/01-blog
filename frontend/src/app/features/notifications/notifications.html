@@ -13,7 +13,7 @@
     </div>
 
     <div class="notification-list">
-      <ng-container *ngIf="notifications.length > 0; else emptyState">
+      <ng-container *ngIf="(notifications ?? []).length > 0; else emptyState">
         <div 
           *ngFor="let notif of notifications"
           class="notification-item"
@@ -33,7 +33,7 @@
           <div class="notification-content">
             <div class="notification-item-title">{{ notif.title }}</div>
             <div class="notification-item-message">{{ notif.message }}</div>
-            <div class="notification-time">{{ notif.time }}</div>
+            <div class="notification-time">{{ notif.createdAt  | timeAgo}}</div>
           </div>
 
           <div class="unread-indicator" *ngIf="!notif.read"></div>

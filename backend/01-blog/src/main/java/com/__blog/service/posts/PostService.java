@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.__blog.Component.MediaMapper;
 import com.__blog.Component.PostMapper;
 import com.__blog.model.dto.request.MediaRequest;
+import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.post.PostResponse;
@@ -20,9 +21,12 @@ import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
+import com.__blog.model.enums.Notifications;
 import com.__blog.repository.PostRepository;
+import com.__blog.repository.SubscriptionRepository;
 import com.__blog.repository.UserRepository;
 import com.__blog.security.UserPrincipal;
+import com.__blog.service.NotificationService;
 import com.__blog.util.ApiResponse;
 
 import jakarta.transaction.Transactional;
@@ -40,6 +44,11 @@ public class PostService {
     private PostMapper postMapper;
     @Autowired
     private MediaMapper mediaMapper;
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
     public ApiResponse<PostResponse> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
@@ -59,6 +68,19 @@ public class PostService {
                 post.addTag(tag);
             });
         }
+        var followers = subscriptionRepository.findBySubscribedTo_Id(user.getId());
+        for (var follow : followers) {
+            User receiver = follow.getSubscriberUser();
+            User triggerUser = user;
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.NEW_POST)
+                    .triggerUserId(triggerUser.getId())
+                    .receiverId(receiver.getId())
+                    .message(triggerUser.getUsername() +" created a new post.")
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, receiver, triggerUser);
+        }
+
         Post savedPost = postRepository.save(post);
 
         PostResponse postResponse = postMapper.ConvertPostResponse(savedPost, user.getId());
@@ -92,6 +114,7 @@ public class PostService {
                     existingPost.addTag(tag);
                 }
             }
+
             Post savedPost = postRepository.save(existingPost);
 
             PostResponse response = postMapper.ConvertPostResponse(savedPost, userId);
@@ -166,6 +189,6 @@ public class PostService {
         if (post.isPresent()) {
             postRepository.deleteById(postId);
         }
-        return post.get().getId(); 
+        return post.get().getId();
     }
 }

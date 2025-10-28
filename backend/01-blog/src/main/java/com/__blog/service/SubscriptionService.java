@@ -62,6 +62,17 @@ public class SubscriptionService {
         return returnSameDatApiResponse(user, userId);
     }
 
+    // public ApiResponse<List<UserResponse>> getFollowersIDontFollow(UUID userId) {
+    //     if (!userRepository.existsById(userId)) {
+    //         return ApiResponse.<List<UserResponse>>builder()
+    //                 .status(false)
+    //                 .message("User not found")
+    //                 .build();
+    //     }
+    //     List<Subscription> user = subscriptionRepository.findBySubscribedTo_Id(userId);
+    //     return returnSameDatApiResponse(user, userId);
+    // }
+
     public ApiResponse<List<UserResponse>> getUsersNotFollowing(UUID userId) {
         try {
             if (!userRepository.existsById(userId)) {
@@ -100,70 +111,68 @@ public class SubscriptionService {
 
     }
 
-        public ApiResponse<UserResponse> followUser(UUID userid, UUID targetUserId) {
+    public ApiResponse<UserResponse> followUser(UUID userid, UUID targetUserId) {
 
-            try {
+        try {
 
-                Optional<User> subscriber = userRepository.findById(userid);
-                if (!subscriber.isPresent()) {
-                    return ApiResponse.< UserResponse>builder()
-                            .status(false)
-                            .error("Subscriber user not found")
-                            .build();
-                }
-
-                Optional<User> subscribedTo = userRepository.findById(targetUserId);
-                if (!subscribedTo.isPresent()) {
-                    return ApiResponse.< UserResponse>builder()
-                            .status(false)
-                            .error("Target user not found")
-                            .build();
-                }
-                if (userid.equals(targetUserId)) {
-                    return ApiResponse.< UserResponse>builder()
-                            .status(false)
-                            .error("You cannot follow yourself")
-                            .build();
-                }
-
-                var isAlreadyFollow = subscriptionRepository.existsBySubscriberUser_IdAndSubscribedTo_Id(userid, targetUserId);
-                if (isAlreadyFollow) {
-                    return ApiResponse.< UserResponse>builder()
-                            .status(false)
-                            .error("You are already following this user")
-                            .build();
-                }
-                Subscription subscription = new Subscription();
-
-                subscription.setSubscribedTo(subscribedTo.get());
-                subscription.setSubscriberUser(subscriber.get());
-
-                subscriptionRepository.save(subscription);
-
-                NotificationRequest request = NotificationRequest.builder()
-                        .type(Notifications.FOLLOW)
-                        .triggerUserId(userid)
-                        .receiverId(subscribedTo.get().getId())
-                        .message(subscriber.get().getUsername() + " started following you.")
-                        .build();
-
-                notificationService.sendNotification(subscribedTo.get().getId(), request);
-                notificationService.saveNotification(request, subscribedTo.get(), subscriber.get());
+            Optional<User> subscriber = userRepository.findById(userid);
+            if (!subscriber.isPresent()) {
                 return ApiResponse.< UserResponse>builder()
-                        .status(true)
-                        .message("Successfully followed " + subscribedTo.get().getUsername())
-                        // .data(subscription)
-                        .data(null)
-                        .build();
-            } catch (Exception e) {
-
-                return ApiResponse.< UserResponse>builder()
-                        .status(true)
-                        .error("Error  " + e)
-                        // .data(subscription)
+                        .status(false)
+                        .error("Subscriber user not found")
                         .build();
             }
+
+            Optional<User> subscribedTo = userRepository.findById(targetUserId);
+            if (!subscribedTo.isPresent()) {
+                return ApiResponse.< UserResponse>builder()
+                        .status(false)
+                        .error("Target user not found")
+                        .build();
+            }
+            if (userid.equals(targetUserId)) {
+                return ApiResponse.< UserResponse>builder()
+                        .status(false)
+                        .error("You cannot follow yourself")
+                        .build();
+            }
+
+            boolean isAlreadyFollow = subscriptionRepository.existsBySubscriberUser_IdAndSubscribedTo_Id(userid, targetUserId);
+            if (isAlreadyFollow) {
+                return ApiResponse.< UserResponse>builder()
+                        .status(false)
+                        .error("You are already following this user")
+                        .build();
+            }
+            Subscription subscription = new Subscription();
+
+            subscription.setSubscribedTo(subscribedTo.get());
+            subscription.setSubscriberUser(subscriber.get());
+
+            subscriptionRepository.save(subscription);
+
+            NotificationRequest request = NotificationRequest.builder()
+                    .type(Notifications.FOLLOW)
+                    .triggerUserId(userid)
+                    .receiverId(subscribedTo.get().getId())
+                    .message(subscriber.get().getUsername() + " started following you.")
+                    .build();
+            notificationService.saveAndSendNotification(request, subscribedTo.get(), subscriber.get());
+            return ApiResponse.< UserResponse>builder()
+                    .status(true)
+                    .message("Successfully followed " + subscribedTo.get().getUsername())
+                    // .data(subscription)
+                    .data(null)
+                    .build();
+        } catch (Exception e) {
+
+            return ApiResponse.< UserResponse>builder()
+                    .status(true)
+                    .error("Error  " + e)
+                    // .data(subscription)
+                    .build();
         }
+    }
 
     public ApiResponse<UserResponse> unfollowUser(UUID userid, UUID targetUserId) {
         Optional<User> subscriber = userRepository.findById(userid);

@@ -9,11 +9,12 @@ export interface NotificationRequest {
 }
 export interface NotificationResponse {
   id: string,
+  title:string,
   type: string,
   message: string,
   read: boolean,
   senderUsername: string,
-  senderAvatar: string,
+  senderAvatar?: string,
   createdAt: string,
 }
 interface StompMessage {

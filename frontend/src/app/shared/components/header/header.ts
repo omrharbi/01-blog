@@ -1,11 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { ThemeService } from '../../../modules/services/theme-service';
 import { Materaile } from '../../../modules/materaile-module';
-import { routes } from '../../../app.routes';
 import { Router } from '@angular/router';
-import { NotificationPopup } from '../../../features/notifications/notifications';
 import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
+import { NotificationsServiceLogique } from '../../../core/service/serivecLogique/notifications/notifications-service-logique';
 
 @Component({
   selector: 'app-header',
@@ -13,15 +12,31 @@ import { Global } from '../../../core/service/serivecLogique/globalEvent/global'
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
+export class Header implements OnInit, OnDestroy {
   searchQuery = '';
   authService = inject(AuthService);
   router = inject(Router);
   themeService = inject(ThemeService);
-  constructor(private auth: AuthService, private global: Global) { }
+  notificationIcons = inject(NotificationsServiceLogique);
+  constructor(private auth: AuthService, private global: Global,
+    private notifLogique: NotificationsServiceLogique) { }
   isAuthenticated: boolean = false;
   isNotificated = false;
+
+  hasUnreadNotifications = false;
+  // private subscription?: Subscription;
   ngOnInit() {
+    // console.log(this.notifLogique.checkIsNotAllAsRead(),"-----------------");
+    this.notifLogique.loadingNotifications();
+    // if (this.notifLogique.checkIsNotAllAsRead()) {
+
+    //   this.hasUnreadNotifications = true
+    // }
+    this.notificationIcons.notificationIcons$.subscribe({
+      next: isNotification => {
+        this.hasUnreadNotifications = isNotification
+      }
+    })
     this.isAuthenticated = this.auth.isLoggedIn();
   }
   onSearch() {
@@ -29,7 +44,9 @@ export class Header {
       console.log('Searching for:', this.searchQuery);
     }
   }
-
+  ngOnDestroy() {
+    // this.subscription?.unsubscribe();
+  }
   toggleTheme() {
     this.themeService.toggleTheme();
   }

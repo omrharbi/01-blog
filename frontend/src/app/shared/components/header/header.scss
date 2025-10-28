@@ -56,12 +56,14 @@
     }
 
     // Input field styling
-    
+
   }
-  .notification{
+
+  .notification {
     // display: inline;
-    
+
   }
+
   // Responsive adjustments
   @media (max-width: 768px) {
     .search-container {
@@ -116,11 +118,11 @@
 
   // }
 
-  .btn-icons-color:hover {
-    background-color: hsl(var(--accent)) !important;
-    /* or hsl(var(--accent)) */
-    color: antiquewhite !important;
-  }
+  // .btn-icons-color:hover {
+  //   background-color: hsl(var(--accent)) !important;
+  //   /* or hsl(var(--accent)) */
+  //   color: antiquewhite !important;
+  // }
 
 
   .text-gradient {
@@ -217,4 +219,42 @@
     .search-container {
       max-width: 100%;
     }
+  }
+
+
+  .notification-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background-color: #ff4444; // Red color
+    border-radius: 50%;
+    border: 2px solid white; // White border to stand out
+
+    // Optional: Add animation
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+    }
+
+    70% {
+      box-shadow: 0 0 0 6px rgba(255, 68, 68, 0);
+    }
+
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+    }
+  }
+
+  .btn-icons-color:hover{
+    background-color: var(--accent) !important;
+  }
+
+  .bg-primary{
+    background-color: var(--accent) !important;
+
   }

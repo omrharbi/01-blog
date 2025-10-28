@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.__blog.Component.CommentMapper;
 import com.__blog.model.dto.request.CommentRequest;
+import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.CommentResponse;
 import com.__blog.model.entity.Comment;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.User;
+import com.__blog.model.enums.Notifications;
 import com.__blog.repository.CommentRespository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.UserRepository;
@@ -32,6 +34,8 @@ public class CommentService {
     private UserRepository userRepository;
     @Autowired
     private CommentMapper commentMapper;
+    @Autowired
+    NotificationService notificationService;
 
     public ApiResponse<CommentResponse> AddComment(UserPrincipal userPrincipal, CommentRequest request) {
         Optional<User> user = userRepository.findById(userPrincipal.getId());
@@ -46,6 +50,13 @@ public class CommentService {
                 }
             }
 
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.POST_COMMENTED)
+                    .triggerUserId(userPrincipal.getId())
+                    .receiverId(post.get().getId())
+                    .message(user.get().getUsername() + " started following you.")
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(), user.get());
             commentRespository.save(comment);
             CommentResponse response = commentMapper.convertToResponseComment(comment, userPrincipal.getId());
             return ApiResponse.<CommentResponse>builder()
@@ -94,45 +105,41 @@ public class CommentService {
         if (findcomment.isPresent() && post.isPresent()) {
             Comment saveNewComment = findcomment.get();
             saveNewComment.setContent(commentRequest.getContent());
-            // saveNewComment.setPost(post.get());
-            
             commentRespository.save(saveNewComment);
-            
+
             CommentResponse commentResponse = commentMapper.convertToResponseComment(saveNewComment, commentId);
             return ApiResponse.<CommentResponse>builder()
-            .status(true)
-            .error(" edit  Comment ")
-            .data(commentResponse)
-            .build();
+                    .status(true)
+                    .error(" edit  Comment ")
+                    .data(commentResponse)
+                    .build();
         }
-        System.err.println("*************0"+findcomment.isPresent());
+        // System.err.println("*************0"+findcomment.isPresent());
         return ApiResponse.<CommentResponse>builder()
-        .status(false)
-        .error("Cannot create Comment ")
-        // .data(response)
+                .status(false)
+                .error("Cannot create Comment ")
+                // .data(response)
                 .build();
     }
-
-
 
     public ApiResponse<CommentResponse> delete(UUID commentId) {
         // var 
         var findcomment = commentRespository.findById(commentId);
-         if (findcomment.isPresent() ) { 
+        if (findcomment.isPresent()) {
             commentRespository.deleteById(commentId);
-            
+
             CommentResponse commentResponse = commentMapper.convertToResponseComment(findcomment.get(), commentId);
             return ApiResponse.<CommentResponse>builder()
-            .status(true)
-            .error(" edit  Comment ")
-            .data(commentResponse)
-            .build();
+                    .status(true)
+                    .error(" edit  Comment ")
+                    .data(commentResponse)
+                    .build();
         }
-        System.err.println("*************0"+findcomment.isPresent());
+        // System.err.println("*************0"+findcomment.isPresent());
         return ApiResponse.<CommentResponse>builder()
-        .status(false)
-        .error("Cannot create Comment ")
-        // .data(response)
+                .status(false)
+                .error("Cannot create Comment ")
+                // .data(response)
                 .build();
     }
 }

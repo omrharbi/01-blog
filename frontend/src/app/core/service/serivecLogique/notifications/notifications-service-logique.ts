@@ -6,72 +6,43 @@ import * as Stomp from "stompjs"
 import { apiUrl, token } from '../../../constant/constante';
 import { JwtService } from '../../JWT/jwt-service';
 import { Title } from '@angular/platform-browser';
-import { NotificationRequest } from '../../../models/Notification/Notification';
+import { NotificationRequest, NotificationResponse } from '../../../models/Notification/Notification';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../servicesAPIREST/Notifications/notification-service';
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsServiceLogique {
 
   constructor(private jwt: JwtService,
-    private toasterService: ToastrService) { }
+    private toasterService: ToastrService,
+    private notificationServices: NotificationService) { }
   private notificationsSubject = new BehaviorSubject<any>(null);
   notifications$ = this.notificationsSubject.asObservable();
+
+  private notificationIconsSubject = new BehaviorSubject<boolean>(false);
+  notificationIcons$ = this.notificationIconsSubject.asObservable();
+
+
   private notificationsSubscription: any;
 
   private unreadCountSubject = new BehaviorSubject<number>(0);
   unreadCount$ = this.unreadCountSubject.asObservable();
+
+
   private stompClient?: any = null;
   private wsUrl = `${apiUrl}ws`;
-  notifications: NotificationRequest[] = [
-    {
-      id: "1",
-      title: 'New message received',
-      message: 'You have a new message from John Doe',
-      time: '5 min ago',
-      read: false
-    },
-    {
-      id: "2",
-      title: 'Payment successful',
-      message: 'Your payment of $99.99 has been processed',
-      time: '1 hour ago',
-      read: false
-    },
-    {
-      id: "3",
-      title: 'Update available',
-      message: 'A new version of the app is ready to install',
-      time: '2 hours ago',
-      read: true
-    },
-    {
-      id: "4",
-      title: 'Task completed',
-      message: 'Your export task has finished successfully',
-      time: '1 day ago',
-      read: true
-    },
-    {
-      id: "5",
-      title: 'Welcome!',
-      message: 'Thanks for joining our platform',
-      time: '2 days ago',
-      read: true
-    }
-  ];
+  notifications: NotificationResponse[] = [];
 
   loadingNotifications() {
     this.allNotifications()
     this.unreadNotificationCount()
   }
-  allNotifications() {
-    this.notificationsSubject.next(this.notifications)
-  }
+
   unreadNotificationCount() {
     let numbers = this.notifications.filter(n => !n.read).length;
+    this.notificationIconsSubject.next(true)
     this.unreadCountSubject.next(numbers)
-
   }
   markAsRead(id: string): void {
     const notification = this.notifications.find(n => n.id === id)
@@ -83,7 +54,7 @@ export class NotificationsServiceLogique {
   markAllAsRead(): void {
     this.notifications.forEach(n => n.read = true)
   }
-  addNotification(notification: NotificationRequest): void {
+  addNotification(notification: NotificationResponse): void {
     this.notifications.unshift(notification);
     this.unreadNotificationCount();
   }
@@ -93,6 +64,20 @@ export class NotificationsServiceLogique {
     this.unreadNotificationCount();
 
   }
+  allNotifications() {
+    let data = this.notificationServices.getALLNotifications();
+    data.subscribe({
+      next: response => {
+        this.notifications = response.data;
+        this.notificationsSubject.next(this.notifications)
+        // if (response.data)
+        // this.checkIsHasNotificationNotRead()
+      }
+    })
+  }
+  // checkIsHasNotificationNotRead() {
+
+  // }
   connect(): void {
     const socket = new SockJS(this.wsUrl);
     this.stompClient = Stomp.over(socket)
@@ -109,16 +94,17 @@ export class NotificationsServiceLogique {
             `/topic/user.${currentUserId}.notification`,
             (message: any) => {
               try {
-                const notifications: NotificationRequest = JSON.parse(message.body);
+                const notifications: NotificationResponse = JSON.parse(message.body);
+                this.notificationIconsSubject.next(true);
                 if (notifications) {
-                  const newNotification: NotificationRequest = {
+                  const newNotification: NotificationResponse = {
                     id: notifications.id,
                     title: "New Notification",
                     message: notifications.message || 'You have a new notification',
-                    time: new Date().toLocaleTimeString(),
+                    createdAt: new Date().toLocaleTimeString(),
                     read: false,
                     type: notifications.type,
-                    sender: notifications.sender
+                    senderUsername: notifications.senderUsername
                   }
                   this.toasterService.info(notifications.message, notifications.type)
                   this.addNotification(newNotification);
@@ -127,7 +113,7 @@ export class NotificationsServiceLogique {
               } catch (e) {
                 console.log('📨 Message is not JSON:', message.body);
               }
-             }
+            }
           )
             , (error: any) => {
               console.error('❌ WebSocket error:', error);
@@ -156,9 +142,9 @@ export class NotificationsServiceLogique {
         return message
       default:
         return 'You have a new notification';
-     }
+    }
   }
-  private showBrowserNotification(notification: NotificationRequest): void {
+  private showBrowserNotification(notification: NotificationResponse): void {
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification(notification.title, {
         body: notification.message,
