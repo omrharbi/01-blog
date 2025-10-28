@@ -101,16 +101,15 @@ export class NotificationsServiceLogique {
           this.notificationsSubscription = this.stompClient.subscribe(
             `/topic/user.${currentUserId}.notification`,
             (message: any) => {
-              // ✅ These logs will ONLY run when a message arrives
-              console.log('📨 ===== MESSAGE RECEIVED =====');
-              console.log('📨 Raw message:', message);
-              console.log('📨 Message body:', message.body);
-              try {
-                const notification = JSON.parse(message.body);
-                console.log('📨 Parsed notification:', notification);
-              } catch (e) {
-                console.log('📨 Message is not JSON:', message.body);
-              }
+              //  console.log('📨 ===== MESSAGE RECEIVED =====');
+              // console.log('📨 Raw message:', message);
+              // console.log('📨 Message body:', message.body);
+              // try {
+              //   const notification = JSON.parse(message.body);
+              //   console.log('📨 Parsed notification:', notification);
+              // } catch (e) {
+              //   console.log('📨 Message is not JSON:', message.body);
+              // }
             }
           )
             , (error: any) => {

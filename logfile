@@ -200,3 +200,13 @@
 2025-10-27 17:04:48.828 GMT [211241] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.005 s, total=0.515 s; sync files=6, longest=0.004 s, average=0.001 s; distance=10 kB, estimate=29 kB; lsn=0/1BA10E8, redo lsn=0/1BA1090
 2025-10-27 17:09:48.850 GMT [211241] LOG:  checkpoint starting: time
 2025-10-27 17:09:49.364 GMT [211241] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.005 s, total=0.515 s; sync files=6, longest=0.004 s, average=0.001 s; distance=12 kB, estimate=28 kB; lsn=0/1BA42C0, redo lsn=0/1BA4268
+2025-10-27 17:14:48.400 GMT [211241] LOG:  checkpoint starting: time
+2025-10-27 17:14:49.816 GMT [211241] LOG:  checkpoint complete: wrote 15 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.406 s, sync=0.003 s, total=1.417 s; sync files=12, longest=0.002 s, average=0.001 s; distance=46 kB, estimate=46 kB; lsn=0/1BAFBE8, redo lsn=0/1BAFB90
+2025-10-27 18:14:27.086 GMT [211240] LOG:  received smart shutdown request
+2025-10-27 18:14:27.088 GMT [336851] FATAL:  terminating connection due to administrator command
+2025-10-27 18:14:27.089 GMT [334643] FATAL:  terminating connection due to administrator command
+2025-10-27 18:14:27.090 GMT [211240] LOG:  background worker "logical replication launcher" (PID 211246) exited with exit code 1
+2025-10-27 18:14:27.090 GMT [211241] LOG:  shutting down
+2025-10-27 18:14:27.092 GMT [211241] LOG:  checkpoint starting: shutdown immediate
+2025-10-27 18:14:27.098 GMT [211241] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.008 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=41 kB; lsn=0/1BAFC98, redo lsn=0/1BAFC98
+2025-10-27 18:14:27.100 GMT [211240] LOG:  database system is shut down
