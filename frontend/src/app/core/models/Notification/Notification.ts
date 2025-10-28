@@ -7,7 +7,15 @@ export interface NotificationRequest {
   type?: string;
   sender?: string;
 }
-
+export interface NotificationResponse {
+  id: string,
+  type: string,
+  message: string,
+  read: boolean,
+  senderUsername: string,
+  senderAvatar: string,
+  createdAt: string,
+}
 interface StompMessage {
   body: string;
   headers?: Record<string, string>;
