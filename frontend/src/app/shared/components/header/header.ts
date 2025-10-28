@@ -1,20 +1,18 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { ThemeService } from '../../../modules/services/theme-service';
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
 import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 import { NotificationsServiceLogique } from '../../../core/service/serivecLogique/notifications/notifications-service-logique';
-import { ClickOutsideDirective } from '../../../core/Customdiractive/diractive-evenet';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [Materaile, ClickOutsideDirective],
+  imports: [Materaile],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header implements OnInit {
+export class Header implements OnInit, OnDestroy {
   searchQuery = '';
   authService = inject(AuthService);
   router = inject(Router);
@@ -24,7 +22,7 @@ export class Header implements OnInit {
     private notifLogique: NotificationsServiceLogique) { }
   isAuthenticated: boolean = false;
   isNotificated = false;
-  
+  @Output() isShowPopUp = new EventEmitter<any>();
   hasUnreadNotifications = false;
   ngOnInit() {
     this.notifLogique.loadingNotifications();
@@ -33,8 +31,6 @@ export class Header implements OnInit {
         this.hasUnreadNotifications = isNotification
       }
     })
-
-    
     this.isAuthenticated = this.auth.isLoggedIn();
   }
   onSearch() {
@@ -42,7 +38,9 @@ export class Header implements OnInit {
       console.log('Searching for:', this.searchQuery);
     }
   }
- 
+  ngOnDestroy() {
+    // this.subscription?.unsubscribe();
+  }
   toggleTheme() {
     this.themeService.toggleTheme();
   }
@@ -56,15 +54,18 @@ export class Header implements OnInit {
     this.authService.logout();
     window.location.href = '/';
   }
-
-  toggleNotification(event: MouseEvent) {
-    // event.stopPropagation();
-    this.isNotificated = !this.isNotificated
-    this.global.sharedData.emit({
-      type: 'notification',
-      data: this.isNotificated
-    });
+  OnPopUp(isInside: boolean) {
+    // console.log(isInside, "****");
+    if (isInside) {
+      this.isNotificated = !this.isNotificated;
+      // this.isShowPopUp.emit(true)
+      // this.editPost.emit({ post: this.post });
+    } else {
+      this.isNotificated = false;
+    }
   }
-
-
+  notification() {
+    this.isNotificated = !this.isNotificated
+    this.global.sharedData.emit({ type: 'notification', data: this.isNotificated });
+  }
 }

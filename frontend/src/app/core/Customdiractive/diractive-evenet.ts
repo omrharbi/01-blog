@@ -1,20 +1,23 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Output, output, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appClickOutside]',
-  standalone: true
+  selector: '[appDiractiveEvenet]'
 })
-export class ClickOutsideDirective {
+export class DiractiveEvenet {
 
-  constructor(private element: ElementRef) { }
+  constructor(private element: ElementRef, private randrer: Renderer2) { }
   @Output() clickedInside = new EventEmitter<boolean>();
-
-  @HostListener('document:click', ['$event'])
-  OnPopUp(event: MouseEvent) {
-    const clickedInside = this.element.nativeElement.contains(event.target)
-    // console.log(clickedInside, "is click ");
-    if (!clickedInside) {
-      this.clickedInside.emit();
+  @HostListener('click', ['$event'])
+  handleButtonClick(event: MouseEvent) {
+    event.stopPropagation(); // Prevent event from bubbling to document
+    this.clickedInside.emit(true);
+  }
+  @HostListener('document:click', ['$event']) OnPopUp(event: MouseEvent) {
+    const isClicked = this.element.nativeElement.contains(event.target)
+    // console.log("is clicked ", isClicked);
+    
+     if (!isClicked) {
+      this.clickedInside.emit(false);
     }
   }
 

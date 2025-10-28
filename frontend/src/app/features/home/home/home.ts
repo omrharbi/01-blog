@@ -54,7 +54,15 @@ export class Home {
       }
     });
   }
-  // c
+  closeNotification(): void {
+    console.log("Closing notification");
+    this.isNotificated = false;
+    // Also emit to sync with global state
+    this.global.sharedData.emit({
+      type: 'notification',
+      data: false
+    });
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

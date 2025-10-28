@@ -50,7 +50,7 @@ export class Comment {
   ngOnInit() {
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'comment') {
-        // console.log('Editing comment:', event.data);
+        console.log('Editing comment:', event.data);
         this.idComment = event.data.id
         this.content = event.data.content;
         this.isEdit = true;
