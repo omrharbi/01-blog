@@ -65,16 +65,15 @@
                                             <div class="position-relative d-inline-block">
                                                 <button
                                                     class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle"
-                                                    style="width: 40px; height: 40px;" 
-                                                    (clickedInside)="OnPopUp($event, comment.id)"  appDiractiveEvenet
-                                                    ><i
+                                                    style="width: 40px; height: 40px;"
+                                                    (clickedInside)="OnPopUp($event, comment.id,comment)" appDiractiveEvenet><i
                                                         class="material-icons"
                                                         style="font-size: 16px;">more_horiz</i></button>
 
-                                                <ng-container *ngIf="showPopUp[comment.id]">
-                                                    <app-pop-up [isOwner]="isOwner" [isComment]="isComment"
+                                                <div *ngIf="showPopUp[comment.id]">
+                                                    <app-pop-up [isOwner]="isOwner(comment)" [isComment]="isComment"
                                                         [comment]="comment"></app-pop-up>
-                                                </ng-container>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

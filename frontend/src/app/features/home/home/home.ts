@@ -4,11 +4,11 @@ import { Materaile } from '../../../modules/materaile-module';
 import { PostCard } from '../../posts/post-card/post-card';
 import { PostResponse } from '../../../core/models/post/postResponse';
 import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
-import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
+import { SharedService } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
- import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
+import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 import { Subscription } from 'rxjs';
- 
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -20,7 +20,7 @@ export class Home {
   posts: PostResponse[] = [];
   constructor(private postservice:
     PostService, private postDatashard:
-      SharedServicePost, private auth: AuthService, private global: Global
+      SharedService, private auth: AuthService, private global: Global
   ) { }
   isAuthenticated: boolean = false;
   // isNotificated = false;

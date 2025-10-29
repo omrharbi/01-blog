@@ -8,7 +8,7 @@ export interface NotificationRequest {
   sender?: string;
 }
 export interface NotificationResponse {
-  id: string,
+  triggerUserId: string,
   title:string,
   type: string,
   message: string,

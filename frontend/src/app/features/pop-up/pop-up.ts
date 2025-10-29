@@ -2,11 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { JwtService } from '../../core/service/JWT/jwt-service';
-import { Materaile } from '../../modules/materaile-module';
-import { CommonModule } from '@angular/common';
+ import { CommonModule } from '@angular/common';
 import { PostService } from '../../core/service/servicesAPIREST/posts/post-service';
-import { SharedServicePost } from '../../core/service/serivecLogique/shared-service/shared-service-post';
-import { Home } from '../home/home/home';
+ 
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
 import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 

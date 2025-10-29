@@ -15,7 +15,7 @@ import { Preview } from '../../../shared/components/preview/preview';
 import { PostRequest } from '../../../core/models/post/postRequest';
 import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedServicePost } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
+import { SharedService } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
@@ -35,7 +35,7 @@ export class CreatePost implements CanComponentDeactivate {
   constructor(
     private router: Router,
     private preview: PreviewService,
-    private sharedServicePost: SharedServicePost,
+    private sharedServicePost: SharedService,
     private uploadImage: UploadImage,
     private postService: PostService,
     private images: Uploadimages,

@@ -80,16 +80,13 @@ public class PostService {
                     .build();
             notificationService.saveAndSendNotification(requestNotificationRequest, receiver, triggerUser);
         }
-
         Post savedPost = postRepository.save(post);
-
         PostResponse postResponse = postMapper.ConvertPostResponse(savedPost, user.getId());
         return ApiResponse.<PostResponse>builder()
                 .status(true)
                 .data(postResponse)
                 .error("create post").build();
     }
-
     public ApiResponse<PostResponse> editPost(PostRequest postRequest, UUID id, UUID userId) {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {

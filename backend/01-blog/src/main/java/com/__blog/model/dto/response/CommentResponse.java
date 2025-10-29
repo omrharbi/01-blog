@@ -15,6 +15,7 @@ import lombok.Data;
 public class CommentResponse {
 
     private UUID id;
+    private UUID userId;
     private String Content;
     private String avatar;
     private String firstname;

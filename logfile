@@ -229,3 +229,47 @@
 2025-10-28 14:21:52.075 GMT [463277] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.003 s, total=0.511 s; sync files=6, longest=0.003 s, average=0.001 s; distance=5 kB, estimate=6 kB; lsn=0/1BB7998, redo lsn=0/1BB7940
 2025-10-28 14:51:51.638 GMT [463277] LOG:  checkpoint starting: time
 2025-10-28 14:51:52.352 GMT [463277] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.704 s, sync=0.004 s, total=0.715 s; sync files=8, longest=0.002 s, average=0.001 s; distance=18 kB, estimate=18 kB; lsn=0/1BBC230, redo lsn=0/1BBC1D8
+2025-10-28 15:15:53.582 GMT [463276] LOG:  received smart shutdown request
+2025-10-28 15:15:53.583 GMT [532933] FATAL:  terminating connection due to administrator command
+2025-10-28 15:15:53.583 GMT [532937] FATAL:  terminating connection due to administrator command
+2025-10-28 15:15:53.583 GMT [532955] FATAL:  terminating connection due to administrator command
+2025-10-28 15:15:53.583 GMT [532994] FATAL:  terminating connection due to administrator command
+2025-10-28 15:15:53.586 GMT [463276] LOG:  background worker "logical replication launcher" (PID 463282) exited with exit code 1
+2025-10-28 15:15:53.586 GMT [463277] LOG:  shutting down
+2025-10-28 15:15:53.587 GMT [463277] LOG:  checkpoint starting: shutdown immediate
+2025-10-28 15:15:53.598 GMT [463277] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.004 s, total=0.012 s; sync files=11, longest=0.004 s, average=0.001 s; distance=11 kB, estimate=17 kB; lsn=0/1BBEF38, redo lsn=0/1BBEF38
+2025-10-28 15:15:53.601 GMT [463276] LOG:  database system is shut down
+2025-10-29 09:21:15.234 GMT [551808] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-10-29 09:21:15.234 GMT [551808] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-10-29 09:21:15.237 GMT [551808] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-10-29 09:21:15.240 GMT [551811] LOG:  database system was shut down at 2025-10-28 15:15:53 GMT
+2025-10-29 09:21:15.242 GMT [551808] LOG:  database system is ready to accept connections
+2025-10-29 09:26:01.213 GMT [551862] FATAL:  terminating connection due to administrator command
+2025-10-29 09:26:01.214 GMT [551808] LOG:  received smart shutdown request
+2025-10-29 09:26:01.214 GMT [552645] FATAL:  terminating connection due to administrator command
+2025-10-29 09:26:01.215 GMT [551858] FATAL:  terminating connection due to administrator command
+2025-10-29 09:26:01.215 GMT [552987] FATAL:  terminating connection due to administrator command
+2025-10-29 09:26:01.216 GMT [552648] FATAL:  terminating connection due to administrator command
+2025-10-29 09:26:01.220 GMT [551808] LOG:  background worker "logical replication launcher" (PID 551814) exited with exit code 1
+2025-10-29 09:26:01.220 GMT [551809] LOG:  shutting down
+2025-10-29 09:26:01.222 GMT [551809] LOG:  checkpoint starting: shutdown immediate
+2025-10-29 09:26:01.233 GMT [551809] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.003 s, total=0.014 s; sync files=9, longest=0.002 s, average=0.001 s; distance=10 kB, estimate=10 kB; lsn=0/1BC1A40, redo lsn=0/1BC1A40
+2025-10-29 09:26:01.237 GMT [551808] LOG:  database system is shut down
+2025-10-29 09:29:59.799 GMT [558762] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-10-29 09:29:59.799 GMT [558762] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-10-29 09:29:59.802 GMT [558762] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-10-29 09:29:59.804 GMT [558765] LOG:  database system was shut down at 2025-10-29 09:26:01 GMT
+2025-10-29 09:29:59.807 GMT [558762] LOG:  database system is ready to accept connections
+2025-10-29 09:34:59.904 GMT [558763] LOG:  checkpoint starting: time
+2025-10-29 09:35:01.020 GMT [558763] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.105 s, sync=0.006 s, total=1.117 s; sync files=13, longest=0.004 s, average=0.001 s; distance=16 kB, estimate=16 kB; lsn=0/1BC5C50, redo lsn=0/1BC5BF8
+2025-10-29 09:39:59.120 GMT [558763] LOG:  checkpoint starting: time
+2025-10-29 09:39:59.834 GMT [558763] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.715 s; sync files=8, longest=0.004 s, average=0.001 s; distance=15 kB, estimate=16 kB; lsn=0/1BC9B38, redo lsn=0/1BC9AE0
+2025-10-29 09:44:59.934 GMT [558763] LOG:  checkpoint starting: time
+2025-10-29 09:45:00.846 GMT [558763] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.903 s, sync=0.005 s, total=0.912 s; sync files=10, longest=0.004 s, average=0.001 s; distance=21 kB, estimate=21 kB; lsn=0/1BCF2F0, redo lsn=0/1BCF298
+2025-10-29 09:47:27.602 GMT [568945] ERROR:  update or delete on table "comment" violates foreign key constraint "fkc1iddf77p4l8nw8nfv2u4i8gu" on table "liked"
+2025-10-29 09:47:27.602 GMT [568945] DETAIL:  Key (id)=(75ae7ab1-c088-49e6-baaa-c0db1ce914cb) is still referenced from table "liked".
+2025-10-29 09:47:27.602 GMT [568945] STATEMENT:  DELETE FROM "comment" WHERE "id" IN ('3cb1c3bf-40ed-4ca2-8987-25d3f634939f','75ae7ab1-c088-49e6-baaa-c0db1ce914cb','26617943-8bf4-4ea9-bd67-ab2653cb9c1c','87f6a5cd-c348-40fa-9c11-4c9ae8a4ac0b','0ed0d0cb-8059-4560-ae65-0f879d73a264','c6b4870c-3118-4185-89f9-0bad883a6373','2ec6eb29-424b-4ea5-9f58-630172a3e6be','d1724f41-20fb-4dba-a3f5-31f2d7c8ec13','b7280759-fa5c-4836-b8ec-bc57289a3300','24a9bbe6-033c-4a13-bbce-38c2e2c6ac28','05273b1b-20aa-4ba0-b58f-75d629e41db2','460e3ba6-2a69-4a6d-8d2c-fc7ccddc2ecb','9479bb70-cf0c-4cdb-8e90-6cd4151e4840','3f65fef0-5dbe-411b-8096-bd6f47d4ce32','6354e6f4-df58-46bc-9f73-175f553c0d3a','07a7c3f4-b1e1-404c-a4ba-240b3a07c4bf','d6efc357-505f-47c2-93f1-05fe03147b1c','1ba47c9f-c399-4908-9638-85affb916cd7','5f388bfb-11ed-431d-bceb-fe1088e5b892','116a0850-e3da-4ea8-a4ee-8c4c1b4d97f0','75f5d255-2fde-4354-884e-8e589f628d94','b01cf551-9081-4c9f-b0cc-2cb648c2568a')
+2025-10-29 09:49:59.946 GMT [558763] LOG:  checkpoint starting: time
+2025-10-29 09:50:00.658 GMT [558763] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.002 s, total=0.713 s; sync files=8, longest=0.002 s, average=0.001 s; distance=17 kB, estimate=21 kB; lsn=0/1BD3728, redo lsn=0/1BD36D0
+2025-10-29 09:59:59.858 GMT [558763] LOG:  checkpoint starting: time
+2025-10-29 10:00:00.471 GMT [558763] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.003 s, total=0.613 s; sync files=7, longest=0.002 s, average=0.001 s; distance=14 kB, estimate=20 kB; lsn=0/1BD6F30, redo lsn=0/1BD6ED8

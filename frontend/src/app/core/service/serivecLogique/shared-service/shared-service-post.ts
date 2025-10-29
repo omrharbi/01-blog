@@ -5,7 +5,7 @@ import { PostResponse } from '../../../models/post/postResponse';
 @Injectable({
   providedIn: 'root'
 })
-export class SharedServicePost {
+export class SharedService {
   private newPostData = new BehaviorSubject<any>(null);
   private currentPostIdSubject = new BehaviorSubject<String>("");
 

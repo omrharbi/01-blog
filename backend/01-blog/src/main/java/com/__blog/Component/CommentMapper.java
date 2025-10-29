@@ -32,6 +32,7 @@ public class CommentMapper {
         int countLike = commentRespository.countBylikesCommentId(comment.getId());
         CommentResponse commentResponse = CommentResponse.builder()
                 .id(comment.getId())
+                .userId(comment.getUser().getId())
                 .Content(comment.getContent())
                 .avatar(comment.getUser().getAvatarUrl())
                 .firstname(comment.getUser().getFirstname())

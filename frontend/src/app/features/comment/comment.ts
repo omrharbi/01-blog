@@ -4,17 +4,19 @@ import { CommentService } from '../../core/service/servicesAPIREST/comment/comme
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
 import { CommentRequest } from '../../core/models/comment/commentRequest';
 import { Materaile } from '../../modules/materaile-module';
-import { SharedServicePost } from '../../core/service/serivecLogique/shared-service/shared-service-post';
+import { SharedService } from '../../core/service/serivecLogique/shared-service/shared-service-post';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscriber, Subscription } from 'rxjs';
 import { Login } from '../auth/login/login';
 import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
-import { apiUrl } from '../../core/constant/constante';
+import { apiUrl, token } from '../../core/constant/constante';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { PopUp } from '../pop-up/pop-up';
 import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 import { PostService } from '../../core/service/servicesAPIREST/posts/post-service';
+import { SharedServicePopUp } from '../../core/service/serivecLogique/SharedServicePopUp/shared-service-popup';
+import { JwtService } from '../../core/service/JWT/jwt-service';
 
 @Component({
   selector: 'app-comment',
@@ -26,11 +28,10 @@ export class Comment {
   @Input() post!: PostResponse;
 
   constructor(private commentService: CommentService, private like: likesServiceLogique,
-    private auth: AuthService,
     private route: ActivatedRoute,
-    private router: Router
-    , 
-    private global: Global
+    private jwtService: AuthService,
+    private global: Global,
+    private servicePopUp: SharedServicePopUp
   ) { }
   commentResponse?: CommentResponse;
   getAllComment: CommentResponse[] = [];
@@ -42,15 +43,14 @@ export class Comment {
   };
   apiUrl = apiUrl;
   show: boolean = false;
-  @Input() comments?: CommentResponse;
+  @Input() comment?: CommentResponse;
   isEdit = false
   idComment = "";
-
+  // isOwner: boolean = false;
   showPopUp: { [commentId: string]: boolean } = {};
   ngOnInit() {
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'comment') {
-        console.log('Editing comment:', event.data);
         this.idComment = event.data.id
         this.content = event.data.content;
         this.isEdit = true;
@@ -60,6 +60,16 @@ export class Comment {
         console.log('Deletecomment comment:', event.data);
         this.delete(event.data.id)
       }
+    })
+
+    this.servicePopUp.popService$.subscribe(commentId => {
+      this.getAllComment.filter(comment => {
+        // console.log(comment.userId, "**",this.jwtService.getCurrentUserUUID());
+
+
+        this.showPopUp[comment.id] = comment.id === commentId;
+      })
+
     })
     this.postId = this.route.snapshot.paramMap.get('id') || '';
     this.getComments()
@@ -86,17 +96,16 @@ export class Comment {
     }
   }
 
-  get isOwner(): boolean {
-    return this.isPostOwner(this.post);
-  }
 
   get isComment(): boolean {
     return true
   }
-
   isPostOwner(comment: any): boolean {
-    const check = comment.uuid_user === this.auth.getCurrentUserUUID();
+    const check = comment.userId === this.jwtService.getCurrentUserUUID();
     return check
+  }
+  isOwner(comment: any): boolean {
+    return this.isPostOwner(comment); (this.post);
   }
   getComments() {
 
@@ -115,15 +124,18 @@ export class Comment {
   toggleLikePost(commentId: string, comment: CommentResponse) {
     this.like.toggleLikeComment(commentId, comment);
   }
-  OnPopUp(isInside: boolean, commentId: string) {
+  OnPopUp(isInside: boolean, commentId: string, comment: CommentResponse) {
     if (isInside) {
-      this.showPopUp[commentId] = !this.showPopUp[commentId];
+      this.servicePopUp.onPopUp(commentId)
 
     } else {
-      this.showPopUp[commentId] = false
+      this.servicePopUp.closeAllPopups()
 
     }
   }
+
+
+
   delete(id: string) {
     this.commentService.delete(id).subscribe({
       next: response => {

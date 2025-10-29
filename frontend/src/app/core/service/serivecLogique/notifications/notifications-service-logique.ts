@@ -45,7 +45,7 @@ export class NotificationsServiceLogique {
     this.unreadCountSubject.next(numbers)
   }
   markAsRead(id: string): void {
-    const notification = this.notifications.find(n => n.id === id)
+    const notification = this.notifications.find(n => n.triggerUserId === id)
     if (notification) {
       notification.read = true
     }
@@ -92,11 +92,11 @@ export class NotificationsServiceLogique {
               try {
                 const notifications: NotificationResponse = JSON.parse(message.body);
                 this.notificationIconsSubject.next(true);
-                // console.log(message);
-
-                if (notifications) {
+                // console.log(notifications.triggerUserId,"notifications.id***", currentUserId);
+                if (notifications && notifications.triggerUserId!=currentUserId  ) {
+                  
                   const newNotification: NotificationResponse = {
-                    id: notifications.id,
+                    triggerUserId: notifications.triggerUserId,
                     title: "New Notification",
                     message: notifications.message || 'You have a new notification',
                     createdAt: new Date().toLocaleTimeString(),
