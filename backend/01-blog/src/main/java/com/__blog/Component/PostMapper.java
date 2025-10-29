@@ -36,6 +36,7 @@ public class PostMapper {
         List<MediaResponse> mediaResponses = new ArrayList<>();
         for (var media : post.getMedias()) {
             var mediaDTO = mediaMapper.convertToPostResponse(media);
+            System.out.println("PostMapper.convertToPostWithMediaResponse()"+mediaDTO.getFilePath());
             mediaResponses.add(mediaDTO);
         }
 

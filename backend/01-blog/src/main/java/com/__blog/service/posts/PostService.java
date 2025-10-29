@@ -54,44 +54,43 @@ public class PostService {
     private SubscriptionRepository subscriptionRepository;
 
     public ResponseEntity<ApiResponse<PostResponse>> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
-        try {
-
-            User user = userPrincipal.getUser();
-            Post post = postMapper.convertToEntity(postRequest);
-            post.setUser(user);
-            if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
-                for (var medai : postRequest.getMedias()) {
-                    var mediaDTO = mediaMapper.convertToMediaEntity(medai, post);
-                    post.addMedia(mediaDTO);
-                }
-
+        User user = userPrincipal.getUser();
+        Post post = postMapper.convertToEntity(postRequest);
+        post.setUser(user);
+        // System.err.println(postRequest.getMedias()+ "/***********************");
+        if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
+            for (var medai : postRequest.getMedias()) {
+                
+                var mediaDTO = mediaMapper.convertToMediaEntity(medai, post);
+                post.addMedia(mediaDTO);
             }
 
-            if ((postRequest.getTags() != null && !postRequest.getTags().isEmpty())) {
-                postRequest.getTags().forEach(tagName -> {
-                    var tag = postMapper.convertToTagsEntity(tagName);
-                    post.addTag(tag);
-                });
-            }
-            var followers = subscriptionRepository.findBySubscribedTo_Id(user.getId());
-            for (var follow : followers) {
-                User receiver = follow.getSubscriberUser();
-                User triggerUser = user;
-                NotificationRequest requestNotificationRequest = NotificationRequest.builder()
-                        .type(Notifications.NEW_POST)
-                        .triggerUserId(triggerUser.getId())
-                        .receiverId(receiver.getId())
-                        .message(triggerUser.getUsername() + " created a new post.")
-                        .build();
-                notificationService.saveAndSendNotification(requestNotificationRequest, receiver, triggerUser);
-            }
-            Post savedPost = postRepository.save(post);
-            PostResponse postResponse = postMapper.ConvertPostResponse(savedPost, user.getId());
-            return ApiResponseUtil.success(postResponse, null, "");
-
-        } catch (Exception e) {
-            return ApiResponseUtil.error("Failed to create post: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        if ((postRequest.getTags() != null && !postRequest.getTags().isEmpty())) {
+            postRequest.getTags().forEach(tagName -> {
+                var tag = postMapper.convertToTagsEntity(tagName);
+                // 
+                post.addTag(tag);
+            });
+        }
+        var followers = subscriptionRepository.findBySubscribedTo_Id(user.getId());
+        for (var follow : followers) {
+            User receiver = follow.getSubscriberUser();
+            User triggerUser = user;
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.NEW_POST)
+                    .triggerUserId(triggerUser.getId())
+                    .receiverId(receiver.getId())
+                    .message(triggerUser.getUsername() + " created a new post.")
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, receiver, triggerUser);
+        }
+
+        Post savedPost = postRepository.save(post);
+
+        PostResponse postResponse = postMapper.ConvertPostResponse(savedPost, user.getId());
+        return ApiResponseUtil.success(postResponse, null, " created a new post");
     }
 
     public ResponseEntity<ApiResponse<PostResponse>> editPost(PostRequest postRequest, UUID id, UUID userId) {
@@ -143,7 +142,6 @@ public class PostService {
             PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post, userId);
             return ApiResponseUtil.success(postResponse, null, ""); // token null si pas nécessaire
         } else {
-            // Retour erreur avec code 404
             return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
         }
     }
@@ -188,6 +186,7 @@ public class PostService {
         }
         return ApiResponseUtil.success(allPosts, null, "");
     }
+
     @Transactional
     public ResponseEntity<ApiResponse<String>> deletePost(UUID postId) {
         var post = postRepository.findById(postId);
