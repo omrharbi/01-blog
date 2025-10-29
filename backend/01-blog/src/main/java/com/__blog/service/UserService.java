@@ -11,6 +11,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +23,7 @@ import com.__blog.model.entity.User;
 import com.__blog.repository.UserRepository;
 import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
+import com.__blog.util.ApiResponseUtil;
 
 @Service
 public class UserService {
@@ -36,90 +39,109 @@ public class UserService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public ApiResponse<User> finduser(UUID id) {
-        var user = repouser.findById(id);
-        if (user.isPresent()) {
-            return ApiResponse.<User>builder()
-                    .status(true).data(user.get()).build();
-        } else {
+    public ResponseEntity<ApiResponse<User>> findUser(UUID id) {
+        try {
+            Optional<User> userOpt = repouser.findById(id);
 
-            return ApiResponse.<User>builder().status(false).error("This user is not allowed or does not exist: " + id)
-                    .build();
+            if (userOpt.isPresent()) {
+                return ApiResponseUtil.success(userOpt.get(), null, "User found successfully");
+            } else {
+                return ApiResponseUtil.error(
+                        "This user is not allowed or does not exist: " + id,
+                        HttpStatus.NOT_FOUND
+                );
+            }
+        } catch (Exception e) {
+            return ApiResponseUtil.error(
+                    "Failed to find user: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
-    public String register(User user) {
+    public ResponseEntity<ApiResponse<User>> register(User user) {
         if (repouser.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            return ApiResponseUtil.error("Email already exists", HttpStatus.CONFLICT);
         }
 
+        // Check if username already exists
         if (repouser.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            return ApiResponseUtil.error("Username already exists", HttpStatus.CONFLICT);
         }
+
+        // Save the user
         repouser.save(user);
-        return "register succss";
+
+        // Return success response
+        return ApiResponseUtil.success(user, null, "Registration successful");
     }
 
-    public ApiResponse<User> findByUsername(String username) {
-        var user = repouser.findByUsername(username);
-        if (user.isPresent()) {
-            return ApiResponse.<User>builder().status(true).data(user.get()).build();
-        } else {
-            return ApiResponse.<User>builder().status(false)
-                    .error("This user is not allowed or does not exist: " + username).build();
+    public ResponseEntity<ApiResponse<User>> findByUsername(String username) {
+        try {
+            Optional<User> userOpt = repouser.findByUsername(username);
 
-        }
-
-    }
-
-    public ApiResponse<User> findByEmail(String username) {
-        var user = repouser.findByEmail(username);
-        if (user.isPresent()) {
-            return ApiResponse.<User>builder().status(true).data(user.get()).build();
-        } else {
-            return ApiResponse.<User>builder().status(false)
-                    .error("This user is not allowed or does not exist: " + username).build();
-
+            if (userOpt.isPresent()) {
+                return ApiResponseUtil.success(userOpt.get(), null, "User found successfully");
+            } else {
+                return ApiResponseUtil.error(
+                        "This user is not allowed or does not exist: " + username,
+                        HttpStatus.NOT_FOUND
+                );
+            }
+        } catch (Exception e) {
+            return ApiResponseUtil.error(
+                    "Failed to find user: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
-    public ApiResponse<UserResponse> profile(String username) {
-        Optional<User> user = repouser.findByUsername(username);
-        if (user.isPresent()) {
+    public ResponseEntity<ApiResponse<User>> findByEmail(String email) {
+        try {
+            Optional<User> userOpt = repouser.findByEmail(email);
 
-            UserResponse userResponse = userMapper.ConvertResponse(user.get(), user.get().getId());
-            return ApiResponse.<UserResponse>builder().status(true)
-                    .data(userResponse).build();
+            if (userOpt.isPresent()) {
+                return ApiResponseUtil.success(userOpt.get(), null, "User found successfully");
+            } else {
+                return ApiResponseUtil.error(
+                        "This user is not allowed or does not exist: " + email,
+                        HttpStatus.NOT_FOUND
+                );
+            }
+        } catch (Exception e) {
+            return ApiResponseUtil.error(
+                    "Failed to find user: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
-        return ApiResponse.<UserResponse>builder()
-                .status(false)
-                .error("Sory this user Not Found")
-                .build();
+    }
+
+    public ResponseEntity<ApiResponse<UserResponse>> profile(String username) {
+        Optional<User> userOpt = repouser.findByUsername(username);
+        if (userOpt.isPresent()) {
+            UserResponse userResponse = userMapper.ConvertResponse(userOpt.get(), userOpt.get().getId());
+            return ApiResponseUtil.success(userResponse, null, "User profile retrieved successfully");
+        }
+        return ApiResponseUtil.error("Sorry, this user was not found", HttpStatus.NOT_FOUND);
     }
 
     // @Transactional
-    public ApiResponse<List<UserResponse>> getAllUsers() {
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
         List<User> users = repouser.findAll();
-        List<UserResponse> allUser = new ArrayList<>();
+        List<UserResponse> allUserResponses = new ArrayList<>();
         for (var u : users) {
 
             UserResponse userResponses = userMapper.ConvertResponse(u, u.getId());
-            allUser.add(userResponses);
+            allUserResponses.add(userResponses);
         }
-        return ApiResponse.<List<UserResponse>>builder()
-                .status(true)
-                .data(allUser)
-                .build();
+        return ApiResponseUtil.success(allUserResponses, null, "All users retrieved successfully");
     }
 
-    public ApiResponse<UserResponse> updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request,
+    public ResponseEntity<ApiResponse<UserResponse>> updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request,
             MultipartFile[] files) {
         Optional<User> user = repouser.findById(userPrincipal.getId());
         if (!user.isPresent()) {
-            return ApiResponse.<UserResponse>builder()
-                    .status(false)
-                    .error("User not found")
-                    .build();
+            return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
         }
         User existingUser = user.get();
         if (request.getEmail() != null) {
@@ -148,16 +170,20 @@ public class UserService {
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
-                ApiResponse<List<Map<String, String>>> uploadFile = uploadService.uploadFile(files, uploadPath);
-                String pathString = uploadFile.getData().get(0).get("filePath");
-                existingUser.setAvatar(pathString);
+                ResponseEntity<ApiResponse<List<Map<String, String>>>> uploadFileResponse
+                        = uploadService.uploadFile(files, uploadPath);
+
+                ApiResponse<List<Map<String, String>>> uploadFileBody = uploadFileResponse.getBody();
+
+                if (uploadFileBody != null && uploadFileBody.getData() != null && !uploadFileBody.getData().isEmpty()) {
+                    String pathString = uploadFileBody.getData().get(0).get("filePath");
+                    existingUser.setAvatar(pathString);
+                } else {
+                    return ApiResponseUtil.error("Failed to upload file", HttpStatus.INTERNAL_SERVER_ERROR);
+                }
 
             } catch (Exception e) {
-                return ApiResponse.<UserResponse>builder()
-                        .status(true)
-                        // .data(response)
-                        .error("Error To Upload")
-                        .build();
+                return ApiResponseUtil.error("Error uploading file: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         if (request.getSkills() != null) {
@@ -166,10 +192,7 @@ public class UserService {
 
         User userUpdate = repouser.save(existingUser);
         UserResponse response = userMapper.ConvertResponse(userUpdate, existingUser.getId());
-        return ApiResponse.<UserResponse>builder()
-                .status(true)
-                .data(response)
-                .build();
+        return ApiResponseUtil.success(response, null, "Profile updated successfully");
     }
     // public List
 }

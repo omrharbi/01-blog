@@ -27,10 +27,6 @@ public class UserDeService implements UserDetailsService {
             return new UserPrincipal(user.get());
 
         }
-                //.orElseThrow(() -> new ApiException("Error this username: " + username, HttpStatus.BAD_REQUEST));
-        // if (user == null) {
-        //     throw new ApiException("Not Found: " + username, HttpStatus.NOT_FOUND);
-        // }
         return  null;
 
     }

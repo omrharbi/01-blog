@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.SubscriptionService;
-import com.__blog.util.ApiResponse;
 
 @RestController
 @RequestMapping("/api/subscriptions")
@@ -51,14 +49,12 @@ public class SubscriptionController {
     // Follow a user
     @PostMapping("/follow/{targetUserId}")
     public ResponseEntity<?> followUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
-      ApiResponse<UserResponse>  uApiResponse=  subscriptionService.followUser(userPrincipal.getId(), targetUserId);
-        return ResponseEntity.ok(uApiResponse) ;
+        return subscriptionService.followUser(userPrincipal.getId(), targetUserId);
     }
 
     // Unfollow a user
     @DeleteMapping("/unfollow/{targetUserId}")
     public ResponseEntity<?> unfollowUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
-       ApiResponse<UserResponse>  uApiResponse=  subscriptionService.unfollowUser(userPrincipal.getId(), targetUserId);
-        return ResponseEntity.ok(uApiResponse) ;
+        return subscriptionService.unfollowUser(userPrincipal.getId(), targetUserId);
     }
 }

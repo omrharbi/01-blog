@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.__blog.Component.LikePostMapper;
@@ -21,6 +23,7 @@ import com.__blog.repository.LikeRepository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.UserRepository;
 import com.__blog.util.ApiResponse;
+import com.__blog.util.ApiResponseUtil;
 
 import jakarta.transaction.Transactional;
 
@@ -45,89 +48,94 @@ public class LikeService {
     @Autowired
     private CommentRespository commentRespository;
 
-    public ApiResponse<LikePostResponse> toggleLikePost(UUID userId, UUID postid) {
-        Optional<Like> existingLike = likeRepository.findByUserIdAndPostId(userId, postid);
-        int countLike = postRepository.countBylikesPostId(postid);
-        Like like = new Like();
-        var response = likePostMapper.convertLikePostOrCommentResponse(like, countLike, postid);
-        if (existingLike.isPresent()) {
-            likeRepository.delete(existingLike.get());
-            return ApiResponse.<LikePostResponse>builder()
-                    .message("Post unliked")
-                    .status(false)
-                    .data(response)
-                    .build();
+    public ResponseEntity<ApiResponse<LikePostResponse>> toggleLikePost(UUID userId, UUID postId) {
+        try {
+            Optional<Like> existingLike = likeRepository.findByUserIdAndPostId(userId, postId);
+            Optional<Post> postOpt = postRepository.findById(postId);
+            Optional<User> userOpt = userRepository.findById(userId);
+
+            if (postOpt.isEmpty() || userOpt.isEmpty()) {
+                return ApiResponseUtil.error("Post or User not found", HttpStatus.NOT_FOUND);
+            }
+
+            Post post = postOpt.get();
+            User user = userOpt.get();
+            LikePostResponse response;
+
+            if (existingLike.isPresent()) {
+                likeRepository.delete(existingLike.get());
+                response = likePostMapper.convertLikePostOrCommentResponse(existingLike.get(), postRepository.countBylikesPostId(postId), postId);
+                return ApiResponseUtil.success(response, null, "Post unliked");
+            }
+
+            Like like = new Like();
+            like.setLiked(true);
+            like.setPost(post);
+            like.setUser(user);
+            likeRepository.save(like);
+
+            response = likePostMapper.convertLikePostOrCommentResponse(like, postRepository.countBylikesPostId(postId), postId);
+            return ApiResponseUtil.success(response, null, "Post liked");
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Failed to toggle like on post: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Optional<Post> post = postRepository.findById(postid);
-        Optional<User> user = userRepository.findById(userId);
-
-        if (!post.isPresent() || !user.isPresent()) {
-            return ApiResponse.<LikePostResponse>builder()
-                    .error("Error to like this post")
-                    .status(false)
-                    .build();
-        }
-
-        like.setLiked(true);
-        like.setPost(post.get());
-        like.setUser(user.get());
-
-        likeRepository.save(like);
-        return ApiResponse.<LikePostResponse>builder()
-                .message("Post liked")
-                .status(true)
-                .data(response)
-                .build();
     }
 
-    public ApiResponse<LikePostResponse> toggleLikeComment(UUID userId, UUID commentId) {
-        Optional<Like> existingLike = likeRepository.findByUserIdAndCommentId(userId, commentId);
-        int countLike = commentRespository.countBylikesCommentId(commentId);
-        Like like = new Like();
-        var response = likePostMapper.convertLikePostOrCommentResponse(like, countLike, commentId);
-        if (existingLike.isPresent()) {
-            likeRepository.delete(existingLike.get());
-            return ApiResponse.<LikePostResponse>builder()
-                    .message("Post unliked")
-                    .status(false)
-                    .data(response)
-                    .build();
+    public ResponseEntity<ApiResponse<LikePostResponse>> toggleLikeComment(UUID userId, UUID commentId) {
+        try {
+            Optional<Like> existingLike = likeRepository.findByUserIdAndCommentId(userId, commentId);
+            Optional<Comment> commentOpt = commentRespository.findById(commentId);
+            Optional<User> userOpt = userRepository.findById(userId);
+
+            if (commentOpt.isEmpty() || userOpt.isEmpty()) {
+                return ApiResponseUtil.error("Comment or User not found", HttpStatus.NOT_FOUND);
+            }
+
+            Comment comment = commentOpt.get();
+            User user = userOpt.get();
+            LikePostResponse response;
+
+            if (existingLike.isPresent()) {
+                likeRepository.delete(existingLike.get());
+                response = likePostMapper.convertLikePostOrCommentResponse(existingLike.get(), commentRespository.countBylikesCommentId(commentId), commentId);
+                return ApiResponseUtil.success(response, null, "Comment unliked");
+            }
+
+            Like like = new Like();
+            like.setLiked(true);
+            like.setComment(comment);
+            like.setUser(user);
+            likeRepository.save(like);
+
+            response = likePostMapper.convertLikePostOrCommentResponse(like, commentRespository.countBylikesCommentId(commentId), commentId);
+            return ApiResponseUtil.success(response, null, "Comment liked");
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Failed to toggle like on comment: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Optional<Comment> comment = commentRespository.findById(commentId);
-        Optional<User> user = userRepository.findById(userId);
-
-        if (!comment.isPresent() || !user.isPresent()) {
-            return ApiResponse.<LikePostResponse>builder()
-                    .error("Error to like this post")
-                    .status(false)
-                    .build();
-        }
-
-        like.setLiked(true);
-        like.setComment(comment.get());
-        like.setUser(user.get());
-
-        likeRepository.save(like);
-        return ApiResponse.<LikePostResponse>builder()
-                .message("Post liked")
-                .status(true)
-                .data(response)
-                .build();
     }
 
-    public ApiResponse<List<PostResponse>> getLikedPostsByUser(UUID userId) {
-        List<Post> postLiked = postRepository.findByLikesUserIdOrderByCreatedAtDesc(userId);
-        List<PostResponse> response = new ArrayList<>();
+    public ResponseEntity<ApiResponse<List<PostResponse>>> getLikedPostsByUser(UUID userId) {
+        try {
+            // Fetch all posts liked by the user, ordered by creation date descending
+            List<Post> postLiked = postRepository.findByLikesUserIdOrderByCreatedAtDesc(userId);
+            List<PostResponse> response = new ArrayList<>();
 
-        for (var liked : postLiked) {
-            PostResponse postResponse = postMapper.ConvertPostResponse(liked, userId);
-            response.add(postResponse);
+            // Convert each Post entity to PostResponse DTO
+            for (Post liked : postLiked) {
+                PostResponse postResponse = postMapper.ConvertPostResponse(liked, userId);
+                response.add(postResponse);
+            }
+
+            // Return success response with the list of liked posts
+            return ApiResponseUtil.success(response, null, "Liked Posts");
+
+        } catch (Exception e) {
+            // Handle any unexpected errors
+            return ApiResponseUtil.error("Failed to get liked posts: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ApiResponse.<List<PostResponse>>builder()
-                .message("Liked Posts")
-                .status(false)
-                .data(response)
-                .build();
     }
 
 }

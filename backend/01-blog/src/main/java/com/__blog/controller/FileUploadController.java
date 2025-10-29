@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.__blog.service.UploadFilesService;
-import com.__blog.util.ApiResponse;
 
 @RestController
 @CrossOrigin
@@ -40,10 +37,9 @@ public class FileUploadController {
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
-            ApiResponse<List<Map<String, String>>> uploadFile = uploadService.uploadFile(files, uploadPath);
-            return ResponseEntity.ok(uploadFile.getData());
+            return uploadService.uploadFile(files, uploadPath);
         } catch (IOException e) {
-            return ResponseEntity.ok("Erroro "+e);
+            return ResponseEntity.ok("Erroro " + e);
         }
 
     }

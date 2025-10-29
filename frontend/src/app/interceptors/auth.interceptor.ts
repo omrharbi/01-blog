@@ -42,7 +42,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error) => {
-
       if (error.status === 401) {
         const isLoggedIn = authService.isLoggedIn();
 

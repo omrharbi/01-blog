@@ -33,28 +33,22 @@ public class CommentController {
     @PostMapping("/create")
     public ResponseEntity<?> addComment(@Valid @RequestBody CommentRequest commentRequest,
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        System.out.println("CommentController.AddComment()" + userPrincipal.getUsername() + "*****" + commentRequest.getContent());
-        var comment = commentService.AddComment(userPrincipal, commentRequest);
-        return ResponseEntity.ok(comment);
+        return commentService.addComment(userPrincipal, commentRequest);
+        // return ResponseEntity.ok(comment);
     }
 
     @GetMapping("/getCommentsWithPost/{postId}")
     public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") UUID postId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        // System.out.println("CommentController.AddComment()" + userPrincipal.getUsername() + "*****" + commentRequest.getContent());
-        var comment = commentService.getCommentWithPost(postId, userPrincipal);
-        return ResponseEntity.ok(comment);
+        return commentService.getCommentWithPost(postId, userPrincipal);
     }
 
     @PutMapping("editComment/{idComment}")
     public ResponseEntity<?> editComment(@PathVariable("idComment") UUID idComment, @Valid @RequestBody CommentRequest commentRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        var comment = commentService.editPost(idComment, commentRequest, userPrincipal.getId());
-        return ResponseEntity.ok(comment);
+        return commentService.editComment(idComment, commentRequest, userPrincipal.getId());
     }
 
-
-     @DeleteMapping("delete/{idComment}")
+    @DeleteMapping("delete/{idComment}")
     public ResponseEntity<?> delete(@PathVariable("idComment") UUID idComment) {
-        var comment = commentService.delete(idComment);
-        return ResponseEntity.ok(comment);
+        return commentService.deleteComment(idComment);
     }
- }
+}

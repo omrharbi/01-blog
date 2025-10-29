@@ -10,6 +10,7 @@ import java.util.function.Function;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +20,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 
 @Component
 public class JwtTokenProvider {
@@ -65,24 +66,24 @@ public class JwtTokenProvider {
                     .getPayload();
         } catch (ExpiredJwtException e) {
             System.out.println("JWT token has expired. Please login again.");
-            return null;
-            // throw new ApiException("JWT token has expired. Please login again.",
-            // HttpStatus.UNAUTHORIZED);
+            // return null;
+            // ApiException
+            throw new ApiException("JWT token has expired. Please login again.",
+            HttpStatus.UNAUTHORIZED);
         } catch (SignatureException e) {
             System.out.println("Invalid JWT signature. Token may have been tampered ");
-            return null;
-            // throw new ApiException("Invalid JWT signature. Token may have been tampered
-            // with.", HttpStatus.UNAUTHORIZED);
+            // return null;
+            throw new ApiException("Invalid JWT signature. Token may have been tampered with.", HttpStatus.UNAUTHORIZED);
         } catch (JwtException e) {
             System.out.println("Invalid JWT token: ");
-            return null;
-            // throw new ApiException("Invalid JWT token: " + e.getMessage(),
-            // HttpStatus.UNAUTHORIZED);
+            // return null;
+            throw new ApiException("Invalid JWT token: " + e.getMessage(),
+            HttpStatus.UNAUTHORIZED);
         } catch (IllegalArgumentException e) {
             System.out.println("JWT token is malformed or empty.");
-            return null;
-            // throw new ApiException("JWT token is malformed or empty.",
-            // HttpStatus.BAD_REQUEST);
+            // return null;
+            throw new ApiException("JWT token is malformed or empty.",
+            HttpStatus.BAD_REQUEST);
         }
         return claims;
     }
