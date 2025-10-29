@@ -281,3 +281,16 @@
 2025-10-29 11:55:01.817 GMT [558763] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.003 s, total=0.713 s; sync files=8, longest=0.002 s, average=0.001 s; distance=14 kB, estimate=38 kB; lsn=0/1BE5888, redo lsn=0/1BE5830
 2025-10-29 12:00:01.917 GMT [558763] LOG:  checkpoint starting: time
 2025-10-29 12:00:02.430 GMT [558763] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.005 s, total=0.514 s; sync files=6, longest=0.004 s, average=0.001 s; distance=14 kB, estimate=36 kB; lsn=0/1BE9418, redo lsn=0/1BE9388
+2025-10-29 12:37:34.622 GMT [558762] LOG:  received smart shutdown request
+2025-10-29 12:37:34.625 GMT [673108] FATAL:  terminating connection due to administrator command
+2025-10-29 12:37:34.625 GMT [673728] FATAL:  terminating connection due to administrator command
+2025-10-29 12:37:34.625 GMT [558762] LOG:  background worker "logical replication launcher" (PID 558768) exited with exit code 1
+2025-10-29 12:37:34.630 GMT [558763] LOG:  shutting down
+2025-10-29 12:37:34.631 GMT [558763] LOG:  checkpoint starting: shutdown immediate
+2025-10-29 12:37:34.637 GMT [558763] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.008 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=32 kB; lsn=0/1BE94C8, redo lsn=0/1BE94C8
+2025-10-29 12:37:34.640 GMT [558762] LOG:  database system is shut down
+2025-10-29 12:51:30.597 GMT [681003] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-10-29 12:51:30.597 GMT [681003] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-10-29 12:51:30.599 GMT [681003] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-10-29 12:51:30.603 GMT [681006] LOG:  database system was shut down at 2025-10-29 12:37:34 GMT
+2025-10-29 12:51:30.606 GMT [681003] LOG:  database system is ready to accept connections

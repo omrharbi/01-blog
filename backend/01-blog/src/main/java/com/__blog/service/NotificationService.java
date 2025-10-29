@@ -68,13 +68,6 @@ public class NotificationService {
     }
 
     public ApiResponse<String> saveAndSendNotification(NotificationRequest notification, User receiver, User triggerUser) {
-        var alreadySent = CheckAllReadySendNotifications(notification.getType(), receiver.getId(), triggerUser.getId());
-        if (!alreadySent) {
-            return ApiResponse.<String>builder()
-                    .status(false)
-                    .error("❌ Error sending notification")
-                    .build();
-        }
         ApiResponse<String> sendResponse = sendNotification(receiver.getId(), notification);
 
         if (sendResponse.isStatus()) {
