@@ -296,3 +296,29 @@
 2025-10-29 12:51:30.606 GMT [681003] LOG:  database system is ready to accept connections
 2025-10-29 12:56:30.703 GMT [681004] LOG:  checkpoint starting: time
 2025-10-29 12:56:30.715 GMT [681004] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.002 s, total=0.013 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1BE95D0, redo lsn=0/1BE9578
+2025-10-29 14:52:18.213 GMT [681003] LOG:  received smart shutdown request
+2025-10-29 14:52:18.214 GMT [681003] LOG:  background worker "logical replication launcher" (PID 681009) exited with exit code 1
+2025-10-29 14:52:18.214 GMT [681004] LOG:  shutting down
+2025-10-29 14:52:18.216 GMT [681004] LOG:  checkpoint starting: shutdown immediate
+2025-10-29 14:52:18.224 GMT [681004] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.002 s, total=0.010 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1BE9680, redo lsn=0/1BE9680
+2025-10-29 14:52:18.226 GMT [681003] LOG:  database system is shut down
+2025-10-29 15:28:08.531 GMT [763208] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-10-29 15:28:08.531 GMT [763208] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-10-29 15:28:08.534 GMT [763208] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-10-29 15:28:08.537 GMT [763211] LOG:  database system was shut down at 2025-10-29 14:52:18 GMT
+2025-10-29 15:28:08.540 GMT [763208] LOG:  database system is ready to accept connections
+2025-10-29 15:33:08.636 GMT [763209] LOG:  checkpoint starting: time
+2025-10-29 15:33:09.753 GMT [763209] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.105 s, sync=0.006 s, total=1.118 s; sync files=13, longest=0.004 s, average=0.001 s; distance=22 kB, estimate=22 kB; lsn=0/1BEF008, redo lsn=0/1BEEFB0
+2025-10-29 16:08:09.372 GMT [763209] LOG:  checkpoint starting: time
+2025-10-29 16:08:09.883 GMT [763209] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.004 s, total=0.512 s; sync files=6, longest=0.002 s, average=0.001 s; distance=13 kB, estimate=21 kB; lsn=0/1BF2728, redo lsn=0/1BF26D0
+2025-10-29 16:13:09.983 GMT [763209] LOG:  checkpoint starting: time
+2025-10-29 16:13:10.698 GMT [763209] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.715 s; sync files=8, longest=0.004 s, average=0.001 s; distance=15 kB, estimate=20 kB; lsn=0/1BF64E0, redo lsn=0/1BF6488
+2025-10-29 16:18:09.793 GMT [763209] LOG:  checkpoint starting: time
+2025-10-29 16:18:10.301 GMT [763209] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.502 s, sync=0.002 s, total=0.509 s; sync files=6, longest=0.001 s, average=0.001 s; distance=15 kB, estimate=20 kB; lsn=0/1BFA828, redo lsn=0/1BFA448
+2025-10-29 16:18:16.894 GMT [784259] ERROR:  update or delete on table "posts" violates foreign key constraint "fk56hrrcgnbe9gal0h6gvkchr06" on table "media"
+2025-10-29 16:18:16.894 GMT [784259] DETAIL:  Key (id)=(486e5cfc-a76c-46ae-affd-ff014168d939) is still referenced from table "media".
+2025-10-29 16:18:16.894 GMT [784259] STATEMENT:  DELETE FROM "posts" WHERE "id" IN ('486e5cfc-a76c-46ae-affd-ff014168d939','deaf1735-1730-48ed-8732-b4902276bbe3','867b128d-f9ae-4989-b48e-d648e98f52a9')
+2025-10-29 16:23:09.401 GMT [763209] LOG:  checkpoint starting: time
+2025-10-29 16:23:10.116 GMT [763209] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.715 s; sync files=8, longest=0.004 s, average=0.001 s; distance=16 kB, estimate=19 kB; lsn=0/1BFE608, redo lsn=0/1BFE5B0
+2025-10-29 16:28:09.160 GMT [763209] LOG:  checkpoint starting: time
+2025-10-29 16:28:09.688 GMT [763209] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 1 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.005 s, total=0.528 s; sync files=6, longest=0.004 s, average=0.001 s; distance=12 kB, estimate=19 kB; lsn=0/1C01990, redo lsn=0/1C01938

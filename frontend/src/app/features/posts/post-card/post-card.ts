@@ -58,10 +58,12 @@ export class PostCard {
       }
 
       if (event.type === 'Deletepost') {
-        console.log("delete ");
+        // console.log("delete ");
         this.postService.DeletePost(event.data.id).subscribe({
           next: response => {
-            this.sharedService.removePost(response);
+            console.log(response,"delete post ");
+            
+            // this.sharedService.removePost(response);
           },
           error: error => {
             console.log(error);

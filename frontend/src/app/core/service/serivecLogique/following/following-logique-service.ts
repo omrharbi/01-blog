@@ -45,6 +45,8 @@ export class FollowingLogiqueService {
     this.users.followers().subscribe({
       next: respnse => {
         this.followersSubject.next(respnse.data);
+        console.log(respnse,"following ");
+        
         this.countFollowersSubject.next(respnse.data.length)
         // console.log(respnse, "loadingFollowers ");
 

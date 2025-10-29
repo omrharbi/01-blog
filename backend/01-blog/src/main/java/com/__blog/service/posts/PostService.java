@@ -184,16 +184,13 @@ public class PostService {
         List<Post> posts = postRepository.findAllWithMedias();
         List<PostResponse> allPosts = new ArrayList<>();
         for (Post p : posts) {
-            PostResponse convert = postMapper.ConvertPostResponse(p, userId);
+            PostResponse convert = postMapper.convertToPostWithMediaResponse(p, userId);
             allPosts.add(convert);
         }
-
-        // Retourne succès avec les posts ET le token
         return ApiResponseUtil.success(allPosts, null, "");
     }
 
     public UUID deletePost(UUID postId) {
-
         var post = postRepository.findById(postId);
         if (post.isPresent()) {
             postRepository.deleteById(postId);

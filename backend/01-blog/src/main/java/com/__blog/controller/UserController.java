@@ -32,22 +32,20 @@ public class UserController {
     @GetMapping("/profile/{username}")
     public ResponseEntity<?> profile(@PathVariable("username") String username) {
         // return userService.findByUsername(username);
-        var userProfile = userService.profile(username);
+        return  userService.profile(username);
 
-        return ResponseEntity.ok(userProfile);
+        // return ResponseEntity.ok(userProfile);
     }
 
     @GetMapping("/usersProfile/{username}/posts")
     public ResponseEntity<?> getAllMyPosts(@PathVariable("username") String username) {
         // return userService.findByUsername(username);
-        var posts = postService.getPostsFromUserId(username);
-        return ResponseEntity.ok(posts);
+        return postService.getPostsFromUserId(username);
     }
 
     @GetMapping("/AllUser")
     public ResponseEntity<?> getUsers() {
-        var users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+        return userService.getAllUsers();
     }
 
     @PatchMapping("/EditMyProfile")
@@ -55,9 +53,6 @@ public class UserController {
             @AuthenticationPrincipal UserPrincipal user,
             @ModelAttribute UpdateProfileRequest request,
             @RequestParam(value = "files", required = false) MultipartFile[] files) {
-                // System.out.println("UserController.updateProfile()"+Arrays.toString(files));
-        var updatedUser = userService.updateProfile(user, request, files);
-        // UserProfileResponse response = mapToResponse(updatedUser);
-        return ResponseEntity.ok(updatedUser);
+        return userService.updateProfile(user, request, files);
     }
 }

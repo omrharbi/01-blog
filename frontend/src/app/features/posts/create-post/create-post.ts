@@ -155,6 +155,8 @@ export class CreatePost implements CanComponentDeactivate {
     } else {
       this.postService.createPosts(postRequest).subscribe({
         next: (response) => {
+          console.log(response);
+          
           this.toasterService.success("create Posts Success");
           this.sharedServicePost.setNewPost(response.data);
           this.router.navigate(['/home']);

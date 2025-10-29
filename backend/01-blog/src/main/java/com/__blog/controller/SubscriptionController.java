@@ -27,24 +27,21 @@ public class SubscriptionController {
     //   Get users I follow
     @GetMapping("/following")
     public ResponseEntity<?> getUsersIFollow(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        var user = subscriptionService.getUsersIFollow(userPrincipal.getId());
-        return ResponseEntity.ok(user);
-    }
+        return subscriptionService.getUsersIFollow(userPrincipal.getId());
+     }
 
     // Get my followers
     @GetMapping("/followers")
     public ResponseEntity<?> getFollowers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        var user = subscriptionService.getFollowers(userPrincipal.getId());
-
-        return ResponseEntity.ok(user);
+        return subscriptionService.getFollowers(userPrincipal.getId());
+ 
     }
 
     // Get users I DON'T follow (for Explore page)
     @GetMapping("/explore")
     public ResponseEntity<?> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        var user = subscriptionService.getUsersNotFollowing(userPrincipal.getId());
-        return ResponseEntity.ok(user);
-    }
+        return subscriptionService.getUsersNotFollowing(userPrincipal.getId());
+     }
 
     // Follow a user
     @PostMapping("/follow/{targetUserId}")

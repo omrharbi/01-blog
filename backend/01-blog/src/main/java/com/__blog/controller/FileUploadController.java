@@ -30,8 +30,7 @@ public class FileUploadController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam MultipartFile[] files) throws IOException {
-        // create directory if it doesn’t exist
-        // System.err.println("files" + Arrays.toString(files));
+   
         try {
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
