@@ -102,11 +102,16 @@ export class CreatePost implements CanComponentDeactivate {
 
   submitPost() {
     this.newFiles = this.uploadImage.uploadfiles();
+      // console.log(this.newFiles,"|");
+      
     this.images.saveImages(this.newFiles).subscribe({
       next: (response) => {
+        console.log(response,"response uuuuu");
+        
         const uploadedMedias: any[] = [];
-        if (Array.isArray(response)) {
-          response.forEach((fileResponse, index) => {
+        
+        if (Array.isArray(response.data)) {
+          response.data.forEach((fileResponse, index) => {
             uploadedMedias.push({
               filePath: fileResponse.filePath,
               filename: fileResponse.filename,
@@ -128,6 +133,9 @@ export class CreatePost implements CanComponentDeactivate {
   }
 
   private submitPostData(allMedias: any[]) {
+
+    console.log(allMedias,"*******************");
+    
     const contentWithoutHTML = this.removeImage(this.content);
     const contenHtml = this.removeSrcImage(this.content);
     const postRequest: PostRequest = {
@@ -153,9 +161,9 @@ export class CreatePost implements CanComponentDeactivate {
         }
       });
     } else {
+      console.log(postRequest,"create post ");
       this.postService.createPosts(postRequest).subscribe({
         next: (response) => {
-          console.log(response);
           
           this.toasterService.success("create Posts Success");
           this.sharedServicePost.setNewPost(response.data);
