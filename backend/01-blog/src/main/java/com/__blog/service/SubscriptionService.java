@@ -150,13 +150,13 @@ public class SubscriptionService {
             subscription.setSubscriberUser(subscriber.get());
 
             subscriptionRepository.save(subscription);
-
             NotificationRequest request = NotificationRequest.builder()
-                    .type(Notifications.FOLLOW)
-                    .triggerUserId(userid)
-                    .receiverId(subscribedTo.get().getId())
-                    .message(subscriber.get().getUsername() + " started following you.")
-                    .build();
+            .type(Notifications.FOLLOW)
+            .triggerUserId(userid)
+            .receiverId(subscribedTo.get().getId())
+            .message(subscriber.get().getUsername() + " started following you.")
+            .build();
+            // var check = CheckAllReadySendNotifications(notification.getType(), receiver.getId(), triggerUser.getId());
             notificationService.saveAndSendNotification(request, subscribedTo.get(), subscriber.get());
             return ApiResponse.< UserResponse>builder()
                     .status(true)

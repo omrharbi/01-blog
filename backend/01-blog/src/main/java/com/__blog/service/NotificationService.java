@@ -14,6 +14,7 @@ import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.NotificationResponse;
 import com.__blog.model.entity.Notification;
 import com.__blog.model.entity.User;
+import com.__blog.model.enums.Notifications;
 import com.__blog.repository.NotificationRepository;
 import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
@@ -36,6 +37,7 @@ public class NotificationService {
 
     private ApiResponse<String> sendNotification(UUID userid, NotificationRequest notification) {
         try {
+
             String destination = "/topic/user." + userid + ".notification";
             messagingTemplate.convertAndSend(destination, notification);
             return ApiResponse.<String>builder()
@@ -56,11 +58,23 @@ public class NotificationService {
         notificationRepository.save(notif);
     }
 
+    private boolean CheckAllReadySendNotifications(Notifications notif, UUID receiver, UUID triggerUser) {
+        var checkUser = notificationRepository.existsByTypeAndReceiverIdAndTriggerUserId(notif, receiver, triggerUser);
+        return checkUser;
+    }
+
     public void broadcasts() {
         // List<Subscription> followers 
     }
 
     public ApiResponse<String> saveAndSendNotification(NotificationRequest notification, User receiver, User triggerUser) {
+        var alreadySent = CheckAllReadySendNotifications(notification.getType(), receiver.getId(), triggerUser.getId());
+        if (!alreadySent) {
+            return ApiResponse.<String>builder()
+                    .status(false)
+                    .error("❌ Error sending notification")
+                    .build();
+        }
         ApiResponse<String> sendResponse = sendNotification(receiver.getId(), notification);
 
         if (sendResponse.isStatus()) {
@@ -70,13 +84,12 @@ public class NotificationService {
                     .status(true)
                     .message("✅ Notification sent and saved successfully")
                     .build();
+        } else {
+            return ApiResponse.<String>builder()
+                    .status(false)
+                    .error(sendResponse.getError() != null ? sendResponse.getError() : "❌ Error sending notification")
+                    .build();
         }
-
-        // If sending failed, return the same error
-        return ApiResponse.<String>builder()
-                .status(false)
-                .error(sendResponse.getError() != null ? sendResponse.getError() : "❌ Error sending notification")
-                .build();
     }
 
     public ApiResponse<List<NotificationResponse>> getAllNotificationByUser(UserPrincipal userPrincipal) {

@@ -92,9 +92,7 @@ export class NotificationsServiceLogique {
               try {
                 const notifications: NotificationResponse = JSON.parse(message.body);
                 this.notificationIconsSubject.next(true);
-                // console.log(notifications.triggerUserId,"notifications.id***", currentUserId);
-                if (notifications && notifications.triggerUserId!=currentUserId  ) {
-                  
+                if (notifications && notifications.triggerUserId != currentUserId) {
                   const newNotification: NotificationResponse = {
                     triggerUserId: notifications.triggerUserId,
                     title: "New Notification",
