@@ -19,10 +19,10 @@ public class GlobalExceptionHandler {
         // return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
     }
 
-    // @ExceptionHandler(ApiException.class)
-    // public ResponseEntity<String> handleAllExceptions(Exception ex) {
-    //     return ResponseEntity
-    //             .status(500)
-    //             .body("An unexpected error occurred: " + ex.getMessage());
-    // }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleAllExceptions(Exception ex) {
+        return ResponseEntity
+                .status(500)
+                .body("An unexpected error occurred: " + ex.getMessage());
+    }
 }

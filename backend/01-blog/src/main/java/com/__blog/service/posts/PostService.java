@@ -141,7 +141,6 @@ public class PostService {
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
             PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post, userId);
-            // Retour succès
             return ApiResponseUtil.success(postResponse, null, ""); // token null si pas nécessaire
         } else {
             // Retour erreur avec code 404
@@ -189,12 +188,15 @@ public class PostService {
         }
         return ApiResponseUtil.success(allPosts, null, "");
     }
-
-    public UUID deletePost(UUID postId) {
+    @Transactional
+    public ResponseEntity<ApiResponse<String>> deletePost(UUID postId) {
         var post = postRepository.findById(postId);
-        if (post.isPresent()) {
-            postRepository.deleteById(postId);
+        if (post.isEmpty()) {
+            return ApiResponseUtil.error("Post not found with ID: " + postId, HttpStatus.NOT_FOUND);
         }
-        return post.get().getId();
+
+        postRepository.deleteById(postId);
+        return ApiResponseUtil.success("Post deleted successfully", null, null);
     }
+
 }

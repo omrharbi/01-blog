@@ -62,8 +62,9 @@ public class PostController {
                         .error("Invalid post ID " + id)
                         .build());
             }
-            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse  = postservice.getPostById(id, userPrincipal.getId());
+            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userPrincipal.getId());
             ApiResponse<PostResponseWithMedia> postBody = getPostResponse.getBody();
+
             if (postBody == null || postBody.getData() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(ApiResponse.<PostResponseWithMedia>builder()
@@ -87,11 +88,8 @@ public class PostController {
     }
 
     @DeleteMapping("/post/delete/{postid}")
-    public ResponseEntity<?> deletePost(@PathVariable("postid") UUID postId) {
-        UUID post = postservice.deletePost(postId);
-        // IO.println();
-        System.err.println("*****" + post);
-        return ResponseEntity.ok(post);
+    public ResponseEntity<ApiResponse<String>> deletePost(@PathVariable("postid") UUID postId) {
+        return postservice.deletePost(postId);
     }
 
 }

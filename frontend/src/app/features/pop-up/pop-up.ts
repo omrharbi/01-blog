@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { JwtService } from '../../core/service/JWT/jwt-service';
- import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { PostService } from '../../core/service/servicesAPIREST/posts/post-service';
- 
+
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
 import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 
@@ -46,8 +46,16 @@ export class PopUp {
     if (this.isComment === true) {
       this.global.sharedData.emit({ type: 'Deletecomment', data: this.comment });
     } else {
-      this.global.sharedData.emit({ type: 'Deletepost', data: this.post });
+      this.postService.DeletePost(this.post.id).subscribe({
+        next: response => {
+          console.log(response, "delete post");
+        },
+        error: error => {
+          console.log(error, "****");
+        }
+      });
     }
+
 
   }
 }

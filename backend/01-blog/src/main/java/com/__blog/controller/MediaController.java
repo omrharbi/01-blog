@@ -42,17 +42,5 @@ public class MediaController {
         return ResponseEntity.ok(medias);
     }
 
-    // @DeleteMapping("/{postId}")
-    // public ResponseEntity<?> removeMedia(@PathVariable UUID postId) {
-
-    //     int medias = mediaService.deleteAllmedia(postId);
-
-    //     // if (medias == null) {
-    //     //     logger.warn("MediaRepository returned null for postId: {}", postId);
-    //     //     return ResponseEntity.notFound().build();
-    //     // }
-    //     // logger.debug("Found {} media items for postId: {}", medias.size(), postId);
-    //     return ResponseEntity.ok(medias);
-    // }
 
 }

@@ -57,20 +57,7 @@ export class PostCard {
         this.onEditPost(event.data);
       }
 
-      if (event.type === 'Deletepost') {
-        // console.log("delete ");
-        this.postService.DeletePost(event.data.id).subscribe({
-          next: response => {
-            console.log(response,"delete post ");
-            
-            // this.sharedService.removePost(response);
-          },
-          error: error => {
-            console.log(error);
-
-          }
-        })
-      }
+     
     })
     this.servicePopUp.popService$.subscribe(postId => {
       this.show = postId === this.post.id;
@@ -88,7 +75,6 @@ export class PostCard {
     return this.isPostOwner(this.post);
   }
   OnPopUp(isInside: boolean) {
-    console.log("here", isInside);
 
     if (isInside) {
       this.isPostOwner(this.post);
