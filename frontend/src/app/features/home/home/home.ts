@@ -9,6 +9,8 @@ import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-ser
 import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 import { Subscription } from 'rxjs';
 import { FollowingLogiqueService } from '../../../core/service/serivecLogique/following/following-logique-service';
+import { Tranding } from '../../../core/service/servicesAPIREST/tranding/tranding';
+import { TrendingTag } from '../../../core/models/tranding/tranding';
 
 @Component({
   selector: 'app-home',
@@ -19,11 +21,12 @@ import { FollowingLogiqueService } from '../../../core/service/serivecLogique/fo
 })
 export class Home {
   posts: PostResponse[] = [];
+  tags: TrendingTag[] = [];
   constructor(private postservice:
     PostService, private postDatashard:
       SharedService, private auth: AuthService, private global: Global,
-      private follow:FollowingLogiqueService,
-      
+    private follow: FollowingLogiqueService,
+    private tranding: Tranding
   ) { }
   isAuthenticated: boolean = false;
   // isNotificated = false;
@@ -50,10 +53,10 @@ export class Home {
         this.countPosts = count
       });
 
-       this.follow.countFollowers$.subscribe(count => {
+      this.follow.countFollowers$.subscribe(count => {
         this.countFollowers = count
       });
-       this.follow.countFollowing$.subscribe(count => {
+      this.follow.countFollowing$.subscribe(count => {
         this.countFollowing = count
       });
       this.subscription = this.global.sharedData.subscribe((event) => {
@@ -61,6 +64,17 @@ export class Home {
           // this.isNotificated = event.data;
         }
       });
+
+      this.tranding.TrendingTag().subscribe({
+        next: repose => {
+          this.tags = repose;
+          console.log( repose, "tranding");
+        },
+        error: error => {
+          console.log(error, "tranding");
+
+        }
+      })
     }
   }
 

@@ -48,7 +48,11 @@ export const environment = {
         Uploadimages: apiUrl + "api/upload",
         // postByID: apiUrl + "api/posts/getPostById/"
     }
-
+    ,
+    tags: {
+        tags: apiUrl + "api/trainding",
+        // postByID: apiUrl + "api/posts/getPostById/"
+    }
     ,
     notification: {
         getNotification: apiUrl + "api/notifications/getAllNotifications",

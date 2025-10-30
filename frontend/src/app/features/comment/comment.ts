@@ -85,6 +85,7 @@ export class Comment {
       this.commentService.AddComment(this.addComment).subscribe({
         next: response => {
           this.commentResponse = response.data;
+          this.getAllComment = this.getAllComment || [];
           this.getAllComment.unshift(response.data)
           this.content = "";
         },

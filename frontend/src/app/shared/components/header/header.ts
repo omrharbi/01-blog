@@ -49,7 +49,6 @@ export class Header implements OnInit, OnDestroy {
   }
   SignUp() {
     this.router.navigate(['/register']);
-
   }
   get currentUser() {
     return true

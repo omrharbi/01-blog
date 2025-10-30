@@ -52,12 +52,13 @@
                 <i class="bi bi-graph-up text-accent me-2"></i>
                 <h3 class="h6 fw-semibold mb-0">Trending Topics</h3>
               </div>
-              <ul class="list-unstyled">
+              <!-- {{tags}}/////*********** -->
+              <ul class="list-unstyled" *ngFor="let tag of tags" >
                 <li class="d-flex justify-content-between mb-2 ">
-                  <span class="">#1 JavaScript <span class="badge     tag">Trending</span></span>
-                  <span class="small text-muted">1,243 posts</span>
+                  <span class="">#1 {{tag.tagName}} <span class="badge     tag">Trending</span></span>
+                  <span class="small text-muted">{{tag.postCount}} posts</span>
                 </li>
-                <li class="d-flex justify-content-between mb-2">
+                <!-- <li class="d-flex justify-content-between mb-2">
                   <span>#2 React <span class="badge   text-accent tag">Trending</span></span>
                   <span class="small text-muted">892 posts</span>
                 </li>
@@ -72,7 +73,7 @@
                 <li class="d-flex justify-content-between">
                   <span>#5 Machine Learning</span>
                   <span class="small text-muted">543 posts</span>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>

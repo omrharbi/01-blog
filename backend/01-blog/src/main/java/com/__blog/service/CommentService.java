@@ -102,7 +102,7 @@ public class CommentService {
 
             if (allCommentsByPost == null || allCommentsByPost.isEmpty()) {
                 // Return error if no comments found
-                return ApiResponseUtil.error("No comments found for this post", HttpStatus.NOT_FOUND);
+                return ApiResponseUtil.success(null, null, null);
             }
 
             // Convert each Comment entity to CommentResponse DTO

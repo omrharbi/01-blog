@@ -95,21 +95,15 @@ export class CreatePost implements CanComponentDeactivate {
       this.title = this.postData.title;
       this.excerpt = this.postData.excerpt;
     } else {
-      this.content = '';
-      this.postData.content = '';
+      this.clearAll()
     }
   }
 
   submitPost() {
     this.newFiles = this.uploadImage.uploadfiles();
-      // console.log(this.newFiles,"|");
-      
     this.images.saveImages(this.newFiles).subscribe({
       next: (response) => {
-        console.log(response,"response uuuuu");
-        
         const uploadedMedias: any[] = [];
-        
         if (Array.isArray(response.data)) {
           response.data.forEach((fileResponse, index) => {
             uploadedMedias.push({
@@ -122,22 +116,28 @@ export class CreatePost implements CanComponentDeactivate {
           });
         }
         this.submitPostData(uploadedMedias);
+        this.clearAll()
       },
       error: (error) => {
-           this.toasterService.error(error);
+        this.toasterService.error(error);
 
         console.log('error uploading images', error);
       }
     });
 
   }
+  private clearAll() {
+    this.title = ""
+    this.excerpt = ""
+    this.tags = []
+    this.newFiles = []
+    this.content = ""
 
+  }
   private submitPostData(allMedias: any[]) {
-
-    // console.log(allMedias,"*******************");
-    
     const contentWithoutHTML = this.removeImage(this.content);
     const contenHtml = this.removeSrcImage(this.content);
+
     const postRequest: PostRequest = {
       title: this.title,
       excerpt: this.excerpt,
@@ -148,23 +148,21 @@ export class CreatePost implements CanComponentDeactivate {
     };
 
     if (this.isEdit) {
-
       this.postService.editPost(postRequest, this.postData.id).subscribe({
         next: (response) => {
           this.sharedServicePost.setNewPost(response.data);
           this.toasterService.success("Edite Posts Posts Success");
+          this.clearAll()
           this.router.navigate(['/home']);
         },
         error: (error) => {
-           this.toasterService.error(error);
+          this.toasterService.error(error);
           console.error('error to update post', error);
         }
       });
     } else {
-      console.log(postRequest,"create post ");
       this.postService.createPosts(postRequest).subscribe({
         next: (response) => {
-          
           this.toasterService.success("create Posts Success");
           this.sharedServicePost.setNewPost(response.data);
           this.router.navigate(['/home']);
@@ -234,8 +232,9 @@ export class CreatePost implements CanComponentDeactivate {
   }
 
   cancel() {
-    this.router.navigate(['/'])
+    this.clearAll()
     this.uploadImage.clearFiles()
+    this.router.navigate(['/'])
   }
   removeCoverImage() {
     this.postData.medias = [];
