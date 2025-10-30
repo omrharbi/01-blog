@@ -88,12 +88,10 @@ public class NotificationService {
             // Fetch notifications for the user, ordered by creation date descending
             List<Notification> notificationsList = notificationRepository
                     .findByReceiverIdOrderByCreatedAtDesc(user.getId());
-
             if (notificationsList == null || notificationsList.isEmpty()) {
                 // No notifications found
                 return ApiResponseUtil.success(new ArrayList<>(), null, "No notifications found");
             }
-
             // Convert each Notification entity to NotificationResponse DTO
             List<NotificationResponse> notificationResponses = new ArrayList<>();
             for (Notification notification : notificationsList) {

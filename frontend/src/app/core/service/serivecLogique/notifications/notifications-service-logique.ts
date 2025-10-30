@@ -18,6 +18,7 @@ export class NotificationsServiceLogique {
   constructor(private jwt: JwtService,
     private toasterService: ToastrService,
     private notificationServices: NotificationService, private auth: AuthService) { }
+    
   private notificationsSubject = new BehaviorSubject<any>(null);
   notifications$ = this.notificationsSubject.asObservable();
 
