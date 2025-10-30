@@ -62,7 +62,6 @@ export class Profile {
  
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username') || '';
-
     this.isAuthenticated = this.auth.isLoggedIn();
     this.profile.profile(username).subscribe({
       next: (respone) => {

@@ -8,7 +8,7 @@
 
             <!-- Profile Avatar -->
             <div class="profile-avatar">
-                <!-- <img [src]="(userProfile.avatar?.startsWith('http')?userProfile.avatar:apiUrl+userProfile.avatar)" alt="John Developer"> -->
+                <img [src]="(userProfile.avatar?.startsWith('http')?userProfile.avatar:apiUrl+userProfile.avatar)" alt="John Developer">
             </div>
 
             <!-- Action Buttons -->
@@ -150,8 +150,7 @@
                                             <a href="#" class="fw-medium text-decoration-none link-hover"
                                                 style="color: var(--foreground-color);">{{userProfile.firstname }}
                                                 {{userProfile.lastname }}</a>
-                                            <div class="small text-muted-custom"> {{userProfile }} 1 week timeAgo ago ·
-                                                12 min read</div>
+                                            <div class="small text-muted-custom"> {{userProfile }} 1 week timeAgo ago </div>
                                         </div>
                                     </div>
                                     <button class="btn btn-sm icon-btn">
