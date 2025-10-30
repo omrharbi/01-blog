@@ -134,7 +134,7 @@ export class CreatePost implements CanComponentDeactivate {
 
   private submitPostData(allMedias: any[]) {
 
-    console.log(allMedias,"*******************");
+    // console.log(allMedias,"*******************");
     
     const contentWithoutHTML = this.removeImage(this.content);
     const contenHtml = this.removeSrcImage(this.content);

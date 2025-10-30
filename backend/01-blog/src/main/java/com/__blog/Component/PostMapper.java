@@ -36,7 +36,6 @@ public class PostMapper {
         List<MediaResponse> mediaResponses = new ArrayList<>();
         for (var media : post.getMedias()) {
             var mediaDTO = mediaMapper.convertToPostResponse(media);
-            System.out.println("PostMapper.convertToPostWithMediaResponse()"+mediaDTO.getFilePath());
             mediaResponses.add(mediaDTO);
         }
 
@@ -53,7 +52,7 @@ public class PostMapper {
                 .createdAt(post.getCreatedAt())
                 .medias(mediaResponses)
                 .avatarUser(post.getUser().getAvatarUrl())
-                 .username(post.getUser().getUsername())
+                .username(post.getUser().getUsername())
                 .tags(tags)
                 .isLiked(isLiked)
                 .commentCount(countComment)
@@ -79,7 +78,7 @@ public class PostMapper {
         if (firstImage.isPresent()) {
             image = firstImage.get().getFilePath();
         }
-         PostResponse postResponse = PostResponse.builder()
+        PostResponse postResponse = PostResponse.builder()
                 .id(post.getId())
                 .uuid_user(post.getUser().getId())
                 .firstImage(image)

@@ -22,13 +22,14 @@ export class SharedService {
   }
 
   removePost(postId: string) {
+    console.log(postId,);
     const posts = this.postsSubject.getValue().filter(p => p.id !== postId);
     this.postsSubject.next(posts);
   }
 
   removeComment(commentid: string) {
-    const posts = this.commentSubject.getValue().filter(p => p.id !== commentid);
-    this.commentSubject.next(posts);
+    const comment = this.commentSubject.getValue().filter(p => p.id !== commentid);
+    this.commentSubject.next(comment);
   }
   setCurrentPostId(id: string) {
     this.currentPostIdSubject.next(id);

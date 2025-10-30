@@ -7,6 +7,7 @@ import { PostService } from '../../core/service/servicesAPIREST/posts/post-servi
 
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
 import { Global } from '../../core/service/serivecLogique/globalEvent/global';
+import { SharedService } from '../../core/service/serivecLogique/shared-service/shared-service-post';
 
 @Component({
   selector: 'app-pop-up',
@@ -19,7 +20,7 @@ import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 export class PopUp {
   constructor(private auth: AuthService, private user: JwtService, private postService: PostService,
     private global: Global
-
+    , private sharedService: SharedService
   ) {
   }
   @Input() isOwner: boolean = false;
@@ -48,14 +49,16 @@ export class PopUp {
     } else {
       this.postService.DeletePost(this.post.id).subscribe({
         next: response => {
-          console.log(response, "delete post");
+          if (response.status){
+
+            this.sharedService.removePost(this.post.id);
+          }
+          // console.log(response, "delete post");
         },
         error: error => {
           console.log(error, "****");
         }
       });
     }
-
-
   }
 }

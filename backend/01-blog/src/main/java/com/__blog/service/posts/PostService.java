@@ -181,7 +181,7 @@ public class PostService {
         List<Post> posts = postRepository.findAllWithMedias();
         List<PostResponse> allPosts = new ArrayList<>();
         for (Post p : posts) {
-            PostResponse convert = postMapper.convertToPostWithMediaResponse(p, userId);
+            PostResponse convert = postMapper.ConvertPostResponse(p, userId);
             allPosts.add(convert);
         }
         return ApiResponseUtil.success(allPosts, null, "");
@@ -194,7 +194,7 @@ public class PostService {
             return ApiResponseUtil.error("Post not found with ID: " + postId, HttpStatus.NOT_FOUND);
         }
 
-        postRepository.deleteById(postId);
+         postRepository.deleteById(postId);
         return ApiResponseUtil.success("Post deleted successfully", null, null);
     }
 

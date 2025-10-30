@@ -103,7 +103,7 @@ export class UploadImage {
   }
 
   replaceImage(html: string, post: PostResponse): string {
-    let index = 0; // ✅ FIXED: Start from 0, not 1
+    let index = 1; 
     const media = post.medias ?? [];
 
     const processHtml = html.replace(

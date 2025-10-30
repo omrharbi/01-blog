@@ -34,12 +34,14 @@ export class Home {
       this.postDatashard.setPosts(res.data);
     });
     this.postDatashard.newpost$.subscribe(post => {
+      console.log(post,"home here ");
       if (post) {
+        
         this.updatePostInList(post);
       }
     });
+
     this.subscription = this.global.sharedData.subscribe((event) => {
-      // console.log(event,"*******************************");
       if (event.type === "notification") {
         // this.isNotificated = event.data;
       }

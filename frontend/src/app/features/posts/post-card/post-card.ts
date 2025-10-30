@@ -51,12 +51,10 @@ export class PostCard {
   show = false;
 
   ngOnInit() {
-    // this.show=false
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'post') {
         this.onEditPost(event.data);
       }
-
      
     })
     this.servicePopUp.popService$.subscribe(postId => {
