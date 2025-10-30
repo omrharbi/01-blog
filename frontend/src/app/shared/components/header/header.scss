@@ -21,6 +21,9 @@
     /* Safari support */
   }
 
+  .text-muted {
+    color: var(--text-primary) !important;
+  }
 
   .icons {
     background: transparent;
@@ -250,11 +253,11 @@
     }
   }
 
-  .btn-icons-color:hover{
+  .btn-icons-color:hover {
     background-color: var(--accent) !important;
   }
 
-  .bg-primary{
+  .bg-primary {
     background-color: var(--accent) !important;
 
   }

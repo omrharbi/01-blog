@@ -20,6 +20,7 @@ import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
 import com.__blog.repository.SubscriptionRepository;
 import com.__blog.repository.UserRepository;
+import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
@@ -65,7 +66,11 @@ public class SubscriptionService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getFollowers(UUID userId) {
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getFollowers(UserPrincipal userPrincipal) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        }
+        UUID userId = userPrincipal.getId();
         if (!userRepository.existsById(userId)) {
             return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
         }
@@ -79,8 +84,12 @@ public class SubscriptionService {
         return ApiResponseUtil.success(userResponses, null, "Followers retrieved successfully");
     }
 
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsersNotFollowing(UUID userId) {
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsersNotFollowing(UserPrincipal userPrincipal) {
         try {
+            if (userPrincipal == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = userPrincipal.getId();
             if (!userRepository.existsById(userId)) {
                 return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
             }
@@ -110,11 +119,14 @@ public class SubscriptionService {
 
     }
 
-    public ResponseEntity<ApiResponse<UserResponse>> followUser(UUID userid, UUID targetUserId) {
+    public ResponseEntity<ApiResponse<UserResponse>> followUser(UserPrincipal userPrincipal, UUID targetUserId) {
 
         try {
-
-            Optional<User> subscriber = userRepository.findById(userid);
+            if (userPrincipal == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = userPrincipal.getId();
+            Optional<User> subscriber = userRepository.findById(userId);
             if (!subscriber.isPresent()) {
                 return ApiResponseUtil.error("Subscriber user not found", HttpStatus.NOT_FOUND);
             }
@@ -123,11 +135,11 @@ public class SubscriptionService {
             if (!targetUserOpt.isPresent()) {
                 return ApiResponseUtil.error("Target user not found", HttpStatus.NOT_FOUND);
             }
-            if (userid.equals(targetUserId)) {
+            if (userId.equals(targetUserId)) {
                 return ApiResponseUtil.error("You cannot follow yourself", HttpStatus.BAD_REQUEST);
             }
 
-            boolean isAlreadyFollow = subscriptionRepository.existsBySubscriberUser_IdAndSubscribedTo_Id(userid, targetUserId);
+            boolean isAlreadyFollow = subscriptionRepository.existsBySubscriberUser_IdAndSubscribedTo_Id(userId, targetUserId);
             if (isAlreadyFollow) {
                 return ApiResponseUtil.error("You are already following this user", HttpStatus.CONFLICT);
             }
@@ -139,11 +151,10 @@ public class SubscriptionService {
             subscriptionRepository.save(subscription);
             NotificationRequest request = NotificationRequest.builder()
                     .type(Notifications.FOLLOW)
-                    .triggerUserId(userid)
+                    .triggerUserId(userId)
                     .receiverId(targetUserOpt.get().getId())
                     .message(subscriber.get().getUsername() + " started following you.")
                     .build();
-            // var check = CheckAllReadySendNotifications(notification.getType(), receiver.getId(), triggerUser.getId());
             notificationService.saveAndSendNotification(request, targetUserOpt.get(), subscriber.get());
             return ApiResponseUtil.success(null, null, "Successfully followed " + targetUserOpt.get().getUsername());
         } catch (Exception e) {
@@ -152,8 +163,12 @@ public class SubscriptionService {
         }
     }
 
-    public ResponseEntity<ApiResponse<UserResponse>> unfollowUser(UUID userid, UUID targetUserId) {
-        Optional<User> subscriber = userRepository.findById(userid);
+    public ResponseEntity<ApiResponse<UserResponse>> unfollowUser(UserPrincipal userPrincipal, UUID targetUserId) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        }
+        UUID userId = userPrincipal.getId();
+        Optional<User> subscriber = userRepository.findById(userId);
         if (!subscriber.isPresent()) {
             return ApiResponseUtil.error("Subscriber user not found", HttpStatus.NOT_FOUND);
         }
@@ -162,10 +177,10 @@ public class SubscriptionService {
         if (!targetUserOpt.isPresent()) {
             return ApiResponseUtil.error("Target user not found", HttpStatus.NOT_FOUND);
         }
-        if (userid.equals(targetUserId)) {
+        if (userId.equals(targetUserId)) {
             return ApiResponseUtil.error("You cannot unfollow yourself", HttpStatus.BAD_REQUEST);
         }
-        var subscription = subscriptionRepository.findBySubscriberUser_IdAndSubscribedTo_Id(userid, targetUserId);
+        var subscription = subscriptionRepository.findBySubscriberUser_IdAndSubscribedTo_Id(userId, targetUserId);
         if (subscription.isEmpty()) {
             return ApiResponseUtil.error("You are not following this user", HttpStatus.CONFLICT);
         }

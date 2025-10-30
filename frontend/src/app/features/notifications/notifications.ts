@@ -4,6 +4,7 @@ import { NotificationsServiceLogique } from '../../core/service/serivecLogique/n
 import { Subscription } from 'rxjs';
 import { NotificationRequest, NotificationResponse } from '../../core/models/Notification/Notification';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
+import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 
 @Component({
   selector: 'app-notifications',
@@ -14,24 +15,25 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 export class NotificationPopup {
   isOpen = false;
   notifications: NotificationResponse[] = []
-  constructor(private notifLogique: NotificationsServiceLogique) { }
+  constructor(private notifLogique: NotificationsServiceLogique, private auth: AuthService) { }
   private subscriptions = new Subscription();
   unreadCount = 0;
   ngOnInit() {
+    const isAuthenticated = this.auth.isLoggedIn();
+    if (isAuthenticated) {
+      this.notifLogique.loadingNotifications();
+      this.subscriptions.add(
+        this.notifLogique.notifications$.subscribe(notif => {
+          this.notifications = notif
+        })
+      )
+      this.subscriptions.add(
+        this.notifLogique.unreadCount$.subscribe(count => {
+           this.unreadCount = count
+        })
 
-    this.notifLogique.loadingNotifications();
-    this.subscriptions.add(
-      this.notifLogique.notifications$.subscribe(notif => {
-        this.notifications = notif
-      })
-    )
-    this.subscriptions.add(
-      this.notifLogique.unreadCount$.subscribe(count => {
-        // console.log(count, "notiificatin");
-        this.unreadCount = count
-      })
-
-    )
+      )
+    }
   }
 
   togglePopup(): void {

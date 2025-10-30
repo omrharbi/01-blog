@@ -44,8 +44,13 @@ export class Header implements OnInit, OnDestroy {
   toggleTheme() {
     this.themeService.toggleTheme();
   }
+  SignIn() {
+    this.router.navigate(['/login']);
+  }
+  SignUp() {
+    this.router.navigate(['/register']);
 
-
+  }
   get currentUser() {
     return true
   }

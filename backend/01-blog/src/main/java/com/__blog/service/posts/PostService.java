@@ -57,10 +57,9 @@ public class PostService {
         User user = userPrincipal.getUser();
         Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
-        // System.err.println(postRequest.getMedias()+ "/***********************");
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
             for (var medai : postRequest.getMedias()) {
-                
+
                 var mediaDTO = mediaMapper.convertToMediaEntity(medai, post);
                 post.addMedia(mediaDTO);
             }
@@ -93,9 +92,12 @@ public class PostService {
         return ApiResponseUtil.success(postResponse, null, " created a new post");
     }
 
-    public ResponseEntity<ApiResponse<PostResponse>> editPost(PostRequest postRequest, UUID id, UUID userId) {
+    public ResponseEntity<ApiResponse<PostResponse>> editPost(PostRequest postRequest, UUID id, UserPrincipal user) {
         try {
-
+            if (user == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = user.getId();
             Optional<Post> post = postRepository.findById(id);
             if (post.isPresent()) {
                 Post existingPost = post.get();
@@ -134,7 +136,11 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(UUID postId, UUID userId) {
+    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(UUID postId, UserPrincipal user) {
+        if (user == null) {
+            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        }
+        UUID userId = user.getId();
         Optional<Post> postOptional = postRepository.findByIdWithMedias(postId);
 
         if (postOptional.isPresent()) {
@@ -177,11 +183,19 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<PostResponse>>> getPosts(UUID userId) {
+    public ResponseEntity<ApiResponse<List<PostResponse>>> getPosts(UserPrincipal user) {
+        if (user == null) {
+            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        }
+        UUID userId = user.getId();
         List<Post> posts = postRepository.findAllWithMedias();
         List<PostResponse> allPosts = new ArrayList<>();
         for (Post p : posts) {
             PostResponse convert = postMapper.ConvertPostResponse(p, userId);
+            if (convert == null) {
+                return ApiResponseUtil.error("Not Found ", HttpStatus.NOT_FOUND);
+
+            }
             allPosts.add(convert);
         }
         return ApiResponseUtil.success(allPosts, null, "");
@@ -194,7 +208,7 @@ public class PostService {
             return ApiResponseUtil.error("Post not found with ID: " + postId, HttpStatus.NOT_FOUND);
         }
 
-         postRepository.deleteById(postId);
+        postRepository.deleteById(postId);
         return ApiResponseUtil.success("Post deleted successfully", null, null);
     }
 

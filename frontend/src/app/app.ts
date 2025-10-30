@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,14 +22,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.scss',
 
 })
-export class App implements OnInit, OnDestroy {
-  constructor(private global: Global, private authService: AuthService, private toastr: ToastrService, private notificationService: NotificationsServiceLogique) { }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
+export class App implements OnInit, AfterViewInit {
+  isRendred: boolean;
+  constructor(private global: Global, private authService: AuthService, private toastr: ToastrService, private notificationService: NotificationsServiceLogique) { 
+    // console.log("first step in constructor");
+    this.isRendred = false;
+   }
+  // ngOnDestroy(): void {
+  //   throw new Error('Method not implemented.');
+  // }
   isNotificated = false;
   private subscription = new Subscription();
   ngOnInit() {
+    // console.log("component hase start ", !this.isRendred);
+    
     this.subscription = this.global.sharedData.subscribe((event) => {
        if (event.type === "notification") {
         this.isNotificated = event.data;
@@ -37,5 +43,9 @@ export class App implements OnInit, OnDestroy {
     });
     this.notificationService.connect();
     this.authService.isLoggedIn();
+  }
+  ngAfterViewInit(): void {
+      console.log("component has rendred", this.isRendred);
+      
   }
 }

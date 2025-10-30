@@ -41,13 +41,13 @@ public class PostController {
     @PutMapping("/post/edit/{postid}")
     public ResponseEntity<?> editPost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest,
             @AuthenticationPrincipal UserPrincipal userPrincipa) {
-        return postservice.editPost(postRequest, postId, userPrincipa.getId());
+        return postservice.editPost(postRequest, postId, userPrincipa);
     }
 
     @GetMapping("/getallPost")
     public ResponseEntity<?> getPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
 
-        return postservice.getPosts(userPrincipal.getId());
+        return postservice.getPosts(userPrincipal);
 
     }
 
@@ -62,7 +62,7 @@ public class PostController {
                         .error("Invalid post ID " + id)
                         .build());
             }
-            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userPrincipal.getId());
+            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userPrincipal);
             ApiResponse<PostResponseWithMedia> postBody = getPostResponse.getBody();
 
             if (postBody == null || postBody.getData() == null) {

@@ -42,7 +42,7 @@ export class PostService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-
+    
     return this.http.delete<number>(
       `${environment.savepost.removeMedia}${id}`,
       { headers }

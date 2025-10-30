@@ -9,6 +9,7 @@ import { Title } from '@angular/platform-browser';
 import { NotificationRequest, NotificationResponse } from '../../../models/Notification/Notification';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../servicesAPIREST/Notifications/notification-service';
+import { AuthService } from '../../servicesAPIREST/auth/auth-service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,7 @@ export class NotificationsServiceLogique {
 
   constructor(private jwt: JwtService,
     private toasterService: ToastrService,
-    private notificationServices: NotificationService) { }
+    private notificationServices: NotificationService, private auth: AuthService) { }
   private notificationsSubject = new BehaviorSubject<any>(null);
   notifications$ = this.notificationsSubject.asObservable();
 
@@ -35,6 +36,8 @@ export class NotificationsServiceLogique {
   notifications: NotificationResponse[] = [];
 
   loadingNotifications() {
+    // const isAuthenticated = this.auth.isLoggedIn();
+    // if (isAuthenticated) {}
     this.allNotifications()
     this.unreadNotificationCount()
   }
@@ -65,11 +68,12 @@ export class NotificationsServiceLogique {
 
   }
   allNotifications() {
+    const isAuthApiCall = this.auth.isLoggedIn()
+    if (!isAuthApiCall) { return }
     let data = this.notificationServices.getALLNotifications();
     data.subscribe({
       next: response => {
-        console.log(response,"notifications");
-        
+        // console.log(response,"notifications");
         this.notifications = response.data;
         this.notificationsSubject.next(this.notifications)
 

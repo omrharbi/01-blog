@@ -1,0 +1,32 @@
+<!-- error-page.component.html -->
+<div class="error-page-container">
+    <div class="error-content">
+        <div class="error-animation">
+            <div class="error-circle">
+                <span class="error-icon">{{ errorInfo.icon }}</span>
+            </div>
+            <div class="pulse-ring"></div>
+        </div>
+
+        <div class="error-details">
+            <h1 class="error-code">{{ errorInfo.code }}</h1>
+            <h2 class="error-title">{{ errorInfo.title }}</h2>
+            <p class="error-message">{{ errorInfo.message }}</p>
+
+            <div class="error-actions">
+                <button class="btn btn-primary" (click)="handleAction()">
+                    {{ errorInfo.action }}
+                </button>
+                <button class="btn btn-secondary" (click)="goBack()">
+                    Go Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="background-decoration">
+        <div class="gradient-blob blob-1"></div>
+        <div class="gradient-blob blob-2"></div>
+        <div class="gradient-blob blob-3"></div>
+    </div>
+</div>

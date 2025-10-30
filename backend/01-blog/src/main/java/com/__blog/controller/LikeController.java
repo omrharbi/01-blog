@@ -25,16 +25,16 @@ public class LikeController {
 
     @PostMapping("/toggleLikePost/{target}")
     public ResponseEntity<?> toggleLikePost(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID target) {
-        return  likeService.toggleLikePost(userPrincipal.getId(), target);
+        return  likeService.toggleLikePost(userPrincipal, target);
      }
 
     @PostMapping("/toggleLikeComment/{target}")
     public ResponseEntity<?> toggleLikeComment(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID target) {
-        return likeService.toggleLikeComment(userPrincipal.getId(), target);
+        return likeService.toggleLikeComment(userPrincipal, target);
      }
 
     @GetMapping("/liked-posts")
     public ResponseEntity<?> likedPosts(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-         return  likeService.getLikedPostsByUser(userPrincipal.getId());
+         return  likeService.getLikedPostsByUser(userPrincipal);
      }
 }

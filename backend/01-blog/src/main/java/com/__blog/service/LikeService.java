@@ -22,6 +22,7 @@ import com.__blog.repository.CommentRespository;
 import com.__blog.repository.LikeRepository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.UserRepository;
+import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
@@ -48,8 +49,12 @@ public class LikeService {
     @Autowired
     private CommentRespository commentRespository;
 
-    public ResponseEntity<ApiResponse<LikePostResponse>> toggleLikePost(UUID userId, UUID postId) {
+    public ResponseEntity<ApiResponse<LikePostResponse>> toggleLikePost(UserPrincipal users, UUID postId) {
         try {
+            if (users == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = users.getId();
             Optional<Like> existingLike = likeRepository.findByUserIdAndPostId(userId, postId);
             Optional<Post> postOpt = postRepository.findById(postId);
             Optional<User> userOpt = userRepository.findById(userId);
@@ -82,8 +87,12 @@ public class LikeService {
         }
     }
 
-    public ResponseEntity<ApiResponse<LikePostResponse>> toggleLikeComment(UUID userId, UUID commentId) {
+    public ResponseEntity<ApiResponse<LikePostResponse>> toggleLikeComment(UserPrincipal users, UUID commentId) {
         try {
+            if (users == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = users.getId();
             Optional<Like> existingLike = likeRepository.findByUserIdAndCommentId(userId, commentId);
             Optional<Comment> commentOpt = commentRespository.findById(commentId);
             Optional<User> userOpt = userRepository.findById(userId);
@@ -116,8 +125,12 @@ public class LikeService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<PostResponse>>> getLikedPostsByUser(UUID userId) {
+    public ResponseEntity<ApiResponse<List<PostResponse>>> getLikedPostsByUser(UserPrincipal users) {
         try {
+            if (users == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = users.getId();
             // Fetch all posts liked by the user, ordered by creation date descending
             List<Post> postLiked = postRepository.findByLikesUserIdOrderByCreatedAtDesc(userId);
             List<PostResponse> response = new ArrayList<>();

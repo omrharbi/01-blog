@@ -48,17 +48,17 @@
           </button>
 
           <!-- Notifications -->
-          <button type="button"
-           (clickedInside)="OnPopUp($event)"  appDiractiveEvenet
-            class="  position-relative 
+          <ng-container *ngIf="isAuthenticated">
+            <button type="button" (clickedInside)="OnPopUp($event)" appDiractiveEvenet class="  position-relative 
             btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0
             
             ">
-           <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
-            <span
-            *ngIf="hasUnreadNotifications"
-              class="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-light rounded-circle"></span>
-          </button>
+              <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
+              <span *ngIf="hasUnreadNotifications"
+                class="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-light rounded-circle"></span>
+            </button>
+          </ng-container>
+
 
           <!-- <div ></div> -->
           <!-- Create Post -->
@@ -72,14 +72,14 @@
 
         <!-- Authentication Links -->
         <div class="hidden md:flex items-center ml-2 gap-3 ms-2" *ngIf="!isAuthenticated">
-          <a class="btn btn-signIn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
-            routerLink="/auth/login">
+          <button class="btn text-muted btn-signIn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+            (click)="SignIn()">
             Sign In
-          </a>
-          <a class="btn-enabled btn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-            routerLink="/auth/register">
+          </button>
+          <button class="btn-enabled btn inline-flex items-center justify-center ms-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+            (click)="SignUp()">
             Sign Up
-          </a>
+          </button>
         </div>
         <div class="hidden md:flex items-center ml-2 gap-3 ms-2" *ngIf="isAuthenticated">
           <button

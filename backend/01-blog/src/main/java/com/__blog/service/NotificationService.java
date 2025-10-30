@@ -37,21 +37,19 @@ public class NotificationService {
     @Autowired
     private NotificationMapper notificationMapper;
 
-    private ApiResponse<String> sendNotification(UUID userid, NotificationRequest notification) {
+    private ResponseEntity<ApiResponse<String>> sendNotification(User users, NotificationRequest notification) {
         try {
-
-            String destination = "/topic/user." + userid + ".notification";
+            if (users == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = users.getId();
+            String destination = "/topic/user." + userId + ".notification";
             messagingTemplate.convertAndSend(destination, notification);
-            return ApiResponse.<String>builder()
-                    .status(true)
-                    .message("send Notifcation")
-                    .build();
+
+            return ApiResponseUtil.success(null, null, "end Notifcation");
         } catch (MessagingException e) {
             log.error("❌ Error sending notification: {}", e.getMessage(), e);
-            return ApiResponse.<String>builder()
-                    .status(false)
-                    .error("❌ Error sending notification: {}" + e.getMessage())
-                    .build();
+            return ApiResponseUtil.error("❌ Error sending notification: {}" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -61,19 +59,29 @@ public class NotificationService {
     }
 
     public ResponseEntity<ApiResponse<String>> saveAndSendNotification(NotificationRequest notification, User receiver, User triggerUser) {
-        ApiResponse<String> sendResponse = sendNotification(receiver.getId(), notification);
+        ResponseEntity<ApiResponse<String>> response = sendNotification(receiver, notification);
+        if (response == null) {
+            return ApiResponseUtil.error(
+                    "❌ Failed to send notification to user: " + receiver.getId(),
+                    HttpStatus.BAD_REQUEST
+            );
 
-        if (sendResponse.isStatus()) {
+        }
+        var sendResponse = response.getBody();
+        if (sendResponse != null && sendResponse.isStatus()) {
             // Only save if sending succeeded
             saveNotification(notification, receiver, triggerUser);
             return ApiResponseUtil.success(null, null, "✅ Notification sent and saved successfully");
         } else {
-            return ApiResponseUtil.error(sendResponse.getError() != null ? sendResponse.getError() : "❌ Error sending notification", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ApiResponseUtil.error("❌ Error sending notification", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     public ResponseEntity<ApiResponse<List<NotificationResponse>>> getAllNotificationByUser(UserPrincipal userPrincipal) {
         try {
+            if (userPrincipal == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
             User user = userPrincipal.getUser();
 
             // Fetch notifications for the user, ordered by creation date descending

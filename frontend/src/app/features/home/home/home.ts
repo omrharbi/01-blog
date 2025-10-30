@@ -28,24 +28,24 @@ export class Home {
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
     this.postDatashard.posts$.subscribe(posts => this.posts = posts);
+    if (this.isAuthenticated) {
+      this.postservice.getAllPost().subscribe(res => {
+        this.posts = res.data;
+        this.postDatashard.setPosts(res.data);
+      });
+      this.postDatashard.newpost$.subscribe(post => {
+        console.log(post, "home here ");
+        if (post) {
+          this.updatePostInList(post);
+        }
+      });
 
-    this.postservice.getAllPost().subscribe(res => {
-      this.posts = res.data;
-      this.postDatashard.setPosts(res.data);
-    });
-    this.postDatashard.newpost$.subscribe(post => {
-      console.log(post,"home here ");
-      if (post) {
-        
-        this.updatePostInList(post);
-      }
-    });
-
-    this.subscription = this.global.sharedData.subscribe((event) => {
-      if (event.type === "notification") {
-        // this.isNotificated = event.data;
-      }
-    });
+      this.subscription = this.global.sharedData.subscribe((event) => {
+        if (event.type === "notification") {
+          // this.isNotificated = event.data;
+        }
+      });
+    }
   }
 
   ngOnDestroy() {

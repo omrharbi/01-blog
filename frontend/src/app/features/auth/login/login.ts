@@ -30,8 +30,7 @@ export class Login {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           if (response.status) {
-            // console.log(response);
-            this.router.navigate(['/']); //navigate to home ✅
+             this.router.navigate(['/']); //navigate to home ✅
           } else {
             this.errorMessage.push(response.error || 'Login failed');
           }

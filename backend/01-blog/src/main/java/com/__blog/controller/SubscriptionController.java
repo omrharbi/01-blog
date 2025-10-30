@@ -28,30 +28,30 @@ public class SubscriptionController {
     @GetMapping("/following")
     public ResponseEntity<?> getUsersIFollow(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return subscriptionService.getUsersIFollow(userPrincipal.getId());
-     }
+    }
 
     // Get my followers
     @GetMapping("/followers")
     public ResponseEntity<?> getFollowers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return subscriptionService.getFollowers(userPrincipal.getId());
- 
+        return subscriptionService.getFollowers(userPrincipal);
+
     }
 
     // Get users I DON'T follow (for Explore page)
     @GetMapping("/explore")
     public ResponseEntity<?> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return subscriptionService.getUsersNotFollowing(userPrincipal.getId());
-     }
+        return subscriptionService.getUsersNotFollowing(userPrincipal);
+    }
 
     // Follow a user
     @PostMapping("/follow/{targetUserId}")
     public ResponseEntity<?> followUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
-        return subscriptionService.followUser(userPrincipal.getId(), targetUserId);
+        return subscriptionService.followUser(userPrincipal, targetUserId);
     }
 
     // Unfollow a user
     @DeleteMapping("/unfollow/{targetUserId}")
     public ResponseEntity<?> unfollowUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
-        return subscriptionService.unfollowUser(userPrincipal.getId(), targetUserId);
+        return subscriptionService.unfollowUser(userPrincipal, targetUserId);
     }
 }

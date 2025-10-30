@@ -44,7 +44,7 @@ public class CommentController {
 
     @PutMapping("editComment/{idComment}")
     public ResponseEntity<?> editComment(@PathVariable("idComment") UUID idComment, @Valid @RequestBody CommentRequest commentRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return commentService.editComment(idComment, commentRequest, userPrincipal.getId());
+        return commentService.editComment(idComment, commentRequest, userPrincipal);
     }
 
     @DeleteMapping("delete/{idComment}")

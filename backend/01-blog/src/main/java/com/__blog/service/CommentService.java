@@ -42,6 +42,9 @@ public class CommentService {
 
     public ResponseEntity<ApiResponse<CommentResponse>> addComment(UserPrincipal userPrincipal, CommentRequest request) {
         try {
+            if (userPrincipal == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
             Optional<User> userOpt = userRepository.findById(userPrincipal.getId());
             Optional<Post> postOpt = postRepository.findById(request.getPostId());
 
@@ -90,6 +93,10 @@ public class CommentService {
 
     public ResponseEntity<ApiResponse<List<CommentResponse>>> getCommentWithPost(UUID postId, UserPrincipal userPrincipal) {
         try {
+            if (userPrincipal == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+
             // Fetch all comments for a given post, ordered by creation date descending
             List<Comment> allCommentsByPost = commentRespository.findByPostIdOrderByCreateAtDesc(postId);
 
@@ -114,8 +121,12 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<ApiResponse<CommentResponse>> editComment(UUID commentId, CommentRequest commentRequest, UUID userId) {
+    public ResponseEntity<ApiResponse<CommentResponse>> editComment(UUID commentId, CommentRequest commentRequest, UserPrincipal user) {
         try {
+            if (user == null) {
+                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            }
+            UUID userId = user.getId();
             Optional<Comment> commentOpt = commentRespository.findById(commentId);
             Optional<Post> postOpt = postRepository.findById(commentRequest.getPostId());
 

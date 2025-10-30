@@ -9,13 +9,13 @@ import { NotificationService } from '../core/service/notificationAlert/Notificat
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const router = inject(Router);//NotificationService
-  const notificationAlert = inject(NotificationService);//NotificationService
+  const router = inject(Router);
+  const notificationAlert = inject(NotificationService);
 
-
+  // Skip auth endpoints
   const skipApiEndpoints = [
-    environment.auth.login,        // "http://localhost:9090/auth/login"
-    environment.auth.register,     // "http://localhost:9090/auth/register" 
+    environment.auth.login,
+    environment.auth.register,
   ];
 
   const isAuthApiCall = skipApiEndpoints.some(endpoint =>
@@ -26,12 +26,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (isAuthApiCall) {
     return next(req);
   }
-  // ✅ Add Authorization header if logged in
+
+  // Add Authorization header if logged in
   const token = localStorage.getItem(LocalstorageKey.token);
-  // if (token === null) {
-  //   notificationAlert.showError('Your session has expired. Please log in again.', true);
-  //   return throwError(() => new Error('Unauthorized'));
-  // }
   const authReq = token
     ? req.clone({
       setHeaders: {
@@ -42,22 +39,63 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error) => {
-      if (error.status === 401) {
-        const isLoggedIn = authService.isLoggedIn();
-        if (isLoggedIn) {
-          notificationAlert.showError('Your session has expired. Please log in again.', true);
-        } else {
-          notificationAlert.showError('You must be logged in to continue.', true);
-        }
+      const status = error.status;
+
+      // Prevent infinite loops - don't intercept errors on error page
+      const currentUrl = router.url;
+      if (currentUrl.includes('/error')) {
+        return throwError(() => error);
       }
 
-      if (error.status === 404) {
-        const isLoggedIn = authService.isLoggedIn();
-        notificationAlert.showError('Your session has expired. Please log in again.', false);
+      switch (status) {
+        case 401:
+          // Only logout if user was logged in
+          if (authService.isLoggedIn()) {
+            authService.logout();
+          }
+          router.navigate(['/error'], {
+            queryParams: { status: 401 },
+            skipLocationChange: false
+          });
+          break;
+
+        case 403:
+          router.navigate(['/error'], {
+            queryParams: { status: 403 }
+          });
+          break;
+
+        case 404:
+          router.navigate(['/error'], {
+            queryParams: { status: 404 }
+          });
+          break;
+
+        case 400:
+          router.navigate(['/error'], {
+            queryParams: { status: 400 }
+          });
+          break;
+
+        case 500:
+          router.navigate(['/error'], {
+            queryParams: { status: 500 }
+          });
+          break;
+
+        case 503:
+          router.navigate(['/error'], {
+            queryParams: { status: 503 }
+          });
+          break;
+
+        default:
+          // For other errors, just log them without redirecting
+          console.error('HTTP Error:', error);
+          break;
       }
+
       return throwError(() => error);
     })
   );
-
-
 };
