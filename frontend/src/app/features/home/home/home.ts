@@ -8,6 +8,7 @@ import { SharedService } from '../../../core/service/serivecLogique/shared-servi
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
 import { Subscription } from 'rxjs';
+import { FollowingLogiqueService } from '../../../core/service/serivecLogique/following/following-logique-service';
 
 @Component({
   selector: 'app-home',
@@ -20,10 +21,15 @@ export class Home {
   posts: PostResponse[] = [];
   constructor(private postservice:
     PostService, private postDatashard:
-      SharedService, private auth: AuthService, private global: Global
+      SharedService, private auth: AuthService, private global: Global,
+      private follow:FollowingLogiqueService,
+      
   ) { }
   isAuthenticated: boolean = false;
   // isNotificated = false;
+  countPosts = 0;
+  countFollowers = 0;
+  countFollowing = 0;
   private subscription = new Subscription();
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
@@ -40,6 +46,16 @@ export class Home {
         }
       });
 
+      this.postDatashard.countPost$.subscribe(count => {
+        this.countPosts = count
+      });
+
+       this.follow.countFollowers$.subscribe(count => {
+        this.countFollowers = count
+      });
+       this.follow.countFollowing$.subscribe(count => {
+        this.countFollowing = count
+      });
       this.subscription = this.global.sharedData.subscribe((event) => {
         if (event.type === "notification") {
           // this.isNotificated = event.data;

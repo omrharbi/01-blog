@@ -7,9 +7,11 @@ import { PostResponse } from '../../../models/post/postResponse';
 })
 export class SharedService {
   private newPostData = new BehaviorSubject<any>(null);
+  private countPostSubject = new BehaviorSubject<number>(0);
   private currentPostIdSubject = new BehaviorSubject<String>("");
 
   currentPostId$ = this.currentPostIdSubject.asObservable()
+  countPost$ = this.countPostSubject.asObservable()
   private postToEdit: any = null;
 
 
@@ -17,12 +19,14 @@ export class SharedService {
   posts$ = this.postsSubject.asObservable();
   private commentSubject = new BehaviorSubject<PostResponse[]>([]);
   comment$ = this.commentSubject.asObservable();
+
+
   setPosts(posts: PostResponse[]) {
     this.postsSubject.next(posts);
+    this.countPostSubject.next(posts.length)
   }
 
   removePost(postId: string) {
-    console.log(postId,);
     const posts = this.postsSubject.getValue().filter(p => p.id !== postId);
     this.postsSubject.next(posts);
   }

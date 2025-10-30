@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.scss',
 
 })
-export class App implements OnInit, AfterViewInit {
+export class App implements OnInit {
   isRendred: boolean;
   constructor(private global: Global, private authService: AuthService, private toastr: ToastrService, private notificationService: NotificationsServiceLogique) { 
     // console.log("first step in constructor");
@@ -44,8 +44,8 @@ export class App implements OnInit, AfterViewInit {
     this.notificationService.connect();
     this.authService.isLoggedIn();
   }
-  ngAfterViewInit(): void {
-      console.log("component has rendred", this.isRendred);
+  // ngAfterViewInit(): void {
+  //     console.log("component has rendred", this.isRendred);
       
-  }
+  // }
 }
