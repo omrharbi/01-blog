@@ -56,7 +56,7 @@ export const environment = {
     ,
     notification: {
         getNotification: apiUrl + "api/notifications/getAllNotifications",
-        // postByID: apiUrl + "api/posts/getPostById/"
+        read: apiUrl + "api/notifications/read"
     }
 
 }

@@ -2,6 +2,7 @@ package com.__blog.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,4 +109,16 @@ public class NotificationService {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public ResponseEntity<ApiResponse<Boolean>> readNotification(UUID notifid) {
+        Optional<Notification> getNotification = notificationRepository.findById(notifid);
+        if (getNotification.isPresent()) {
+            getNotification.get().setStatus(true);
+            notificationRepository.save(getNotification.get());
+            return ApiResponseUtil.success(true, null, "Notifications read successfully");
+        }
+        return ApiResponseUtil.error("Failed to fetch notifications: ",
+                HttpStatus.NOT_FOUND);
+    }
+
 }

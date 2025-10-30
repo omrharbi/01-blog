@@ -20,7 +20,7 @@
           [class.unread]="!notif.read"
           >
           <!-- (click)="markAsRead(notif.id)" -->
-          <div class="notification-icon" [class.unread]="!notif.read" [class.read]="notif.read">
+          <div class="notification-icon" [class.unread]="!notif.read" [class.read]="notif.read" >
             <svg *ngIf="!notif.read" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
               <polyline points="22,6 12,13 2,6"></polyline>
@@ -30,7 +30,7 @@
             </svg>
           </div>
 
-          <div class="notification-content">
+          <div class="notification-content" (click)="markAsRead(notif.id)">
             <div class="notification-item-title">{{ notif.title }}</div>
             <div class="notification-item-message">{{ notif.message }}</div>
             <div class="notification-time">{{ notif.createdAt  | timeAgo}}</div>

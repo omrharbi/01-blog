@@ -100,6 +100,7 @@ export class NotificationsServiceLogique {
                 this.notificationIconsSubject.next(true);
                 if (notifications && notifications.triggerUserId != currentUserId) {
                   const newNotification: NotificationResponse = {
+                    id: notifications.id,
                     triggerUserId: notifications.triggerUserId,
                     title: "New Notification",
                     message: notifications.message || 'You have a new notification',

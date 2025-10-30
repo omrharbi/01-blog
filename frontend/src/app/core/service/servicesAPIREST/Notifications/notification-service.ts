@@ -24,4 +24,17 @@ export class NotificationService {
     }
     )
   }
+
+
+  readNotification(idNotificaton: string): Observable<ApiResponse<boolean>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.post<ApiResponse<boolean>>(
+      `${environment.notification.read}/${idNotificaton}`, {
+      headers
+    }
+    )
+  }
 }

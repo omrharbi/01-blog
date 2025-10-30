@@ -23,7 +23,8 @@ export const routes: Routes = [
     path: '',
     component: MainLayout,
     children: [
-      { path: '', component: Home }, // anyone can see home
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: 'home', component: Home }, // anyone can see home
       { path: 'posts', component: PostList },
       { path: 'post/:id', component: PostList },
       { path: 'preview', component: Preview },
@@ -41,7 +42,6 @@ export const routes: Routes = [
     ],
   },
 
-  // 🔹 AUTH PAGES (only for guests)
   {
     path: '',
     component: AuthLayout,
@@ -51,9 +51,7 @@ export const routes: Routes = [
     ],
   },
 
-  // 🔹 ERROR PAGE (accessible by anyone)
   { path: 'error', component: ErrorPageComponent },
 
-  // 🔹 GLOBAL FALLBACK (for truly unknown routes)
   { path: '**', redirectTo: '/error?status=404' },
 ];
