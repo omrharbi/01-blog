@@ -44,12 +44,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error) => {
       if (error.status === 401) {
         const isLoggedIn = authService.isLoggedIn();
-
         if (isLoggedIn) {
           notificationAlert.showError('Your session has expired. Please log in again.', true);
         } else {
           notificationAlert.showError('You must be logged in to continue.', true);
         }
+      }
+
+      if (error.status === 404) {
+        const isLoggedIn = authService.isLoggedIn();
+        notificationAlert.showError('Your session has expired. Please log in again.', false);
       }
       return throwError(() => error);
     })

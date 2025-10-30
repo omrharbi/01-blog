@@ -68,6 +68,8 @@ export class NotificationsServiceLogique {
     let data = this.notificationServices.getALLNotifications();
     data.subscribe({
       next: response => {
+        console.log(response,"notifications");
+        
         this.notifications = response.data;
         this.notificationsSubject.next(this.notifications)
 
