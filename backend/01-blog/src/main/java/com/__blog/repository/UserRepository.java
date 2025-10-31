@@ -35,11 +35,12 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     // List<Post> findAllWithMedias();
 
     @Query("""
-            SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(u.id, u.username, u.status , u.email , COUNT(p) )
+            SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(u.id, u.username, u.status , u.email,  COUNT(p) )
              FROM users u 
              LEFT JOIN  u.posts p
              GROUP BY u.id, u.username , u.status, u.email
              ORDER BY COUNT(p) DESC
             """)
     List<UserResponseToAdmin> findAllUsersWithPostCount();
+    // Long countUsers();
 }

@@ -1,10 +1,13 @@
 package com.__blog.controller;
 
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,18 +26,25 @@ public class AdminController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/count-users")
+    public ResponseEntity<?> countUsers() {
+        return userService.countUsers();
+    }
     @PostMapping("/AllPosts")
     public String AllPosts() {
         // return userService.loginUser(user);
         return "";
     }
 
-    @PostMapping("/banUser")
-    public String banUser() {
-        // return userService.loginUser(user);
-        return "";
+    @PostMapping("/banUser/{userId}")
+    public ResponseEntity<?> banUser(@PathVariable("userId") UUID userId) {
+        return userService.banUser(userId);
     }
 
+    @PostMapping("/delete/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") UUID userId) {
+        return userService.deleteUser(userId);
+    }
     @PostMapping("/UnbanUser")
     public String UnbanUser() {
         // return userService.loginUser(user);
