@@ -11,4 +11,4 @@ docker volume prune -f
 docker network prune -f
 
 # Now try again
-# docker-compose up -d --build
+docker-compose up -d --build

@@ -8,7 +8,13 @@
 
     </div>
 
+<!-- <div *ngFor="let p of posts$ | async">
+    {{p.firstname}}
 
+  <p>
+    jhjhk
+  </p>
+</div> -->
     <div class="posts">
       <div class="row g-4">
         <!-- Left feed section -->
@@ -35,7 +41,8 @@
               <h3>❌ NO POSTS IN ARRAY</h3>
               <p>Posts array is empty even though data was received</p>
             </div> -->
-            <app-post-card *ngFor="let post of posts; let i = index" [post]="post"></app-post-card>
+            
+            <app-post-card *ngFor="let post of posts$ | async " [post]="post"></app-post-card>
           </div>
           <!-- Repeat cards here -->
 
@@ -82,13 +89,13 @@
             <div class="card-body">
               <h3 class="h6 fw-semibold mb-3">Your Activity</h3>
               <div class="d-flex justify-content-between"><span class="text-muted">Posts published</span><span
-                  class="fw-semibold">{{countPosts}}</span></div>
+                  class="fw-semibold">{{countPosts()}}</span></div>
               <!-- <div class="d-flex justify-content-between"><span class="text-muted">Total views</span><span
                   class="fw-semibold">1,247</span></div> -->
               <div class="d-flex justify-content-between"><span class="text-muted">Followers</span><span
-                  class="fw-semibold">{{countFollowers}}</span></div>
+                  class="fw-semibold">{{countFollowers()}}</span></div>
               <div class="d-flex justify-content-between"><span class="text-muted">Following</span><span
-                  class="fw-semibold">{{countFollowing}}</span></div>
+                  class="fw-semibold">{{countFollowing()}}</span></div>
             </div>
           </div>
         </div>

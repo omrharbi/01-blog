@@ -77,17 +77,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           });
           break;
 
-        case 500:
-          router.navigate(['/error'], {
-            queryParams: { status: 500 }
-          });
-          break;
+        // case 500:
+        //   router.navigate(['/error'], {
+        //     queryParams: { status: 500 }
+        //   });
+        //   break;
 
-        case 503:
-          router.navigate(['/error'], {
-            queryParams: { status: 503 }
-          });
-          break;
+        // case 503:
+        //   router.navigate(['/error'], {
+        //     queryParams: { status: 503 }
+        //   });
+        //   break;
 
         default:
           // For other errors, just log them without redirecting

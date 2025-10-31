@@ -34,7 +34,7 @@ export class Register {
     private router: Router
   ) {
     this.registerForm = this.formBuilder.group({
-      firstname: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [Validators.required,]),
       lastname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
 

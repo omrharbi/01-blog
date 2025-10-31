@@ -82,6 +82,8 @@ export class Comment {
     } else {
       this.addComment.content = this.content;
       this.addComment.postId = id;
+      // console.log(this.addComment);
+      
       this.commentService.AddComment(this.addComment).subscribe({
         next: response => {
           this.commentResponse = response.data;
@@ -90,8 +92,7 @@ export class Comment {
           this.content = "";
         },
         error: error => {
-          console.log("Error To Add Comment ", error);
-
+          // console.log("Error To Add Comment ", error);
         }
       })
     }

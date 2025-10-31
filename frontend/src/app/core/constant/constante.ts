@@ -13,6 +13,12 @@ export const environment = {
         getMyPosts: apiUrl + "api/user/usersProfile",
         changePassword: apiUrl + "users/change-password",
     },
+    admin: {
+        getUsers: apiUrl + "api/admin/all-users",
+        updateMe: apiUrl + "users/update-me",
+        getMyPosts: apiUrl + "api/user/usersProfile",
+        changePassword: apiUrl + "users/change-password",
+    },
 
     subscriptions: {
         following: apiUrl + "api/subscriptions/following",

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.__blog.model.dto.request.auth.RegisterRequest;
+import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Roles;
@@ -53,6 +54,20 @@ public class UserMapper {
                 return userResponse;
         }
 
+        public UserResponseToAdmin ConvertToResponseUserAdmin(User user) {
+                int postsCount = postRepository.countByUserId(user.getId());
+
+                Long count=(long) postsCount;
+                UserResponseToAdmin userResponse = UserResponseToAdmin.builder()
+                                .status(user.getStatus())
+                                .email(user.getEmail())
+                                .username(user.getUsername())
+                                .postsCount(count)
+                                // .createAt(user.getCreate_at())
+                                .build();
+                return userResponse;
+        }
+
         public User ConvertToEntity(RegisterRequest registerRequest) {
                 User user = new User();
                 user.setEmail(registerRequest.getEmail());
@@ -64,5 +79,4 @@ public class UserMapper {
                 user.setRole(Roles.USER);
                 return user;
         }
-
 }

@@ -39,7 +39,7 @@ public class CommentService {
     private CommentMapper commentMapper;
     @Autowired
     NotificationService notificationService;
-
+    @Transactional
     public ResponseEntity<ApiResponse<CommentResponse>> addComment(UserPrincipal userPrincipal, CommentRequest request) {
         try {
             if (userPrincipal == null) {
@@ -55,16 +55,12 @@ public class CommentService {
             User user = userOpt.get();
             Post post = postOpt.get();
 
-            // Création du commentaire
             Comment comment = commentMapper.convertToEntityComment(request, post, user);
 
-            // Si commentaire parent (réponse)
             if (request.getParentCommentId() != null) {
                 Optional<Comment> parentCommentOpt = commentRespository.findById(request.getParentCommentId());
                 parentCommentOpt.ifPresent(comment::setParentComment);
             }
-
-            // Notification au propriétaire du post (si ce n’est pas l’auteur lui-même)
             if (!user.equals(post.getUser())) {
                 NotificationRequest notificationRequest = NotificationRequest.builder()
                         .type(Notifications.POST_COMMENTED)
@@ -76,18 +72,16 @@ public class CommentService {
                 notificationService.saveAndSendNotification(notificationRequest, post.getUser(), user);
             }
 
-            // Sauvegarde du commentaire
             commentRespository.save(comment);
 
             CommentResponse response = commentMapper.convertToResponseComment(comment, userPrincipal.getId());
 
-            // Retour succès
             return ApiResponseUtil.success(response, null, "");
 
         } catch (Exception e) {
             // Gestion globale des erreurs
             return ApiResponseUtil.error("Failed to create comment: " + e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+                    HttpStatus.NOT_FOUND);
         }
     }
 

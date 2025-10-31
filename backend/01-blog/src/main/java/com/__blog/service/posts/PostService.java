@@ -59,7 +59,6 @@ public class PostService {
         post.setUser(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
             for (var medai : postRequest.getMedias()) {
-
                 var mediaDTO = mediaMapper.convertToMediaEntity(medai, post);
                 post.addMedia(mediaDTO);
             }
@@ -69,7 +68,6 @@ public class PostService {
         if ((postRequest.getTags() != null && !postRequest.getTags().isEmpty())) {
             postRequest.getTags().forEach(tagName -> {
                 var tag = postMapper.convertToTagsEntity(tagName);
-                // 
                 post.addTag(tag);
             });
         }
