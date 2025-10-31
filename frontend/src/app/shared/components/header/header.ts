@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, output, Output, signal } from '@angular/core';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { ThemeService } from '../../../modules/services/theme-service';
 import { Materaile } from '../../../modules/materaile-module';
@@ -14,6 +14,7 @@ import { NotificationsServiceLogique } from '../../../core/service/serivecLogiqu
 })
 export class Header implements OnInit, OnDestroy {
   searchQuery = '';
+  s = signal('')
   authService = inject(AuthService);
   router = inject(Router);
   themeService = inject(ThemeService);
@@ -23,6 +24,7 @@ export class Header implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
   isNotificated = false;
   @Output() isShowPopUp = new EventEmitter<any>();
+  // dfgdf = output();
   hasUnreadNotifications = false;
   ngOnInit() {
     this.notifLogique.loadingNotifications();
