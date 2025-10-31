@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
-import com.__blog.model.entity.Post;
 import com.__blog.model.entity.User;
 
 @Repository

@@ -25,6 +25,8 @@ import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CommentService {
 

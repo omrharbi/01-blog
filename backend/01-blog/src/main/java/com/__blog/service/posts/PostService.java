@@ -35,7 +35,7 @@ import com.__blog.util.ApiResponseUtil;
 import jakarta.transaction.Transactional;
 
 @Service
-@Transactional
+
 public class PostService {
 
     @Autowired
@@ -52,7 +52,7 @@ public class PostService {
 
     @Autowired
     private SubscriptionRepository subscriptionRepository;
-
+    @Transactional
     public ResponseEntity<ApiResponse<PostResponse>> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
         Post post = postMapper.convertToEntity(postRequest);

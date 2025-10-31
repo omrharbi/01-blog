@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
-import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.repository.UserRepository;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
