@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ApiException.class)
-    public ResponseEntity<?> handleApiException(ApiException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", ex.getHttpStatus().value());
-        response.put("error", ex.getMessage());
-        return new ResponseEntity<>(response, ex.getHttpStatus());
-        // return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
-    }
+        @ExceptionHandler(ApiException.class)
+        public ResponseEntity<?> handleApiException(ApiException ex) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", ex.getHttpStatus().value());
+            response.put("error", ex.getMessage());
+            return new ResponseEntity<>(response, ex.getHttpStatus());
+        }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<String> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex) {

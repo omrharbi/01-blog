@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.__blog.Component.PostMapper;
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
@@ -37,6 +38,8 @@ public class AdminService {
     private UserMapper userMapper;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private PostMapper postMapper;
 
     public ResponseEntity<ApiResponse<List<UserResponseToAdmin>>> getAllUsers() {
         try {
@@ -90,7 +93,44 @@ public class AdminService {
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
 
+    public ResponseEntity<ApiResponse<UserResponseToAdmin>> banPost(UserPrincipal userPrincipal, UUID postId, int days) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error(
+                    "❌ You are not authorized to ban this user.",
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+        User admin = userPrincipal.getUser();
+        var post = postRepository.findById(postId);
+        if (post.isPresent()) {
+            post.get().setHidden(true);
+            // user.get().setHiddenUntil(LocalDateTime.now().plusDays(days));
+            var postResponse = postRepository.save(post.get());
+            var convertToResponse = postMapper.ConvertToResponseUserAdmin(admin);
+
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.USER_BANNED)
+                    .triggerUserId(admin.getId())
+                    .receiverId(userId)
+                    .message(user.get().getUsername() + " your account has been banned")
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
+            return ApiResponseUtil.success(convertToResponse, null, "User banned successfully");
+        }
+        return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+    }
+
     public ResponseEntity<ApiResponse<String>> deleteUser(UUID userId) {
+        var user = repouser.findById(userId);
+        if (user.isPresent()) {
+            user.get().setStatus("ban");
+            repouser.deleteById(user.get().getId());
+            return ApiResponseUtil.success("delete User", null, "Delete User successful");
+        }
+        return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<ApiResponse<String>> deletePost(UUID userId) {
         var user = repouser.findById(userId);
         if (user.isPresent()) {
             user.get().setStatus("ban");

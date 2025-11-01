@@ -99,6 +99,37 @@ public class PostMapper {
         return postResponse;
     }
 
+     public PostResponse ConvertPostResponseToAdmin(Post post) {
+       
+        List<TagsResponse> tags = new ArrayList<>();
+        for (var tag : post.getTags()) {
+            var tagDTO = convertToTagsResponse(tag);
+            tags.add(tagDTO);
+        }
+        Optional<Media> firstImage = post.getMedias().stream().findFirst();
+        String image = "";
+        if (firstImage.isPresent()) {
+            image = firstImage.get().getFilePath();
+        }
+        PostResponse postResponse = PostResponse.builder()
+                .id(post.getId())
+                .uuid_user(post.getUser().getId())
+                .firstImage(image)
+                .firstname(post.getUser().getUsername())
+                .lastname(post.getUser().getLastname())
+                .content(post.getContent())
+                .title(post.getTitle())
+                .createdAt(post.getCreatedAt())
+                .username(post.getUser().getUsername())
+                .avatarUser(post.getUser().getAvatarUrl())
+                .tags(tags)
+           
+                .build();
+
+        return postResponse;
+    }
+
+
     public Post convertToEntity(PostRequest postDTO) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
