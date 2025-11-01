@@ -44,7 +44,7 @@ public class AdminService {
             if (user == null) {
                 return ApiResponseUtil.success(null, null, "No User");
             }
-            return ApiResponseUtil.success(user, null, "Registration successful");
+            return ApiResponseUtil.success(user, null, "Get All Users successful");
         } catch (Exception e) {
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }
@@ -66,7 +66,7 @@ public class AdminService {
     public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UserPrincipal userPrincipal, UUID userId, int days) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
-                    "❌ Failed to send notification to user: ",
+                    "❌ You are not authorized to ban this user.",
                     HttpStatus.UNAUTHORIZED
             );
         }

@@ -58,7 +58,6 @@ public class AuthService {
         ResponseEntity<ApiResponse<User>> getUserFromDb = user.getIdentifier().contains("@")
                 ? userService.findByEmail(user.getIdentifier())
                 : userService.findByUsername(user.getIdentifier());
-        // if (userService.fin)
         ApiResponse<User> dbUserResponse = getUserFromDb.getBody();
         if (dbUserResponse == null || dbUserResponse.getData() == null) {
             return ApiResponseUtil.error("UserName Or Email Invalid  ", HttpStatus.BAD_REQUEST);

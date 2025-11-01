@@ -577,3 +577,5 @@
 2025-11-01 13:01:55.339 GMT [1238231] STATEMENT:  insert into notification (created_at,message,receiver,status,trigger_user_id,type,id) values ($1,$2,$3,$4,$5,$6,$7)
 2025-11-01 13:04:47.827 GMT [1111991] LOG:  checkpoint starting: time
 2025-11-01 13:05:01.170 GMT [1111991] LOG:  checkpoint complete: wrote 135 buffers (0.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=13.331 s, sync=0.005 s, total=13.343 s; sync files=108, longest=0.001 s, average=0.001 s; distance=1064 kB, estimate=1326 kB; lsn=0/1F2B3E8, redo lsn=0/1F2B358
+2025-11-01 13:09:47.262 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 13:09:47.373 GMT [1111991] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.101 s, sync=0.003 s, total=0.111 s; sync files=1, longest=0.003 s, average=0.003 s; distance=6 kB, estimate=1194 kB; lsn=0/1F2CEC0, redo lsn=0/1F2CE68
