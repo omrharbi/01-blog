@@ -27,8 +27,11 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all-users")
-    public ResponseEntity<?> allUsers() {
-        return adminService.getAllUsers();
+    public ResponseEntity<?> allUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return adminService.getAllUsers(page,size);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

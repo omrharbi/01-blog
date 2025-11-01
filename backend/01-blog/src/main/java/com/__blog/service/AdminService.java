@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,9 +47,10 @@ public class AdminService {
     // @Autowired
     // private PostMapper postMapper;
 
-    public ResponseEntity<ApiResponse<List<UserResponseToAdmin>>> getAllUsers() {
+    public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getAllUsers(int page, int size) {
         try {
-            var user = repouser.findAllUsersWithPostCount();
+            Pageable pageable = PageRequest.of(page, size);
+            var user = repouser.findAllUsersWithPostCount(pageable);
             if (user == null) {
                 return ApiResponseUtil.success(null, null, "No User");
             }
