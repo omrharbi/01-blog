@@ -570,3 +570,10 @@
 2025-11-01 12:14:40.698 GMT [1217028] STATEMENT:  insert into users (about,avatar,created_at,date_of_birth,email,firstname,hidden,hidden_until,lastname,password,role,status,username,id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
 2025-11-01 12:14:47.061 GMT [1111991] LOG:  checkpoint starting: time
 2025-11-01 12:15:00.407 GMT [1111991] LOG:  checkpoint complete: wrote 134 buffers (0.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=13.333 s, sync=0.007 s, total=13.347 s; sync files=146, longest=0.002 s, average=0.001 s; distance=1506 kB, estimate=1506 kB; lsn=0/1E1FD78, redo lsn=0/1E1FCE8
+2025-11-01 12:19:47.492 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 12:19:49.110 GMT [1111991] LOG:  checkpoint complete: wrote 17 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.606 s, sync=0.006 s, total=1.619 s; sync files=11, longest=0.005 s, average=0.001 s; distance=5 kB, estimate=1355 kB; lsn=0/1E212C8, redo lsn=0/1E21238
+2025-11-01 13:01:55.339 GMT [1238231] ERROR:  new row for relation "notification" violates check constraint "notification_type_check"
+2025-11-01 13:01:55.339 GMT [1238231] DETAIL:  Failing row contains (76a13674-fd45-4b8d-b515-d34177d84cd4, 2025-11-01 14:01:55.338, om your account has been banned, f, USER_BANNED, adbb7add-3eaf-4356-883c-c8460ebbbee9, d3732c83-2bd8-47c6-bfd2-3a1d474af8dd).
+2025-11-01 13:01:55.339 GMT [1238231] STATEMENT:  insert into notification (created_at,message,receiver,status,trigger_user_id,type,id) values ($1,$2,$3,$4,$5,$6,$7)
+2025-11-01 13:04:47.827 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 13:05:01.170 GMT [1111991] LOG:  checkpoint complete: wrote 135 buffers (0.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=13.331 s, sync=0.005 s, total=13.343 s; sync files=108, longest=0.001 s, average=0.001 s; distance=1064 kB, estimate=1326 kB; lsn=0/1F2B3E8, redo lsn=0/1F2B358

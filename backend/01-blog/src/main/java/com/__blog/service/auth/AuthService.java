@@ -1,5 +1,7 @@
 package com.__blog.service.auth;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,11 +58,16 @@ public class AuthService {
         ResponseEntity<ApiResponse<User>> getUserFromDb = user.getIdentifier().contains("@")
                 ? userService.findByEmail(user.getIdentifier())
                 : userService.findByUsername(user.getIdentifier());
-
+        // if (userService.fin)
         ApiResponse<User> dbUserResponse = getUserFromDb.getBody();
         if (dbUserResponse == null || dbUserResponse.getData() == null) {
             return ApiResponseUtil.error("UserName Or Email Invalid  ", HttpStatus.BAD_REQUEST);
         }
+
+        if (dbUserResponse.getData().isHidden() && dbUserResponse.getData().getHiddenUntil() != null && dbUserResponse.getData().getHiddenUntil().isAfter(LocalDateTime.now())) {
+            return ApiResponseUtil.error("Your account is temporarily banned until " + dbUserResponse.getData().getHiddenUntil(), HttpStatus.FORBIDDEN);
+        }
+
         User userEntity = dbUserResponse.getData();
 
         if (userEntity == null) {

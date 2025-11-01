@@ -2,6 +2,7 @@ package com.__blog.model.entity;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -74,8 +75,8 @@ public class User {
     @Column(name = "hidden", nullable = false)
     private boolean hidden = false; // true = user temporarily hidden/banned
     @Column(name = "hiddenUntil", nullable = false)
-    private Date hiddenUntil = new Date();
-    ;
+    private LocalDateTime hiddenUntil = LocalDateTime.now();
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();

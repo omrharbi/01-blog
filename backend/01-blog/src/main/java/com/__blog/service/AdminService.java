@@ -1,5 +1,6 @@
 package com.__blog.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,11 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.__blog.Component.UserMapper;
+import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
+import com.__blog.model.entity.User;
+import com.__blog.model.enums.Notifications;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.ReportRepository;
 import com.__blog.repository.UserRepository;
+import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
@@ -30,6 +35,8 @@ public class AdminService {
     private ReportRepository reportRepository;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationService notificationService;
 
     public ResponseEntity<ApiResponse<List<UserResponseToAdmin>>> getAllUsers() {
         try {
@@ -56,13 +63,29 @@ public class AdminService {
         return ApiResponseUtil.success(countResponse, null, null);
     }
 
-    public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UUID userId) {
+    public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UserPrincipal userPrincipal, UUID userId, int days) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error(
+                    "❌ Failed to send notification to user: ",
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+        User admin = userPrincipal.getUser();
         var user = repouser.findById(userId);
         if (user.isPresent()) {
-            user.get().setStatus("ban");
+            user.get().setHidden(true);
+            user.get().setHiddenUntil(LocalDateTime.now().plusDays(days));
             var userResponse = repouser.save(user.get());
             var convertToResponse = userMapper.ConvertToResponseUserAdmin(userResponse);
-            return ApiResponseUtil.success(convertToResponse, null, "Ban User successful");
+
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.USER_BANNED)
+                    .triggerUserId(admin.getId())
+                    .receiverId(userId)
+                    .message(user.get().getUsername() + " your account has been banned")
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
+            return ApiResponseUtil.success(convertToResponse, null, "User banned successfully");
         }
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }

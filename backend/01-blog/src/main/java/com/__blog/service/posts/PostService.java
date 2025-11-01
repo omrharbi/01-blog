@@ -150,6 +150,9 @@ public class PostService {
 
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
+            if (post.isHidden()) {
+                return ApiResponseUtil.error("this Post Is Hidan From Admin ", HttpStatus.BAD_REQUEST);
+            }
             PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post, userId);
             return ApiResponseUtil.success(postResponse, null, ""); // token null si pas nécessaire
         } else {
@@ -173,9 +176,11 @@ public class PostService {
 
             List<PostResponse> postResponses = new ArrayList<>();
             for (Post post : postsOpt.get()) {
-                Hibernate.initialize(post.getTags()); // Assure que les tags sont chargés
-                PostResponse postDTO = postMapper.ConvertPostResponse(post, user.getId());
-                postResponses.add(postDTO);
+                if (!post.isHidden()) {
+                    Hibernate.initialize(post.getTags()); // Assure que les tags sont chargés
+                    PostResponse postDTO = postMapper.ConvertPostResponse(post, user.getId());
+                    postResponses.add(postDTO);
+                }
             }
 
             // Renvoie succès avec les données
