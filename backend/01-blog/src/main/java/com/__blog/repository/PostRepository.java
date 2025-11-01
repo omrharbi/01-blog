@@ -59,7 +59,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
         LEFT JOIN p.user u
         LEFT JOIN p.likes l
         LEFT JOIN p.comments c
-        LEFT JOIN p.reports r
+        LEFT JOIN Report r ON r.post = p
         GROUP BY p.id, p.title, u.firstname, u.lastname, p.createdAt
         ORDER BY COUNT(DISTINCT r) DESC
     """)

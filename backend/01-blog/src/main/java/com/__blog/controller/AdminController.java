@@ -50,16 +50,16 @@ public class AdminController {
         return adminService.deleteUser(userId);
     }
 
-    @PostMapping("/UnbanUser")
+    @PostMapping("/unban-user")
     public String UnbanUser() {
         // return userService.loginUser(user);
         return "";
     }
 
-    @PostMapping("/deleteUser")
-    public String deleteUser() {
-        // return userService.loginUser(user);
-        return "";
+    @PostMapping("/all-posts")
+    public ResponseEntity<?> allPosts() {
+        return adminService.getAllPosts();
+        // return "";
     }
 
     @PostMapping("/deletePost")
@@ -68,7 +68,7 @@ public class AdminController {
         return "";
     }
 
-    @PostMapping("/Hiddeng-post/{postId}")
+    @PostMapping("/hiddeng-post/{postId}")
     public ResponseEntity<?> HiddengPost(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("postId") UUID postId) {
         return adminService.HiddengPost(userPrincipal, postId);
     }

@@ -24,6 +24,8 @@ import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AdminService {
 
@@ -79,6 +81,7 @@ public class AdminService {
         return ApiResponseUtil.success(countResponse, null, null);
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UserPrincipal userPrincipal, UUID userId, int days) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
@@ -106,6 +109,7 @@ public class AdminService {
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<Boolean>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
@@ -114,21 +118,28 @@ public class AdminService {
             );
         }
         User admin = userPrincipal.getUser();
-        var post = postRepository.findById(postId);
-        if (post.isPresent()) {
-            post.get().setHidden(true);
-            // var isHeading = ;
-
-            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+        var existingPost = postRepository.findById(postId);
+        if (existingPost.isPresent()) {
+            boolean wasHidden = existingPost.get().isHidden();
+            String message;
+            if (wasHidden) {
+                existingPost.get().setHidden(false);
+                message = existingPost.get().getUser().getUsername() + ", your post has been unhidden.";
+            } else {
+                existingPost.get().setHidden(true);
+                message = existingPost.get().getUser().getUsername() + ", your post has been banned.";
+            }
+             NotificationRequest requestNotificationRequest = NotificationRequest.builder()
                     .type(Notifications.POST_BANNED)
                     .triggerUserId(admin.getId())
-                    .receiverId(post.get().getId())
-                    .message(post.get().getUser().getUsername() + " your Post has been banned")
+                    .receiverId(existingPost.get().getId())
+                    .message(message)
                     .build();
-            notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(), admin);
-            return ApiResponseUtil.success(post.get().isHidden(), null, "User banned successfully");
+            notificationService.saveAndSendNotification(requestNotificationRequest, existingPost.get().getUser(), admin);
+             String responseMessage = wasHidden ? "Post unhidden successfully" : "Post banned successfully";
+            return ApiResponseUtil.success(existingPost.get().isHidden(), null, responseMessage );
         }
-        return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+        return ApiResponseUtil.error("You Dont have any Post", HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<ApiResponse<String>> deleteUser(UUID userId) {

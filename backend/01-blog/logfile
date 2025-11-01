@@ -63,3 +63,21 @@
 2025-11-01 14:43:33.455 GMT [1274886] LOG:  database system is ready to accept connections
 2025-11-01 14:48:33.468 GMT [1274887] LOG:  checkpoint starting: time
 2025-11-01 14:48:33.478 GMT [1274887] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.001 s, total=0.011 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1F2DD10, redo lsn=0/1F2DCB8
+2025-11-01 15:53:34.481 GMT [1274887] LOG:  checkpoint starting: time
+2025-11-01 15:53:35.800 GMT [1274887] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.306 s, sync=0.007 s, total=1.320 s; sync files=11, longest=0.005 s, average=0.001 s; distance=6 kB, estimate=6 kB; lsn=0/1F2F860, redo lsn=0/1F2F808
+2025-11-01 15:54:56.433 GMT [1308752] ERROR:  new row for relation "notification" violates check constraint "notification_type_check"
+2025-11-01 15:54:56.433 GMT [1308752] DETAIL:  Failing row contains (5ab248e2-a7f5-4ae2-8643-7a3234c4727f, 2025-11-01 16:54:56.431, test1 your Post has been banned, f, POST_BANNED, 4ae187d8-b061-4983-8b08-24433722bb4d, f8d862f3-c1f6-456c-9d4c-d894dc492276).
+2025-11-01 15:54:56.433 GMT [1308752] STATEMENT:  insert into notification (created_at,message,receiver,status,trigger_user_id,type,id) values ($1,$2,$3,$4,$5,$6,$7)
+2025-11-01 15:57:28.758 GMT [1310204] ERROR:  new row for relation "notification" violates check constraint "notification_type_check"
+2025-11-01 15:57:28.758 GMT [1310204] DETAIL:  Failing row contains (0ef44b87-f793-4977-adf7-4d3d506cc945, 2025-11-01 16:57:28.754, test1 your Post has been banned, f, POST_BANNED, 4ae187d8-b061-4983-8b08-24433722bb4d, f8d862f3-c1f6-456c-9d4c-d894dc492276).
+2025-11-01 15:57:28.758 GMT [1310204] STATEMENT:  insert into notification (created_at,message,receiver,status,trigger_user_id,type,id) values ($1,$2,$3,$4,$5,$6,$7)
+2025-11-01 15:59:11.176 GMT [1311108] ERROR:  column "type" cannot be cast automatically to type smallint
+2025-11-01 15:59:11.176 GMT [1311108] HINT:  You might need to specify "USING type::smallint".
+2025-11-01 15:59:11.176 GMT [1311108] STATEMENT:  alter table if exists notification alter column type set data type smallint
+2025-11-01 15:59:16.066 GMT [1311108] ERROR:  new row for relation "notification" violates check constraint "notification_type_check"
+2025-11-01 15:59:16.066 GMT [1311108] DETAIL:  Failing row contains (52e2fb84-fc51-4ef8-9ca8-04fd32559aad, 2025-11-01 16:59:16.065, test1 your Post has been banned, f, 9, 4ae187d8-b061-4983-8b08-24433722bb4d, f8d862f3-c1f6-456c-9d4c-d894dc492276).
+2025-11-01 15:59:16.066 GMT [1311108] STATEMENT:  insert into notification (created_at,message,receiver,status,trigger_user_id,type,id) values ($1,$2,$3,$4,$5,$6,$7)
+2025-11-01 16:03:34.998 GMT [1274887] LOG:  checkpoint starting: time
+2025-11-01 16:03:50.846 GMT [1274887] LOG:  checkpoint complete: wrote 159 buffers (1.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=15.835 s, sync=0.008 s, total=15.849 s; sync files=113, longest=0.005 s, average=0.001 s; distance=1110 kB, estimate=1110 kB; lsn=0/20452E8, redo lsn=0/2045258
+2025-11-01 16:13:34.930 GMT [1274887] LOG:  checkpoint starting: time
+2025-11-01 16:13:35.344 GMT [1274887] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.005 s, total=0.414 s; sync files=5, longest=0.005 s, average=0.001 s; distance=6 kB, estimate=1000 kB; lsn=0/2046E70, redo lsn=0/2046E18
