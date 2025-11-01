@@ -31,7 +31,7 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        return adminService.getAllUsers(page,size);
+        return adminService.getAllUsers(page, size);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -67,10 +67,10 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/all-posts")
-    public ResponseEntity<?> allPosts() {
-        return adminService.getAllPosts();
-        // return "";
+    @GetMapping("/all-posts")
+    public ResponseEntity<?> allPosts(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return adminService.getAllPosts(page, size);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

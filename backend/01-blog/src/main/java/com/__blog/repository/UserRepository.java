@@ -27,7 +27,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT s FROM users u JOIN u.skills s WHERE u.id = :userId")
     Set<String> findSkillsByUserId(@Param("userId") UUID userId);
     @Query("""
-            SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(u.id, u.username, u.status , u.email,  COUNT(p) )
+             SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(u.id, u.username, u.status , u.email,  COUNT(p) )
              FROM users u 
              LEFT JOIN  u.posts p
              GROUP BY u.id, u.username , u.status, u.email

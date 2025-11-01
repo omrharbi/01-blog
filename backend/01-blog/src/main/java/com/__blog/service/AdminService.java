@@ -61,13 +61,14 @@ public class AdminService {
 
     }
 
-    public ResponseEntity<ApiResponse<List<PostReportToAdminResponse>>> getAllPosts() {
+    public ResponseEntity<ApiResponse<List<PostReportToAdminResponse>>> getAllPosts(int page, int size) {
         try {
-            var posts = postRepository.getPostsReportForAdmin();
+            Pageable pageable = PageRequest.of(page, size);
+            var posts = postRepository.getPostsReportForAdmin(pageable);
             if (posts == null) {
                 return ApiResponseUtil.success(null, null, "No User");
             }
-            return ApiResponseUtil.success(posts, null, "Get All Users successful");
+            return ApiResponseUtil.success(posts.getContent(), null, "Get All Users successful");
         } catch (Exception e) {
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }

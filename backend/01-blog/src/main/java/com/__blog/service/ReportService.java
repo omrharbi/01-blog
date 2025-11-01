@@ -3,10 +3,14 @@ package com.__blog.service;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.__blog.Component.ReportMapper;
 import com.__blog.model.dto.request.ReportRequest;
 import com.__blog.model.dto.response.ReportResponse;
 import com.__blog.model.entity.Post;
@@ -27,7 +31,8 @@ public class ReportService {
     private UserRepository userRepository;
     @Autowired
     private PostRepository postRepository;
-
+    @Autowired
+    private ReportMapper reportMapper;
     // @Autowired
     // private CommentRespository commentRespository;
     @Autowired
@@ -62,5 +67,38 @@ public class ReportService {
         }
         return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
 
+    }
+
+    public ResponseEntity<ApiResponse<Page<ReportResponse>>> getAllReportPost(int page, int size) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Report> reports = reportRepository.findAllPostReports(pageable);
+
+            if (reports == null) {
+                return ApiResponseUtil.success(null, null, "No Post");
+            }
+            Page<ReportResponse> reportDTOs = reports.map(reportMapper::convReportToDTO);
+            return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    public ResponseEntity<ApiResponse<Page<ReportResponse>>> getAllReportUser(int page, int size) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            var report = reportRepository.findAllUserReports(pageable);
+            if (report == null) {
+                return ApiResponseUtil.success(null, null, "No User");
+            }
+            Page<ReportResponse> reportDTOs = report.map(reportMapper::convReportToDTO);
+
+            return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
