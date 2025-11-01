@@ -382,3 +382,191 @@
 2025-11-01 11:40:27.549 GMT [1200966] STATEMENT:  alter table if exists report alter column reason set data type varchar(255)
 2025-11-01 11:44:46.347 GMT [1111991] LOG:  checkpoint starting: time
 2025-11-01 11:44:47.666 GMT [1111991] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.308 s, sync=0.005 s, total=1.320 s; sync files=13, longest=0.004 s, average=0.001 s; distance=47 kB, estimate=47 kB; lsn=0/1C92D98, redo lsn=0/1C92D40
+2025-11-01 12:01:02.935 GMT [1209473] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:01:02.935 GMT [1209473] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:01:04.972 GMT [1209522] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:01:04.972 GMT [1209522] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:01:14.947 GMT [1209671] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:01:14.947 GMT [1209671] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:01:14.949 GMT [1209671] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:01:14.949 GMT [1209671] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:01:21.982 GMT [1209783] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:01:21.982 GMT [1209783] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:01:21.983 GMT [1209783] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:01:21.983 GMT [1209783] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:01:23.906 GMT [1209810] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:01:23.906 GMT [1209810] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:01:23.908 GMT [1209810] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:01:23.908 GMT [1209810] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:01:51.929 GMT [1210101] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:01:51.929 GMT [1210101] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:01:51.930 GMT [1210101] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:01:51.930 GMT [1210101] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:03:17.940 GMT [1210636] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:03:17.940 GMT [1210636] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:03:17.943 GMT [1210636] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:03:17.943 GMT [1210636] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:03:23.723 GMT [1210696] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:03:23.723 GMT [1210696] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:03:23.726 GMT [1210696] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:03:23.726 GMT [1210696] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:03:26.471 GMT [1210747] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:03:26.471 GMT [1210747] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:03:26.474 GMT [1210747] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:03:26.474 GMT [1210747] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:03:29.207 GMT [1210775] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:03:29.207 GMT [1210775] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:03:29.208 GMT [1210775] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:03:29.208 GMT [1210775] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:03:31.922 GMT [1210814] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:03:31.922 GMT [1210814] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:03:31.925 GMT [1210814] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:03:31.925 GMT [1210814] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:03:35.677 GMT [1210850] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:03:35.677 GMT [1210850] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:03:35.679 GMT [1210850] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:03:35.679 GMT [1210850] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:03:41.448 GMT [1210929] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:03:41.448 GMT [1210929] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:03:41.450 GMT [1210929] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:03:41.450 GMT [1210929] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:04:46.837 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 12:04:47.249 GMT [1111991] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.002 s, total=0.412 s; sync files=5, longest=0.001 s, average=0.001 s; distance=30 kB, estimate=45 kB; lsn=0/1C9A990, redo lsn=0/1C9A938
+2025-11-01 12:04:48.292 GMT [1211351] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:04:48.292 GMT [1211351] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:04:48.294 GMT [1211351] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:04:48.294 GMT [1211351] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:04:50.052 GMT [1211378] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:04:50.052 GMT [1211378] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:04:50.056 GMT [1211378] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:04:50.056 GMT [1211378] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:04:52.868 GMT [1211422] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:04:52.868 GMT [1211422] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:04:52.869 GMT [1211422] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:04:52.869 GMT [1211422] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:04:56.096 GMT [1211473] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:04:56.096 GMT [1211473] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:04:56.098 GMT [1211473] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:04:56.098 GMT [1211473] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:04:59.968 GMT [1211514] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:04:59.968 GMT [1211514] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:04:59.970 GMT [1211514] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:04:59.970 GMT [1211514] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:05:10.797 GMT [1211605] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:05:10.797 GMT [1211605] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:05:10.799 GMT [1211605] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:05:10.799 GMT [1211605] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:05:39.587 GMT [1211808] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:05:39.587 GMT [1211808] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:05:39.590 GMT [1211808] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:05:39.590 GMT [1211808] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:05:42.324 GMT [1211867] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:05:42.324 GMT [1211867] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:05:42.326 GMT [1211867] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:05:42.326 GMT [1211867] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:05:53.056 GMT [1211954] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:05:53.056 GMT [1211954] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:05:53.058 GMT [1211954] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:05:53.058 GMT [1211954] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:05:56.771 GMT [1212009] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:05:56.771 GMT [1212009] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:05:56.773 GMT [1212009] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:05:56.773 GMT [1212009] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:06:05.517 GMT [1212136] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:06:05.517 GMT [1212136] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:06:05.519 GMT [1212136] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:06:05.519 GMT [1212136] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:06:07.330 GMT [1212181] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:06:07.330 GMT [1212181] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:06:07.332 GMT [1212181] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:06:07.332 GMT [1212181] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:06:09.059 GMT [1212205] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:06:09.059 GMT [1212205] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:06:09.061 GMT [1212205] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:06:09.061 GMT [1212205] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:06:46.841 GMT [1212464] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:06:46.841 GMT [1212464] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:06:46.843 GMT [1212464] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:06:46.843 GMT [1212464] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:06:52.605 GMT [1212525] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:06:52.605 GMT [1212525] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:06:52.607 GMT [1212525] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:06:52.607 GMT [1212525] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:07:00.352 GMT [1212612] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:07:00.352 GMT [1212612] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:07:00.354 GMT [1212612] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:07:00.354 GMT [1212612] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:07:34.125 GMT [1212847] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:07:34.125 GMT [1212847] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:07:34.127 GMT [1212847] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:07:34.127 GMT [1212847] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:07:46.180 GMT [1213046] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:07:46.180 GMT [1213046] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:07:46.182 GMT [1213046] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:07:46.182 GMT [1213046] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:07:50.154 GMT [1213092] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:07:50.154 GMT [1213092] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:07:50.156 GMT [1213092] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:07:50.156 GMT [1213092] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:07:59.135 GMT [1213198] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:07:59.135 GMT [1213198] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:07:59.137 GMT [1213198] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:07:59.137 GMT [1213198] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:08:02.145 GMT [1213280] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:08:02.145 GMT [1213280] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:08:02.147 GMT [1213280] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:08:02.147 GMT [1213280] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:08:05.075 GMT [1213321] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:08:05.075 GMT [1213321] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:08:05.077 GMT [1213321] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:08:05.077 GMT [1213321] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:08:07.178 GMT [1213383] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:08:07.178 GMT [1213383] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:08:07.180 GMT [1213383] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:08:07.180 GMT [1213383] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:08:14.674 GMT [1213383] ERROR:  column u1_0.hidden does not exist at character 100
+2025-11-01 12:08:14.674 GMT [1213383] STATEMENT:  select u1_0.id,u1_0.about,u1_0.avatar,u1_0.created_at,u1_0.date_of_birth,u1_0.email,u1_0.firstname,u1_0.hidden,u1_0.hidden_until,u1_0.lastname,u1_0.password,u1_0.role,u1_0.status,u1_0.username from users u1_0 where u1_0.username=$1
+2025-11-01 12:09:25.297 GMT [1213896] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:09:25.297 GMT [1213896] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:09:25.300 GMT [1213896] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:09:25.300 GMT [1213896] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:09:27.333 GMT [1213968] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:09:27.333 GMT [1213968] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:09:27.336 GMT [1213968] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:09:27.336 GMT [1213968] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:09:36.410 GMT [1214067] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:09:36.410 GMT [1214067] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:09:36.413 GMT [1214067] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:09:36.413 GMT [1214067] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:09:38.370 GMT [1214113] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:09:38.370 GMT [1214113] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:09:38.371 GMT [1214113] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:09:38.371 GMT [1214113] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:09:40.271 GMT [1214143] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:09:40.271 GMT [1214143] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:09:40.274 GMT [1214143] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:09:40.274 GMT [1214143] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:09:46.349 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 12:09:46.961 GMT [1111991] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.005 s, total=0.613 s; sync files=6, longest=0.004 s, average=0.001 s; distance=50 kB, estimate=50 kB; lsn=0/1CA7520, redo lsn=0/1CA74C8
+2025-11-01 12:09:50.264 GMT [1214246] ERROR:  column "hidden" of relation "posts" contains null values
+2025-11-01 12:09:50.264 GMT [1214246] STATEMENT:  alter table if exists posts add column hidden boolean not null
+2025-11-01 12:09:50.267 GMT [1214246] ERROR:  column "hidden" of relation "users" contains null values
+2025-11-01 12:09:50.267 GMT [1214246] STATEMENT:  alter table if exists users add column hidden boolean not null
+2025-11-01 12:10:24.659 GMT [1214246] ERROR:  column u1_0.hidden does not exist at character 100
+2025-11-01 12:10:24.659 GMT [1214246] STATEMENT:  select u1_0.id,u1_0.about,u1_0.avatar,u1_0.created_at,u1_0.date_of_birth,u1_0.email,u1_0.firstname,u1_0.hidden,u1_0.hidden_until,u1_0.lastname,u1_0.password,u1_0.role,u1_0.status,u1_0.username from users u1_0 where u1_0.username=$1
+2025-11-01 12:10:55.108 GMT [1213563] ERROR:  update or delete on table "posts" violates foreign key constraint "fkmvt35fe5neg814lnu9ie18rvt" on table "tags"
+2025-11-01 12:10:55.108 GMT [1213563] DETAIL:  Key (id)=(0c32ffef-dae1-4cf4-b43e-e174ebfe91de) is still referenced from table "tags".
+2025-11-01 12:10:55.108 GMT [1213563] STATEMENT:  DELETE FROM "posts" WHERE "id" IN ('0c32ffef-dae1-4cf4-b43e-e174ebfe91de','9a1c0a76-351f-48ab-af5c-6afd9902c4e9','a6eba899-6515-4ea8-a92c-bd693bfcc941')
+2025-11-01 12:11:04.617 GMT [1213563] ERROR:  update or delete on table "posts" violates foreign key constraint "fkmvt35fe5neg814lnu9ie18rvt" on table "tags"
+2025-11-01 12:11:04.617 GMT [1213563] DETAIL:  Key (id)=(0c32ffef-dae1-4cf4-b43e-e174ebfe91de) is still referenced from table "tags".
+2025-11-01 12:11:04.617 GMT [1213563] STATEMENT:  DELETE FROM "posts" WHERE "id" IN ('0c32ffef-dae1-4cf4-b43e-e174ebfe91de','9a1c0a76-351f-48ab-af5c-6afd9902c4e9','a6eba899-6515-4ea8-a92c-bd693bfcc941')
+2025-11-01 12:11:57.538 GMT [1213563] ERROR:  relation "users" does not exist at character 15
+2025-11-01 12:11:57.538 GMT [1213563] STATEMENT:  SELECT * FROM users LIMIT 100
+2025-11-01 12:12:43.448 GMT [1216078] ERROR:  null value in column "hidden_until" of relation "users" violates not-null constraint
+2025-11-01 12:12:43.448 GMT [1216078] DETAIL:  Failing row contains (5ef3f900-2fcc-4bac-b9d4-77bee53474c7, null, null, 2025-11-01 13:12:43.308, null, omr@gmai.com, omar, f, null, omar, $2a$10$JahVjQ9ak03NzdX/.oVJEOJJjBdI/.kJnb80HTAyLkkfTQN.8M8gq, USER, null, om).
+2025-11-01 12:12:43.448 GMT [1216078] STATEMENT:  insert into users (about,avatar,created_at,date_of_birth,email,firstname,hidden,hidden_until,lastname,password,role,status,username,id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+2025-11-01 12:14:40.698 GMT [1217028] ERROR:  timestamp out of range: "169087565-03-15 04:51:43+01"
+2025-11-01 12:14:40.698 GMT [1217028] CONTEXT:  unnamed portal parameter $8 = '...'
+2025-11-01 12:14:40.698 GMT [1217028] STATEMENT:  insert into users (about,avatar,created_at,date_of_birth,email,firstname,hidden,hidden_until,lastname,password,role,status,username,id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+2025-11-01 12:14:47.061 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 12:15:00.407 GMT [1111991] LOG:  checkpoint complete: wrote 134 buffers (0.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=13.333 s, sync=0.007 s, total=13.347 s; sync files=146, longest=0.002 s, average=0.001 s; distance=1506 kB, estimate=1506 kB; lsn=0/1E1FD78, redo lsn=0/1E1FCE8

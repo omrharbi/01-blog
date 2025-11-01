@@ -40,16 +40,11 @@ public class ReportService {
         UUID userId = userPrincipal.getId();
         Report report = new Report();
         var reporter = userRepository.findById(userId);
-
-        // if (reporter.isEmpty()) {
-        //     return ApiResponseUtil.error("Reporter not found", HttpStatus.NOT_FOUND);
-        // }
         report.setReasons(reportRequest.getReasons());
         report.setReporter(reporter.get());
         if (reportRequest.getPostReportId() != null) {
             var postOpt = postRepository.findById(reportRequest.getPostReportId());
             if (postOpt.isEmpty()) {
-
                 return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
             }
 
@@ -57,6 +52,7 @@ public class ReportService {
             if (userId.equals(post.getUser().getId())) {
                 return ApiResponseUtil.error("You cannot report your own post", HttpStatus.BAD_REQUEST);
             }
+
             User reportedUser = post.getUser();
             report.setPost(post);
             report.setReportedUser(reportedUser);

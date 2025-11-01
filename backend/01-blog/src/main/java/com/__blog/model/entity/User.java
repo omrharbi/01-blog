@@ -70,6 +70,12 @@ public class User {
 
     @Column(name = "avatar", nullable = true, columnDefinition = "TEXT")
     private String avatar;
+
+    @Column(name = "hidden", nullable = false)
+    private boolean hidden = false; // true = user temporarily hidden/banned
+    @Column(name = "hiddenUntil", nullable = false)
+    private Date hiddenUntil = new Date();
+    ;
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();

@@ -21,12 +21,12 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
             + " WHERE p.id = :postId")
     Optional<Post> findByIdWithMedias(@Param("postId") UUID id);
 
-    @Query("SELECT DISTINCT p FROM Post p "
-            + "LEFT JOIN FETCH p.medias "
-            + "LEFT JOIN FETCH p.tags "
-            + "LEFT JOIN FETCH p.user "
-            + // Add this line
-            "ORDER BY p.createdAt DESC")
+    @Query("""
+    SELECT DISTINCT p FROM Post p 
+             LEFT JOIN FETCH p.medias 
+             LEFT JOIN FETCH p.tags 
+             LEFT JOIN FETCH p.user 
+             ORDER BY p.createdAt DESC  """)
     List<Post> findAllWithMedias();
 
     Optional<List<Post>> findByUserId(UUID id);
@@ -38,6 +38,8 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     int countBylikesPostId(UUID id);
 
     boolean existsByLikesPostIdAndLikesUserId(UUID postId, UUID userId);
+
+    boolean existsByHiddenFalse();
 
     List<Post> findByLikesUserIdOrderByCreatedAtDesc(UUID userId);
 }

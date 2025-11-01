@@ -196,12 +196,15 @@ public class PostService {
         List<Post> posts = postRepository.findAllWithMedias();
         List<PostResponse> allPosts = new ArrayList<>();
         for (Post p : posts) {
-            PostResponse convert = postMapper.ConvertPostResponse(p, userId);
-            if (convert == null) {
-                return ApiResponseUtil.error("Not Found ", HttpStatus.NOT_FOUND);
+            // System.err.println(p.isHidden());
+            if (!p.isHidden()) {
+                PostResponse convert = postMapper.ConvertPostResponse(p, userId);
+                if (convert == null) {
+                    return ApiResponseUtil.error("Not Found ", HttpStatus.NOT_FOUND);
 
+                }
+                allPosts.add(convert);
             }
-            allPosts.add(convert);
         }
         return ApiResponseUtil.success(allPosts, null, "");
     }

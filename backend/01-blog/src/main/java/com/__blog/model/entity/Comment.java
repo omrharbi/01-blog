@@ -36,8 +36,11 @@ public class Comment {
     private String content;
     @Column(name = "created_at", nullable = false)  // corrected
     private Date createAt = new Date();
-    @JsonIgnore
 
+    @Column(nullable = false)
+    private boolean hidden = false;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
