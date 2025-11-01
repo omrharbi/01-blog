@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.__blog.model.dto.response.post.PostReportToAdminResponse;
 import com.__blog.model.entity.Post;
 
 @Repository
@@ -42,4 +43,28 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     boolean existsByHiddenFalse();
 
     List<Post> findByLikesUserIdOrderByCreatedAtDesc(UUID userId);
+
+    @Query("""
+        SELECT new com.__blog.model.dto.response.post.PostReportToAdminResponse(
+            p.id,
+            p.title,
+            u.firstname,
+            u.lastname,
+            p.createdAt,
+            COUNT(DISTINCT l), 
+            COUNT(DISTINCT c), 
+            COUNT(DISTINCT r)
+        )
+        FROM Post p
+        LEFT JOIN p.user u
+        LEFT JOIN p.likes l
+        LEFT JOIN p.comments c
+        LEFT JOIN p.reports r
+        GROUP BY p.id, p.title, u.firstname, u.lastname, p.createdAt
+        ORDER BY COUNT(DISTINCT r) DESC
+    """)
+    List<PostReportToAdminResponse> getPostsReportForAdmin();
+
+   
+
 }

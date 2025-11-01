@@ -22,32 +22,32 @@ import com.__blog.service.AdminService;
 public class AdminController {
 
     @Autowired
-    private AdminService userService;
+    private AdminService adminService;
 
     @GetMapping("/all-users")
     public ResponseEntity<?> allUsers() {
-        return userService.getAllUsers();
+        return adminService.getAllUsers();
     }
 
     @GetMapping("/count-users")
     public ResponseEntity<?> countUsers() {
-        return userService.countAllUser();
+        return adminService.countAllUser();
     }
 
     @PostMapping("/hidan-post/{postId}")
     public String hidanPost(@PathVariable("postId") UUID postId) {
-        // return userService.loginUser(user);
+        // return adminService.loginUser(user);
         return "";
     }
 
     @PostMapping("/ban-user/{userId}")
     public ResponseEntity<?> banUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("userId") UUID userId, @RequestParam("days") int days) {
-        return userService.banUser(userPrincipal, userId, days);
+        return adminService.banUser(userPrincipal, userId, days);
     }
 
     @PostMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") UUID userId) {
-        return userService.deleteUser(userId);
+        return adminService.deleteUser(userId);
     }
 
     @PostMapping("/UnbanUser")
@@ -67,20 +67,10 @@ public class AdminController {
         // return userService.loginUser(user);
         return "";
     }
-    // @PostMapping("/allUsers")
-    // public String AllPostsReport() {
-    // // return userService.loginUser(user);
-    // }
-    // @GetMapping("/test")
-    // public ResponseEntity<?> testAdmin(Authentication authentication) {
-    // System.out.println("=== ADMIN ENDPOINT ACCESS ===");
-    // System.out.println("User: " + authentication.getName());
-    // System.out.println("Authorities: " + authentication.getAuthorities());
-    // System.out.println("==============================");
 
-    // return ResponseEntity.ok(Map.of(
-    // "message", "Admin access successful",
-    // "user", authentication.getName(),
-    // "authorities", authentication.getAuthorities()));
-    // }
+    @PostMapping("/Hiddeng-post/{postId}")
+    public ResponseEntity<?> HiddengPost(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("postId") UUID postId) {
+        return adminService.HiddengPost(userPrincipal, postId);
+    }
+
 }

@@ -14,6 +14,7 @@ import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
+import com.__blog.model.dto.response.post.PostReportToAdminResponse;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
 import com.__blog.repository.PostRepository;
@@ -52,6 +53,18 @@ public class AdminService {
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    public ResponseEntity<ApiResponse<List<PostReportToAdminResponse>>> getAllPosts() {
+        try {
+            var posts = postRepository.getPostsReportForAdmin();
+            if (posts == null) {
+                return ApiResponseUtil.success(null, null, "No User");
+            }
+            return ApiResponseUtil.success(posts, null, "Get All Users successful");
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public ResponseEntity<ApiResponse<UsersPostsReportCountResponse>> countAllUser() {
@@ -93,7 +106,7 @@ public class AdminService {
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<ApiResponse<UserResponseToAdmin>> banPost(UserPrincipal userPrincipal, UUID postId, int days) {
+    public ResponseEntity<ApiResponse<Boolean>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
@@ -104,18 +117,16 @@ public class AdminService {
         var post = postRepository.findById(postId);
         if (post.isPresent()) {
             post.get().setHidden(true);
-            // user.get().setHiddenUntil(LocalDateTime.now().plusDays(days));
-            var postResponse = postRepository.save(post.get());
-            var convertToResponse = postMapper.ConvertToResponseUserAdmin(admin);
+            // var isHeading = ;
 
             NotificationRequest requestNotificationRequest = NotificationRequest.builder()
                     .type(Notifications.USER_BANNED)
                     .triggerUserId(admin.getId())
-                    .receiverId(userId)
-                    .message(user.get().getUsername() + " your account has been banned")
+                    .receiverId(post.get().getId())
+                    .message(post.get().getUser().getUsername() + " your account has been banned")
                     .build();
-            notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
-            return ApiResponseUtil.success(convertToResponse, null, "User banned successfully");
+            notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(), admin);
+            return ApiResponseUtil.success(post.get().isHidden(), null, "User banned successfully");
         }
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }

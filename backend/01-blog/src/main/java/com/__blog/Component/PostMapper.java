@@ -29,7 +29,7 @@ public class PostMapper {
     @Autowired
     private PostRepository postRepository;
 
-     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
+    public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
@@ -64,7 +64,7 @@ public class PostMapper {
 
         return response;
     }
- 
+
     public PostResponse ConvertPostResponse(Post post, UUID userid) {
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
@@ -99,44 +99,29 @@ public class PostMapper {
         return postResponse;
     }
 
-     public PostResponse ConvertPostResponseToAdmin(Post post) {
-       
-        List<TagsResponse> tags = new ArrayList<>();
-        for (var tag : post.getTags()) {
-            var tagDTO = convertToTagsResponse(tag);
-            tags.add(tagDTO);
-        }
-        Optional<Media> firstImage = post.getMedias().stream().findFirst();
-        String image = "";
-        if (firstImage.isPresent()) {
-            image = firstImage.get().getFilePath();
-        }
-        PostResponse postResponse = PostResponse.builder()
-                .id(post.getId())
-                .uuid_user(post.getUser().getId())
-                .firstImage(image)
-                .firstname(post.getUser().getUsername())
-                .lastname(post.getUser().getLastname())
-                .content(post.getContent())
-                .title(post.getTitle())
-                .createdAt(post.getCreatedAt())
-                .username(post.getUser().getUsername())
-                .avatarUser(post.getUser().getAvatarUrl())
-                .tags(tags)
-           
-                .build();
-
-        return postResponse;
-    }
-
-
+    // public PostReportToAdminResponse ConvertPostResponseToAdmin(Post post) {
+    //     PostReportToAdminResponse postResponse = PostReportToAdminResponse.builder()
+    //             .id(post.getId())
+    //             .uuid_user(post.getUser().getId())
+    //             .firstImage(image)
+    //             .firstname(post.getUser().getUsername())
+    //             .lastname(post.getUser().getLastname())
+    //             .content(post.getContent())
+    //             .title(post.getTitle())
+    //             .createdAt(post.getCreatedAt())
+    //             .username(post.getUser().getUsername())
+    //             .avatarUser(post.getUser().getAvatarUrl())
+    //             .tags(tags)
+    //             .build();
+    //     return postResponse;
+    // }
     public Post convertToEntity(PostRequest postDTO) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
         post.setHtmlContent(postDTO.getHtmlContent());
         post.setExcerpt(postDTO.getExcerpt());
-         return post;
+        return post;
     }
 
     public Tags convertToTagsEntity(TagsRequest tag) {

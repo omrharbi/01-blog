@@ -1,11 +1,15 @@
 package com.__blog.model.dto.response.post;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
-import com.__blog.model.dto.response.TagsResponse;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
+@Builder
+@Getter
+@Setter
 public class PostReportToAdminResponse {
 
     private UUID id;
@@ -13,7 +17,7 @@ public class PostReportToAdminResponse {
     private String firstname;
     private String lastname;
     private LocalDateTime createdAt;
-    private String firstImage;
-    private List<TagsResponse> tags;
-    private boolean isLiked;
+    private int likesCount;
+    private int commentCount;
+    private int reportCount;
 }
