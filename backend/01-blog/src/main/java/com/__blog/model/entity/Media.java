@@ -14,14 +14,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 @Table
 @Entity(name = "media")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter 
 
 public class Media {
 
@@ -50,8 +48,8 @@ public class Media {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posts_id")
-    @JsonIgnore
     private Post post;
 }

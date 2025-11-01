@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.dto.response.post.PostResponseWithMedia;
-import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
@@ -52,17 +52,24 @@ public class PostService {
 
     @Autowired
     private SubscriptionRepository subscriptionRepository;
+
     @Transactional
     public ResponseEntity<ApiResponse<PostResponse>> createPost(PostRequest postRequest, UserPrincipal userPrincipal) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error(
+                    "❌ Failed to send notification to user: ",
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
         User user = userPrincipal.getUser();
+
         Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
             for (var medai : postRequest.getMedias()) {
-                var mediaDTO = mediaMapper.convertToMediaEntity(medai, post);
+                var mediaDTO = mediaMapper.convertToMediaEntity(medai);
                 post.addMedia(mediaDTO);
             }
-
         }
 
         if ((postRequest.getTags() != null && !postRequest.getTags().isEmpty())) {
@@ -72,6 +79,7 @@ public class PostService {
             });
         }
         var followers = subscriptionRepository.findBySubscribedTo_Id(user.getId());
+        Post savedPost = postRepository.save(post);
         for (var follow : followers) {
             User receiver = follow.getSubscriberUser();
             User triggerUser = user;
@@ -83,10 +91,9 @@ public class PostService {
                     .build();
             notificationService.saveAndSendNotification(requestNotificationRequest, receiver, triggerUser);
         }
-
-        Post savedPost = postRepository.save(post);
-
         PostResponse postResponse = postMapper.ConvertPostResponse(savedPost, user.getId());
+
+        // ✅ RETURN THE ACTUAL RESPONSE
         return ApiResponseUtil.success(postResponse, null, " created a new post");
     }
 
@@ -107,8 +114,8 @@ public class PostService {
                 if (postRequest.getMedias() != null) {
                     existingPost.getMedias().clear();
                     for (MediaRequest tagRequest : postRequest.getMedias()) {
-                        Media media = mediaMapper.convertToMediaEntity(tagRequest, existingPost);
-                        existingPost.addMedia(media);
+                        // Media media = mediaMapper.convertToMediaEntity(tagRequest, existingPost);
+                        // existingPost.addMedia(media);
                     }
                 }
 
@@ -174,7 +181,7 @@ public class PostService {
             // Renvoie succès avec les données
             return ApiResponseUtil.success(postResponses, null, "");
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             // Gestion globale des erreurs
             return ApiResponseUtil.error("Failed to get user posts: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

@@ -25,15 +25,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsByUsername(String username);
     @Query("SELECT s FROM users u JOIN u.skills s WHERE u.id = :userId")
     Set<String> findSkillsByUserId(@Param("userId") UUID userId);
-
-    //  @Query("SELECT DISTINCT p FROM Post p "
-    //         + "LEFT JOIN FETCH p.medias "
-    //         + "LEFT JOIN FETCH p.tags "
-    //         + "LEFT JOIN FETCH p.user "
-    //         + // Add this line
-    //         "ORDER BY p.createdAt DESC")
-    // List<Post> findAllWithMedias();
-
     @Query("""
             SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(u.id, u.username, u.status , u.email,  COUNT(p) )
              FROM users u 

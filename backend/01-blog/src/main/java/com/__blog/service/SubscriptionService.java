@@ -106,7 +106,6 @@ public class SubscriptionService {
             List<UserResponse> responses = usersINotFollow.stream()
                     .map(user -> {
                         Hibernate.initialize(user.getSkills());
-
                         UserResponse userResponse = userMapper.ConvertResponse(user, userId);
                         return userResponse;
                     }).collect(Collectors.toList());

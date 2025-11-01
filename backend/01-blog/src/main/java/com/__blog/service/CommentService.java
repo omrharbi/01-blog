@@ -59,10 +59,10 @@ public class CommentService {
 
             Comment comment = commentMapper.convertToEntityComment(request, post, user);
 
-            if (request.getParentCommentId() != null) {
-                Optional<Comment> parentCommentOpt = commentRespository.findById(request.getParentCommentId());
-                parentCommentOpt.ifPresent(comment::setParentComment);
-            }
+            // if (request.getParentCommentId() != null) {
+            //     Optional<Comment> parentCommentOpt = commentRespository.findById(request.getParentCommentId());
+            //     parentCommentOpt.ifPresent(comment::setParentComment);
+            // }
             if (!user.equals(post.getUser())) {
                 NotificationRequest notificationRequest = NotificationRequest.builder()
                         .type(Notifications.POST_COMMENTED)

@@ -26,9 +26,9 @@ public class MediaService {
         post.getMedias().clear();
 
         for (MediaRequest mediaRequest : newMediaRequests) {
-            Media media = mediaMapper.convertToMediaEntity(mediaRequest, post);
-            // media = mediaRepository.save(media);
-            System.out.println("MediaService.replacePostMedias()" + media.getFilename());
+            Media media = mediaMapper.convertToMediaEntity(mediaRequest);
+            media = mediaRepository.save(media);
+            // System.out.println("MediaService.replacePostMedias()" + media.getFilename());
             post.addMedia(media);
         }
     }

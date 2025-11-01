@@ -3,6 +3,7 @@ package com.__blog.model.dto.response.user;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@Transactional
 public class UserResponse {
 
     private UUID id;

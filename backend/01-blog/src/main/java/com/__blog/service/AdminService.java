@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
-import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.ReportRepository;
 import com.__blog.repository.UserRepository;
@@ -20,6 +19,7 @@ import com.__blog.util.ApiResponseUtil;
 
 @Service
 public class AdminService {
+
     // Add authentication-related methods here
     @Autowired
     private UserRepository repouser;
@@ -39,7 +39,6 @@ public class AdminService {
             }
             return ApiResponseUtil.success(user, null, "Registration successful");
         } catch (Exception e) {
-            // TODO: handle exception
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }
 

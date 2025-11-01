@@ -20,6 +20,7 @@ import com.__blog.model.entity.Tags;
 import com.__blog.repository.PostRepository;
 
 @Component
+
 public class PostMapper {
 
     @Autowired
@@ -28,7 +29,7 @@ public class PostMapper {
     @Autowired
     private PostRepository postRepository;
 
-    public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
+     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
@@ -63,7 +64,7 @@ public class PostMapper {
 
         return response;
     }
-
+ 
     public PostResponse ConvertPostResponse(Post post, UUID userid) {
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
@@ -104,8 +105,7 @@ public class PostMapper {
         post.setContent(postDTO.getContent());
         post.setHtmlContent(postDTO.getHtmlContent());
         post.setExcerpt(postDTO.getExcerpt());
-        // post.setUser_posts(user);
-        return post;
+         return post;
     }
 
     public Tags convertToTagsEntity(TagsRequest tag) {

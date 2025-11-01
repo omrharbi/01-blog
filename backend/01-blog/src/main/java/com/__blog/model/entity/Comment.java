@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,11 +17,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
- 
+import lombok.Getter;
+import lombok.Setter;
+
 @Table(name = "comment")
 @Entity
-@Data
+@Getter
+@Setter
 public class Comment {
 
     @Id
@@ -32,29 +36,16 @@ public class Comment {
     private String content;
     @Column(name = "created_at", nullable = false)  // corrected
     private Date createAt = new Date();
+    @JsonIgnore
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
-    // Parent comment (for replies) - NULL for top-level comments
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id")
-    private Comment parentComment;
-
-    // Replies to this comment
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> replies = new ArrayList<>();
-
-  
-    public void removeReply(Comment reply) {
-        replies.remove(reply);
-        reply.setParentComment(null);
-    }
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 

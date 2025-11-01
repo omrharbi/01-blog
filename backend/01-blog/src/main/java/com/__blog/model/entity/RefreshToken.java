@@ -3,6 +3,8 @@ package com.__blog.model.entity;
 import java.time.Instant;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,9 +13,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "refresh_tokens")
+@Getter
+@Setter
 public class RefreshToken {
 
     @Id
@@ -23,7 +29,7 @@ public class RefreshToken {
 
     @Column(nullable = false, unique = true)
     private String token;
-
+     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;

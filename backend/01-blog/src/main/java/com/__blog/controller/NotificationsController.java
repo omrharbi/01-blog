@@ -24,9 +24,7 @@ public class NotificationsController {
     @GetMapping("/getAllNotifications")
 
     public ResponseEntity<?> getAllNotifications(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-
         return notificationService.getAllNotificationByUser(userPrincipal);
-
     }
 
     @PostMapping("/read/{notificationId}")

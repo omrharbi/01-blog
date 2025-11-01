@@ -26,19 +26,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Table
 @Entity(name = "users")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class User {
 
     @Id
-    @GeneratedValue 
+    @GeneratedValue
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -72,9 +70,8 @@ public class User {
 
     @Column(name = "avatar", nullable = true, columnDefinition = "TEXT")
     private String avatar;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "subscriberUser", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -114,10 +111,10 @@ public class User {
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "skill")
     private Set<String> skills = new HashSet<>();
-    
+
     public String getAvatarUrl() {
         if (avatar != null && !avatar.isEmpty()) {
-            return   avatar;
+            return avatar;
         }
         // Generate default avatar based on name
         return generateDefaultAvatar();

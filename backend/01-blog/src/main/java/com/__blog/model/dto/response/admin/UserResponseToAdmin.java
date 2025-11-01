@@ -1,7 +1,7 @@
 package com.__blog.model.dto.response.admin;
 
-import java.sql.Date;
-import java.util.UUID;
+ import java.util.UUID;
+
 import lombok.Builder;
 import lombok.Data;
 
