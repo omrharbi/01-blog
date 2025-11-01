@@ -369,3 +369,16 @@
 2025-11-01 10:19:46.301 GMT [1111991] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.005 s, total=0.415 s; sync files=5, longest=0.005 s, average=0.001 s; distance=8 kB, estimate=22 kB; lsn=0/1C6D4B8, redo lsn=0/1C6D460
 2025-11-01 10:24:45.401 GMT [1111991] LOG:  checkpoint starting: time
 2025-11-01 10:24:45.712 GMT [1111991] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.302 s, sync=0.005 s, total=0.312 s; sync files=4, longest=0.004 s, average=0.002 s; distance=4 kB, estimate=20 kB; lsn=0/1C6E7F8, redo lsn=0/1C6E7A0
+2025-11-01 10:34:45.884 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 10:34:46.896 GMT [1111991] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.005 s, sync=0.002 s, total=1.013 s; sync files=11, longest=0.002 s, average=0.001 s; distance=36 kB, estimate=36 kB; lsn=0/1C77B78, redo lsn=0/1C77B20
+2025-11-01 10:49:46.111 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 10:49:47.026 GMT [1111991] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.904 s, sync=0.005 s, total=0.916 s; sync files=10, longest=0.004 s, average=0.001 s; distance=26 kB, estimate=35 kB; lsn=0/1C7E700, redo lsn=0/1C7E6A8
+2025-11-01 11:29:46.697 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 11:29:47.612 GMT [1111991] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.903 s, sync=0.005 s, total=0.916 s; sync files=10, longest=0.004 s, average=0.001 s; distance=28 kB, estimate=35 kB; lsn=0/1C859C8, redo lsn=0/1C85970
+2025-11-01 11:39:46.731 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 11:39:47.246 GMT [1111991] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.005 s, total=0.516 s; sync files=5, longest=0.004 s, average=0.001 s; distance=5 kB, estimate=32 kB; lsn=0/1C87048, redo lsn=0/1C86FF0
+2025-11-01 11:40:27.549 GMT [1200966] ERROR:  operator does not exist: character varying >= integer
+2025-11-01 11:40:27.549 GMT [1200966] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2025-11-01 11:40:27.549 GMT [1200966] STATEMENT:  alter table if exists report alter column reason set data type varchar(255)
+2025-11-01 11:44:46.347 GMT [1111991] LOG:  checkpoint starting: time
+2025-11-01 11:44:47.666 GMT [1111991] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.308 s, sync=0.005 s, total=1.320 s; sync files=13, longest=0.004 s, average=0.001 s; distance=47 kB, estimate=47 kB; lsn=0/1C92D98, redo lsn=0/1C92D40

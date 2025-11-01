@@ -63,12 +63,11 @@ export class Comment {
     })
 
     this.servicePopUp.popService$.subscribe(commentId => {
-      this.getAllComment.filter(comment => {
-        // console.log(comment.userId, "**",this.jwtService.getCurrentUserUUID());
-
-
-        this.showPopUp[comment.id] = comment.id === commentId;
-      })
+      if (this.getAllComment !== null) {
+        this.getAllComment.filter(comment => {
+          this.showPopUp[comment.id] = comment.id === commentId;
+        })
+      }
 
     })
     this.postId = this.route.snapshot.paramMap.get('id') || '';
@@ -83,7 +82,7 @@ export class Comment {
       this.addComment.content = this.content;
       this.addComment.postId = id;
       // console.log(this.addComment);
-      
+
       this.commentService.AddComment(this.addComment).subscribe({
         next: response => {
           this.commentResponse = response.data;
@@ -114,7 +113,6 @@ export class Comment {
     this.commentService.getComments(this.postId).subscribe({
       next: response => {
         this.getAllComment = response.data;
-        console.log(this.getAllComment, "***********");
       },
       error: error => {
         console.log("Error to get comment ", error);
@@ -154,9 +152,10 @@ export class Comment {
   }
 
   removeComment(commentid: string) {
-    const posts = this.getAllComment.filter(p => p.id !== commentid);
-    this.getAllComment = [...posts]
-    // this.commentSubject.next(posts);
+    if (this.getAllComment !== null) {
+      const posts = this.getAllComment.filter(p => p.id !== commentid);
+      this.getAllComment = [...posts]
+    }
   }
   EditComment(id: string) {
 
@@ -166,7 +165,7 @@ export class Comment {
     this.addComment.postId = id;
     this.commentService.editComment(idComment, this.addComment).subscribe({
       next: response => {
-        if (response.status) {
+        if (response.status && this.getAllComment !== null) {
           const index = this.getAllComment.findIndex(c => c.id === this.idComment);
           if (index !== -1) {
             this.getAllComment[index].content = response.data.content; // update only content

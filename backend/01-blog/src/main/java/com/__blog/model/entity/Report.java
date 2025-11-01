@@ -26,7 +26,7 @@ public class Report {
     @GeneratedValue
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
-
+    // @Enumerated(EnumType.STRING)
     @Column(name = "reason", nullable = false)
     private ReportReason reasons;
 
@@ -48,5 +48,4 @@ public class Report {
     @ManyToOne
     @JoinColumn(name = "reported_user_id")
     private User reportedUser;
-//GET /api/report-reasons
 }
