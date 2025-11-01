@@ -20,8 +20,6 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
 import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages/uploadimages';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 import { PostResponse, Tags } from '../../../core/models/post/postResponse';
-import { apiUrl } from '../../../core/constant/constante';
-import { CanComponentDeactivate } from '../../../core/models/CanComponentDeactivate/CanComponentDeactivate';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -31,7 +29,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './create-post.html',
   styleUrl: './create-post.scss',
 })
-export class CreatePost implements CanComponentDeactivate {
+export class CreatePost  {
   constructor(
     private router: Router,
     private preview: PreviewService,

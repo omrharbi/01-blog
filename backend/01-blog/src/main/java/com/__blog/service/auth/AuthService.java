@@ -36,7 +36,7 @@ public class AuthService {
     @Autowired
     private UserMapper userMapper;
 
-    public ResponseEntity< ApiResponse<RegisterRequest>> registerUser(RegisterRequest registerRequest) {
+    public ResponseEntity<ApiResponse<RegisterRequest>> registerUser(RegisterRequest registerRequest) {
 
         User user = userMapper.ConvertToEntity(registerRequest);
         if (repouser.existsByEmail(user.getEmail())) {
@@ -59,37 +59,43 @@ public class AuthService {
 
         ApiResponse<User> dbUserResponse = getUserFromDb.getBody();
         if (dbUserResponse == null || dbUserResponse.getData() == null) {
-            return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
+            return ApiResponseUtil.error("UserName Or Email Invalid  ", HttpStatus.BAD_REQUEST);
         }
         User userEntity = dbUserResponse.getData();
 
         if (userEntity == null) {
 
-            return ApiResponseUtil.error("not found this user", HttpStatus.NOT_FOUND);
+            return ApiResponseUtil.error("UserName Or Email Invalid ", HttpStatus.BAD_REQUEST);
         }
-        Authentication auth = manager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        userEntity.getUsername(),
-                        user.getPassword()));
-        if (auth.isAuthenticated()) {
-            String token = tokenProvider.generateToken(userEntity.getUsername(),
-                    userEntity.getRole().name(), userEntity.getId());
-            LoginResponse response = LoginResponse.builder()
-                    .id(userEntity.getId())
-                    .username(userEntity.getUsername())
-                    .email(userEntity.getEmail())
-                    .avater(userEntity.getAvatarUrl())
-                    .build();
+        try {
 
-            return ApiResponseUtil.success(response, token, "");
+            Authentication auth = manager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            userEntity.getUsername(),
+                            user.getPassword()));
+            if (auth.isAuthenticated()) {
+                String token = tokenProvider.generateToken(userEntity.getUsername(),
+                        userEntity.getRole().name(), userEntity.getId());
+                LoginResponse response = LoginResponse.builder()
+                        .id(userEntity.getId())
+                        .username(userEntity.getUsername())
+                        .email(userEntity.getEmail())
+                        .avater(userEntity.getAvatarUrl())
+                        .build();
 
+                return ApiResponseUtil.success(response, token, "");
+
+            }
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Invalid credentials", HttpStatus.BAD_REQUEST);
         }
         return ApiResponseUtil.error("Invalid credentials", HttpStatus.UNAUTHORIZED);
 
         // return ApiResponse.<LoginResponse>builder()
-        //         .status(false)
-        //         .error("Invalid credentials")
-        //         .build();
+        // .status(false)
+        // .error("Invalid credentials")
+        // .build();
     }
 
 }

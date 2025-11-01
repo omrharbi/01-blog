@@ -24,9 +24,7 @@ public class Report {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "reporter_id", nullable = true)
-    private User reporter;
+    
 
      @Column(name = "reason", nullable = false)
     private ReportReason reasons;
@@ -42,8 +40,10 @@ public class Report {
     @JoinColumn(name = "comment_id", nullable = true)
     private Comment comment;
     @ManyToOne
+    @JoinColumn(name = "reporter_id", nullable = true)
+    private User reporter;
+    @ManyToOne
     @JoinColumn(name = "reported_user_id")
-
     private User reportedUser;
 //GET /api/report-reasons
 }

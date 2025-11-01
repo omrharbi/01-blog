@@ -28,7 +28,7 @@ public class AdminController {
 
     @GetMapping("/count-users")
     public ResponseEntity<?> countUsers() {
-        return userService.countUsers();
+        return userService.countAllUser();
     }
     @PostMapping("/AllPosts")
     public String AllPosts() {

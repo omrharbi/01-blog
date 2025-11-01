@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
+import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
 import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.repository.PostRepository;
+import com.__blog.repository.ReportRepository;
 import com.__blog.repository.UserRepository;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
@@ -23,26 +25,36 @@ public class AdminService {
     private UserRepository repouser;
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private ReportRepository reportRepository;
     @Autowired
     private UserMapper userMapper;
 
     public ResponseEntity<ApiResponse<List<UserResponseToAdmin>>> getAllUsers() {
-        var user = repouser.findAllUsersWithPostCount();
-        if (user == null) {
-            return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+        try {
+            var user = repouser.findAllUsersWithPostCount();
+            if (user == null) {
+                return ApiResponseUtil.success(null, null, "No User");
+            }
+            return ApiResponseUtil.success(user, null, "Registration successful");
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }
-        return ApiResponseUtil.success(user, null, "Registration successful");
+
     }
 
-    public ResponseEntity<ApiResponse<List<UserResponseToAdmin>>> countUsers() {
+    public ResponseEntity<ApiResponse<UsersPostsReportCountResponse>> countAllUser() {
         var countUser = repouser.count();
         var countPosts = postRepository.count();
-        System.out.println("-----" + countPosts + " count user  " + countUser);
-        // if (user == null) {
-        // return ApiResponseUtil.error("You Dont have any User",
-        // HttpStatus.BAD_REQUEST);
-        // }
-        return ApiResponseUtil.success(null, null, "Registration successful");
+        var countReport = reportRepository.count();
+        UsersPostsReportCountResponse countResponse = UsersPostsReportCountResponse.builder()
+                .countPosts(countPosts)
+                .countReport(countReport)
+                .countUser(countUser)
+                .build();
+        return ApiResponseUtil.success(countResponse, null, null);
     }
 
     public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UUID userId) {

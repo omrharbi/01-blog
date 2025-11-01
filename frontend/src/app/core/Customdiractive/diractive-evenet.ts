@@ -5,11 +5,10 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output, output, Rend
 })
 export class DiractiveEvenet {
 
-  constructor(private element: ElementRef, private randrer: Renderer2) { }
+  constructor(private element: ElementRef) { }
   @Output() clickedInside = new EventEmitter<boolean>();
   @HostListener('click', ['$event'])
   handleButtonClick(event: MouseEvent) {
-    // console.log("click", this.clickedInside);
     event.stopPropagation();
     this.clickedInside.emit(true);
   }
