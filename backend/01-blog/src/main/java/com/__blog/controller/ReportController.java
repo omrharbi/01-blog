@@ -24,7 +24,6 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create-report")
     public ResponseEntity<?> createReport(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody ReportRequest reportRequest) {
         return reportService.createReport(userPrincipal, reportRequest);
