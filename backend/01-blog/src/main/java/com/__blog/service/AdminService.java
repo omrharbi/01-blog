@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.__blog.Component.PostMapper;
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
@@ -42,8 +41,8 @@ public class AdminService {
     private UserMapper userMapper;
     @Autowired
     private NotificationService notificationService;
-    @Autowired
-    private PostMapper postMapper;
+    // @Autowired
+    // private PostMapper postMapper;
 
     public ResponseEntity<ApiResponse<List<UserResponseToAdmin>>> getAllUsers() {
         try {
@@ -70,6 +69,7 @@ public class AdminService {
         }
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<UsersPostsReportCountResponse>> countAllUser() {
         var countUser = repouser.count();
         var countPosts = postRepository.count();
