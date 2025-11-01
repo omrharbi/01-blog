@@ -22,6 +22,7 @@ import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,6 +60,7 @@ public class NotificationService {
         notificationRepository.save(notif);
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<String>> saveAndSendNotification(NotificationRequest notification, User receiver, User triggerUser) {
         ResponseEntity<ApiResponse<String>> response = sendNotification(receiver, notification);
         if (response == null) {
