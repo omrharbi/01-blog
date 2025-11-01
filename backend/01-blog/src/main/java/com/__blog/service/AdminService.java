@@ -17,6 +17,7 @@ import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
+import com.__blog.model.enums.Roles;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.ReportRepository;
 import com.__blog.repository.UserRepository;
@@ -168,6 +169,40 @@ public class AdminService {
             user.get().setStatus("ban");
             repouser.deleteById(user.get().getId());
             return ApiResponseUtil.success("delete User", null, "Delete User successful");
+        }
+        return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<ApiResponse<String>> changeRole(UserPrincipal userPrincipal, UUID userId) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error(
+                    "❌ You are not authorized to ban this user.",
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+        User admin = userPrincipal.getUser();
+        var user = repouser.findById(userId);
+        if (user.isPresent()) {
+            String message;
+            if (user.get().getRole() == Roles.ADMIN) {
+                user.get().setRole(Roles.USER);
+                message = user.get().getUsername() + ", your Account has been Changed To User.";
+            } else {
+                user.get().setRole(Roles.ADMIN);
+                message = user.get().getUsername() + ", your Account has been Changed To  Admin.";
+            }
+
+            repouser.save(user.get());
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.USER_BANNED)
+                    .triggerUserId(admin.getId())
+                    .receiverId(userId)
+                    .message(message)
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
+            // String responseMessage = wasHidden ? "Account unhidden successfully" : "Account banned successfully";
+
+            return ApiResponseUtil.success("change role  User to admin", null, message);
         }
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }

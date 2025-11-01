@@ -15,5 +15,6 @@ public enum Notifications {
     ADMIN_WARNING,
     USER_BANNED,
     POST_BANNED,
+    CHANGE_ROLE,
     // SYSTEM_ANNOUNCEMENT
 }

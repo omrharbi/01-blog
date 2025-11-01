@@ -68,6 +68,11 @@ public class AdminController {
         return "";
     }
 
+    @PostMapping("/change-role/{userId}")
+    public ResponseEntity<?> changeRole(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("userId") UUID userId) {
+        return adminService.changeRole(userPrincipal, userId);
+    }
+
     @PostMapping("/hiddeng-post/{postId}")
     public ResponseEntity<?> HiddengPost(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("postId") UUID postId) {
         return adminService.HiddengPost(userPrincipal, postId);
