@@ -120,10 +120,10 @@ public class AdminService {
             // var isHeading = ;
 
             NotificationRequest requestNotificationRequest = NotificationRequest.builder()
-                    .type(Notifications.USER_BANNED)
+                    .type(Notifications.POST_BANNED)
                     .triggerUserId(admin.getId())
                     .receiverId(post.get().getId())
-                    .message(post.get().getUser().getUsername() + " your account has been banned")
+                    .message(post.get().getUser().getUsername() + " your Post has been banned")
                     .build();
             notificationService.saveAndSendNotification(requestNotificationRequest, post.get().getUser(), admin);
             return ApiResponseUtil.success(post.get().isHidden(), null, "User banned successfully");
