@@ -20,4 +20,5 @@ public interface MediaRepository extends JpaRepository<Media, UUID> {
 //    List<Media> deleteAllByPostId(UUID postId);
     // List<Media> findAllByPostId(UUID postId);
     // void deleteAllByPost(Post post);
+    List<Media> findAlMediaeByPostId(UUID postId);
 }

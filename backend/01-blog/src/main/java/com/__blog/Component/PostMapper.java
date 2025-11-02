@@ -17,7 +17,10 @@ import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
+import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
+import com.__blog.repository.TagRepository;
+import com.__blog.repository.UserRepository;
 
 @Component
 
@@ -28,6 +31,15 @@ public class PostMapper {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private MediaRepository mediaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
@@ -99,22 +111,42 @@ public class PostMapper {
         return postResponse;
     }
 
-    // public PostReportToAdminResponse ConvertPostResponseToAdmin(Post post) {
-    //     PostReportToAdminResponse postResponse = PostReportToAdminResponse.builder()
-    //             .id(post.getId())
-    //             .uuid_user(post.getUser().getId())
-    //             .firstImage(image)
-    //             .firstname(post.getUser().getUsername())
-    //             .lastname(post.getUser().getLastname())
-    //             .content(post.getContent())
-    //             .title(post.getTitle())
-    //             .createdAt(post.getCreatedAt())
-    //             .username(post.getUser().getUsername())
-    //             .avatarUser(post.getUser().getAvatarUrl())
-    //             .tags(tags)
-    //             .build();
-    //     return postResponse;
-    // }
+    public PostResponse ConvertPostResponseToAdmin(PostResponse post) {
+
+        boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), post.getUuid_user());
+        int countComment = postRepository.countByCommentsPostId(post.getId());
+        int countLike = postRepository.countBylikesPostId(post.getId());
+        var getAllMedia = mediaRepository.findAlMediaeByPostId(post.getId());
+        var user = userRepository.findById(post.getUuid_user());
+        if (user.is)
+        List<MediaResponse> mediaResponses = new ArrayList<>();
+        for (var media : getAllMedia) {
+            var mediaDTO = mediaMapper.convertToPostResponse(media);
+            mediaResponses.add(mediaDTO);
+        }
+
+        List<TagsResponse> tags = new ArrayList<>();
+        var getAllTags = tagRepository.findAlTagseByPostId(post.getId());
+        for (var tag : getAllTags) {
+            var tagDTO = convertToTagsResponse(tag);
+            tags.add(tagDTO);
+        }
+        PostResponse response = PostResponse.builder()
+                .content(post.getContent())
+                .avatarUser(user.get().getAvatarUrl())
+                .username(user.get().getUsername())
+                .tags(tags)
+                .isLiked(isLiked)
+                .commentCount(countComment)
+                .likesCount(countLike)
+                .medias(mediaResponses)
+                .firstname(user.get().getFirstname())
+                .lastname(user.get().getLastname())
+                .build();
+
+        return response;
+    }
+
     public Post convertToEntity(PostRequest postDTO) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());

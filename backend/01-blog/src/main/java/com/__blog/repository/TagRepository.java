@@ -20,4 +20,5 @@ public interface  TagRepository extends  JpaRepository<Tags, UUID>{
             + "GROUP BY t.tags "
             + "ORDER BY COUNT(t) DESC")
     List<Object[]> findTrendingTags();
+    List<Tags> findAlTagseByPostId(UUID postId);
 }

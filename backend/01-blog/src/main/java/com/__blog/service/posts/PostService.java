@@ -202,15 +202,17 @@ public class PostService {
         }
         UUID userId = user.getId();
         Pageable pageable = PageRequest.of(page, size);
-        Page<Post> posts = postRepository.findAllWithMedias(pageable);
-        Page<PostResponse> allPosts = posts.map(post -> {
-            if (!post.isHidden()) {
-                PostResponse convert = postMapper.ConvertPostResponse(post, userId);
-                return convert;
-            }
-            return null;
-        });
-        return ApiResponseUtil.success(allPosts, null, "");
+        Page<PostResponse> findPostResponses=postRepository.findAllPostsWithFirstMedia(  pageable);
+        // findPostResponses.set
+        // Page<Post> posts = postRepository.findAllWithMedias(pageable);
+        // Page<PostResponse> allPosts = findPostResponses.map(post -> {
+        //     // if (!post.isHidden()) {
+        //         PostResponse convert = postMapper.ConvertPostResponse(post, userId);
+        //         return convert;
+        //     // }
+        //     // return null;
+        // });
+        return ApiResponseUtil.success(null, null, "");
     }
 
     @Transactional
