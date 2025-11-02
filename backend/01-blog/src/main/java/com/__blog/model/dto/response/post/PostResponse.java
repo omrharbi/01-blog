@@ -34,19 +34,26 @@ public class PostResponse {
     private int commentCount;
 
     public PostResponse(
+            UUID id,
+            UUID uuid_user,
+            String title,
             String content,
             LocalDateTime createdAt,
-            UUID id,
-            String title,
-            UUID uuid_user,
-            String firstMediaUrl
-    ) {
+            String firstImage,
+            String firstname,
+            String lastname,
+            String avatarUser,
+            String username) {
+        this.id = id;
+        this.uuid_user = uuid_user;
+        this.title = title;
         this.content = content;
         this.createdAt = createdAt;
-        this.id = id;
-        this.title = title;
-        this.uuid_user = uuid_user;
-        this.firstImage = firstMediaUrl;
+        this.firstImage = firstImage;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.avatarUser = avatarUser;
+        this.username = username;
     }
 
 }

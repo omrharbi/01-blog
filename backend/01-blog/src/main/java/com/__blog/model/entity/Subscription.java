@@ -16,8 +16,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table
-@Entity(name = "subscription")
+@Table(name = "subscription")
+@Entity
 
 @Getter
 @Setter

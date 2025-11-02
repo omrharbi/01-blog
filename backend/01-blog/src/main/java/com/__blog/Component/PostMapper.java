@@ -1,11 +1,16 @@
 package com.__blog.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.__blog.model.dto.request.PostRequest;
@@ -17,6 +22,7 @@ import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
+import com.__blog.model.entity.User;
 import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.TagRepository;
@@ -111,40 +117,83 @@ public class PostMapper {
         return postResponse;
     }
 
-    public PostResponse ConvertPostResponseToAdmin(PostResponse post) {
+    public Page<PostResponse> ConvertPostResponse(Page<PostResponse> basicPosts, UUID userId) {
+        List<UUID> postIds = basicPosts.getContent().stream()
+                .map(PostResponse::getId)
+                .collect(Collectors.toList());
+        Map<UUID, Long> likeCounts = getLikeCountsMap(postIds);
+        Map<UUID, Long> commentCounts = getCommentCountsMap(postIds);
+        Set<UUID> userLikedPostIds = postRepository.findUserLikedPostIds(postIds, userId);
+        Map<UUID, List<MediaResponse>> mediaMap = getMediaMap(postIds);
+        Map<UUID, List<TagsResponse>> tagsMap = getTagsMap(postIds);
 
-        boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), post.getUuid_user());
-        int countComment = postRepository.countByCommentsPostId(post.getId());
-        int countLike = postRepository.countBylikesPostId(post.getId());
-        var getAllMedia = mediaRepository.findAlMediaeByPostId(post.getId());
-        var user = userRepository.findById(post.getUuid_user());
-        if (user.is)
-        List<MediaResponse> mediaResponses = new ArrayList<>();
-        for (var media : getAllMedia) {
-            var mediaDTO = mediaMapper.convertToPostResponse(media);
-            mediaResponses.add(mediaDTO);
-        }
-
-        List<TagsResponse> tags = new ArrayList<>();
-        var getAllTags = tagRepository.findAlTagseByPostId(post.getId());
-        for (var tag : getAllTags) {
-            var tagDTO = convertToTagsResponse(tag);
-            tags.add(tagDTO);
-        }
-        PostResponse response = PostResponse.builder()
+        Page<PostResponse> enrichedPosts = basicPosts.map(post -> PostResponse.builder()
+                .id(post.getId())
+                .uuid_user(post.getUuid_user())
+                .title(post.getTitle())
                 .content(post.getContent())
-                .avatarUser(user.get().getAvatarUrl())
-                .username(user.get().getUsername())
-                .tags(tags)
-                .isLiked(isLiked)
-                .commentCount(countComment)
-                .likesCount(countLike)
-                .medias(mediaResponses)
-                .firstname(user.get().getFirstname())
-                .lastname(user.get().getLastname())
-                .build();
+                .createdAt(post.getCreatedAt())
+                .firstImage(post.getFirstImage())
+                // User info already fetched
+                .avatarUser(post.getAvatarUser())
+                .username(post.getUsername())
+                .firstname(post.getFirstname())
+                .lastname(post.getLastname())
+                // Enriched data
+                .tags(tagsMap.getOrDefault(post.getId(), Collections.emptyList()))
+                .medias(mediaMap.getOrDefault(post.getId(), Collections.emptyList()))
+                .isLiked(userLikedPostIds.contains(post.getId()))
+                .likesCount(likeCounts.getOrDefault(post.getId(), 0L).intValue())
+                .commentCount(commentCounts.getOrDefault(post.getId(), 0L).intValue())
+                .build());
 
-        return response;
+        return enrichedPosts;
+    }
+
+    private Map<UUID, Long> getLikeCountsMap(List<UUID> postIds) {
+        List<Object[]> results = postRepository.countLikesByPostIds(postIds);
+        return results.stream()
+                .collect(Collectors.toMap(
+                        row -> (UUID) row[0],
+                        row -> (Long) row[1]));
+    }
+
+    private Map<UUID, Long> getCommentCountsMap(List<UUID> postIds) {
+        List<Object[]> results = postRepository.countCommentsByPostIds(postIds);
+        return results.stream()
+                .collect(Collectors.toMap(
+                        row -> (UUID) row[0],
+                        row -> (Long) row[1]));
+    }
+
+    private Map<UUID, List<MediaResponse>> getMediaMap(List<UUID> postIds) {
+        List<Media> allMedia = mediaRepository.findAllByPostIdInMedia(postIds);
+        return allMedia.stream()
+                .collect(Collectors.groupingBy(
+                        media -> media.getPost().getId(),
+                        Collectors.mapping(
+                                media -> mediaMapper.convertToPostResponse(media),
+                                Collectors.toList())));
+    }
+
+    private Map<UUID, List<TagsResponse>> getTagsMap(List<UUID> postIds) {
+        List<Tags> allTags = tagRepository.findAllByPostIdInTags(postIds);
+        return allTags.stream()
+                .collect(Collectors.groupingBy(
+                        tag -> tag.getPost().getId(),
+                        Collectors.mapping(
+                                tag -> convertToTagsResponse(tag),
+                                Collectors.toList())));
+    }
+
+    private Map<UUID, User> getUsersMap(List<PostResponse> posts) {
+        Set<UUID> userIds = posts.stream()
+                .map(PostResponse::getUuid_user)
+                .collect(Collectors.toSet());
+
+        List<User> users = userRepository.findAllById(userIds);
+        return users.stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
     }
 
     public Post convertToEntity(PostRequest postDTO) {

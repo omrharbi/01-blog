@@ -16,8 +16,8 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-@Table
-@Entity(name = "media")
+@Table(name = "media")
+@Entity
 @Getter
 @Setter 
 

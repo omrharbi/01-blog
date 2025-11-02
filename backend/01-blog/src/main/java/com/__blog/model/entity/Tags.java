@@ -17,8 +17,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table
-@Entity(name = "tags")
+@Table(name = "tags")
+@Entity
 @Getter
 @Setter
 public class Tags {

@@ -2,6 +2,7 @@ package com.__blog.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
 import com.__blog.model.dto.response.post.PostResponse;
+import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
+import com.__blog.model.entity.Tags;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, UUID> {
@@ -26,27 +29,30 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     Optional<Post> findByIdWithMedias(@Param("postId") UUID id);
 
     @Query("""
-        SELECT DISTINCT p FROM Post p 
-             LEFT JOIN FETCH p.medias 
-             LEFT JOIN FETCH p.tags 
-             LEFT JOIN FETCH p.user 
-             ORDER BY p.createdAt DESC  """)
+            SELECT DISTINCT p FROM Post p
+                 LEFT JOIN FETCH p.medias
+                 LEFT JOIN FETCH p.tags
+                 LEFT JOIN FETCH p.user
+                 ORDER BY p.createdAt DESC  """)
     Page<Post> findAllWithMedias(Pageable pageable);
+
     @Query("""
-    SELECT new com.__blog.model.dto.response.post.PostResponse(
-        p.content,
-        p.createdAt,
-        p.id,
-         p.title,
-        u.id,
-        m.filePath
-        )
-        FROM Post p
-        JOIN p.user u
-        LEFT JOIN p.medias m
-        WHERE m.id = (SELECT MIN(m2.id) FROM media m2 WHERE m2.post.id = p.id)
-        ORDER BY p.createdAt DESC
-    """)
+            SELECT new com.__blog.model.dto.response.post.PostResponse(
+                p.id,
+                u.id,
+                p.title,
+                p.content,
+                p.createdAt,
+                (SELECT MIN(m2.filePath) FROM Media m2 WHERE m2.post.id = p.id),
+                u.firstname,
+                u.lastname,
+                u.avatar,
+                u.username
+            )
+            FROM Post p
+            JOIN p.user u
+            ORDER BY p.createdAt DESC
+            """)
     Page<PostResponse> findAllPostsWithFirstMedia(Pageable pageable);
 
     Optional<List<Post>> findByUserId(UUID id);
@@ -64,24 +70,55 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findByLikesUserIdOrderByCreatedAtDesc(UUID userId);
 
     @Query("""
-        SELECT new com.__blog.model.dto.response.post.PostReportToAdminResponse(
-            p.id,
-            p.title,
-            u.firstname,
-            u.lastname,
-            p.createdAt,
-            COUNT(DISTINCT l), 
-            COUNT(DISTINCT c), 
-            COUNT(DISTINCT r)
-        )
-        FROM Post p
-        LEFT JOIN p.user u
-        LEFT JOIN p.likes l
-        LEFT JOIN p.comments c
-        LEFT JOIN Report r ON r.post = p
-        GROUP BY p.id, p.title, u.firstname, u.lastname, p.createdAt
-        ORDER BY COUNT(DISTINCT r) DESC
-    """)
+                SELECT new com.__blog.model.dto.response.post.PostReportToAdminResponse(
+                    p.id,
+                    p.title,
+                    u.firstname,
+                    u.lastname,
+                    p.createdAt,
+                    COUNT(DISTINCT l),
+                    COUNT(DISTINCT c),
+                    COUNT(DISTINCT r)
+                )
+                FROM Post p
+                LEFT JOIN p.user u
+                LEFT JOIN p.likes l
+                LEFT JOIN p.comments c
+                LEFT JOIN Report r ON r.post = p
+                GROUP BY p.id, p.title, u.firstname, u.lastname, p.createdAt
+                ORDER BY COUNT(DISTINCT r) DESC
+            """)
     Page<PostReportToAdminResponse> getPostsReportForAdmin(Pageable pageable);
 
+    // PostRepository.java
+
+    // Method 1: Simple batch queries (RECOMMENDED)
+    @Query("""
+            SELECT p.id, COUNT(l.id)
+            FROM Post p
+            LEFT JOIN p.likes l
+            WHERE p.id IN :postIds
+            GROUP BY p.id
+            """)
+    List<Object[]> countLikesByPostIds(@Param("postIds") List<UUID> postIds);
+
+    @Query("""
+            SELECT p.id, COUNT(c.id)
+            FROM Post p
+            LEFT JOIN p.comments c
+            WHERE p.id IN :postIds
+            GROUP BY p.id
+            """)
+    List<Object[]> countCommentsByPostIds(@Param("postIds") List<UUID> postIds);
+
+    @Query("""
+            SELECT l.post.id
+            FROM Like l
+            WHERE l.post.id IN :postIds
+            AND l.user.id = :userId
+            """)
+    Set<UUID> findUserLikedPostIds(@Param("postIds") List<UUID> postIds, @Param("userId") UUID userId);
+
+  
+    
 }

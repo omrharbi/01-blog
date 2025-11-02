@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -61,8 +62,7 @@ public class PostService {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ Failed to send notification to user: ",
-                    HttpStatus.UNAUTHORIZED
-            );
+                    HttpStatus.UNAUTHORIZED);
         }
         User user = userPrincipal.getUser();
 
@@ -202,17 +202,12 @@ public class PostService {
         }
         UUID userId = user.getId();
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostResponse> findPostResponses=postRepository.findAllPostsWithFirstMedia(  pageable);
-        // findPostResponses.set
-        // Page<Post> posts = postRepository.findAllWithMedias(pageable);
-        // Page<PostResponse> allPosts = findPostResponses.map(post -> {
-        //     // if (!post.isHidden()) {
-        //         PostResponse convert = postMapper.ConvertPostResponse(post, userId);
-        //         return convert;
-        //     // }
-        //     // return null;
-        // });
-        return ApiResponseUtil.success(null, null, "");
+        Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(pageable);
+        if (findPostResponses.isEmpty()) {
+            return ApiResponseUtil.success(findPostResponses, null, "");
+        }
+        var result = postMapper.ConvertPostResponse(findPostResponses, userId);
+        return ApiResponseUtil.success(result, null, "");
     }
 
     @Transactional

@@ -30,8 +30,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table
-@Entity(name = "users")
+@Table(name = "users")
+@Entity
 @Getter
 @Setter
 public class User {

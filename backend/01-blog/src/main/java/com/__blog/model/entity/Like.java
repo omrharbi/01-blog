@@ -14,8 +14,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table
-@Entity(name = "liked")
+@Table(name = "liked")
+@Entity
 @Getter
 @Setter
 public class Like {
