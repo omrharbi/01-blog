@@ -15,7 +15,7 @@ export const environment = {
     },
     admin: {
         getUsers: apiUrl + "api/admin/all-users",
-        updateMe: apiUrl + "users/update-me",
+        getPosts: apiUrl + "api/admin/all-posts",
         getMyPosts: apiUrl + "api/user/usersProfile",
         changePassword: apiUrl + "users/change-password",
     },

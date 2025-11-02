@@ -27,6 +27,17 @@ export class AdminService {
       })
   }
 
+  getAllPosts(page: number, size: number): Observable<ApiResponse<UserResponseInAdmin[]>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+
+    return this.http.get<ApiResponse<UserResponseInAdmin[]>>
+      (`${environment.admin.getPosts}?page=${page}&size=${size}`, {
+        headers
+      })
+  }
   // getCurrentUserUUID(): string | null {
   //   const token = this.getToken();
   //   return token ? this.jwtService.getUUIDFromToken(token) : null;

@@ -8,6 +8,9 @@ import java.util.UUID;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -193,24 +196,20 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<PostResponse>>> getPosts(UserPrincipal user) {
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPosts(UserPrincipal user, int page, int size) {
         if (user == null) {
             return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
         }
         UUID userId = user.getId();
-        List<Post> posts = postRepository.findAllWithMedias();
-        List<PostResponse> allPosts = new ArrayList<>();
-        for (Post p : posts) {
-            // System.err.println(p.isHidden());
-            if (!p.isHidden()) {
-                PostResponse convert = postMapper.ConvertPostResponse(p, userId);
-                if (convert == null) {
-                    return ApiResponseUtil.error("Not Found ", HttpStatus.NOT_FOUND);
-
-                }
-                allPosts.add(convert);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Post> posts = postRepository.findAllWithMedias(pageable);
+        Page<PostResponse> allPosts = posts.map(post -> {
+            if (!post.isHidden()) {
+                PostResponse convert = postMapper.ConvertPostResponse(post, userId);
+                return convert;
             }
-        }
+            return null;
+        });
         return ApiResponseUtil.success(allPosts, null, "");
     }
 

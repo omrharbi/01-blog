@@ -20,9 +20,7 @@ public class NotificationsController {
 
     @Autowired
     private NotificationService notificationService;
-
     @GetMapping("/getAllNotifications")
-
     public ResponseEntity<?> getAllNotifications(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return notificationService.getAllNotificationByUser(userPrincipal);
     }
@@ -30,7 +28,6 @@ public class NotificationsController {
     @PostMapping("/read/{notificationId}")
 
     public ResponseEntity<?> readNotification(@PathVariable("notificationId") UUID notificationId) {
-
         return notificationService.readNotification(notificationId);
     }
 }

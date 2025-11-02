@@ -9,7 +9,7 @@ export interface PostResponse {
   firstname?: string;
   lastname?: string;
   avatarUser?: string;
-   createdAt: string;
+  createdAt: string;
   medias?: MediaResponse[];
   tags?: Tags[];
   liked: boolean;
@@ -32,4 +32,12 @@ export interface ApiResponse<T> {
   message?: string;
   error?: string;
   data: T;
+}
+
+
+export interface Page<T> {
+  content: T[];
+  totalPages: number;
+  totalElements: number;
+  number: number; // current page
 }

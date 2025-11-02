@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
+import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.entity.Post;
 
 @Repository
@@ -24,13 +25,31 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
             + " WHERE p.id = :postId")
     Optional<Post> findByIdWithMedias(@Param("postId") UUID id);
 
+    // @Query("""
+    //     SELECT DISTINCT p FROM Post p 
+    //          LEFT JOIN FETCH p.medias 
+    //          LEFT JOIN FETCH p.tags 
+    //          LEFT JOIN FETCH p.user 
+    //          ORDER BY p.createdAt DESC  """)
+    // Page<Post> findAllWithMedias(Pageable pageable);
     @Query("""
-    SELECT DISTINCT p FROM Post p 
-             LEFT JOIN FETCH p.medias 
-             LEFT JOIN FETCH p.tags 
-             LEFT JOIN FETCH p.user 
-             ORDER BY p.createdAt DESC  """)
-    List<Post> findAllWithMedias();
+            SELECT new com.__blog.model.dto.response.post.PostResponse(
+                u.avatar, 
+                (SELECT COUNT(c) FROM Comment c WHERE c.post.id = p.id), 
+                p.content, p.createdAt, 
+                (SELECT m.url FROM Media m WHERE m.post.id = p.id ORDER BY m.createdAt ASC LIMIT 1), 
+                u.firstname, p.id, 
+                (CASE WHEN EXISTS(SELECT l FROM Like l WHERE l.post.id = p.id AND l.user.id = :userId) THEN true ELSE false END), 
+                u.lastname, 
+                (SELECT COUNT(l) FROM Like l WHERE l.post.id = p.id), 
+                (SELECT t FROM Tag t JOIN t.posts tp WHERE tp.id = p.id), 
+                p.title, u.username, u.id
+            )
+            FROM Post p
+            JOIN p.user u
+            ORDER BY p.createdAt DESC
+        """)
+    Page<PostResponse> findAllPostsWithDTO(@Param("userId") UUID userId, Pageable pageable);
 
     Optional<List<Post>> findByUserId(UUID id);
 

@@ -48,12 +48,12 @@ export class PostService {
       { headers }
     );
   }
-  getAllPost(): Observable<ApiResponse<PostResponse[]>> {
+  getAllPost(page: number, size: number): Observable<ApiResponse<PostResponse[]>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.post.posts}`, {
+    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.post.posts}?page=${page}&size=${size}`, {
       headers
     });
   }

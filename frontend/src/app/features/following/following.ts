@@ -31,18 +31,24 @@ export class Following {
     this.followingLogic.loadingData();
     this.subscriptions.add(
       this.followingLogic.following$.subscribe(following => {
+        console.log(following, "following");
+        
         this.following = following;
       })
     );
 
     this.subscriptions.add(
       this.followingLogic.followers$.subscribe(followers => {
+        console.log(followers, "followers");
+
         this.followers = followers;
       })
     );
 
     this.subscriptions.add(
       this.followingLogic.explore$.subscribe(explore => {
+        console.log(explore,"explore");
+        
         this.explore = explore;
       })
     );

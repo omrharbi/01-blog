@@ -109,3 +109,21 @@
 2025-11-01 18:11:53.239 GMT [1274887] LOG:  checkpoint starting: shutdown immediate
 2025-11-01 18:11:53.244 GMT [1274887] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.007 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=289 kB; lsn=0/2063DA0, redo lsn=0/2063DA0
 2025-11-01 18:11:53.247 GMT [1274886] LOG:  database system is shut down
+2025-11-02 13:28:44.753 GMT [6538] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-02 13:28:44.753 GMT [6538] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-02 13:28:44.755 GMT [6538] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-02 13:28:44.759 GMT [6541] LOG:  database system was interrupted; last known up at 2025-11-02 13:16:13 GMT
+2025-11-02 13:28:44.806 GMT [6541] LOG:  database system was not properly shut down; automatic recovery in progress
+2025-11-02 13:28:44.808 GMT [6541] LOG:  redo starts at 0/2C88228
+2025-11-02 13:28:45.155 GMT [6541] LOG:  invalid record length at 0/A395EA0: expected at least 24, got 0
+2025-11-02 13:28:45.155 GMT [6541] LOG:  redo done at 0/A395E68 system usage: CPU: user: 0.28 s, system: 0.05 s, elapsed: 0.34 s
+2025-11-02 13:28:45.160 GMT [6539] LOG:  checkpoint starting: end-of-recovery immediate wait
+2025-11-02 13:28:45.218 GMT [6539] LOG:  checkpoint complete: wrote 8754 buffers (53.4%); 0 WAL file(s) added, 0 removed, 8 recycled; write=0.035 s, sync=0.010 s, total=0.059 s; sync files=30, longest=0.003 s, average=0.001 s; distance=121911 kB, estimate=121911 kB; lsn=0/A395EA0, redo lsn=0/A395EA0
+2025-11-02 13:28:45.222 GMT [6538] LOG:  database system is ready to accept connections
+2025-11-02 13:31:14.531 GMT [8115] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 13:31:14.535 GMT [7862] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 13:31:14.531 GMT [7784] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 13:31:14.532 GMT [7773] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 13:31:14.532 GMT [7770] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 13:31:14.532 GMT [7767] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 13:31:14.532 GMT [7982] LOG:  unexpected EOF on client connection with an open transaction

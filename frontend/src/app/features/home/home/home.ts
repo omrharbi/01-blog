@@ -12,6 +12,7 @@ import { FollowingLogiqueService } from '../../../core/service/serivecLogique/fo
 import { Tranding } from '../../../core/service/servicesAPIREST/tranding/tranding';
 import { TrendingTag } from '../../../core/models/tranding/tranding';
 import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
+import { RtlScrollAxisType } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,7 @@ export class Home {
       SharedService, private auth: AuthService, private global: Global,
     private follow: FollowingLogiqueService,
     private tranding: Tranding,
-   
+
   ) {
     this.posts$ = this.postDatashard.posts$;
   }
@@ -47,16 +48,18 @@ export class Home {
   countFollowers = signal(0);
   countFollowing = signal(0);
   private subscription = new Subscription();
+
+  currentPage = 0;
+  pageSize = 5;
+  totalPages = 0;
+  loading = false;
   ngOnInit() {
 
 
     this.isAuthenticated = this.auth.isLoggedIn();
     // this.postDatashard.posts$.subscribe(posts => this.posts = posts);
     if (this.isAuthenticated) {
-      this.postservice.getAllPost().subscribe(res => {
-        this.posts = res.data;
-        this.postDatashard.setPosts(res.data);
-      });
+      this.loadingPosts()
       this.postDatashard.newpost$.subscribe(post => {
         console.log(post, "home here ");
         if (post) {
@@ -91,6 +94,17 @@ export class Home {
         }
       })
     }
+  }
+  loadingPosts() {
+    if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
+    this.postservice.getAllPost(0, 10).subscribe(res => {
+      this.posts = [...this.posts,...res.data];
+      console.log(this.posts,"here -****************");
+      
+      // this.totalPages=res.totalPages
+      // this.postDatashard.setPosts(this.posts);
+    });
+
   }
 
   ngOnDestroy() {
