@@ -38,5 +38,6 @@
     "workbench.editor.languageDetection": true,
     "workbench.editor.mouseBackForwardToNavigate": true,
     "editor.find.addExtraSpaceOnTop": true,
-    "editor.find.cursorMoveOnType": true
+    "editor.find.cursorMoveOnType": true,
+    "java.format.settings.url": "fromat"
 }

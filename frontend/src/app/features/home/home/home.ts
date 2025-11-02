@@ -29,7 +29,7 @@ export class Home {
       SharedService, private auth: AuthService, private global: Global,
     private follow: FollowingLogiqueService,
     private tranding: Tranding,
-    private admin: AdminService
+   
   ) {
     this.posts$ = this.postDatashard.posts$;
   }
@@ -49,12 +49,7 @@ export class Home {
   private subscription = new Subscription();
   ngOnInit() {
 
-    this.admin.getAllUsers().subscribe({
-      next: resonse => {
-        console.log("admin test", resonse);
 
-      }
-    })
     this.isAuthenticated = this.auth.isLoggedIn();
     // this.postDatashard.posts$.subscribe(posts => this.posts = posts);
     if (this.isAuthenticated) {

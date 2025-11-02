@@ -1,4 +1,16 @@
-<p>admin-layout works!</p>
-<mat-card class="auth-container">
-  <router-outlet></router-outlet>
-</mat-card>
+<div class="h-screen flex">
+  <div class="contain d-flex min-h-screen w-full  ">
+    <!-- Header + main content -->
+    <div class="flex-1 flex flex-col header-container">
+      <!-- Header -->
+      <div class="Header ">
+        <app-header-admin></app-header-admin>
+      </div>
+
+      <!-- Router outlet for nested pages -->
+      <div class="flex-1 overflow-auto p-4">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

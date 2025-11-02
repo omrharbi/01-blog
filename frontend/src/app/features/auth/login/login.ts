@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ export class Login {
   authService = inject(AuthService);
   themeService = inject(ThemeService);
   router = inject(Router);
+  messageError = signal("");
   constructor(private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
       identifier: new FormControl('', [Validators.required]),
@@ -30,13 +31,19 @@ export class Login {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           if (response.status) {
-             this.router.navigate(['/']); //navigate to home ✅
+            this.router.navigate(['/']); //navigate to home ✅
           } else {
             this.errorMessage.push(response.error || 'Login failed');
           }
         },
         error: (err) => {
-          console.log(err, 'err');
+          const errorMessage =
+            err?.error?.error || // backend field 'error'
+            err?.error?.message || // fallback if backend sends 'message'
+            'An unexpected error occurred'; // default message
+
+          this.messageError.set(errorMessage)
+          console.log(errorMessage, 'err');
         },
       });
     }
@@ -68,5 +75,5 @@ export class Login {
     this.router.navigate(['/']);
   }
 
-  
+
 }

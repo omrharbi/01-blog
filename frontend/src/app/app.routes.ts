@@ -51,7 +51,13 @@ export const routes: Routes = [
     ],
   },
 
-  // { path: 'error', component: ErrorPageComponent },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin/admin-router/admin-module').then(m => m.AdminModule)
+  }
+  ,
+  { path: 'error', component: ErrorPageComponent },
 
   // { path: '**', redirectTo: '/error?status=404' },
 ];

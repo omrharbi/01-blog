@@ -1,0 +1,263 @@
+ <main class="container py-4">
+        <!-- Page Header -->
+        <div class="page-header mb-4">
+            <h1 class="fw-bold mb-2">Posts Management</h1>
+            <p>Monitor and moderate user-generated content</p>
+        </div>
+
+        <!-- Content Card -->
+        <div class="content-card">
+            <!-- Search -->
+            <div class="mb-4">
+                <div class="position-relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="search-icon">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                    <input type="text" class="form-control search-input"
+                        placeholder="Search by author name or post title...">
+                </div>
+            </div>
+
+            <!-- Posts Table -->
+            <div class="table-responsive">
+                <table class="posts-table">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Author</th>
+                            <th class="text-start">Title</th>
+                            <th class="text-start">Date</th>
+                            <th class="text-start">Likes</th>
+                            <th class="text-start">Comments</th>
+                            <th class="text-start">Reports</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Post 1 - Normal -->
+                        <tr>
+                            <td class="text-start">
+                                <span class="username">@admin</span>
+                            </td>
+                            <td class="text-start text-muted post-title">admin post</td>
+                            <td class="text-start text-muted">Oct 30, 2025</td>
+                            <td class="text-start">
+                                <span class="fw-medium">5</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="fw-medium">1</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="reports-badge normal">0</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <button class="action-btn view">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path
+                                                d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        View
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Post 2 - Reported -->
+                        <tr class="reported-post">
+                            <td class="text-start">
+                                <span class="username">@omar</span>
+                            </td>
+                            <td class="text-start text-muted post-title">omar post</td>
+                            <td class="text-start text-muted">Oct 30, 2025</td>
+                            <td class="text-start">
+                                <span class="fw-medium">3</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="fw-medium">0</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="reports-badge alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" x2="12" y1="8" y2="12"></line>
+                                        <line x1="12" x2="12.01" y1="16" y2="16"></line>
+                                    </svg>
+                                    1
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <button class="action-btn view">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path
+                                                d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        View
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Post 3 - Normal -->
+                        <tr>
+                            <td class="text-start">
+                                <span class="username">@omar</span>
+                            </td>
+                            <td class="text-start text-muted post-title">omar post</td>
+                            <td class="text-start text-muted">Oct 30, 2025</td>
+                            <td class="text-start">
+                                <span class="fw-medium">1</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="fw-medium">0</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="reports-badge normal">0</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <button class="action-btn view">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path
+                                                d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        View
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+ 
+                        <!-- Post 7 - Reported -->
+                        <tr class="reported-post">
+                            <td class="text-start">
+                                <span class="username">@simo</span>
+                            </td>
+                            <td class="text-start text-muted post-title">simo post</td>
+                            <td class="text-start text-muted">Oct 30, 2025</td>
+                            <td class="text-start">
+                                <span class="fw-medium">3</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="fw-medium">0</span>
+                            </td>
+                            <td class="text-start">
+                                <span class="reports-badge alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" x2="12" y1="8" y2="12"></line>
+                                        <line x1="12" x2="12.01" y1="16" y2="16"></line>
+                                    </svg>
+                                    1
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <button class="action-btn view">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path
+                                                d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        View
+                                    </button>
+                                    <button class="action-btn delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+ 
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Showing 1 to 8 of 42 posts
+                </div>
+                <nav aria-label="Posts pagination">
+                    <ul class="pagination custom-pagination mb-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>

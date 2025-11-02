@@ -67,8 +67,6 @@ export class AuthService {
 
   getCurrentUserRole(): string | null {
     const token = this.getToken();
-    // console.log(token);
-    
     return token ? this.jwtService.getRoleFromToken(token) : null;
   }
 

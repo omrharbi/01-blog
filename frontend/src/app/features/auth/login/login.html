@@ -25,8 +25,8 @@
         <h1 class="card-title">Welcome Back</h1>
         <p class="card-subtitle">Sign in to your account to continue your journey</p>
       </div>
-      <div class="alert alter-danger" *ngIf="errorMessage.length">
-        <p *ngFor="let msg of errorMessage">{{ msg }}</p>
+      <div class="alert alter-danger" *ngIf="messageError() as msg">
+        <p>{{ msg }}</p>
       </div>
       <!-- Social Login Options -->
       <div class="social-options">

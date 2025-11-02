@@ -13,19 +13,16 @@ import { UserResponseInAdmin } from '../../../models/admin/UserResponseInAdmin';
   providedIn: 'root',
 })
 export class AdminService {
-  // const router = inject(Router);
   constructor(private http: HttpClient, private jwtService: JwtService) { }
-  // private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   urlImageUser: string = ""
-  // public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-  getAllUsers(): Observable<ApiResponse<UserResponseInAdmin[]>> {
+  getAllUsers(page: number, size: number): Observable<ApiResponse<UserResponseInAdmin[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
 
     return this.http.get<ApiResponse<UserResponseInAdmin[]>>
-      (`${environment.admin.getUsers}`, {
+      (`${environment.admin.getUsers}?page=${page}&size=${size}`, {
         headers
       })
   }

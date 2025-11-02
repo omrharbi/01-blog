@@ -1,0 +1,47 @@
+<header class="custom-header w-full">
+    <nav class="container px-4 py-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <!-- Logo and Navigation -->
+            <div class="d-flex align-items-center gap-5">
+                <!-- Brand/Logo -->
+                <a class="d-flex align-items-center gap-2 text-decoration-none   fs-4 fw-bold" [routerLink]="['/admin']">
+                    <div class="custom-logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-white">
+                            <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                            <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                            <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                            <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+                        </svg>
+                    </div>
+                    01Blog
+                </a>
+
+                <!-- Navigation Links -->
+                <div class="d-flex gap-1">
+                    <a class="custom-nav-link active"  [routerLink]="['/admin']" >Dashboard</a>
+                    <a class="custom-nav-link" [routerLink]="['/admin/users']"  >Users</a>
+                    <a class="custom-nav-link " [routerLink]="['/admin/posts']">Posts</a>
+                    <a class="custom-nav-link" [routerLink]="['/admin/reports']">Reports</a>
+                </div>
+            </div>
+
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2"></path>
+                    <path d="M12 20v2"></path>
+                    <path d="m4.93 4.93 1.41 1.41"></path>
+                    <path d="m17.66 17.66 1.41 1.41"></path>
+                    <path d="M2 12h2"></path>
+                    <path d="M20 12h2"></path>
+                    <path d="m6.34 17.66 -1.41 1.41"></path>
+                    <path d="m19.07 4.93 -1.41 1.41"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+</header>

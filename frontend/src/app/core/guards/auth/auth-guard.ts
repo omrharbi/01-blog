@@ -8,10 +8,8 @@ export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
   const notificationAlert = inject(NotificationService);
   if (!authService.isLoggedIn()) {
-      // notificationAlert.showError('Your session has expired. Please log in again.', true);
-      router.navigate(['/'] );
-    // not logged in → send to login
-    return false;
+       router.navigate(['/'] );
+     return false;
   }
   return true; // logged in → allow access
 };

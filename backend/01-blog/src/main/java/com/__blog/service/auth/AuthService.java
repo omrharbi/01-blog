@@ -60,7 +60,7 @@ public class AuthService {
                 : userService.findByUsername(user.getIdentifier());
         ApiResponse<User> dbUserResponse = getUserFromDb.getBody();
         if (dbUserResponse == null || dbUserResponse.getData() == null) {
-            return ApiResponseUtil.error("UserName Or Email Invalid  ", HttpStatus.BAD_REQUEST);
+            return ApiResponseUtil.error("No account found with the provided username or email.", HttpStatus.NOT_FOUND);
         }
 
         if (dbUserResponse.getData().isHidden() && dbUserResponse.getData().getHiddenUntil() != null && dbUserResponse.getData().getHiddenUntil().isAfter(LocalDateTime.now())) {

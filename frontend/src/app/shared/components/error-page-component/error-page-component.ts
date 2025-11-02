@@ -86,7 +86,7 @@ export class ErrorPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const statusCode = parseInt(params['status']) || 404;
-      this.errorInfo = this.errorMessages[statusCode] || this.errorMessages[404];
+      // this.errorInfo = this.errorMessages[statusCode] || this.errorMessages[404];
 
       // Only show notification once
       if (!this.notificationShown) {
