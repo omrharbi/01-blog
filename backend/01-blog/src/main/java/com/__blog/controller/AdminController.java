@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.AdminService;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin
@@ -24,7 +26,7 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
-    
+    // @Transactional(re)
     @GetMapping("/all-users")
     public ResponseEntity<?> allUsers(
             @RequestParam(defaultValue = "0") int page,

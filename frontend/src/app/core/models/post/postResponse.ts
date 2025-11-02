@@ -34,9 +34,14 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-
+export interface ApiResponsePosts<T> {
+  status?: boolean;
+  message?: string;
+  error?: string;
+  data: Page<T>;
+}
 export interface Page<T> {
-  content: T[];
+  content: T;
   totalPages: number;
   totalElements: number;
   number: number; // current page

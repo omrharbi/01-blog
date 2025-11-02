@@ -32,18 +32,10 @@ export class Home {
     private tranding: Tranding,
 
   ) {
-    this.posts$ = this.postDatashard.posts$;
+    // this.posts$ = this.postDatashard.posts$;
   }
 
   isAuthenticated: boolean = false;
-  // isNotificated = false;
-  // posts$=this.postDatashard.posts$;
-  // postsComput= computed(()=>this.postDatashard.posts$.subscribe({
-  //   next:res=>{
-  //     console.log(res);
-
-  //   }
-  // }));
   countPosts = signal(0);
   countFollowers = signal(0);
   countFollowing = signal(0);
@@ -97,16 +89,47 @@ export class Home {
   }
   loadingPosts() {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
-    this.postservice.getAllPost(0, 10).subscribe(res => {
-      this.posts = [...this.posts,...res.data];
-      console.log(this.posts,"here -****************");
-      
-      // this.totalPages=res.totalPages
-      // this.postDatashard.setPosts(this.posts);
+    this.loading = true;
+    this.postservice.getAllPost(0, this.pageSize).subscribe(response => {
+      if (response.data && response.data.content) {
+        this.posts = response.data.content;
+        this.currentPage = response.data.number;
+        this.totalPages = response.data.totalPages;
+        this.postDatashard.setPosts(this.posts);
+        this.loading = false;
+      }
     });
 
   }
 
+  loadMorePosts() {
+    if (this.loading || this.currentPage >= this.totalPages - 1) {
+      return;
+    }
+
+    this.loading = true;
+    const nextPage = this.currentPage + 1;
+    this.postservice.getAllPost(nextPage, this.pageSize).subscribe({
+      next: response => {
+        if (response.data && response.data.content) {
+          this.posts = [...this.posts, ...response.data.content];
+          this.currentPage = response.data.number;
+          this.totalPages = response.data.totalPages;
+          this.postDatashard.setPosts(this.posts);
+        }
+        this.loading = false;
+      },
+      error: error => {
+        console.error('Error loading more posts:', error);
+        this.loading = false;
+      }
+    });
+
+  }
+
+   hasMorePosts(): boolean {
+    return this.currentPage < this.totalPages - 1;
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

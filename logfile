@@ -651,3 +651,36 @@
 2025-11-02 14:57:53.304 GMT [41889] LOG:  unexpected EOF on client connection with an open transaction
 2025-11-02 14:57:53.304 GMT [41417] LOG:  unexpected EOF on client connection with an open transaction
 2025-11-02 14:57:53.304 GMT [38540] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.008 GMT [109444] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.012 GMT [108480] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.014 GMT [108477] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [108413] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [108168] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [108092] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [108411] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [108084] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [107691] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.018 GMT [105059] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.018 GMT [105056] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.020 GMT [106706] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [107405] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [106703] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:02:26.017 GMT [106298] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:10:08.285 GMT [4422] LOG:  checkpoint starting: time
+2025-11-02 17:12:33.099 GMT [4422] LOG:  checkpoint complete: wrote 1447 buffers (8.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=144.800 s, sync=0.005 s, total=144.815 s; sync files=7, longest=0.004 s, average=0.001 s; distance=13 kB, estimate=13 kB; lsn=0/A399710, redo lsn=0/A399680
+2025-11-02 17:20:01.669 GMT [116705] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.669 GMT [115182] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.669 GMT [115181] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.669 GMT [114823] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.672 GMT [115842] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.673 GMT [114821] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.673 GMT [114600] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.673 GMT [114346] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.669 GMT [115843] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.669 GMT [115713] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.669 GMT [115555] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.676 GMT [114080] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.676 GMT [114076] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:20:01.678 GMT [113896] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:24:15.504 GMT [124259] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:30:08.499 GMT [4422] LOG:  checkpoint starting: time

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostRequest } from '../../../models/post/postRequest';
 import { environment, token } from '../../../constant/constante';
-import { ApiResponse, PostResponse } from '../../../models/post/postResponse';
+import { ApiResponse, ApiResponsePosts, PostResponse } from '../../../models/post/postResponse';
 // import { PostResponse } from '../../../models/postData/postResponse';
 
 @Injectable({
@@ -48,12 +48,12 @@ export class PostService {
       { headers }
     );
   }
-  getAllPost(page: number, size: number): Observable<ApiResponse<PostResponse[]>> {
+  getAllPost(page: number, size: number): Observable<ApiResponsePosts<PostResponse[]>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponse<PostResponse[]>>(`${environment.post.posts}?page=${page}&size=${size}`, {
+    return this.http.get<ApiResponsePosts<PostResponse[]>>(`${environment.post.posts}?page=${page}&size=${size}`, {
       headers
     });
   }
