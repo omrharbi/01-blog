@@ -6,3 +6,5 @@ export interface UserResponseInAdmin {
     postsCount: number,
     hidden:boolean
 }
+
+export type ActionType = 'ban' | 'unban' | 'delete';

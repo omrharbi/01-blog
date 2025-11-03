@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
+import { ActionType } from '../../../core/models/admin/UserResponseInAdmin';
 
 @Component({
   selector: 'app-ban-popup',
@@ -11,9 +12,7 @@ export class BanPopup {
   @Input() isVisible: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<number>();
-  @Input() delete: boolean = false;
-  @Input() unban: boolean = false;
-  @Input() ban: boolean = false;
+  @Input() actionType: ActionType = 'ban'; 
   step: number = 1;
   banDays: number = 7;
   quickOptions: number[] = [1, 7, 14, 30, 90];
