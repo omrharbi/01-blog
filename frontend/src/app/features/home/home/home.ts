@@ -49,11 +49,9 @@ export class Home {
 
 
     this.isAuthenticated = this.auth.isLoggedIn();
-    // this.postDatashard.posts$.subscribe(posts => this.posts = posts);
     if (this.isAuthenticated) {
       this.loadingPosts()
       this.postDatashard.newpost$.subscribe(post => {
-        console.log(post, "home here ");
         if (post) {
           this.updatePostInList(post);
         }
@@ -78,7 +76,7 @@ export class Home {
       this.tranding.TrendingTag().subscribe({
         next: repose => {
           this.tags = repose;
-          console.log(repose, "tranding");
+          // console.log(repose, "tranding");
         },
         error: error => {
           console.log(error, "tranding");
@@ -127,7 +125,7 @@ export class Home {
 
   }
 
-   hasMorePosts(): boolean {
+  hasMorePosts(): boolean {
     return this.currentPage < this.totalPages - 1;
   }
   ngOnDestroy() {

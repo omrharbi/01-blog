@@ -71,7 +71,8 @@ public class User {
 
     @Column(name = "avatar", nullable = true, columnDefinition = "TEXT")
     private String avatar;
-
+    @Column(name = "is_admin")
+    private boolean isAdmin = false;
     @Column(name = "hidden", nullable = false)
     private boolean hidden = false; // true = user temporarily hidden/banned
     @Column(name = "hiddenUntil", nullable = false)

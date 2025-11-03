@@ -22,12 +22,10 @@ import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
-import com.__blog.model.entity.User;
-import com.__blog.repository.MediaRepository;
+ import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.TagRepository;
-import com.__blog.repository.UserRepository;
-
+ 
 @Component
 
 public class PostMapper {
@@ -44,8 +42,8 @@ public class PostMapper {
     @Autowired
     private MediaRepository mediaRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    // @Autowired
+    // private UserRepository userRepository;
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
@@ -186,15 +184,15 @@ public class PostMapper {
                                 Collectors.toList())));
     }
 
-    private Map<UUID, User> getUsersMap(List<PostResponse> posts) {
-        Set<UUID> userIds = posts.stream()
-                .map(PostResponse::getUuid_user)
-                .collect(Collectors.toSet());
+    // private Map<UUID, User> getUsersMap(List<PostResponse> posts) {
+    //     Set<UUID> userIds = posts.stream()
+    //             .map(PostResponse::getUuid_user)
+    //             .collect(Collectors.toSet());
 
-        List<User> users = userRepository.findAllById(userIds);
-        return users.stream()
-                .collect(Collectors.toMap(User::getId, user -> user));
-    }
+    //     List<User> users = userRepository.findAllById(userIds);
+    //     return users.stream()
+    //             .collect(Collectors.toMap(User::getId, user -> user));
+    // }
 
     public Post convertToEntity(PostRequest postDTO) {
         Post post = new Post();

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -24,6 +23,7 @@ import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.dto.response.post.PostResponseWithMedia;
+import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
@@ -100,6 +100,7 @@ public class PostService {
         return ApiResponseUtil.success(postResponse, null, " created a new post");
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<PostResponse>> editPost(PostRequest postRequest, UUID id, UserPrincipal user) {
         try {
             if (user == null) {
@@ -117,8 +118,8 @@ public class PostService {
                 if (postRequest.getMedias() != null) {
                     existingPost.getMedias().clear();
                     for (MediaRequest tagRequest : postRequest.getMedias()) {
-                        // Media media = mediaMapper.convertToMediaEntity(tagRequest, existingPost);
-                        // existingPost.addMedia(media);
+                        Media media = mediaMapper.convertToMediaEntity(tagRequest);
+                        existingPost.addMedia(media);
                     }
                 }
 

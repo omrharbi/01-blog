@@ -11,11 +11,8 @@ export interface RegisterRequest {
   firstname: string;
   lastname: string;
 
-  date_of_birth: string;
-  username: string;
-  about: string;
-
-  avatar: string;
-  password: string;
+   username: string;
+ 
+   password: string;
   confirmpassword: string;
 }

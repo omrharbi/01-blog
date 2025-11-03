@@ -7,6 +7,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Login } from '../../../../features/auth/login/login';
 import { JwtService } from '../../JWT/jwt-service';
 import { UserResponseInAdmin } from '../../../models/admin/UserResponseInAdmin';
+import {   ApiResponseWithPage } from '../../../models/post/postResponse';
 
 
 @Injectable({
@@ -15,13 +16,13 @@ import { UserResponseInAdmin } from '../../../models/admin/UserResponseInAdmin';
 export class AdminService {
   constructor(private http: HttpClient, private jwtService: JwtService) { }
   urlImageUser: string = ""
-  getAllUsers(page: number, size: number): Observable<ApiResponse<UserResponseInAdmin[]>> {
+  getAllUsers(page: number, size: number): Observable<ApiResponseWithPage<UserResponseInAdmin[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
 
-    return this.http.get<ApiResponse<UserResponseInAdmin[]>>
+    return this.http.get<ApiResponseWithPage<UserResponseInAdmin[]>>
       (`${environment.admin.getUsers}?page=${page}&size=${size}`, {
         headers
       })

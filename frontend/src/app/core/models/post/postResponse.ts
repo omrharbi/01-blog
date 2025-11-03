@@ -34,7 +34,7 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export interface ApiResponsePosts<T> {
+export interface ApiResponseWithPage<T> {
   status?: boolean;
   message?: string;
   error?: string;

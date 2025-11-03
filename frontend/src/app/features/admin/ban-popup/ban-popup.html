@@ -1,0 +1,46 @@
+<div class="popup-overlay" *ngIf="isVisible" (click)="onOverlayClick($event)">
+    <!-- Step 1: Confirmation -->
+    <div class="popup-container" *ngIf="step === 1" (click)="$event.stopPropagation()">
+        <div class="popup-header">
+            <h2>Confirm Ban</h2>
+            <button class="close-btn" (click)="closePopup()">&times;</button>
+        </div>
+        <div class="popup-body">
+            <div class="icon-warning">⚠️</div>
+            <p class="message">Are you sure you want to ban this user?</p>
+            <p class="sub-message">This action will restrict their access.</p>
+        </div>
+        <div class="popup-footer">
+            <button class="btn btn-cancel" (click)="closePopup()">Cancel</button>
+            <button class="btn btn-confirm" (click)="nextStep()">Yes, Ban User</button>
+        </div>
+    </div>
+
+    <!-- Step 2: Duration Selection -->
+    <div class="popup-container" *ngIf="step === 2" (click)="$event.stopPropagation()">
+        <div class="popup-header">
+            <h2>Ban Duration</h2>
+            <button class="close-btn" (click)="closePopup()">&times;</button>
+        </div>
+        <div class="popup-body">
+            <p class="message">How many days should this user be banned?</p>
+            <div class="duration-input">
+                <input type="number" [(ngModel)]="banDays" min="1" max="365" placeholder="Enter days"
+                    class="days-input" />
+                <span class="days-label">days</span>
+            </div>
+            <div class="quick-options">
+                <button *ngFor="let option of quickOptions" class="quick-btn" (click)="banDays = option">
+                    {{ option }} days
+                </button>
+                <button class="quick-btn" (click)="banDays = 999">Permanent</button>
+            </div>
+        </div>
+        <div class="popup-footer">
+            <button class="btn btn-cancel" (click)="previousStep()">Back</button>
+            <button class="btn btn-confirm" (click)="confirmBan()" [disabled]="!banDays || banDays < 1">
+                Confirm Ban
+            </button>
+        </div>
+    </div>
+</div>

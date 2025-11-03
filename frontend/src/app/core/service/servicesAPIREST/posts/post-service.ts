@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostRequest } from '../../../models/post/postRequest';
 import { environment, token } from '../../../constant/constante';
-import { ApiResponse, ApiResponsePosts, PostResponse } from '../../../models/post/postResponse';
-// import { PostResponse } from '../../../models/postData/postResponse';
-
+import { ApiResponse, ApiResponseWithPage, PostResponse } from '../../../models/post/postResponse';
 @Injectable({
   providedIn: 'root'
 })
@@ -42,18 +40,18 @@ export class PostService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-    
+
     return this.http.delete<number>(
       `${environment.savepost.removeMedia}${id}`,
       { headers }
     );
   }
-  getAllPost(page: number, size: number): Observable<ApiResponsePosts<PostResponse[]>> {
+  getAllPost(page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponsePosts<PostResponse[]>>(`${environment.post.posts}?page=${page}&size=${size}`, {
+    return this.http.get<ApiResponseWithPage<PostResponse[]>>(`${environment.post.posts}?page=${page}&size=${size}`, {
       headers
     });
   }

@@ -14,10 +14,8 @@ import org.springframework.stereotype.Repository;
 
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
 import com.__blog.model.dto.response.post.PostResponse;
-import com.__blog.model.entity.Media;
-import com.__blog.model.entity.Post;
-import com.__blog.model.entity.Tags;
-
+ import com.__blog.model.entity.Post;
+ 
 @Repository
 public interface PostRepository extends JpaRepository<Post, UUID> {
 

@@ -37,7 +37,7 @@ export class UploadImage {
     const randomFileName = this.generateRandomFileName(file.name);
     const fileWithRandomName = new File([file], randomFileName, { type: file.type });
 
-    console.log('Selected image file:', fileWithRandomName.name, 'Size:', file.size, 'Type:', file.type);
+    // console.log('Selected image file:', fileWithRandomName.name, 'Size:', file.size, 'Type:', file.type);
 
     // Add to fileUpload array (this is what gets sent to backend)
     this.fileUpload.push(fileWithRandomName);
@@ -56,7 +56,7 @@ export class UploadImage {
     this.selectedImageFile = file;
     this.selectImage(callback);
 
-    console.log('Total files ready for upload:', this.fileUpload.length);
+    // console.log('Total files ready for upload:', this.fileUpload.length);
   }
 
   clearFiles() {
@@ -98,7 +98,7 @@ export class UploadImage {
   }
 
   uploadfiles(): File[] {
-    console.log('uploadfiles() called - returning', this.fileUpload.length, 'files');
+    // console.log('uploadfiles() called - returning', this.fileUpload.length, 'files');
     return this.fileUpload;
   }
 

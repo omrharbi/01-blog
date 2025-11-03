@@ -3,5 +3,6 @@ export interface UserResponseInAdmin {
     username: string,
     status: string,
     email: string,
-    countPost: number,
+    postsCount: number,
+    hidden:boolean
 }

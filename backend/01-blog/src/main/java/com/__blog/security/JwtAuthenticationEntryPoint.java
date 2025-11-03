@@ -14,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.__blog.exception.AuthenticationEntryPointExceptions;
-
+ 
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
@@ -27,8 +26,8 @@ public class JwtAuthenticationEntryPoint {
     @Autowired
     private JwtAuthenticationFilter filer;
 
-    @Autowired
-    private AuthenticationEntryPointExceptions entryPoint;
+    // @Autowired
+    // private AuthenticationEntryPointExceptions entryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

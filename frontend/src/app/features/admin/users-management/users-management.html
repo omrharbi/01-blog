@@ -1,67 +1,79 @@
- <main class="container py-4">
-        <!-- Page Header -->
-        <div class="page-header mb-4">
-            <h1 class="fw-bold mb-2">Users Management</h1>
-            <p>Manage user accounts, permissions, and status</p>
-        </div>
+<main class="container py-4">
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <h1 class="fw-bold mb-2">Users Management</h1>
+        <p>Manage user accounts, permissions, and status</p>
+    </div>
 
-        <!-- Content Card -->
-        <div class="content-card">
-            <!-- Search and Filter -->
-            <div class="row mb-4">
-                <div class="col-12 col-md-8 mb-3 mb-md-0">
-                    <div class="position-relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="m21 21-4.3-4.3"></path>
-                        </svg>
-                        <input type="text" class="form-control search-input" placeholder="Search by username or email...">
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <select class="form-select filter-dropdown">
-                        <option selected>All Users</option>
-                        <option>Active Users</option>
-                        <option>Banned Users</option>
-                        <option>Admins</option>
-                    </select>
+    <!-- Content Card -->
+    <div class="content-card">
+        <!-- Search and Filter -->
+        <div class="row mb-4">
+            <div class="col-12 col-md-8 mb-3 mb-md-0">
+                <div class="position-relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="search-icon">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                    <input type="text" class="form-control search-input" placeholder="Search by username or email...">
                 </div>
             </div>
+            <div class="col-12 col-md-4">
+                <select class="form-select filter-dropdown">
+                    <option selected>All Users</option>
+                    <option>Active Users</option>
+                    <option>Banned Users</option>
+                    <option>Admins</option>
+                </select>
+            </div>
+        </div>
 
-            <!-- Users Table -->
-            <div class="table-responsive">
-                <table class="users-table">
-                    <thead>
-                        <tr>
-                            <th class="text-start">Username</th>
-                            <th class="text-start">Email</th>
-                            <th class="text-start">Registered</th>
-                            <th class="text-start">Posts</th>
-                            <th class="text-start">Status</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- User 1 -->
+        <!-- Users Table -->
+        <div class="table-responsive">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th class="text-start">Username</th>
+                        <th class="text-start">Email</th>
+                        <th class="text-start">Registered</th>
+                        <th class="text-start">Posts</th>
+                        <th class="text-start">Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User 1 -->
+                    <ng-container *ngFor="let users of allUsers()">
+
+
+
                         <tr>
                             <td class="text-start">
-                                <span class="fw-medium">@test1</span>
+                                <span class="fw-medium">@{{users.username}}</span>
                             </td>
-                            <td class="text-start text-muted">test1@gmail.com</td>
+                            <td class="text-start text-muted">{{users.email}}</td>
                             <td class="text-start text-muted">Oct 30, 2025</td>
                             <td class="text-start">
-                                <span class="fw-medium">2</span>
+                                <span class="fw-medium">{{users.postsCount}}</span>
                             </td>
                             <td class="text-start">
-                                <span class="status-badge bg-success text-white">
+                                <span class="status-badge"
+                                    [ngClass]="users.hidden === false ? 'bg-success text-white' : 'bg-danger text-white'">
                                     <span class="status-dot"></span>
-                                    Active
+                                    {{ users.hidden === false ? "Active" : "Banned" }}
                                 </span>
+
                             </td>
                             <td class="text-end">
                                 <div class="action-buttons">
-                                    <button class="action-btn bg-warning text-dark">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Ban button if user is NOT hidden -->
+                                    <button *ngIf="!users.hidden" class="action-btn bg-warning text-dark"
+                                        (click)="showBanPopup = true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="9" cy="7" r="4"></circle>
                                             <line x1="17" x2="22" y1="8" y2="13"></line>
@@ -69,89 +81,24 @@
                                         </svg>
                                         Ban
                                     </button>
-                                    <button class="action-btn bg-danger text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M3 6h18"></path>
-                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                            <line x1="10" x2="10" y1="11" y2="17"></line>
-                                            <line x1="14" x2="14" y1="11" y2="17"></line>
-                                        </svg>
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
 
-                        <!-- User 2 -->
-                        <tr>
-                            <td class="text-start">
-                                <span class="fw-medium">@abdo</span>
-                            </td>
-                            <td class="text-start text-muted">abdo</td>
-                            <td class="text-start text-muted">Oct 30, 2025</td>
-                            <td class="text-start">
-                                <span class="fw-medium">2</span>
-                            </td>
-                            <td class="text-start">
-                                <span class="status-badge bg-success text-white">
-                                    <span class="status-dot"></span>
-                                    Active
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <div class="action-buttons">
-                                    <button class="action-btn bg-warning text-dark">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                            <circle cx="9" cy="7" r="4"></circle>
-                                            <line x1="17" x2="22" y1="8" y2="13"></line>
-                                            <line x1="22" x2="17" y1="8" y2="13"></line>
-                                        </svg>
-                                        Ban
-                                    </button>
-                                    <button class="action-btn bg-danger text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M3 6h18"></path>
-                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                            <line x1="10" x2="10" y1="11" y2="17"></line>
-                                            <line x1="14" x2="14" y1="11" y2="17"></line>
-                                        </svg>
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- User 3 -->
-                        <tr>
-                            <td class="text-start">
-                                <span class="fw-medium">@simo</span>
-                            </td>
-                            <td class="text-start text-muted">simo</td>
-                            <td class="text-start text-muted">Oct 30, 2025</td>
-                            <td class="text-start">
-                                <span class="fw-medium">2</span>
-                            </td>
-                            <td class="text-start">
-                                <span class="status-badge bg-danger text-white">
-                                    <span class="status-dot"></span>
-                                    Banned
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <div class="action-buttons">
-                                    <button class="action-btn bg-success text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Unban button if user IS hidden -->
+                                    <button *ngIf="users.hidden" class="action-btn bg-success text-white"
+                                        (click)="showBanPopup = true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="9" cy="7" r="4"></circle>
                                             <polyline points="16 11 18 13 22 9"></polyline>
                                         </svg>
                                         Unban
                                     </button>
-                                    <button class="action-btn bg-danger text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+                                    <button class="action-btn bg-danger text-white" (click)="showBanPopup = true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M3 6h18"></path>
                                             <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                             <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
@@ -160,53 +107,161 @@
                                         </svg>
                                         Delete
                                     </button>
+
+                                    <app-ban-popup [isVisible]="showBanPopup" [isDelete]="delete"  [unban]="unban" [ban]="ban" (close)="showBanPopup = false"
+                                        (confirm)="handleBan($event)"></app-ban-popup>
                                 </div>
                             </td>
                         </tr>
+
+                        <!-- User 2 -->
+                        <!-- <tr>
+                        <td class="text-start">
+                            <span class="fw-medium">@abdo</span>
+                        </td>
+                        <td class="text-start text-muted">abdo</td>
+                        <td class="text-start text-muted">Oct 30, 2025</td>
+                        <td class="text-start">
+                            <span class="fw-medium">2</span>
+                        </td>
+                        <td class="text-start">
+                            <span class="status-badge bg-success text-white">
+                                <span class="status-dot"></span>
+                                Active
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <div class="action-buttons">
+                                <button class="action-btn bg-warning text-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <line x1="17" x2="22" y1="8" y2="13"></line>
+                                        <line x1="22" x2="17" y1="8" y2="13"></line>
+                                    </svg>
+                                    Ban
+                                </button>
+                                <button class="action-btn bg-danger text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                        <line x1="10" x2="10" y1="11" y2="17"></line>
+                                        <line x1="14" x2="14" y1="11" y2="17"></line>
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr> -->
+
+                        <!-- User 3 -->
+                        <!-- <tr>
+                        <td class="text-start">
+                            <span class="fw-medium">@simo</span>
+                        </td>
+                        <td class="text-start text-muted">simo</td>
+                        <td class="text-start text-muted">Oct 30, 2025</td>
+                        <td class="text-start">
+                            <span class="fw-medium">2</span>
+                        </td>
+                        <td class="text-start">
+                            <span class="status-badge bg-danger text-white">
+                                <span class="status-dot"></span>
+                                Banned
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <div class="action-buttons">
+                                <button class="action-btn bg-success text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <polyline points="16 11 18 13 22 9"></polyline>
+                                    </svg>
+                                    Unban
+                                </button>
+                                <button class="action-btn bg-danger text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                        <line x1="10" x2="10" y1="11" y2="17"></line>
+                                        <line x1="14" x2="14" y1="11" y2="17"></line>
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr> -->
 
                         <!-- User 4 -->
-                        <tr>
-                            <td class="text-start">
-                                <span class="fw-medium">@admin</span>
-                            </td>
-                            <td class="text-start text-muted">admin@gmail.com</td>
-                            <td class="text-start text-muted">Oct 30, 2025</td>
-                            <td class="text-start">
-                                <span class="fw-medium">7</span>
-                            </td>
-                            <td class="text-start">
-                                <span class="status-badge bg-success text-white">
-                                    <span class="status-dot"></span>
-                                    Active
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <div class="action-buttons">
-                                    <button class="action-btn bg-warning text-dark">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                            <circle cx="9" cy="7" r="4"></circle>
-                                            <line x1="17" x2="22" y1="8" y2="13"></line>
-                                            <line x1="22" x2="17" y1="8" y2="13"></line>
-                                        </svg>
-                                        Ban
-                                    </button>
-                                    <button class="action-btn bg-danger text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M3 6h18"></path>
-                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                            <line x1="10" x2="10" y1="11" y2="17"></line>
-                                            <line x1="14" x2="14" y1="11" y2="17"></line>
-                                        </svg>
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- <tr>
+                        <td class="text-start">
+                            <span class="fw-medium">@admin</span>
+                        </td>
+                        <td class="text-start text-muted">admin@gmail.com</td>
+                        <td class="text-start text-muted">Oct 30, 2025</td>
+                        <td class="text-start">
+                            <span class="fw-medium">7</span>
+                        </td>
+                        <td class="text-start">
+                            <span class="status-badge bg-success text-white">
+                                <span class="status-dot"></span>
+                                Active
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <div class="action-buttons">
+                                <button class="action-btn bg-warning text-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <line x1="17" x2="22" y1="8" y2="13"></line>
+                                        <line x1="22" x2="17" y1="8" y2="13"></line>
+                                    </svg>
+                                    Ban
+                                </button>
+                                <button class="action-btn bg-danger text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                        <line x1="10" x2="10" y1="11" y2="17"></line>
+                                        <line x1="14" x2="14" y1="11" y2="17"></line>
+                                    </svg>
+                                    Delete
+                                </button>
+
+                                <button class="action-btn bg-danger text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M4 21v-2a4 4 0 0 1 3-3.87"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    Change Role
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr> -->
 
                         <!-- User 5 -->
-                        <tr>
+                        <!-- <tr>
                             <td class="text-start">
                                 <span class="fw-medium">@omar</span>
                             </td>
@@ -224,7 +279,9 @@
                             <td class="text-end">
                                 <div class="action-buttons">
                                     <button class="action-btn bg-success text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="9" cy="7" r="4"></circle>
                                             <polyline points="16 11 18 13 22 9"></polyline>
@@ -232,7 +289,9 @@
                                         Unban
                                     </button>
                                     <button class="action-btn bg-danger text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M3 6h18"></path>
                                             <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                             <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
@@ -243,29 +302,31 @@
                                     </button>
                                 </div>
                             </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                        </tr> -->
 
-            <!-- Pagination -->
-            <div class="pagination-container">
-                <div class="pagination-info">
-                    Showing 1 to 5 of 25 users
-                </div>
-                <nav aria-label="Users pagination">
-                    <ul class="pagination custom-pagination mb-0">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+                    </ng-container>
+                </tbody>
+            </table>
         </div>
-    </main>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <div class="pagination-info">
+                Showing 1 to 5 of 25 users
+            </div>
+            <nav aria-label="Users pagination">
+                <ul class="pagination custom-pagination mb-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</main>

@@ -28,6 +28,7 @@ import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
 import jakarta.transaction.Transactional;
+import lombok.NonNull;
 
 @Service
 public class AdminService {
@@ -92,8 +93,7 @@ public class AdminService {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
-                    HttpStatus.UNAUTHORIZED
-            );
+                    HttpStatus.UNAUTHORIZED);
         }
         User admin = userPrincipal.getUser();
         var user = repouser.findById(userId);
@@ -130,8 +130,7 @@ public class AdminService {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
-                    HttpStatus.UNAUTHORIZED
-            );
+                    HttpStatus.UNAUTHORIZED);
         }
         User admin = userPrincipal.getUser();
         var existingPost = postRepository.findById(postId);
@@ -151,19 +150,23 @@ public class AdminService {
                     .receiverId(existingPost.get().getId())
                     .message(message)
                     .build();
-            notificationService.saveAndSendNotification(requestNotificationRequest, existingPost.get().getUser(), admin);
+            notificationService.saveAndSendNotification(requestNotificationRequest, existingPost.get().getUser(),
+                    admin);
             String responseMessage = wasHidden ? "Post unhidden successfully" : "Post banned successfully";
             return ApiResponseUtil.success(existingPost.get().isHidden(), null, responseMessage);
         }
         return ApiResponseUtil.error("You Dont have any Post", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<ApiResponse<String>> deleteUser(UUID userId) {
+    public ResponseEntity<ApiResponse<String>> deleteUser(@NonNull UUID userId) {
         var user = repouser.findById(userId);
         if (user.isPresent()) {
-            user.get().setStatus("ban");
-            repouser.deleteById(user.get().getId());
+            user.ifPresent(u -> {
+                user.get().setStatus("ban");
+                repouser.deleteById(u.getId());
+            });
             return ApiResponseUtil.success("delete User", null, "Delete User successful");
+
         }
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
@@ -182,19 +185,22 @@ public class AdminService {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
-                    HttpStatus.UNAUTHORIZED
-            );
+                    HttpStatus.UNAUTHORIZED);
         }
         User admin = userPrincipal.getUser();
         var user = repouser.findById(userId);
         if (user.isPresent()) {
             String message;
-            if (user.get().getRole() == Roles.ADMIN) {
-                user.get().setRole(Roles.USER);
-                message = user.get().getUsername() + ", your Account has been Changed To User.";
-            } else {
-                user.get().setRole(Roles.ADMIN);
-                message = user.get().getUsername() + ", your Account has been Changed To  Admin.";
+            if (user.get().isAdmin()) {
+                if (user.get().getRole() == Roles.ADMIN) {
+                    user.get().setRole(Roles.USER);
+                    message = user.get().getUsername() + ", your Account has been Changed To User.";
+                } else {
+                    user.get().setRole(Roles.ADMIN);
+                    message = user.get().getUsername() + ", your Account has been Changed To  Admin.";
+                }
+            }else{
+                 message = user.get().getUsername() + ", your Don't have premsion to change Role.";
             }
 
             repouser.save(user.get());
@@ -205,7 +211,8 @@ public class AdminService {
                     .message(message)
                     .build();
             notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
-            // String responseMessage = wasHidden ? "Account unhidden successfully" : "Account banned successfully";
+            // String responseMessage = wasHidden ? "Account unhidden successfully" :
+            // "Account banned successfully";
 
             return ApiResponseUtil.success("change role  User to admin", null, message);
         }
