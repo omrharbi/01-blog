@@ -1,8 +1,9 @@
-import { Component, EventEmitter, input, signal } from '@angular/core';
+import { Component, EventEmitter, inject, input, signal } from '@angular/core';
 import { ActionType, UserResponseInAdmin } from '../../../core/models/admin/UserResponseInAdmin';
 import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
 import { Materaile } from '../../../modules/materaile-module';
 import { BanPopup } from '../ban-popup/ban-popup';
+import { AdminServiceShared } from '../../../core/service/serivecLogique/admin/admin-service';
 
 @Component({
   selector: 'app-users-management',
@@ -15,6 +16,8 @@ export class UsersManagement {
   constructor(private admin: AdminService) { }
   allUsers = signal<UserResponseInAdmin[]>([]);
   actionType = signal<ActionType>('ban')
+  adminService = inject(AdminServiceShared);
+
   userId = signal<string>("")
   ngOnInit() {
     let page = 0;
@@ -25,18 +28,27 @@ export class UsersManagement {
         console.log("admin test", this.allUsers());
       }
     })
+
+    this.adminService.update_user$.subscribe({
+      next: response => {
+        this.allUsers.update(users =>
+          users.map(u =>
+            u.id === response?.id ? { ...u, ...response } : u
+          )
+        );
+
+      }
+    })
   }
   banUser(users: any) {
     console.log(users, "click ");
 
   }
   unbanUser(users: any) { }
-  handleBan(days: number) {
-    // console.log(`User banned for ${days} days`);
-    // Add your ban logic here
+  handleBan(days: number) { 
   }
 
-  actionTypeHandle(type: ActionType,userId :string) {
+  actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true
     this.actionType.set(type)
     this.userId.set(userId)
