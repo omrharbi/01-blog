@@ -18,6 +18,7 @@ export const environment = {
         getPosts: apiUrl + "api/admin/all-posts",
         getMyPosts: apiUrl + "api/user/usersProfile",
         changePassword: apiUrl + "users/change-password",
+        banUser: apiUrl + "api/admin/ban-user/",
     },
 
     subscriptions: {

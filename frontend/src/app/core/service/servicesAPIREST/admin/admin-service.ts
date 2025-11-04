@@ -7,7 +7,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Login } from '../../../../features/auth/login/login';
 import { JwtService } from '../../JWT/jwt-service';
 import { UserResponseInAdmin } from '../../../models/admin/UserResponseInAdmin';
-import {   ApiResponseWithPage } from '../../../models/post/postResponse';
+import { ApiResponseWithPage } from '../../../models/post/postResponse';
 
 
 @Injectable({
@@ -39,10 +39,19 @@ export class AdminService {
         headers
       })
   }
-  // getCurrentUserUUID(): string | null {
-  //   const token = this.getToken();
-  //   return token ? this.jwtService.getUUIDFromToken(token) : null;
-  // }
+  banUser(userId: string, days: number): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.patch<ApiResponse<any>>(
+      `${environment.admin.banUser}${userId}?days=${days}`,
+      {
+        headers
+      }
+    )
+  }
+
+  
 
 
   // getCurrentUsername(): string | null {

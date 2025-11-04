@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { ActionType } from '../../../core/models/admin/UserResponseInAdmin';
+import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
 
 @Component({
   selector: 'app-ban-popup',
@@ -10,13 +11,14 @@ import { ActionType } from '../../../core/models/admin/UserResponseInAdmin';
 })
 export class BanPopup {
   @Input() isVisible: boolean = false;
+  @Input() userId: string = "";
   @Output() close = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<number>();
-  @Input() actionType: ActionType = 'ban'; 
+  @Input() actionType: ActionType = 'ban';
   step: number = 1;
   banDays: number = 7;
   quickOptions: number[] = [1, 7, 14, 30, 90];
-
+  adminService = inject(AdminService);
   nextStep() {
     this.step = 2;
   }
@@ -33,8 +35,16 @@ export class BanPopup {
 
   confirmBan() {
     this.confirm.emit(this.banDays);
-    // console.log(this.banDays,"days", );
-    
+    // console.log(this.banDays, "days", this.userId, "user id ");
+    this.adminService.banUser(this.userId, this.banDays).subscribe({
+      next: response => {
+        console.log(response, "response ban user");
+      },
+      error: error => {
+        console.log(error, "error ");
+
+      }
+    })
     this.closePopup();
   }
 

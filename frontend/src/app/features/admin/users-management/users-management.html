@@ -70,7 +70,7 @@
                                 <div class="action-buttons">
                                     <!-- Ban button if user is NOT hidden -->
                                     <button *ngIf="!users.hidden" class="action-btn bg-warning text-dark"
-                                        (click)="actionTypeHandle('ban', users.id)" >
+                                        (click)="actionTypeHandle('ban', users.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -95,7 +95,8 @@
                                         Unban
                                     </button>
 
-                                    <button class="action-btn bg-danger text-white" (click)="actionTypeHandle('delete',users.id)">
+                                    <button class="action-btn bg-danger text-white"
+                                        (click)="actionTypeHandle('delete',users.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -108,8 +109,9 @@
                                         Delete
                                     </button>
 
-                                    <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"  [isVisible]="showBanPopup" (close)="showBanPopup = false"
-                                        (confirm)="handleBan($event)" ></app-ban-popup>
+                                    <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
+                                        [isVisible]="showBanPopup" (close)="showBanPopup = false"
+                                        (confirm)="handleBan($event)" [userId]="userId()"></app-ban-popup>
                                 </div>
                             </td>
                         </tr>

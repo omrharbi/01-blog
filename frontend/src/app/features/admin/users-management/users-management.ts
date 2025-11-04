@@ -39,7 +39,8 @@ export class UsersManagement {
   actionTypeHandle(type: ActionType,userId :string) {
     this.showBanPopup = true
     this.actionType.set(type)
-    console.log(`User banned for ${type} type ${userId} user id`);
+    this.userId.set(userId)
+    // console.log(`User banned for ${type} type ${userId} user id`);
   }
 }
 

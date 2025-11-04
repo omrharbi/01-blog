@@ -59,10 +59,14 @@ public class UserMapper {
 
                 Long count=(long) postsCount;
                 UserResponseToAdmin userResponse = UserResponseToAdmin.builder()
+                                .id(user.getId())
                                 .status(user.getStatus())
                                 .email(user.getEmail())
                                 .username(user.getUsername())
                                 .postsCount(count)
+                                .hidden(user.isHidden())
+                                .createAt(user.getCreate_at())
+                                .hiddenUntil(user.getHiddenUntil())
                                 // .createAt(user.getCreate_at())
                                 .build();
                 return userResponse;

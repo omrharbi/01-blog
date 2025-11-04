@@ -22,7 +22,7 @@
                 <div *ngSwitchCase="'ban'" class="icon-ban">
                     <button class="btn btn-confirm" (click)="nextStep()">Yes, {{actionType}} User</button>
                 </div>
-                <div *ngSwitchCase="'unban'" class="icon-unban"><button class="btn btn-confirm">Yes,Ban {{actionType}}</button></div>
+                <div *ngSwitchCase="'unban'" class="icon-unban"><button class="btn btn-confirm" (click)="confirmBan()">Yes,Ban {{actionType}}</button></div>
                 <div *ngSwitchCase="'delete'" class="icon-delete">
                     <button class="btn btn-confirm">Yes,Ban {{actionType}}</button>
                 </div>

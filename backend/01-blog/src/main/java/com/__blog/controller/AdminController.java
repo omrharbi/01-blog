@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.__blog.security.UserPrincipal;
-import com.__blog.service.AdminService;
-
-import jakarta.transaction.Transactional;
+import com.__blog.service.AdminService; 
 
 @RestController
 @RequestMapping("/api/admin")
@@ -43,7 +42,7 @@ public class AdminController {
         // return adminService.loginUser(user);
         return "";
     }
-    @PostMapping("/ban-user/{userId}")
+    @PatchMapping("/ban-user/{userId}")
     public ResponseEntity<?> banUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("userId") UUID userId, @RequestParam("days") int days) {
         return adminService.banUser(userPrincipal, userId, days);
     }

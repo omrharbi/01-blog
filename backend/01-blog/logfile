@@ -142,3 +142,24 @@
 2025-11-04 11:02:19.041 GMT [5595] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.002 s, total=0.212 s; sync files=3, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=15713 kB; lsn=0/B4B6CA0, redo lsn=0/B4B6C48
 2025-11-04 11:07:18.140 GMT [5595] LOG:  checkpoint starting: time
 2025-11-04 11:07:18.753 GMT [5595] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.005 s, total=0.613 s; sync files=6, longest=0.004 s, average=0.001 s; distance=20 kB, estimate=14144 kB; lsn=0/B4BBE08, redo lsn=0/B4BBDB0
+2025-11-04 11:36:34.348 GMT [12432] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:36:34.348 GMT [12430] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:36:34.348 GMT [5978] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:42:09.799 GMT [40362] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:47:19.381 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 11:47:19.897 GMT [5595] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.005 s, total=0.516 s; sync files=5, longest=0.004 s, average=0.001 s; distance=20 kB, estimate=12732 kB; lsn=0/B4C1098, redo lsn=0/B4C1040
+2025-11-04 11:52:19.900 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 11:52:20.314 GMT [5595] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.005 s, total=0.414 s; sync files=4, longest=0.004 s, average=0.002 s; distance=19 kB, estimate=11460 kB; lsn=0/B4C5F30, redo lsn=0/B4C5ED8
+2025-11-04 11:52:24.169 GMT [48308] ERROR:  syntax error at or near ""ab5c5a2a-3453-406f-87f0-3fc2f5540141"" at character 30
+2025-11-04 11:52:24.169 GMT [48308] STATEMENT:  SELECT * from users WHERE id "ab5c5a2a-3453-406f-87f0-3fc2f5540141" LIMIT 100
+2025-11-04 11:52:29.968 GMT [48308] ERROR:  syntax error at or near "ab5c5a2a" at character 30
+2025-11-04 11:52:29.968 GMT [48308] STATEMENT:  SELECT * from users WHERE id ab5c5a2a-3453-406f-87f0-3fc2f5540141 LIMIT 100
+2025-11-04 11:52:34.711 GMT [48308] ERROR:  type "id" does not exist at character 27
+2025-11-04 11:52:34.711 GMT [48308] STATEMENT:  SELECT * from users WHERE id 'ab5c5a2a-3453-406f-87f0-3fc2f5540141' LIMIT 100
+2025-11-04 11:56:20.924 GMT [49923] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:56:20.924 GMT [44493] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:56:20.924 GMT [44541] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:56:20.924 GMT [44498] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:56:20.925 GMT [44497] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 11:57:19.366 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 11:57:19.783 GMT [5595] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.403 s, sync=0.007 s, total=0.417 s; sync files=4, longest=0.006 s, average=0.002 s; distance=21 kB, estimate=10317 kB; lsn=0/B4CB628, redo lsn=0/B4CB5D0
