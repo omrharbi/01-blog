@@ -51,7 +51,32 @@ export class AdminService {
     )
   }
 
-  
+
+  changeRole(userId: string): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.patch<ApiResponse<any>>(
+      `${environment.admin.changeRole}${userId}`,
+      {
+        headers
+      }
+    )
+  }
+
+  deleteUser(userId: string): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.delete<ApiResponse<any>>(
+      `${environment.admin.deleteUser}${userId}`,
+      {
+        headers
+      }
+    )
+  }
+
+
 
 
   // getCurrentUsername(): string | null {

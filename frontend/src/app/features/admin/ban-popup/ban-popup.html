@@ -10,9 +10,10 @@
                 <div *ngSwitchCase="'ban'" class="icon-ban">⚠️</div>
                 <div *ngSwitchCase="'unban'" class="icon-unban">✅</div>
                 <div *ngSwitchCase="'delete'" class="icon-delete">🗑️</div>
+                <div *ngSwitchCase="'role'" class="icon-delete">✅</div>
                 <div *ngSwitchDefault>❓</div>
             </div>
-            <p class="message">Are you sure you want to {{actionType}} this user?</p>
+            <p class="message">Are you sure you want to {{actionType==='role'?"change":"" }}  {{actionType}} this user?</p>
             <p class="sub-message">This action will restrict their access.</p>
         </div>
         <div class="popup-footer">
@@ -22,9 +23,14 @@
                 <div *ngSwitchCase="'ban'" class="icon-ban">
                     <button class="btn btn-confirm" (click)="nextStep()">Yes, {{actionType}} User</button>
                 </div>
-                <div *ngSwitchCase="'unban'" class="icon-unban"><button class="btn btn-confirm" (click)="confirmBan()">Yes,Ban {{actionType}}</button></div>
+                <div *ngSwitchCase="'unban'" class="icon-unban"><button class="btn btn-confirm"
+                        (click)="confirmBan()">Yes,Ban {{actionType}}</button></div>
                 <div *ngSwitchCase="'delete'" class="icon-delete">
-                    <button class="btn btn-confirm">Yes,Ban {{actionType}}</button>
+                    <button class="btn btn-confirm" (click)="deleteUser()">Yes,{{actionType}}</button>
+                </div>
+
+                <div *ngSwitchCase="'role'" class="icon-role">
+                    <button class="btn btn-confirm">Yes, change {{actionType}}</button>
                 </div>
                 <div *ngSwitchDefault>❓</div>
             </div>

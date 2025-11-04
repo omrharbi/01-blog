@@ -18,7 +18,7 @@ export class UsersManagement {
   actionType = signal<ActionType>('ban')
   adminService = inject(AdminServiceShared);
 
-  userId = signal<string>("")
+  userId = signal<string>('')
   ngOnInit() {
     let page = 0;
     let size = 10;
@@ -36,7 +36,14 @@ export class UsersManagement {
             u.id === response?.id ? { ...u, ...response } : u
           )
         );
+      }
+    })
 
+    this.adminService.check_delete_user$.subscribe({
+      next: response => {
+        if (response == true) {
+          this.allUsers.update(users => users.filter(u => u.id !== this.userId()));
+        }
       }
     })
   }
@@ -45,14 +52,13 @@ export class UsersManagement {
 
   }
   unbanUser(users: any) { }
-  handleBan(days: number) { 
+  handleBan(days: number) {
   }
 
   actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true
     this.actionType.set(type)
     this.userId.set(userId)
-    // console.log(`User banned for ${type} type ${userId} user id`);
   }
 }
 

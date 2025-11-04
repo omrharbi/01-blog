@@ -7,4 +7,4 @@ export interface UserResponseInAdmin {
     hidden:boolean
 }
 
-export type ActionType = 'ban' | 'unban' | 'delete';
+export type ActionType = 'ban' | 'unban' | 'delete' |'role';

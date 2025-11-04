@@ -38,10 +38,13 @@ export class BanPopup {
   confirmBan() {
     this.confirm.emit(this.banDays);
     this.adminService.banUser(this.userId, this.banDays);
-    
     this.closePopup();
   }
 
+  deleteUser() {
+    this.adminService.deleteUser(this.userId);
+    this.closePopup();
+  }
   onOverlayClick(event: MouseEvent) {
     this.closePopup();
   }

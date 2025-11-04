@@ -48,6 +48,7 @@ public class AdminController {
     }
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") UUID userId) {
+        // System.out.println("AdminController.deleteUser()"+userId);
         return adminService.deleteUser(userId);
     }
     @PostMapping("/unban-user")
@@ -56,26 +57,23 @@ public class AdminController {
         return "";
     }
 
-    // @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all-posts")
     public ResponseEntity<?> allPosts(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return adminService.getAllPosts(page, size);
     }
-    @PostMapping("/deletePost")
+    @DeleteMapping("/deletePost")
     public String deletePost() {
         // return userService.loginUser(user);
         return "";
     }
 
-    // @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/change-role/{userId}")
+    @PatchMapping("/change-role/{userId}")
     public ResponseEntity<?> changeRole(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("userId") UUID userId) {
         return adminService.changeRole(userPrincipal, userId);
     }
 
-    // @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/hiddeng-post/{postId}")
+     @PostMapping("/hiddeng-post/{postId}")
     public ResponseEntity<?> HiddengPost(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("postId") UUID postId) {
         return adminService.HiddengPost(userPrincipal, postId);
     }
