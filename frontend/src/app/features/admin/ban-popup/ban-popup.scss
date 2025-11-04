@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    animation: fadeIn 0.2s ease;
+    // animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -29,7 +29,7 @@
     width: 90%;
     max-width: 450px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.3s ease;
+    // animation: slideUp 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -92,7 +92,7 @@
 .icon-warning {
     font-size: 48px;
     margin-bottom: 16px;
-    animation: pulse 2s infinite;
+    // animation: pulse 2s infinite;
 }
 
 @keyframes pulse {

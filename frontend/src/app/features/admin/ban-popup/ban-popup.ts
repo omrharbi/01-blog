@@ -33,6 +33,8 @@ export class BanPopup {
 
   confirmBan() {
     this.confirm.emit(this.banDays);
+    // console.log(this.banDays,"days", );
+    
     this.closePopup();
   }
 

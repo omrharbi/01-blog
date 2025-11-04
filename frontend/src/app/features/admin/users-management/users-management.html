@@ -70,7 +70,7 @@
                                 <div class="action-buttons">
                                     <!-- Ban button if user is NOT hidden -->
                                     <button *ngIf="!users.hidden" class="action-btn bg-warning text-dark"
-                                        (click)="showBanPopup = true">
+                                        (click)="actionTypeHandle('ban', users.id)" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -84,7 +84,7 @@
 
                                     <!-- Unban button if user IS hidden -->
                                     <button *ngIf="users.hidden" class="action-btn bg-success text-white"
-                                        (click)="showBanPopup = true">
+                                        (click)="actionTypeHandle('unban', users.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -95,7 +95,7 @@
                                         Unban
                                     </button>
 
-                                    <button class="action-btn bg-danger text-white" (click)="showBanPopup = true">
+                                    <button class="action-btn bg-danger text-white" (click)="actionTypeHandle('delete',users.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -108,8 +108,8 @@
                                         Delete
                                     </button>
 
-                                    <app-ban-popup [isVisible]="showBanPopup" [isDelete]="delete"  [unban]="unban" [ban]="ban" (close)="showBanPopup = false"
-                                        (confirm)="handleBan($event)"></app-ban-popup>
+                                    <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"  [isVisible]="showBanPopup" (close)="showBanPopup = false"
+                                        (confirm)="handleBan($event)" ></app-ban-popup>
                                 </div>
                             </td>
                         </tr>

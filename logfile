@@ -684,3 +684,12 @@
 2025-11-02 17:20:01.678 GMT [113896] LOG:  unexpected EOF on client connection with an open transaction
 2025-11-02 17:24:15.504 GMT [124259] LOG:  unexpected EOF on client connection with an open transaction
 2025-11-02 17:30:08.499 GMT [4422] LOG:  checkpoint starting: time
+2025-11-02 17:30:09.710 GMT [4422] LOG:  checkpoint complete: wrote 13 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.205 s, sync=0.002 s, total=1.211 s; sync files=13, longest=0.001 s, average=0.001 s; distance=33 kB, estimate=33 kB; lsn=0/A3A1B80, redo lsn=0/A3A1B28
+2025-11-02 17:30:48.981 GMT [125291] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 17:30:48.981 GMT [125288] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-02 18:25:26.681 GMT [4421] LOG:  received smart shutdown request
+2025-11-02 18:25:26.682 GMT [4421] LOG:  background worker "logical replication launcher" (PID 4427) exited with exit code 1
+2025-11-02 18:25:26.682 GMT [4422] LOG:  shutting down
+2025-11-02 18:25:26.683 GMT [4422] LOG:  checkpoint starting: shutdown immediate
+2025-11-02 18:25:26.688 GMT [4422] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.007 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=29 kB; lsn=0/A3A1C30, redo lsn=0/A3A1C30
+2025-11-02 18:25:26.695 GMT [4421] LOG:  database system is shut down

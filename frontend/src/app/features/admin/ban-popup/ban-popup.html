@@ -2,27 +2,46 @@
     <!-- Step 1: Confirmation -->
     <div class="popup-container" *ngIf="step === 1" (click)="$event.stopPropagation()">
         <div class="popup-header">
-            <h2>Confirm Ban</h2>
+            <h2>Confirm {{actionType}}</h2>
             <button class="close-btn" (click)="closePopup()">&times;</button>
         </div>
         <div class="popup-body">
-            <div class="icon-warning">⚠️</div>
-            <p class="message">Are you sure you want to ban this user?</p>
+            <div class="icon-wrapper" [ngSwitch]="actionType">
+                <div *ngSwitchCase="'ban'" class="icon-ban">⚠️</div>
+                <div *ngSwitchCase="'unban'" class="icon-unban">✅</div>
+                <div *ngSwitchCase="'delete'" class="icon-delete">🗑️</div>
+                <div *ngSwitchDefault>❓</div>
+            </div>
+            <p class="message">Are you sure you want to {{actionType}} this user?</p>
             <p class="sub-message">This action will restrict their access.</p>
         </div>
         <div class="popup-footer">
             <button class="btn btn-cancel" (click)="closePopup()">Cancel</button>
-            <button class="btn btn-confirm" (click)="nextStep()">Yes, Ban User</button>
+
+            <div class="icon-wrapper" [ngSwitch]="actionType">
+                <div *ngSwitchCase="'ban'" class="icon-ban">
+                    <button class="btn btn-confirm" (click)="nextStep()">Yes, {{actionType}} User</button>
+                </div>
+                <div *ngSwitchCase="'unban'" class="icon-unban"><button class="btn btn-confirm">Yes,Ban {{actionType}}</button></div>
+                <div *ngSwitchCase="'delete'" class="icon-delete">
+                    <button class="btn btn-confirm">Yes,Ban {{actionType}}</button>
+                </div>
+                <div *ngSwitchDefault>❓</div>
+            </div>
+
         </div>
     </div>
 
     <!-- Step 2: Duration Selection -->
     <div class="popup-container" *ngIf="step === 2" (click)="$event.stopPropagation()">
         <div class="popup-header">
-            <h2>Ban Duration</h2>
+            <h2>{{actionType}} Duration</h2>
             <button class="close-btn" (click)="closePopup()">&times;</button>
         </div>
-        <div class="popup-body">
+
+        <div class="popup-body" *ngIf="actionType=='ban'">
+
+
             <p class="message">How many days should this user be banned?</p>
             <div class="duration-input">
                 <input type="number" [(ngModel)]="banDays" min="1" max="365" placeholder="Enter days"

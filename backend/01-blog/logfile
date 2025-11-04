@@ -127,3 +127,18 @@
 2025-11-02 13:31:14.532 GMT [7770] LOG:  unexpected EOF on client connection with an open transaction
 2025-11-02 13:31:14.532 GMT [7767] LOG:  unexpected EOF on client connection with an open transaction
 2025-11-02 13:31:14.532 GMT [7982] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-04 10:32:18.750 GMT [5594] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-04 10:32:18.750 GMT [5594] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-04 10:32:18.752 GMT [5594] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-04 10:32:18.755 GMT [5597] LOG:  database system was shut down at 2025-11-02 18:25:26 GMT
+2025-11-04 10:32:18.762 GMT [5594] LOG:  database system is ready to accept connections
+2025-11-04 10:37:18.855 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 10:37:19.470 GMT [5595] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.605 s, sync=0.005 s, total=0.616 s; sync files=9, longest=0.004 s, average=0.001 s; distance=23 kB, estimate=23 kB; lsn=0/A3A7978, redo lsn=0/A3A7920
+2025-11-04 10:42:18.481 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 10:42:18.594 GMT [5595] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.101 s, sync=0.003 s, total=0.114 s; sync files=1, longest=0.003 s, average=0.003 s; distance=6 kB, estimate=21 kB; lsn=0/A3A9388, redo lsn=0/A3A9330
+2025-11-04 10:47:18.693 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 10:49:47.584 GMT [5595] LOG:  checkpoint complete: wrote 1490 buffers (9.1%); 0 WAL file(s) added, 1 removed, 0 recycled; write=148.879 s, sync=0.005 s, total=148.891 s; sync files=14, longest=0.004 s, average=0.001 s; distance=17459 kB, estimate=17459 kB; lsn=0/B4B6280, redo lsn=0/B4B61F0
+2025-11-04 11:02:18.830 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 11:02:19.041 GMT [5595] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.002 s, total=0.212 s; sync files=3, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=15713 kB; lsn=0/B4B6CA0, redo lsn=0/B4B6C48
+2025-11-04 11:07:18.140 GMT [5595] LOG:  checkpoint starting: time
+2025-11-04 11:07:18.753 GMT [5595] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.005 s, total=0.613 s; sync files=6, longest=0.004 s, average=0.001 s; distance=20 kB, estimate=14144 kB; lsn=0/B4BBE08, redo lsn=0/B4BBDB0
