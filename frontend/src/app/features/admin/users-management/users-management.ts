@@ -49,11 +49,8 @@ export class UsersManagement {
   }
   banUser(users: any) {
     console.log(users, "click ");
-
   }
-  unbanUser(users: any) { }
-  handleBan(days: number) {
-  }
+ 
 
   actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true

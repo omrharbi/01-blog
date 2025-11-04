@@ -35,6 +35,7 @@
             <table class="users-table">
                 <thead>
                     <tr>
+                        <th class="text-start">Role</th>
                         <th class="text-start">Username</th>
                         <th class="text-start">Email</th>
                         <th class="text-start">Registered</th>
@@ -46,10 +47,10 @@
                 <tbody>
                     <!-- User 1 -->
                     <ng-container *ngFor="let users of allUsers()">
-
-
-
                         <tr>
+                             <td class="text-start">
+                                <span class="fw-medium">{{users.role}}</span>
+                            </td>
                             <td class="text-start">
                                 <span class="fw-medium">@{{users.username}}</span>
                             </td>
@@ -122,7 +123,7 @@
 
                                     <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
                                         [isVisible]="showBanPopup" (close)="showBanPopup = false"
-                                        (confirm)="handleBan($event)" [userId]="userId()"></app-ban-popup>
+                                        [userId]="userId()"></app-ban-popup>
                                 </div>
                             </td>
                         </tr>

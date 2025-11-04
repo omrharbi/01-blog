@@ -18,7 +18,6 @@
         </div>
         <div class="popup-footer">
             <button class="btn btn-cancel" (click)="closePopup()">Cancel</button>
-
             <div class="icon-wrapper" [ngSwitch]="actionType">
                 <div *ngSwitchCase="'ban'" class="icon-ban">
                     <button class="btn btn-confirm" (click)="nextStep()">Yes, {{actionType}} User</button>
@@ -30,11 +29,11 @@
                 </div>
 
                 <div *ngSwitchCase="'role'" class="icon-role">
-                    <button class="btn btn-confirm">Yes, change {{actionType}}</button>
+                    <!-- <button class="btn btn-confirm" (click)="nextStep()">Yes, {{actionType}} User</button> -->
+                    <button class="btn btn-confirm" (click)="changeRole()">Yes, change {{actionType}}</button>
                 </div>
                 <div *ngSwitchDefault>❓</div>
             </div>
-
         </div>
     </div>
 
@@ -46,8 +45,6 @@
         </div>
 
         <div class="popup-body" *ngIf="actionType=='ban'">
-
-
             <p class="message">How many days should this user be banned?</p>
             <div class="duration-input">
                 <input type="number" [(ngModel)]="banDays" min="1" max="365" placeholder="Enter days"

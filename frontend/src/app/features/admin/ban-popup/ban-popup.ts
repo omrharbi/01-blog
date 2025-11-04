@@ -45,6 +45,11 @@ export class BanPopup {
     this.adminService.deleteUser(this.userId);
     this.closePopup();
   }
+
+  changeRole() {
+    this.adminService.changeRole(this.userId);
+    this.closePopup();
+  }
   onOverlayClick(event: MouseEvent) {
     this.closePopup();
   }

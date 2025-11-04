@@ -31,6 +31,15 @@ export class NotificationService {
 
     }
 
+    showErrorWithoutRedirect(message: string ) {
+          this.dialog.open(NotificationDialog, {
+            width: '400px',
+            disableClose: true,
+            data: { message },
+            panelClass: 'center-dialog'
+        });
+
+    }
 
     
     showSuccess(message: string, title: string = 'Success') {

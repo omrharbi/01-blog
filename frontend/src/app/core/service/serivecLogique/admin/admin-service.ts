@@ -2,13 +2,14 @@ import { inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { UserResponseInAdmin } from "../../../models/admin/UserResponseInAdmin";
 import { AdminService } from "../../servicesAPIREST/admin/admin-service";
+import { NotificationService } from "../../notificationAlert/NotificationService";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AdminServiceShared {
     adminService = inject(AdminService);
-
+    notificationAlert = inject(NotificationService);
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
     checkDeleteUser = new BehaviorSubject<boolean>(false)
     update_user$ = this.updateUser.asObservable();
@@ -27,6 +28,8 @@ export class AdminServiceShared {
     changeRole(userId: string) {
         this.adminService.changeRole(userId).subscribe({
             next: response => {
+                console.log(response);
+                this.notificationAlert.showErrorWithoutRedirect(response?.message || "");
                 this.updateUser.next(response.data)
             },
             error: error => {

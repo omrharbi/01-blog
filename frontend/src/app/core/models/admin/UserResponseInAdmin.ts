@@ -4,7 +4,8 @@ export interface UserResponseInAdmin {
     status: string,
     email: string,
     postsCount: number,
-    hidden:boolean
+    hidden:boolean,
+    role: string,
 }
 
 export type ActionType = 'ban' | 'unban' | 'delete' |'role';

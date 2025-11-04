@@ -89,7 +89,8 @@ public class AdminService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UserPrincipal userPrincipal, UUID userId, int days) {
+    public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UserPrincipal userPrincipal, UUID userId,
+            int days) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
@@ -181,7 +182,7 @@ public class AdminService {
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<ApiResponse<String>> changeRole(UserPrincipal userPrincipal, UUID userId) {
+    public ResponseEntity<ApiResponse<UserResponseToAdmin>> changeRole(UserPrincipal userPrincipal, UUID userId) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
@@ -191,19 +192,27 @@ public class AdminService {
         var user = repouser.findById(userId);
         if (user.isPresent()) {
             String message;
-            if (user.get().isAdmin()) {
-                if (user.get().getRole() == Roles.ADMIN) {
-                    user.get().setRole(Roles.USER);
-                    message = user.get().getUsername() + ", your Account has been Changed To User.";
+
+            if (admin.isAdmin()) {
+                if (admin.getId().equals(user.get().getId())) {
+                    message = user.get().getUsername() + ", You Can't change Your Role.";
                 } else {
-                    user.get().setRole(Roles.ADMIN);
-                    message = user.get().getUsername() + ", your Account has been Changed To  Admin.";
+                    if (user.get().getRole() == Roles.ADMIN) {
+                        user.get().setRole(Roles.USER);
+                        message = user.get().getUsername() + ", your Account has been Changed To User.";
+
+                    } else {
+                        user.get().setRole(Roles.ADMIN);
+                        message = user.get().getUsername() + ", your Account has been Changed To  Admin.";
+                    }
                 }
-            }else{
-                 message = user.get().getUsername() + ", your Don't have premsion to change Role.";
+
+            } else {
+                message = "Sorry, you don’t have permission to modify user roles.";
             }
 
-            repouser.save(user.get());
+            var userResponse = repouser.save(user.get());
+            var convertToResponse = userMapper.ConvertToResponseUserAdmin(userResponse);
             NotificationRequest requestNotificationRequest = NotificationRequest.builder()
                     .type(Notifications.USER_BANNED)
                     .triggerUserId(admin.getId())
@@ -214,7 +223,7 @@ public class AdminService {
             // String responseMessage = wasHidden ? "Account unhidden successfully" :
             // "Account banned successfully";
 
-            return ApiResponseUtil.success("change role  User to admin", null, message);
+            return ApiResponseUtil.success(convertToResponse, null, message);
         }
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
