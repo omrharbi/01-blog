@@ -29,7 +29,7 @@ public class AdminController {
     @GetMapping("/all-users")
     public ResponseEntity<?> allUsers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "5") int size
     ) {
         return adminService.getAllUsers(page, size);
     }
@@ -59,7 +59,7 @@ public class AdminController {
 
     @GetMapping("/all-posts")
     public ResponseEntity<?> allPosts(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "5") int size) {
         return adminService.getAllPosts(page, size);
     }
     @DeleteMapping("/deletePost")

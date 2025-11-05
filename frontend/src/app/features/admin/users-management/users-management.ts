@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, input, signal } from '@angular/core';
+import { Component, EventEmitter, inject, input, signal, computed } from '@angular/core';
 import { ActionType, UserResponseInAdmin } from '../../../core/models/admin/UserResponseInAdmin';
 import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
 import { Materaile } from '../../../modules/materaile-module';
@@ -18,21 +18,17 @@ export class UsersManagement {
   actionType = signal<ActionType>('ban')
   adminService = inject(AdminServiceShared);
   currentPage = signal(0);
-  pageSize = signal(10);
+  pageSize = signal(3);
   totalPages = signal(0);
   loading = signal(false);
-
+  startIndex = computed(() => this.currentPage() * this.pageSize() + 1);
+  endIndex = computed(() =>
+    Math.min(this.startIndex() + this.allUsers().length - 1, this.totalPages())
+  );
 
   userId = signal<string>('')
   ngOnInit() {
-    let page = 0;
-    let size = 10;
-    this.admin.getAllUsers(page, size).subscribe({
-      next: (response: any) => {
-        this.allUsers.set(response?.data?.content || []);
-        console.log("admin test", this.allUsers());
-      }
-    })
+    this.loadPosts(0)
 
     this.adminService.update_user$.subscribe({
       next: response => {
@@ -64,6 +60,8 @@ export class UsersManagement {
       next: (response: any) => {
         if (response.data && response.data.content) {
           this.allUsers.set(response.data.content);
+          console.log(response, "data");
+          
           this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);

@@ -28,12 +28,34 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT s FROM User u JOIN u.skills s WHERE u.id = :userId")
     Set<String> findSkillsByUserId(@Param("userId") UUID userId);
 
+    // @Query("""
+    // SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(u.id,
+    // u.username, u.status , u.email, COUNT(p), u.role ,u.hidden, u.hiddenUntil
+    // ,u.create_at)
+    // FROM User u
+    // LEFT JOIN u.posts p
+    // GROUP BY u.id, u.username , u.status, u.email,u.hidden, u.hiddenUntil,
+    // u.create_at
+    // ORDER BY COUNT(p) DESC
+    // """)
+    // Page<UserResponseToAdmin> findAllUsersWithPostCount(Pageable pageable);
+
     @Query("""
-             SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(u.id, u.username, u.status , u.email,  COUNT(p), u.role ,u.hidden, u.hiddenUntil ,u.create_at)
-             FROM User u
-             LEFT JOIN  u.posts p
-             GROUP BY u.id, u.username , u.status, u.email,u.hidden, u.hiddenUntil, u.create_at
-             ORDER BY COUNT(p) DESC
+                SELECT new com.__blog.model.dto.response.admin.UserResponseToAdmin(
+                    u.id,
+                    u.username,
+                    u.status,
+                    u.email,
+                    COUNT(p),
+                    u.role,
+                    u.hidden,
+                    u.hiddenUntil,
+                    u.create_at
+                )
+                FROM User u
+                LEFT JOIN u.posts p
+                GROUP BY u.id, u.username, u.status, u.email, u.role, u.hidden, u.hiddenUntil, u.create_at
+                ORDER BY COUNT(p) DESC
             """)
     Page<UserResponseToAdmin> findAllUsersWithPostCount(Pageable pageable);
     // Long countUsers();
