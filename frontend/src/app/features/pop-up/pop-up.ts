@@ -49,7 +49,7 @@ export class PopUp {
   isVisible = signal(false)
   isEdit: boolean = false;
   @Output() editPost = new EventEmitter<any>();
-
+  @Output() clickedInside = new EventEmitter<boolean>();
   onEdit() {
     if (this.isComment === true) {
       this.global.sharedData.emit({ type: 'comment', data: this.comment });
@@ -76,12 +76,13 @@ export class PopUp {
       });
     }
   }
+
+
+  
   report() {
     this.isVisible.set(true)
-    console.log(this.isVisible);
+    console.log(this.isVisible());
   }
-
-
 
   onReasonChange() {
     if (this.selectedReason !== 'OTHER') {

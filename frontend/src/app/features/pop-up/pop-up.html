@@ -2,51 +2,51 @@
   <div class="dropdown-menu show p-2 shadow border rounded bg-card"
     style="position: absolute; right: 0; top: 100%; min-width: 180px; font-size: 0.875rem; z-index: 1000; background-color: white;"
     *ngIf="isAuthenticated">
-    <!-- <div class="dropdown-divider my-1 text-muted"></div> -->
     <ng-container *ngIf="isOwner">
       <button class="drop py-2 text-muted" (click)="onEdit()">Edit</button>
       <button class="drop py-2 text-muted" (click)="onDelete()">Delete</button>
     </ng-container>
-    <!-- <div class="dropdown-divider my-1"></div> -->
 
     <button class="drop py-2 text-danger text-muted" (click)="report()">Report story...</button>
   </div>
 
+</div>
 
+<!-- Move popup OUTSIDE the dropdown container -->
+<div class="dropdown-menu show p-2 shadow border rounded bg-card"
+    style="position: absolute; right: 0; top: 100%; width: 400px; font-size: 0.875rem; z-index: 1000; background-color: white;"
+     *ngIf="isVisible()" (click)="onOverlayClick($event)">
+  <div class="popup-container" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h2>Report Post</h2>
+      <button class="close-btn" (click)="closePopup()">&times;</button>
+    </div>
 
-  <div class="popup-overlay" *ngIf="isVisible()">
-    <div class="popup-container" (click)="$event.stopPropagation()">
-      <div class="popup-header">
-        <h2>Report Post</h2>
-        <button class="close-btn" (click)="closePopup()">&times;</button>
+    <div class="popup-body">
+      <p class="message">Please select a reason for reporting this post:</p>
+
+      <div class="report-options">
+        <label class="report-option" *ngFor="let reason of reportReasons">
+          <input type="radio" name="reportReason" [value]="reason" [(ngModel)]="selectedReason"
+            (change)="onReasonChange()" />
+          <span class="option-label">{{ formatReasonLabel(reason) }}</span>
+        </label>
       </div>
 
-      <div class="popup-body">
-        <p class="message">Please select a reason for reporting this post:</p>
-
-        <div class="report-options">
-          <label class="report-option" *ngFor="let reason of reportReasons">
-            <input type="radio" name="reportReason" [value]="reason" [(ngModel)]="selectedReason"
-              (change)="onReasonChange()" />
-            <span class="option-label">{{ formatReasonLabel(reason) }}</span>
-          </label>
-        </div>
-
-        <div class="additional-details" *ngIf="selectedReason === 'OTHER'">
-          <label for="reportDetails">Additional Details (Required)</label>
-          <textarea id="reportDetails" [(ngModel)]="reportDetails"
-            placeholder="Please provide more information about why you're reporting this post..." rows="4"
-            class="details-textarea"></textarea>
-        </div>
+      <div class="additional-details" *ngIf="selectedReason === 'OTHER'">
+        <label for="reportDetails">Additional Details (Required)</label>
+        <textarea id="reportDetails" [(ngModel)]="reportDetails"
+          placeholder="Please provide more information about why you're reporting this post..." rows="4"
+          class="details-textarea"></textarea>
       </div>
+    </div>
 
-      <div class="popup-footer">
-        <button class="btn btn-cancel" (click)="closePopup()">Cancel</button>
-        <button class="btn btn-confirm" (click)="submitReport()"
-          [disabled]="!selectedReason || (selectedReason === 'OTHER' && !reportDetails.trim())">
-          Submit Report
-        </button>
-      </div>
+    <div class="popup-footer">
+      <button class="btn btn-cancel" (click)="closePopup()">Cancel</button>
+      <button class="btn btn-confirm" (click)="submitReport()"
+        [disabled]="!selectedReason || (selectedReason === 'OTHER' && (!reportDetails || !reportDetails.trim()))">
+        Submit Report
+      </button>
     </div>
   </div>
 </div>
