@@ -19,8 +19,8 @@ export class AdminDashboard {
       next: (response: any) => {
         console.log(response,"count");
 
-        this.totleUsers.set(response.data.countPosts)
-        this.totlePosts.set(response.data.countUser)
+        this.totlePosts.set(response.data.countPosts)
+        this.totleUsers.set(response.data.countUser)
         this.totleReport.set(response.data.countReport)
        }
     })
