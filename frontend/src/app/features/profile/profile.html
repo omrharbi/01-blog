@@ -144,13 +144,14 @@
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="avatar-sm">
-                                            <img [src]="(userProfile.avatar?.startsWith('http')?userProfile.avatar:apiUrl+userProfile.avatar)" alt="userProfile.username">
+                                            <img [src]="(userProfile.avatar.startsWith('http')?userProfile.avatar:apiUrl+userProfile.avatar)"
+                                                alt="userProfile.username">
                                         </div>
                                         <div>
                                             <a href="#" class="fw-medium text-decoration-none link-hover"
                                                 style="color: var(--foreground-color);">{{p.firstname }}
                                                 {{p.lastname }}</a>
-                                            <div class="small text-muted-custom"> {{p.createdAt |timeAgo }}  </div>
+                                            <div class="small text-muted-custom"> {{p.createdAt |timeAgo }} </div>
                                         </div>
                                     </div>
                                     <button class="btn btn-sm icon-btn">
@@ -225,13 +226,23 @@
                             </div>
                         </div>
                     </ng-container>
-                    <div class="text-center mt-5">
-                        <button class="btn btn-lg btn-custom-secondary">Load More Posts</button>
+                    <div class="text-center pt-4" *ngIf="post.length > 0">
+                        <button class="btn btn-outline-secondary px-4" (click)="loadMorePosts()"
+                            [disabled]="loading || !hasMorePosts()">
+                            <span *ngIf="!loading && hasMorePosts()">Load More Posts</span>
+                            <span *ngIf="loading">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                Loading...
+                            </span>
+                            <span *ngIf="!loading && !hasMorePosts()">No More Posts</span>
+                        </button>
                     </div>
-                </div>
 
-                <!-- Likes Tab -->
-                <!-- <div class="tab-pane fade" id="likes" role="tabpanel">
+            </div>
+
+            <!-- Likes Tab -->
+            <!-- <div class="tab-pane fade" id="likes" role="tabpanel">
                     <div class="empty-state">
                         <i class="bi bi-heart"></i>
                         <h3 class="h5 mb-2">You haven't liked any posts yet</h3>
@@ -241,8 +252,8 @@
 
 
 
-                <!-- About Tab -->
-                <!-- <div class="tab-pane fade" id="about" role="tabpanel">
+            <!-- About Tab -->
+            <!-- <div class="tab-pane fade" id="about" role="tabpanel">
                     <div class="row g-4">
                         <div class="col-lg-6">
                             <div class="stats-card">
@@ -287,12 +298,12 @@
                     </div>
                 </div> -->
 
-            </div>
-        </ng-container>
+    </div>
+    </ng-container>
 
 
-        <ng-container *ngIf="editProfile">
-            <app-edit-profile></app-edit-profile>
-        </ng-container>
+    <ng-container *ngIf="editProfile">
+        <app-edit-profile></app-edit-profile>
+    </ng-container>
     </div>
 </main>

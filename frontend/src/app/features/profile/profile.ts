@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { EditProfile } from './edit-profile/edit-profile';
 import { Materaile } from '../../modules/materaile-module';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../core/service/notificationAlert/NotificationService';
 import { FollowingService } from '../../core/service/servicesAPIREST/following/following-service';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
+import { use } from 'marked';
 
 @Component({
   selector: 'app-profile',
@@ -52,6 +53,11 @@ export class Profile {
   countPost = 0;
   post: PostResponse[] = [];
   isFollowing: boolean = false;
+  username = signal("")
+  currentPage = 0;
+  pageSize = 5;
+  totalPages = 0;
+  loading = false;
   EditProfile() {
     this.editProfile = !this.editProfile;
   }
@@ -64,14 +70,14 @@ export class Profile {
 
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username') || '';
+    this.username.set(username);
     this.isAuthenticated = this.auth.isLoggedIn();
     this.profile.profile(username).subscribe({
       next: (respone) => {
-        console.log(respone, 'usrename ');
         this.userProfile = respone.data;
-        if (respone.status === false && respone.error != null) {
-          // this.showMessage.showError(respone.error, false);
-        }
+        // if (respone.status === false && respone.error != null) {
+        //   // this.showMessage.showError(respone.error, false);
+        // }
       },
       error: (error) => {
         console.log(error, 'error herr ');
@@ -79,15 +85,53 @@ export class Profile {
     });
     const page = 0;
     const size = 3;
-    this.profile.GetMyPosts(username, page, size).subscribe((res) => {
-      this.post = res.data?.content || [];
-      console.log(res.data?.content, 'data ');
+    this.loadingPosts(username);
 
+  }
+  loadingPosts(username: string) {
+    if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
+    this.loading = true;
+    this.profile.GetMyPosts(username, 0, this.pageSize).subscribe((res) => {
+      this.post = res.data?.content || [];
+      this.currentPage = res.data.number;
+      this.totalPages = res.data.totalPages;
+      this.loading = false;
       this.post.forEach((p) => {
         p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
       });
     });
   }
+
+
+  loadMorePosts() {
+    if (this.loading || this.currentPage >= this.totalPages - 1) {
+      return;
+    }
+
+    this.loading = true;
+    const nextPage = this.currentPage + 1;
+    this.profile.GetMyPosts(this.username(), nextPage, this.pageSize).subscribe({
+      next: response => {
+        if (response.data && response.data.content) {
+          this.post = [...this.post, ...response.data.content];
+          this.currentPage = response.data.number;
+          this.totalPages = response.data.totalPages;
+        }
+        this.loading = false;
+      },
+      error: error => {
+        console.error('Error loading more posts:', error);
+        this.loading = false;
+      }
+    });
+
+  }
+  hasMorePosts(): boolean {
+    return this.currentPage < this.totalPages - 1;
+  }
+
+
+
   followUser(id: string) {
     console.log(id);
     this.following.followUser(id).subscribe({
