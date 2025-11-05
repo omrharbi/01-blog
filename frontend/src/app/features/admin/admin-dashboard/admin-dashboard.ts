@@ -12,6 +12,7 @@ export class AdminDashboard {
   constructor(private admin: AdminService) { }
   totleUsers = signal(0)
   totlePosts = signal(0)
+  totleReport = signal(0)
   
   ngOnInit() { 
     this.admin.getcountUsers().subscribe({
@@ -20,6 +21,7 @@ export class AdminDashboard {
 
         this.totleUsers.set(response.data.countPosts)
         this.totlePosts.set(response.data.countUser)
+        this.totleReport.set(response.data.countReport)
        }
     })
     // this.admin.getcountPosts().subscribe({
