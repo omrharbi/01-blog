@@ -4,6 +4,7 @@ import { PostsResponseInAdmin } from '../../../core/models/admin/UserResponseInA
 import { Materaile } from '../../../modules/materaile-module';
 import { PrettyDatePipe } from '../../../shared/pipes/pretty-date.pipe';
 import { AdminServiceShared } from '../../../core/service/serivecLogique/admin/admin-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-posts-management',
@@ -18,6 +19,8 @@ export class PostsManagement {
   pageSize = signal(10);
   totalPages = signal(0);
   loading = signal(false);
+  totalPosts = signal(0);
+  router=inject(Router)
   adminService = inject(AdminServiceShared);
   postsId = signal<string>('')
   startIndex = computed(() => this.currentPage() * this.pageSize());
@@ -50,6 +53,7 @@ export class PostsManagement {
           this.getAllPosts.set(response.data.content);
           this.totalPages.set(response.data.totalPages);
           this.currentPage.set(response.data.number);
+          this.totalPosts.set(response.data.totalElements)
         }
         this.loading.set(false);
       },
@@ -71,7 +75,7 @@ export class PostsManagement {
         if (response.data && response.data.content) {
           this.getAllPosts.update(posts => [
             ...posts,
-            ...response.data.content.filter((newPost:any) => !posts.some(post => post.id === newPost.id)
+            ...response.data.content.filter((newPost: any) => !posts.some(post => post.id === newPost.id)
             )
           ]);
           this.currentPage.set(response.data.number);
@@ -83,5 +87,8 @@ export class PostsManagement {
     });
   }
 
-
+  viewPosts(postId: string) {
+    console.log(postId);
+      this.router.navigate([`/post/${postId}`])
+  }
 }

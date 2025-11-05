@@ -55,9 +55,10 @@ export class UsersManagement {
           console.log(response);
           
           this.allUsers.set(response.data.content);
-          this.totalPages.set(response.data.totalElements);
+          // this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
+         
         }
         this.loading.set(false);
       },

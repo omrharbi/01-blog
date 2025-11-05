@@ -30,7 +30,7 @@ type PostRequest struct {
 
 func main() {
 	apiURL := "http://localhost:9090/api/posts/create"
-	token := "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJ1dWlkIjoiYThjNTU4MWItMzNjMy00MjQxLTkwNTMtMDFjZmZjYzM5NzMwIiwic3ViIjoib21hcjMiLCJpYXQiOjE3NjIzMzY1MDAsImV4cCI6MTc2MjMzOTUwMH0.AqEFuC94PO83GX3czu7g9DBOuWiw7NOLdzi_lqPm9xc"
+	token := "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJ1dWlkIjoiMjk1YWFmNTUtNTkzZS00ZDVmLWEwMDItNDdkMjg5MzAwYjE3Iiwic3ViIjoib21hcjEiLCJpYXQiOjE3NjIzNDc1NzIsImV4cCI6MTc2MjM1MDU3Mn0.aQpkGF51fLib-1KkgbqAwc8aZBe5Dn-qhvngbQuhQxc"
 
 	client := &http.Client{}
 
