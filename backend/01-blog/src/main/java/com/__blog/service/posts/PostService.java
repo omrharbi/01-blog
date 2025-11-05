@@ -164,6 +164,7 @@ public class PostService {
         }
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<List<PostResponse>>> getPostsFromUserId(String username) {
         try {
             Optional<User> userOpt = userRepository.findByUsername(username);
@@ -175,7 +176,8 @@ public class PostService {
             Optional<List<Post>> postsOpt = postRepository.findByUserId(user.getId());
 
             if (postsOpt.isEmpty() || postsOpt.get().isEmpty()) {
-                return ApiResponseUtil.error("No posts found for this user", HttpStatus.NOT_FOUND);
+                return ApiResponseUtil.success(null, null, "");
+
             }
 
             List<PostResponse> postResponses = new ArrayList<>();

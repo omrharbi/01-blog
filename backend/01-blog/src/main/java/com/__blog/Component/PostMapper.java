@@ -85,6 +85,7 @@ public class PostMapper {
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
         int countLike = postRepository.countBylikesPostId(post.getId());
+        
         List<TagsResponse> tags = new ArrayList<>();
         for (var tag : post.getTags()) {
             var tagDTO = convertToTagsResponse(tag);

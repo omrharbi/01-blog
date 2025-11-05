@@ -103,11 +103,17 @@
                             <div class="custom-card mb-4" *ngFor="let exp of explore">
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-start gap-3">
-                                        <img [src]="(exp.avatar || 'apiUrl')" [alt]="exp.username" class="avatar">
+                                        <a [routerLink]="['/profile/'+exp.username]">
+                                            <img [src]="(exp.avatar || 'apiUrl')" [alt]="exp.username" class="avatar">
+                                        </a>
                                         <div class="flex-grow-1 min-width-0">
                                             <div class="d-flex align-items-center gap-2 mb-2">
-                                                <h3 class="h5 fw-semibold text-truncate mb-0">{{exp.firstname}}
-                                                    {{exp.lastname}}</h3>
+                                                <a [routerLink]="['/profile/'+exp.username]">
+
+                                                    <h3 class="h5 fw-semibold text-truncate mb-0">{{exp.firstname}}
+
+                                                        {{exp.lastname}}</h3>
+                                                </a>
                                                 <!-- <span class="custom-badge verified-badge">Verified</span> -->
                                             </div>
                                             <p class="text-muted-custom small mb-2">@{{exp.username}}</p>
