@@ -13,10 +13,8 @@
 </div>
 
 <!-- Move popup OUTSIDE the dropdown container -->
-<div class="dropdown-menu show p-2 shadow border rounded bg-card"
-  style="position: absolute; right: 0; top: 100%; width: 400px; font-size: 0.875rem; z-index: 1000; background-color: white;"
-  *ngIf="isVisible()" (click)="onOverlayClick($event)">
-  <div class="popup-container" (click)="$event.stopPropagation()">
+<div class="report-popup-overlay" *ngIf="isVisible()" (click)="closePopup()">
+  <div class="report-popup-container" (click)="$event.stopPropagation()">
     <div class="popup-header">
       <h2>Report Post</h2>
       <button class="close-btn" (click)="closePopup()">&times;</button>
