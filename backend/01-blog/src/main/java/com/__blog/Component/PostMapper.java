@@ -22,10 +22,11 @@ import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
- import com.__blog.repository.MediaRepository;
+import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.TagRepository;
- 
+import com.__blog.repository.UserRepository;
+
 @Component
 
 public class PostMapper {
@@ -42,8 +43,8 @@ public class PostMapper {
     @Autowired
     private MediaRepository mediaRepository;
 
-    // @Autowired
-    // private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
@@ -85,7 +86,6 @@ public class PostMapper {
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
         int countLike = postRepository.countBylikesPostId(post.getId());
-        
         List<TagsResponse> tags = new ArrayList<>();
         for (var tag : post.getTags()) {
             var tagDTO = convertToTagsResponse(tag);
@@ -125,6 +125,7 @@ public class PostMapper {
         Set<UUID> userLikedPostIds = postRepository.findUserLikedPostIds(postIds, userId);
         Map<UUID, List<MediaResponse>> mediaMap = getMediaMap(postIds);
         Map<UUID, List<TagsResponse>> tagsMap = getTagsMap(postIds);
+        var user = userRepository.findById(userId);
 
         Page<PostResponse> enrichedPosts = basicPosts.map(post -> PostResponse.builder()
                 .id(post.getId())
@@ -134,7 +135,7 @@ public class PostMapper {
                 .createdAt(post.getCreatedAt())
                 .firstImage(post.getFirstImage())
                 // User info already fetched
-                .avatarUser(post.getAvatarUser())
+                .avatarUser(user.get().getAvatarUrl())
                 .username(post.getUsername())
                 .firstname(post.getFirstname())
                 .lastname(post.getLastname())
@@ -186,13 +187,13 @@ public class PostMapper {
     }
 
     // private Map<UUID, User> getUsersMap(List<PostResponse> posts) {
-    //     Set<UUID> userIds = posts.stream()
-    //             .map(PostResponse::getUuid_user)
-    //             .collect(Collectors.toSet());
+    // Set<UUID> userIds = posts.stream()
+    // .map(PostResponse::getUuid_user)
+    // .collect(Collectors.toSet());
 
-    //     List<User> users = userRepository.findAllById(userIds);
-    //     return users.stream()
-    //             .collect(Collectors.toMap(User::getId, user -> user));
+    // List<User> users = userRepository.findAllById(userIds);
+    // return users.stream()
+    // .collect(Collectors.toMap(User::getId, user -> user));
     // }
 
     public Post convertToEntity(PostRequest postDTO) {
