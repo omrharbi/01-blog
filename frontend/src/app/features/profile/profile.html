@@ -161,21 +161,23 @@
 
                                 <div class="row g-4">
                                     <div class="col-md-8">
-                                        <a routerLink="/post/{{p.id}}" class="text-decoration-none"
-                                            style="color: var(--foreground-color);">
-                                            <h3 class="h5 font-playfair fw-bold mb-2 line-clamp-2">{{p.title}}</h3>
-                                            <div class="text-muted-custom mb-3 line-clamp-3" [innerHTML]="p.content">
-                                                <!-- {{p.content}} -->
+                                        <div class="content">
+                                            <a routerLink="/post/{{p.id}}" class="text-decoration-none"
+                                                style="color: var(--foreground-color);">
+                                                <h3 class="h5 font-playfair fw-bold mb-2 line-clamp-2">{{p.title}}</h3>
+                                                <div class="text-muted-custom mb-3 line-clamp-3"
+                                                    [innerHTML]="p.content">
+                                                    <!-- {{p.content}} -->
+                                                </div>
+                                                <!-- <div ></div> -->
+                                            </a>
+
+                                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                                <span class="tag tag-muted">GraphQL</span>
+                                                <span class="tag tag-muted">API</span>
+                                                <span class="tag tag-muted">Backend</span>
                                             </div>
-                                            <!-- <div ></div> -->
-                                        </a>
-
-                                        <div class="d-flex flex-wrap gap-2 mb-3">
-                                            <span class="tag tag-muted">GraphQL</span>
-                                            <span class="tag tag-muted">API</span>
-                                            <span class="tag tag-muted">Backend</span>
                                         </div>
-
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex gap-3">
                                                 <button [class.liked]="p.liked" [class.not-liked]="!(p.liked)"
@@ -216,7 +218,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <a href="#">
+                                        <a  routerLink="/post/{{p.id}}" >
                                             <div class="card-image">
                                                 <img [src]="apiUrl+(p.firstImage || '')" alt="Article">
                                             </div>
@@ -239,10 +241,10 @@
                         </button>
                     </div>
 
-            </div>
+                </div>
 
-            <!-- Likes Tab -->
-            <!-- <div class="tab-pane fade" id="likes" role="tabpanel">
+                <!-- Likes Tab -->
+                <!-- <div class="tab-pane fade" id="likes" role="tabpanel">
                     <div class="empty-state">
                         <i class="bi bi-heart"></i>
                         <h3 class="h5 mb-2">You haven't liked any posts yet</h3>
@@ -252,8 +254,8 @@
 
 
 
-            <!-- About Tab -->
-            <!-- <div class="tab-pane fade" id="about" role="tabpanel">
+                <!-- About Tab -->
+                <!-- <div class="tab-pane fade" id="about" role="tabpanel">
                     <div class="row g-4">
                         <div class="col-lg-6">
                             <div class="stats-card">
@@ -298,12 +300,12 @@
                     </div>
                 </div> -->
 
-    </div>
-    </ng-container>
+            </div>
+        </ng-container>
 
 
-    <ng-container *ngIf="editProfile">
-        <app-edit-profile></app-edit-profile>
-    </ng-container>
+        <ng-container *ngIf="editProfile">
+            <app-edit-profile></app-edit-profile>
+        </ng-container>
     </div>
 </main>
