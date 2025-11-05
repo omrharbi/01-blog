@@ -51,12 +51,13 @@ public class ReportService {
 
         report.setReasons(reportRequest.getReasons());
         report.setReporter(reporter.get());
-        var isAllReadyReport = reportRepository.existsByReporterIdAndPostId(userId, reportRequest.getPostReportId());
-        if (isAllReadyReport) {
-            return ApiResponseUtil.error("You already Report This Posts ", HttpStatus.BAD_REQUEST);
-        }
-        if (reportRequest.getPostReportId() != null) {
 
+        if (reportRequest.getPostReportId() != null) {
+            var isAllReadyReport = reportRepository.existsByReporterIdAndPostId(userId,
+                    reportRequest.getPostReportId());
+            if (isAllReadyReport) {
+                return ApiResponseUtil.error("You already Report This Posts ", HttpStatus.BAD_REQUEST);
+            }
             var postOpt = postRepository.findById(reportRequest.getPostReportId());
             if (postOpt.isEmpty()) {
                 return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
@@ -75,9 +76,9 @@ public class ReportService {
             return ApiResponseUtil.success(null, null, "Report Posts Success");
         } else if (reportRequest.getCommentReportId() != null) {
 
-            var commeOptional = commentRespository.findById(reportRequest.getPostReportId());
+            var commeOptional = commentRespository.findById(reportRequest.getCommentReportId());
             if (commeOptional.isEmpty()) {
-                return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+                return ApiResponseUtil.error("Comment not found", HttpStatus.NOT_FOUND);
             }
 
             Comment comment = commeOptional.get();
@@ -92,7 +93,7 @@ public class ReportService {
             reportRepository.save(report);
             return ApiResponseUtil.success(null, null, "Report Posts Success");
         }
-        return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+        return ApiResponseUtil.error("Something Error ", HttpStatus.NOT_FOUND);
 
     }
 

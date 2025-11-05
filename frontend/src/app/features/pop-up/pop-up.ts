@@ -104,12 +104,13 @@ export class PopUp {
     if (this.selectedReason === 'OTHER' && !this.reportDetails?.trim()) {
       return;
     }
-    const id = this.comment.id !== null ? this.comment.id : this.post.id;
-    // console.log(this.comment.id);
+    console.log(this.post ? this.post.id : null, "posts ", this.comment ? this.comment.id : null ,"comment ");
+    
     const report = {
       reasons: this.selectedReason,
       details: this.selectedReason === 'OTHER' ? this.reportDetails : null,
-      postReportId: id,
+      postReportId: this.post ? this.post.id : null,
+      commentReportId: this.comment ? this.comment.id : null,
       timestamp: new Date()
     };
     this.reporting.reportPosts(report).subscribe({
