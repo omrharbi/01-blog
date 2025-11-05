@@ -77,12 +77,12 @@ export class Profile {
     });
 
     this.profile.GetMyPosts(username).subscribe((res) => {
-      this.post = res.data;
+      this.post = res.data|| [];
       console.log(res, 'data ');
 
-      this.post.forEach((p) => {
-        p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
-      });
+      // this.post.forEach((p) => {
+      //   p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
+      // });
     });
   }
   followUser(id: string) {
