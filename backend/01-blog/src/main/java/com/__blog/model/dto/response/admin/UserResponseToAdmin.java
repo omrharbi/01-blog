@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.__blog.model.enums.Roles;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +14,13 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-
+@AllArgsConstructor
 public class UserResponseToAdmin {
 
     private UUID id;
     private String username;
+    private String firstname;
+    private String lastname;
     private String status;
     private String email;
     private Long postsCount;
@@ -25,9 +28,9 @@ public class UserResponseToAdmin {
     private boolean hidden;
     private LocalDateTime hiddenUntil;
     private Date createAt;
-    
+
     public UserResponseToAdmin(UUID id, String username, String status, String email, Long postsCount, Roles role,
-            boolean hidden, LocalDateTime hiddenUntil , Date createAt) {
+            boolean hidden, LocalDateTime hiddenUntil, Date createAt) {
         this.id = id;
         this.username = username;
         this.status = status;

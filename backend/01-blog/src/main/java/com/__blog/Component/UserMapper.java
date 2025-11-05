@@ -54,10 +54,25 @@ public class UserMapper {
                 return userResponse;
         }
 
+        public UserResponseToAdmin ConvertResponseToAdmin(User user, UUID userId) {
+
+                int postsCount = postRepository.countByUserId(user.getId());
+                UserResponseToAdmin userResponse = UserResponseToAdmin.builder()
+                                .id(user.getId())
+                                .firstname(user.getFirstname())
+                                .lastname(user.getLastname())
+                                .firstname(user.getFirstname())
+                                .lastname(user.getLastname())
+                                .username(user.getUsername())
+                                .postsCount((long) postsCount)
+                                .build();
+                return userResponse;
+        }
+
         public UserResponseToAdmin ConvertToResponseUserAdmin(User user) {
                 int postsCount = postRepository.countByUserId(user.getId());
 
-                Long count=(long) postsCount;
+                Long count = (long) postsCount;
                 UserResponseToAdmin userResponse = UserResponseToAdmin.builder()
                                 .id(user.getId())
                                 .status(user.getStatus())
@@ -68,7 +83,7 @@ public class UserMapper {
                                 .createAt(user.getCreate_at())
                                 .hiddenUntil(user.getHiddenUntil())
                                 .role(user.getRole())
-                                 .build();
+                                .build();
                 return userResponse;
         }
 

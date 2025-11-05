@@ -56,11 +56,11 @@ export class UsersManagement {
   }
   loadPosts(page: number) {
     this.loading.set(true);
-    this.admin.getAllPosts(page, this.pageSize()).subscribe({
+    this.admin.getAllUsers(page, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
           this.allUsers.set(response.data.content);
-          console.log(response, "data");
+          // console.log(response);
           
           this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
@@ -76,7 +76,7 @@ export class UsersManagement {
     this.loading.set(true);
 
     const nextPage = this.currentPage() + 1;
-    this.admin.getAllPosts(nextPage, this.pageSize()).subscribe({
+    this.admin.getAllUsers(nextPage, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
           this.allUsers.update(user => [...user, ...response.data.content]);

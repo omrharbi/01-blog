@@ -1,11 +1,13 @@
 package com.__blog.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
+import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
 import com.__blog.model.enums.Roles;
@@ -45,21 +48,12 @@ public class AdminService {
     private UserMapper userMapper;
     @Autowired
     private NotificationService notificationService;
-    // @Autowired
-    // private PostMapper postMapper;
-
+  
     public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getAllUsers(int page, int size) {
-        try {
-            Pageable pageable = PageRequest.of(page, size);
-            var user = repouser.findAllUsersWithPostCount(pageable);
-            if (user == null) {
-                return ApiResponseUtil.success(null, null, "No User");
-            }
-            return ApiResponseUtil.success(user, null, "Get All Users successful");
-        } catch (Exception e) {
-            return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
-        }
-
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> users = repouser.findAll(pageable);
+        Page<UserResponseToAdmin> userResponsePage = users.map(u -> userMapper.ConvertResponseToAdmin(u, u.getId()));
+        return ApiResponseUtil.success(userResponsePage, null, "All users retrieved successfully");
     }
 
     public ResponseEntity<ApiResponse<Page<PostReportToAdminResponse>>> getAllPosts(int page, int size) {
@@ -69,7 +63,7 @@ public class AdminService {
             if (posts == null) {
                 return ApiResponseUtil.success(null, null, "No User");
             }
-            
+
             return ApiResponseUtil.success(posts, null, "Get All Users successful");
         } catch (Exception e) {
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
