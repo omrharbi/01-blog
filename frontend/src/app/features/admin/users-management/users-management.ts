@@ -18,7 +18,7 @@ export class UsersManagement {
   actionType = signal<ActionType>('ban')
   adminService = inject(AdminServiceShared);
   currentPage = signal(0);
-  pageSize = signal(3);
+  pageSize = signal(10);
   totalPages = signal(0);
   loading = signal(false);
   startIndex = computed(() => this.currentPage() * this.pageSize() + 1);
@@ -48,21 +48,13 @@ export class UsersManagement {
       }
     })
   }
-
-
-  // goToPage(page: number) {
-  //   if (page < 0 || page >= this.totalPages()) return;
-  //   this.loadPosts(page);
-  // }
-  // loadPosts(page: number) {
-  //   this.loading.set(true);
-
-  // }
   getAllUsers() {
     this.admin.getAllUsers(0, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
           this.allUsers.set(response.data.content);
+          console.log(response);
+          
           this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);

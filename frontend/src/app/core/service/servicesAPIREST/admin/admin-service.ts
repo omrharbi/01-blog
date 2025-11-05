@@ -112,21 +112,5 @@ export class AdminService {
       }
     )
   }
-
-
-
-
-  // getCurrentUsername(): string | null {
-  //   const token = this.getToken();
-  //   return token ? this.jwtService.getUsernameFromToken(token) : null;
-  // }
-
-  // hasRole(role: string): boolean {
-  //   const userRole = this.getCurrentUserRole();
-  //   return userRole === role;
-  // }
-  // isAuthenticated(): boolean {
-  //   const token = this.getToken();
-  //   return token ? !this.jwtService.isTokenExpired(token) : false;
-  // }
+ 
 }
