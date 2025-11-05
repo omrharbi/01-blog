@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { JwtService } from '../../core/service/JWT/jwt-service';
@@ -8,12 +8,14 @@ import { PostService } from '../../core/service/servicesAPIREST/posts/post-servi
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
 import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 import { SharedService } from '../../core/service/serivecLogique/shared-service/shared-service-post';
+import { flatMap } from 'rxjs';
+import { Materaile } from '../../modules/materaile-module';
 
 @Component({
   selector: 'app-pop-up',
   // imports: [Materaile],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Materaile],
   templateUrl: './pop-up.html',
   styleUrl: './pop-up.scss'
 })
@@ -29,9 +31,22 @@ export class PopUp {
   uuid: string = "0";
   @Input() post!: PostResponse;
   @Input() comment!: CommentResponse;
+  selectedReason: string = '';
+  reportDetails: string = '';
+
+  reportReasons = [
+    'SPAM',
+    'HARASSMENT',
+    'HATE_SPEECH',
+    'VIOLENCE',
+    'MISINFORMATION',
+    'OTHER'
+  ];
+
   ngOnInit() {
     this.isAuthenticated = this.auth.isAuthenticated();
   }
+  isVisible = signal(false)
   isEdit: boolean = false;
   @Output() editPost = new EventEmitter<any>();
 
@@ -49,7 +64,7 @@ export class PopUp {
     } else {
       this.postService.DeletePost(this.post.id).subscribe({
         next: response => {
-          if (response.status){
+          if (response.status) {
 
             this.sharedService.removePost(this.post.id);
           }
@@ -61,4 +76,52 @@ export class PopUp {
       });
     }
   }
+  report() {
+    this.isVisible.set(true)
+    console.log(this.isVisible);
+  }
+
+
+
+  onReasonChange() {
+    if (this.selectedReason !== 'OTHER') {
+      this.reportDetails = '';
+    }
+  }
+
+  formatReasonLabel(reason: string): string {
+    return reason.split('_').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    ).join(' ');
+  }
+
+  submitReport() {
+    if (!this.selectedReason) return;
+
+    if (this.selectedReason === 'OTHER' && !this.reportDetails?.trim()) {
+      return;
+    }
+
+    const report = {
+      reason: this.selectedReason,
+      details: this.selectedReason === 'OTHER' ? this.reportDetails : null,
+      timestamp: new Date()
+    };
+
+    // TODO: Send report to your backend
+    console.log('Report submitted:', report);
+
+    this.closePopup();
+  }
+
+  closePopup() {
+    this.isVisible.set(false);
+    this.selectedReason = '';
+    this.reportDetails = '';
+  }
+
+  onOverlayClick(event: Event) {
+    this.closePopup();
+  }
+
 }
