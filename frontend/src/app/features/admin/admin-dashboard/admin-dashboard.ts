@@ -1,7 +1,6 @@
 import { Component, Inject, Signal, signal } from '@angular/core';
 import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
 import { Materaile } from '../../../modules/materaile-module';
-import { UserResponseInAdmin } from '../../../core/models/admin/UserResponseInAdmin';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,23 +9,26 @@ import { UserResponseInAdmin } from '../../../core/models/admin/UserResponseInAd
   styleUrl: './admin-dashboard.scss',
 })
 export class AdminDashboard {
-  // admin = Inject(AdminService)
   constructor(private admin: AdminService) { }
   totleUsers = signal(0)
   totlePosts = signal(0)
   
-  ngOnInit() {
-    let page = 0;
-    let size = 21600;
+  ngOnInit() { 
     this.admin.getcountUsers().subscribe({
       next: (response: any) => {
-        this.totleUsers.set(response?.data.content.length)
-        this.allUsers.set(response?.data?.content || []);
+        console.log(response,"count");
 
-        console.log("admin test",this.allUsers());
-      }
+        this.totleUsers.set(response.data.countPosts)
+        this.totlePosts.set(response.data.countUser)
+       }
     })
-
+    // this.admin.getcountPosts().subscribe({
+    //   next: (response: any) => {
+    //     console.log(response);
+        
+    //     // this.totlePosts.set(response?.data.content)
+    //    }
+    // })
     
   }
 }

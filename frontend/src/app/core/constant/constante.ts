@@ -24,6 +24,8 @@ export const environment = {
         admins: apiUrl + "api/admin/admins",
         activeUsers: apiUrl + "api/admin/active-users",
         bannedUser: apiUrl + "api/admin/banned-user",
+        countUsers: apiUrl + "api/admin/count-users",
+        allPosts: apiUrl + "api/admin/all-posts",
     },
 
     subscriptions: {
