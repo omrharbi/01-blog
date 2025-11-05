@@ -4,8 +4,24 @@ export interface UserResponseInAdmin {
     status: string,
     email: string,
     postsCount: number,
-    hidden:boolean,
+    hidden: boolean,
     role: string,
 }
 
-export type ActionType = 'ban' | 'unban' | 'delete' |'role';
+
+export interface PostsResponseInAdmin {
+    id: string,
+    firstname: string,
+    lastname: string,
+    status: string,
+    email: string,
+    commentCount: number,
+    likesCount: boolean,
+    reportCount: string,
+    title: string,
+    createdAt: string,
+    role: string,
+    hidden: boolean,
+}
+
+export type ActionType = 'ban' | 'unban' | 'delete' | 'role';

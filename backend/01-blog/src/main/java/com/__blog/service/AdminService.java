@@ -62,14 +62,14 @@ public class AdminService {
 
     }
 
-    public ResponseEntity<ApiResponse<List<PostReportToAdminResponse>>> getAllPosts(int page, int size) {
+    public ResponseEntity<ApiResponse<Page<PostReportToAdminResponse>>> getAllPosts(int page, int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
             var posts = postRepository.getPostsReportForAdmin(pageable);
             if (posts == null) {
                 return ApiResponseUtil.success(null, null, "No User");
             }
-            return ApiResponseUtil.success(posts.getContent(), null, "Get All Users successful");
+            return ApiResponseUtil.success(posts, null, "Get All Users successful");
         } catch (Exception e) {
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }
@@ -159,6 +159,7 @@ public class AdminService {
         return ApiResponseUtil.error("You Dont have any Post", HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<String>> deleteUser(@NonNull UUID userId) {
         var user = repouser.findById(userId);
         if (user.isPresent()) {
@@ -172,6 +173,7 @@ public class AdminService {
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<String>> deletePost(UUID userId) {
         var user = repouser.findById(userId);
         if (user.isPresent()) {
@@ -182,6 +184,7 @@ public class AdminService {
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public ResponseEntity<ApiResponse<UserResponseToAdmin>> changeRole(UserPrincipal userPrincipal, UUID userId) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(

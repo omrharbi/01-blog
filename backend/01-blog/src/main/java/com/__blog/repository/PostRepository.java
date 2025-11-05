@@ -73,6 +73,8 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
                     p.title,
                     u.firstname,
                     u.lastname,
+                    u.role,
+                    u.hidden,
                     p.createdAt,
                     COUNT(DISTINCT l),
                     COUNT(DISTINCT c),
@@ -83,7 +85,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
                 LEFT JOIN p.likes l
                 LEFT JOIN p.comments c
                 LEFT JOIN Report r ON r.post = p
-                GROUP BY p.id, p.title, u.firstname, u.lastname, p.createdAt
+                GROUP BY p.id, p.title, u.firstname, u.lastname, p.createdAt,  u.role, u.hidden
                 ORDER BY COUNT(DISTINCT r) DESC
             """)
     Page<PostReportToAdminResponse> getPostsReportForAdmin(Pageable pageable);

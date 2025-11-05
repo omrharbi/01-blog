@@ -27,11 +27,6 @@ export class AdminDashboard {
     //   }
     // })
 
-    this.admin.getAllPosts(page, size).subscribe({
-      next: (response: any) => {
-        this.totlePosts.set(response?.data.length)
-        console.log("admin posts", response);
-      }
-    })
+    
   }
 }

@@ -68,8 +68,7 @@ public class UserMapper {
                                 .createAt(user.getCreate_at())
                                 .hiddenUntil(user.getHiddenUntil())
                                 .role(user.getRole())
-                                // .createAt(user.getCreate_at())
-                                .build();
+                                 .build();
                 return userResponse;
         }
 

@@ -76,16 +76,16 @@
         position: relative;
     }
 
-    .content-card .reported-post::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        background: linear-gradient(to bottom, #dc3545, #ffc107);
-        border-radius: 2px 0 0 2px;
-    }
+    // .content-card .reported-post::before {
+    //     content: '';
+    //     position: absolute;
+    //     left: 0;
+    //     top: 0;
+    //     bottom: 0;
+    //     width: 4px;
+    //     background: linear-gradient(to bottom, #dc3545, #ffc107);
+    //     border-radius: 2px 0 0 2px;
+    // }
 
     /* Reports Badge */
     .content-card .reports-badge {
@@ -112,7 +112,7 @@
 
     /* Action Buttons */
     .content-card .action-buttons {
-        opacity: 0;
+        // opacity: 0;
         transition: opacity 0.3s ease;
         display: flex;
         gap: 0.5rem;

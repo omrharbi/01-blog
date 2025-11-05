@@ -28,13 +28,13 @@ export class AdminService {
       })
   }
 
-  getAllPosts(page: number, size: number): Observable<ApiResponse<UserResponseInAdmin[]>> {
+  getAllPosts(page: number, size: number): Observable<ApiResponseWithPage<UserResponseInAdmin[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
 
-    return this.http.get<ApiResponse<UserResponseInAdmin[]>>
+    return this.http.get<ApiResponseWithPage<UserResponseInAdmin[]>>
       (`${environment.admin.getPosts}?page=${page}&size=${size}`, {
         headers
       })

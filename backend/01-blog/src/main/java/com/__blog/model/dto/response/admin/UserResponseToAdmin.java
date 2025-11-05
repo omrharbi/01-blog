@@ -25,7 +25,7 @@ public class UserResponseToAdmin {
     private boolean hidden;
     private LocalDateTime hiddenUntil;
     private Date createAt;
-
+    
     public UserResponseToAdmin(UUID id, String username, String status, String email, Long postsCount, Roles role,
             boolean hidden, LocalDateTime hiddenUntil , Date createAt) {
         this.id = id;
