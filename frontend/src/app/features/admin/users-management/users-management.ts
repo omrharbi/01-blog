@@ -21,7 +21,7 @@ export class UsersManagement {
   pageSize = signal(10);
   totalPages = signal(0);
   loading = signal(false);
-  startIndex = computed(() => this.currentPage() * this.pageSize() + 1);
+   startIndex = computed(() => this.currentPage() * this.pageSize() + 1);
   endIndex = computed(() =>
     Math.min(this.startIndex() + this.allUsers().length - 1, this.totalPages())
   );

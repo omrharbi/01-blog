@@ -13,7 +13,10 @@ export class AdminServiceShared {
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
     checkDeleteUser = new BehaviorSubject<boolean>(false)
     update_user$ = this.updateUser.asObservable();
+    checkDeletePosts = new BehaviorSubject<boolean>(false)
+
     check_delete_user$ = this.checkDeleteUser.asObservable();
+    check_delete_post$ = this.checkDeletePosts.asObservable();
     banUser(userId: string, days: number) {
         this.adminService.banUser(userId, days).subscribe({
             next: response => {
@@ -42,6 +45,18 @@ export class AdminServiceShared {
         this.adminService.deleteUser(userId).subscribe({
             next: response => {
                 this.checkDeleteUser.next(response.status || false)
+            },
+            error: error => {
+                console.log(error, "error ");
+
+            }
+        })
+    }
+
+    deletePosts(userId: string) {
+        this.adminService.deletePost(userId).subscribe({
+            next: response => {
+                this.checkDeletePosts.next(response.status || false)
             },
             error: error => {
                 console.log(error, "error ");

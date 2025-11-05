@@ -21,6 +21,7 @@ export const environment = {
         banUser: apiUrl + "api/admin/ban-user/",
         changeRole: apiUrl + "api/admin/change-role/",
         deleteUser: apiUrl + "api/admin/delete/",
+        deletePosts: apiUrl + "api/admin/delete-posts/",
         admins: apiUrl + "api/admin/admins",
         activeUsers: apiUrl + "api/admin/active-users",
         bannedUser: apiUrl + "api/admin/banned-user",

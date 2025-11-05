@@ -91,10 +91,9 @@ public class AdminController {
         return adminService.getAllPosts(page, size);
     }
 
-    @DeleteMapping("/deletePost")
-    public String deletePost() {
-        // return userService.loginUser(user);
-        return "";
+    @DeleteMapping("/delete-posts/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable("postId") UUID postId) {
+        return adminService.deletePost(postId);
     }
 
     @PatchMapping("/change-role/{userId}")

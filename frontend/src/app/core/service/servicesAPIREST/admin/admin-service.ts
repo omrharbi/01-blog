@@ -39,6 +39,18 @@ export class AdminService {
         headers
       })
   }
+
+  deletePost(postId: string): Observable<ApiResponseWithPage<UserResponseInAdmin>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+
+    return this.http.delete<ApiResponseWithPage<UserResponseInAdmin>>
+      (`${environment.admin.deletePosts}${postId}`, {
+        headers
+      })
+  }
   banUser(userId: string, days: number): Observable<ApiResponse<any>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`

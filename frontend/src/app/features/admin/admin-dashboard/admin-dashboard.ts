@@ -24,13 +24,6 @@ export class AdminDashboard {
         this.totleReport.set(response.data.countReport)
        }
     })
-    // this.admin.getcountPosts().subscribe({
-    //   next: (response: any) => {
-    //     console.log(response);
-        
-    //     // this.totlePosts.set(response?.data.content)
-    //    }
-    // })
-    
+ 
   }
 }
