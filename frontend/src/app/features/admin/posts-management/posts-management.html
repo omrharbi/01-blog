@@ -248,29 +248,7 @@
 
                 Showing {{ startIndex() }} to {{ endIndex() }} of {{ totalPages() }} posts
             </div>
-            <nav aria-label="Posts pagination">
-                <ul class="pagination custom-pagination mb-0">
-                    <li class="page-item" [class.disabled]="currentPage() === 0">
-                        <button class="page-link" (click)="goToPage(currentPage() - 1)"
-                            [disabled]="currentPage() === 0">
-                            Previous
-                        </button>
-                    </li>
-                    <li class="page-item" *ngFor="let page of [].constructor(totalPages()); let i = index"
-                        [class.active]="i === currentPage()">
-                        <button class="page-link" (click)="goToPage(i)">
-                            {{ i + 1 }}
-                        </button>
-                    </li>
-                    <li class="page-item" [class.disabled]="currentPage() >= totalPages() - 1">
-                        <button class="page-link" (click)="goToPage(currentPage() + 1)"
-                            [disabled]="currentPage() >= totalPages() - 1">
-                            Next
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-
+            
             <div class="text-center mt-3">
                 <button class="btn btn-outline-primary" (click)="showMore()"
                     [disabled]="loading() || currentPage() >= totalPages() - 1">
