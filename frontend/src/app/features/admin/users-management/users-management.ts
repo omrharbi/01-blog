@@ -17,6 +17,11 @@ export class UsersManagement {
   allUsers = signal<UserResponseInAdmin[]>([]);
   actionType = signal<ActionType>('ban')
   adminService = inject(AdminServiceShared);
+  currentPage = signal(0);
+  pageSize = signal(10);
+  totalPages = signal(0);
+  loading = signal(false);
+
 
   userId = signal<string>('')
   ngOnInit() {
@@ -47,10 +52,45 @@ export class UsersManagement {
       }
     })
   }
-  banUser(users: any) {
-    console.log(users, "click ");
+
+
+  goToPage(page: number) {
+    if (page < 0 || page >= this.totalPages()) return;
+    this.loadPosts(page);
   }
- 
+  loadPosts(page: number) {
+    this.loading.set(true);
+    this.admin.getAllPosts(page, this.pageSize()).subscribe({
+      next: (response: any) => {
+        if (response.data && response.data.content) {
+          this.allUsers.set(response.data.content);
+          this.totalPages.set(response.data.totalElements);
+          this.currentPage.set(response.data.number);
+          this.totalPages.set(response.data.totalPages);
+        }
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+  showMore() {
+    if (this.loading() || this.currentPage() >= this.totalPages() - 1) return;
+    this.loading.set(true);
+
+    const nextPage = this.currentPage() + 1;
+    this.admin.getAllPosts(nextPage, this.pageSize()).subscribe({
+      next: (response: any) => {
+        if (response.data && response.data.content) {
+          this.allUsers.update(user => [...user, ...response.data.content]);
+          this.currentPage.set(response.data.number);
+          this.totalPages.set(response.data.totalPages);
+        }
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+
 
   actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true
