@@ -38,15 +38,21 @@ public class ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
-    public ResponseEntity<ApiResponse<ReportResponse>> createReport(UserPrincipal userPrincipal, ReportRequest reportRequest) {
+    public ResponseEntity<ApiResponse<ReportResponse>> createReport(UserPrincipal userPrincipal,
+            ReportRequest reportRequest) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
         }
         UUID userId = userPrincipal.getId();
         Report report = new Report();
         var reporter = userRepository.findById(userId);
+
         report.setReasons(reportRequest.getReasons());
         report.setReporter(reporter.get());
+        var isAllReadyReport = reportRepository.existsByReporterId(userId);
+        if (isAllReadyReport) {
+            return ApiResponseUtil.error("You already Report This Posts ", HttpStatus.BAD_REQUEST);
+        }
         if (reportRequest.getPostReportId() != null) {
             var postOpt = postRepository.findById(reportRequest.getPostReportId());
             if (postOpt.isEmpty()) {
@@ -61,7 +67,7 @@ public class ReportService {
             User reportedUser = post.getUser();
             report.setPost(post);
             report.setReportedUser(reportedUser);
-                
+
             reportRepository.save(report);
             return ApiResponseUtil.success(null, null, "Report Posts Success");
         }

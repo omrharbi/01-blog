@@ -71,11 +71,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           });
           break;
 
-        case 400:
-          router.navigate(['/error'], {
-            queryParams: { status: 400 }
-          });
-          break;
+        // case 400:
+        //   router.navigate(['/error'], {
+        //     queryParams: { status: 400 }
+        //   });
+        //   break;
 
         // case 500:
         //   router.navigate(['/error'], {

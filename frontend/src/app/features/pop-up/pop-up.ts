@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 import { JwtService } from '../../core/service/JWT/jwt-service';
@@ -11,6 +11,7 @@ import { SharedService } from '../../core/service/serivecLogique/shared-service/
 import { flatMap } from 'rxjs';
 import { Materaile } from '../../modules/materaile-module';
 import { ReportService } from '../../core/service/servicesAPIREST/report/report-service';
+import { NotificationService } from '../../core/service/notificationAlert/NotificationService';
 
 @Component({
   selector: 'app-pop-up',
@@ -52,6 +53,7 @@ export class PopUp {
   isEdit: boolean = false;
   @Output() editPost = new EventEmitter<any>();
   @Output() clickedInside = new EventEmitter<boolean>();
+  notificationAlert = inject(NotificationService)
   onEdit() {
     if (this.isComment === true) {
       this.global.sharedData.emit({ type: 'comment', data: this.comment });
@@ -101,9 +103,9 @@ export class PopUp {
 
     if (this.selectedReason === 'OTHER' && !this.reportDetails?.trim()) {
       return;
-    } 
+    }
     console.log(this.post.id);
-    
+
     const report = {
       reasons: this.selectedReason,
       details: this.selectedReason === 'OTHER' ? this.reportDetails : null,
@@ -116,6 +118,11 @@ export class PopUp {
 
       },
       error: error => {
+        const message =
+          error?.error?.error ||    // e.g. "You already Report This Posts"
+          error?.error?.message ||  // fallback
+          'Something went wrong. Please try again.'
+        this.notificationAlert.showErrorWithoutRedirect(message);
         console.log(error);
 
       }

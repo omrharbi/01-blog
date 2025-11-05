@@ -10,7 +10,7 @@ export const AdminGuard: CanActivateFn = () => {
   const auth = inject(AuthService)
   const router = inject(Router)
   const notificationAlert = inject(NotificationService)
-  console.log(auth.hasRole('ADMIN'), "admin ****************");
+  // console.log(auth.hasRole('ADMIN'), "admin ****************");
   if (auth.isLoggedIn() && auth.hasRole('ADMIN')) {
 
     // router.navigate(['/home'])
