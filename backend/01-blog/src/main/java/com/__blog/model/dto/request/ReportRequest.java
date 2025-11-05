@@ -17,4 +17,5 @@ public class ReportRequest {
     private ReportReason reasons;
     private UUID postReportId;
     private UUID commentReportId;
+    private String details;
 }

@@ -10,6 +10,7 @@ import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 import { SharedService } from '../../core/service/serivecLogique/shared-service/shared-service-post';
 import { flatMap } from 'rxjs';
 import { Materaile } from '../../modules/materaile-module';
+import { ReportService } from '../../core/service/servicesAPIREST/report/report-service';
 
 @Component({
   selector: 'app-pop-up',
@@ -22,7 +23,8 @@ import { Materaile } from '../../modules/materaile-module';
 export class PopUp {
   constructor(private auth: AuthService, private user: JwtService, private postService: PostService,
     private global: Global
-    , private sharedService: SharedService
+    , private sharedService: SharedService,
+    private reporting: ReportService
   ) {
   }
   @Input() isOwner: boolean = false;
@@ -77,8 +79,6 @@ export class PopUp {
     }
   }
 
-
-  
   report() {
     this.isVisible.set(true)
     console.log(this.isVisible());
@@ -101,16 +101,27 @@ export class PopUp {
 
     if (this.selectedReason === 'OTHER' && !this.reportDetails?.trim()) {
       return;
-    }
-
+    } 
+    console.log(this.post.id);
+    
     const report = {
-      reason: this.selectedReason,
+      reasons: this.selectedReason,
       details: this.selectedReason === 'OTHER' ? this.reportDetails : null,
+      postReportId: this.post.id,
       timestamp: new Date()
     };
+    this.reporting.reportPosts(report).subscribe({
+      next: response => {
+        console.log(response, "response ");
 
+      },
+      error: error => {
+        console.log(error);
+
+      }
+    })
     // TODO: Send report to your backend
-    console.log('Report submitted:', report);
+    // console.log('Report submitted:', report);
 
     this.closePopup();
   }

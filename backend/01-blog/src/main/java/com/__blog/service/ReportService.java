@@ -61,7 +61,7 @@ public class ReportService {
             User reportedUser = post.getUser();
             report.setPost(post);
             report.setReportedUser(reportedUser);
-
+                
             reportRepository.save(report);
             return ApiResponseUtil.success(null, null, "Report Posts Success");
         }

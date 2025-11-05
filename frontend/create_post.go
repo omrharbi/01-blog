@@ -30,13 +30,13 @@ type PostRequest struct {
 
 func main() {
 	apiURL := "http://localhost:9090/api/posts/create"
-	token := "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJ1dWlkIjoiMjk1YWFmNTUtNTkzZS00ZDVmLWEwMDItNDdkMjg5MzAwYjE3Iiwic3ViIjoib21hcjEiLCJpYXQiOjE3NjIzNDc1NzIsImV4cCI6MTc2MjM1MDU3Mn0.aQpkGF51fLib-1KkgbqAwc8aZBe5Dn-qhvngbQuhQxc"
+	token := "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInV1aWQiOiJlODBiZTQ2Yy1jN2MwLTQ1YTItYTE5OS03YmRiMTJhNzg2M2QiLCJzdWIiOiJvbWFyNSIsImlhdCI6MTc2MjM1NTQ4MywiZXhwIjoxNzYyMzU4NDgzfQ.fEixcrvBbaLVrVzMBtr58ll6dPX1d3v1VNSuhgKS3Tk"
 
 	client := &http.Client{}
 
-	for i := 1; i <= 100; i++ {
+	for i := 1; i <= 10; i++ {
 		post := PostRequest{
-			HTMLContent: fmt.Sprintf("<p>This is post number %d created by Go.</p>", i),
+			HTMLContent: fmt.Sprintf("<p> omar 3 %d created by Go.</p>", i),
 			Title:       fmt.Sprintf("Generated Post #%d", i),
 			Content:     fmt.Sprintf("This is the detailed content for post number %d, generated automatically using Go.", i),
 			Excerpt:     fmt.Sprintf("Summary for post #%d.", i),
