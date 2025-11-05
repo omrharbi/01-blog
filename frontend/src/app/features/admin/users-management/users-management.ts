@@ -52,9 +52,9 @@ export class UsersManagement {
     this.admin.getAllUsers(0, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
-          this.allUsers.set(response.data.content);
           console.log(response);
           
+          this.allUsers.set(response.data.content);
           this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
@@ -93,7 +93,7 @@ export class UsersManagement {
     this.admin.getAdmins(nextPage, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
-          this.allUsers.update(user => [...user, ...response.data.content]);
+          this.allUsers.update(user => user.filter(u => u.role === "ADMIN"));
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
         }
@@ -107,7 +107,7 @@ export class UsersManagement {
     this.admin.activeUsers(nextPage, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
-          this.allUsers.update(user => [...user, ...response.data.content]);
+          this.allUsers.update(user => user.filter(u => u.hidden === false));
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
         }
@@ -121,7 +121,7 @@ export class UsersManagement {
     this.admin.bannedUser(nextPage, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
-          this.allUsers.update(user => [...user, ...response.data.content]);
+          this.allUsers.update(user => user.filter(u => u.hidden === true));
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
         }
