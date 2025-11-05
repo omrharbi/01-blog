@@ -112,5 +112,17 @@ export class AdminService {
       }
     )
   }
+
+   getcountUsers(): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.get<ApiResponse<any>>(
+      `${environment.admin.bannedUser}`,
+      {
+        headers
+      }
+    )
+  }
  
 }

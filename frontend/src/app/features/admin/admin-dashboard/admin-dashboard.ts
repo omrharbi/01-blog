@@ -18,14 +18,14 @@ export class AdminDashboard {
   ngOnInit() {
     let page = 0;
     let size = 21600;
-    // this.admin.getAllUsers(page, size).subscribe({
-    //   next: (response: any) => {
-    //     this.totleUsers.set(response?.data.content.length)
-    //     this.allUsers.set(response?.data?.content || []);
+    this.admin.getcountUsers().subscribe({
+      next: (response: any) => {
+        this.totleUsers.set(response?.data.content.length)
+        this.allUsers.set(response?.data?.content || []);
 
-    //     console.log("admin test",this.allUsers());
-    //   }
-    // })
+        console.log("admin test",this.allUsers());
+      }
+    })
 
     
   }
