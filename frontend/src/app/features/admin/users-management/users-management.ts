@@ -28,7 +28,7 @@ export class UsersManagement {
 
   userId = signal<string>('')
   ngOnInit() {
-    this.loadPosts(0)
+    this.getAllUsers()
 
     this.adminService.update_user$.subscribe({
       next: response => {
@@ -50,18 +50,19 @@ export class UsersManagement {
   }
 
 
-  goToPage(page: number) {
-    if (page < 0 || page >= this.totalPages()) return;
-    this.loadPosts(page);
-  }
-  loadPosts(page: number) {
-    this.loading.set(true);
-    this.admin.getAllUsers(page, this.pageSize()).subscribe({
+  // goToPage(page: number) {
+  //   if (page < 0 || page >= this.totalPages()) return;
+  //   this.loadPosts(page);
+  // }
+  // loadPosts(page: number) {
+  //   this.loading.set(true);
+
+  // }
+  getAllUsers() {
+    this.admin.getAllUsers(0, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
           this.allUsers.set(response.data.content);
-          // console.log(response);
-          
           this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
@@ -94,6 +95,48 @@ export class UsersManagement {
     this.showBanPopup = true
     this.actionType.set(type)
     this.userId.set(userId)
+  }
+  getAdmins() {
+    const nextPage = this.currentPage() + 1;
+    this.admin.getAdmins(nextPage, this.pageSize()).subscribe({
+      next: (response: any) => {
+        if (response.data && response.data.content) {
+          this.allUsers.update(user => [...user, ...response.data.content]);
+          this.currentPage.set(response.data.number);
+          this.totalPages.set(response.data.totalPages);
+        }
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+  getActiveUsers() {
+    const nextPage = this.currentPage() + 1;
+    this.admin.activeUsers(nextPage, this.pageSize()).subscribe({
+      next: (response: any) => {
+        if (response.data && response.data.content) {
+          this.allUsers.update(user => [...user, ...response.data.content]);
+          this.currentPage.set(response.data.number);
+          this.totalPages.set(response.data.totalPages);
+        }
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+  bannedUsers() {
+    const nextPage = this.currentPage() + 1;
+    this.admin.bannedUser(nextPage, this.pageSize()).subscribe({
+      next: (response: any) => {
+        if (response.data && response.data.content) {
+          this.allUsers.update(user => [...user, ...response.data.content]);
+          this.currentPage.set(response.data.number);
+          this.totalPages.set(response.data.totalPages);
+        }
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
   }
 }
 

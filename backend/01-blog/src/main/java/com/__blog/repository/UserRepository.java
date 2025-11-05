@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.__blog.model.entity.User;
+import com.__blog.model.enums.Roles;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
@@ -26,4 +27,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT s FROM User u JOIN u.skills s WHERE u.id = :userId")
     Set<String> findSkillsByUserId(@Param("userId") UUID userId);
 
+    Page<User> findByRole(Roles role, Pageable pageable);
+
+    Page<User> findByHidden(boolean status, Pageable pageable);
 }

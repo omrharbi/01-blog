@@ -22,10 +22,10 @@
             </div>
             <div class="col-12 col-md-4">
                 <select class="form-select filter-dropdown">
-                    <option selected>All Users</option>
-                    <option>Active Users</option>
-                    <option>Banned Users</option>
-                    <option>Admins</option>
+                    <option selected (click)="getAllUsers()">All Users</option>
+                    <option (click)="getActiveUsers()">Active Users</option>
+                    <option (click)="bannedUsers()">Banned Users</option>
+                    <option (click)="getAdmins()">Admins</option>
                 </select>
             </div>
         </div>

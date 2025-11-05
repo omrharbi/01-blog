@@ -48,13 +48,39 @@ public class AdminService {
     private UserMapper userMapper;
     @Autowired
     private NotificationService notificationService;
-  
+
+    // Returns a paginated list of all users.
     public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getAllUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> users = repouser.findAll(pageable);
         Page<UserResponseToAdmin> userResponsePage = users.map(u -> userMapper.ConvertResponseToAdmin(u, u.getId()));
         return ApiResponseUtil.success(userResponsePage, null, "All users retrieved successfully");
     }
+
+    // Returns a paginated list of all Admin.
+    public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getUsersAdmin(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> users = repouser.findByRole(Roles.ADMIN, pageable);
+        Page<UserResponseToAdmin> userResponsePage = users.map(u -> userMapper.ConvertResponseToAdmin(u, u.getId()));
+        return ApiResponseUtil.success(userResponsePage, null, "All users retrieved successfully");
+    }
+    // Returns a paginated list of all user Active.
+
+    public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getUsersActive(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> users = repouser.findByHidden(false, pageable);
+        Page<UserResponseToAdmin> userResponsePage = users.map(u -> userMapper.ConvertResponseToAdmin(u, u.getId()));
+        return ApiResponseUtil.success(userResponsePage, null, "All users retrieved successfully");
+    }
+    // Returns a paginated list of all user banned User .
+
+    public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getBannedUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> users = repouser.findByHidden(true, pageable);
+        Page<UserResponseToAdmin> userResponsePage = users.map(u -> userMapper.ConvertResponseToAdmin(u, u.getId()));
+        return ApiResponseUtil.success(userResponsePage, null, "All users retrieved successfully");
+    }
+    // Returns a paginated list of all Posts .
 
     public ResponseEntity<ApiResponse<Page<PostReportToAdminResponse>>> getAllPosts(int page, int size) {
         try {
@@ -69,6 +95,7 @@ public class AdminService {
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }
     }
+    // Returns a paginated list of all count user .
 
     @Transactional
     public ResponseEntity<ApiResponse<UsersPostsReportCountResponse>> countAllUser() {

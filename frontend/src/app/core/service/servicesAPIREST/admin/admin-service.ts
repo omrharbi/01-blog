@@ -77,6 +77,43 @@ export class AdminService {
   }
 
 
+  getAdmins(page: number, size: number): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.get<ApiResponse<any>>(
+      `${environment.admin.admins}?page=${page}&size=${size}`,
+      {
+        headers
+      }
+    )
+  }
+
+  activeUsers(page: number, size: number): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.get<ApiResponse<any>>(
+      `${environment.admin.activeUsers}?page=${page}&size=${size}`,
+      {
+        headers
+      }
+    )
+  }
+
+  bannedUser(page: number, size: number): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.get<ApiResponse<any>>(
+      `${environment.admin.bannedUser}?page=${page}&size=${size}`,
+      {
+        headers
+      }
+    )
+  }
+
+
 
 
   // getCurrentUsername(): string | null {
