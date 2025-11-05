@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../models/authentication/autResponse-module';
 import { UserProfile } from '../../../models/user/userProfileResponse';
 import { environment, token } from '../../../constant/constante';
-import { PostResponse } from '../../../models/post/postResponse';
+import { ApiResponseWithPage, PostResponse } from '../../../models/post/postResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +22,13 @@ export class ProfileService {
     }
     )
   }
-  GetMyPosts(username:string): Observable<ApiResponse<PostResponse[]>> {
+  GetMyPosts(username:string, page:number, size:number): Observable<ApiResponseWithPage<PostResponse[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponse<PostResponse[]>>(
-      `${environment.user.getMyPosts}/${username}/posts`, {
+    return this.http.get<ApiResponseWithPage<PostResponse[]>>(
+      `${environment.user.getMyPosts}/${username}/posts?page=${page}&size=${size}`, {
       headers
     }
     )

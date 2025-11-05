@@ -12,10 +12,11 @@ import { likesServiceLogique } from '../../core/service/serivecLogique/like/like
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../core/service/notificationAlert/NotificationService';
 import { FollowingService } from '../../core/service/servicesAPIREST/following/following-service';
+import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 
 @Component({
   selector: 'app-profile',
-  imports: [EditProfile, Materaile],
+  imports: [EditProfile, Materaile, TimeAgoPipe],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -29,7 +30,7 @@ export class Profile {
     private preview: PreviewService,
     private showMessage: NotificationService,
     private following: FollowingService
-  ) {}
+  ) { }
   isAuthenticated: boolean = false;
   editProfile = false;
   userProfile: UserProfile = {
@@ -44,6 +45,7 @@ export class Profile {
     postsCount: 0,
     followingMe: false,
     skills: [],
+    createdAt: ""
   };
 
   apiUrl = apiUrl;
@@ -59,7 +61,7 @@ export class Profile {
     console.log(check);
     return check;
   }
- 
+
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username') || '';
     this.isAuthenticated = this.auth.isLoggedIn();
@@ -75,14 +77,15 @@ export class Profile {
         console.log(error, 'error herr ');
       },
     });
+    const page = 0;
+    const size = 3;
+    this.profile.GetMyPosts(username, page, size).subscribe((res) => {
+      this.post = res.data?.content || [];
+      console.log(res.data?.content, 'data ');
 
-    this.profile.GetMyPosts(username).subscribe((res) => {
-      this.post = res.data|| [];
-      console.log(res, 'data ');
-
-      // this.post.forEach((p) => {
-      //   p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
-      // });
+      this.post.forEach((p) => {
+        p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
+      });
     });
   }
   followUser(id: string) {

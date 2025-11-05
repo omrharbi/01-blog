@@ -32,15 +32,16 @@ public class UserController {
     @GetMapping("/profile/{username}")
     public ResponseEntity<?> profile(@PathVariable("username") String username) {
         // return userService.findByUsername(username);
-        return  userService.profile(username);
+        return userService.profile(username);
 
         // return ResponseEntity.ok(userProfile);
     }
 
     @GetMapping("/usersProfile/{username}/posts")
-    public ResponseEntity<?> getAllMyPosts(@PathVariable("username") String username) {
-        // return userService.findByUsername(username);
-        return postService.getPostsFromUserId(username);
+    public ResponseEntity<?> getAllMyPosts(@PathVariable("username") String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+         return postService.getPostsFromUserUsername(username, page, size);
     }
 
     @GetMapping("/AllUser")

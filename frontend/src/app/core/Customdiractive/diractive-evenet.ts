@@ -13,11 +13,10 @@ export class DiractiveEvenet {
     this.clickedInside.emit(true);
   }
   @HostListener('document:click', ['$event']) OnPopUp(event: MouseEvent) {
-    console.log(event.target);  
-      const target = event.target as HTMLElement;
-      const id = target.id;
+    const target = event.target as HTMLElement;
+    const id = target.id;
     const isClicked = this.element.nativeElement.contains(event.target)
-     if (!isClicked && id!=="report" ) {
+    if (!isClicked && id !== "report") {
       this.clickedInside.emit(false);
     }
   }

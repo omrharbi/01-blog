@@ -21,6 +21,7 @@ import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
+import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
@@ -165,31 +166,23 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<List<PostResponse>>> getPostsFromUserId(String username) {
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsFromUserUsername(String username, int page, int size) {
         try {
             Optional<User> userOpt = userRepository.findByUsername(username);
             if (userOpt.isEmpty()) {
                 return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
             }
-
+            Pageable pageable = PageRequest.of(page, size);
             User user = userOpt.get();
-            Optional<List<Post>> postsOpt = postRepository.findByUserId(user.getId());
+            Optional<Page<Post>> postsOpt = postRepository.findByUserId(user.getId(), pageable);
 
             if (postsOpt.isEmpty() || postsOpt.get().isEmpty()) {
                 return ApiResponseUtil.success(null, null, "");
 
             }
 
-            List<PostResponse> postResponses = new ArrayList<>();
-            for (Post post : postsOpt.get()) {
-                if (!post.isHidden()) {
-                    Hibernate.initialize(post.getTags()); // Assure que les tags sont chargés
-                    PostResponse postDTO = postMapper.ConvertPostResponse(post, user.getId());
-                    postResponses.add(postDTO);
-                }
-            }
+            Page<PostResponse> postResponses = postsOpt.get().map(post->postMapper.ConvertPostResponse(post, user.getId()));
 
-            // Renvoie succès avec les données
             return ApiResponseUtil.success(postResponses, null, "");
 
         } catch (HibernateException e) {

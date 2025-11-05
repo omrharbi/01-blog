@@ -10,4 +10,5 @@ export interface UserProfile {
     followingCount: number,
     followingMe: boolean,
     postsCount: number,
+    createdAt: string,
 }
