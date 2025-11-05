@@ -49,8 +49,8 @@ public class ReportService {
 
         report.setReasons(reportRequest.getReasons());
         report.setReporter(reporter.get());
-        var isAllReadyReport = reportRepository.existsByReporterId(userId);
-        if (isAllReadyReport) {
+        var isAllReadyReport = reportRepository.existsByReporterIdAndPostId(userId,reportRequest.getPostReportId());
+         if (isAllReadyReport) {
             return ApiResponseUtil.error("You already Report This Posts ", HttpStatus.BAD_REQUEST);
         }
         if (reportRequest.getPostReportId() != null) {

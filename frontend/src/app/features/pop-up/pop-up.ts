@@ -119,17 +119,14 @@ export class PopUp {
       },
       error: error => {
         const message =
-          error?.error?.error ||    // e.g. "You already Report This Posts"
-          error?.error?.message ||  // fallback
+          error?.error?.error || 
+          error?.error?.message ||   
           'Something went wrong. Please try again.'
         this.notificationAlert.showErrorWithoutRedirect(message);
         console.log(error);
 
       }
     })
-    // TODO: Send report to your backend
-    // console.log('Report submitted:', report);
-
     this.closePopup();
   }
 

@@ -23,6 +23,6 @@ public interface ReportRepository extends JpaRepository<Report, UUID> {
             """)
     Page<Report> findAllUserReports(Pageable pageable);
 
-    boolean existsByReporterId(UUID userId);
+    boolean existsByReporterIdAndPostId(UUID userId,UUID postId);
 
 }
