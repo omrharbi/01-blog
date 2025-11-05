@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.__blog.Component.ReportMapper;
 import com.__blog.model.dto.request.ReportRequest;
 import com.__blog.model.dto.response.ReportResponse;
+import com.__blog.model.entity.Comment;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Report;
 import com.__blog.model.entity.User;
+import com.__blog.repository.CommentRespository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.ReportRepository;
 import com.__blog.repository.UserRepository;
@@ -33,8 +35,8 @@ public class ReportService {
     private PostRepository postRepository;
     @Autowired
     private ReportMapper reportMapper;
-    // @Autowired
-    // private CommentRespository commentRespository;
+    @Autowired
+    private CommentRespository commentRespository;
     @Autowired
     private ReportRepository reportRepository;
 
@@ -49,11 +51,12 @@ public class ReportService {
 
         report.setReasons(reportRequest.getReasons());
         report.setReporter(reporter.get());
-        var isAllReadyReport = reportRepository.existsByReporterIdAndPostId(userId,reportRequest.getPostReportId());
-         if (isAllReadyReport) {
+        var isAllReadyReport = reportRepository.existsByReporterIdAndPostId(userId, reportRequest.getPostReportId());
+        if (isAllReadyReport) {
             return ApiResponseUtil.error("You already Report This Posts ", HttpStatus.BAD_REQUEST);
         }
         if (reportRequest.getPostReportId() != null) {
+
             var postOpt = postRepository.findById(reportRequest.getPostReportId());
             if (postOpt.isEmpty()) {
                 return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
@@ -66,6 +69,24 @@ public class ReportService {
 
             User reportedUser = post.getUser();
             report.setPost(post);
+            report.setReportedUser(reportedUser);
+
+            reportRepository.save(report);
+            return ApiResponseUtil.success(null, null, "Report Posts Success");
+        } else if (reportRequest.getCommentReportId() != null) {
+
+            var commeOptional = commentRespository.findById(reportRequest.getPostReportId());
+            if (commeOptional.isEmpty()) {
+                return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+            }
+
+            Comment comment = commeOptional.get();
+            if (userId.equals(comment.getUser().getId())) {
+                return ApiResponseUtil.error("You cannot report your own post", HttpStatus.BAD_REQUEST);
+            }
+
+            User reportedUser = comment.getUser();
+            report.setComment(comment);
             report.setReportedUser(reportedUser);
 
             reportRepository.save(report);

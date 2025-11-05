@@ -104,12 +104,12 @@ export class PopUp {
     if (this.selectedReason === 'OTHER' && !this.reportDetails?.trim()) {
       return;
     }
-    console.log(this.post.id);
-
+    const id = this.comment.id !== null ? this.comment.id : this.post.id;
+    // console.log(this.comment.id);
     const report = {
       reasons: this.selectedReason,
       details: this.selectedReason === 'OTHER' ? this.reportDetails : null,
-      postReportId: this.post.id,
+      postReportId: id,
       timestamp: new Date()
     };
     this.reporting.reportPosts(report).subscribe({
@@ -119,8 +119,8 @@ export class PopUp {
       },
       error: error => {
         const message =
-          error?.error?.error || 
-          error?.error?.message ||   
+          error?.error?.error ||
+          error?.error?.message ||
           'Something went wrong. Please try again.'
         this.notificationAlert.showErrorWithoutRedirect(message);
         console.log(error);
