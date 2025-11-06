@@ -11,22 +11,45 @@
     <div class="card card-custom mb-4">
         <div class="card-body p-4">
             <h5 class="h6 fw-bold mb-3">Profile Images</h5>
-             
-            <div>
-                <!-- <label class="form-label small text-muted-custom">Profile Picture</label> -->
-                <div class="d-flex align-items-center gap-3">
-                    <div class="avatar-lg">
-                        <img src="https://ui-avatars.com/api/?name=John+Developer&background=22c55e&color=fff&size=128" alt="Avatar">
-                    </div>
-                    <div>
-                        <button class="btn btn-custom-primary btn-sm mb-2">
-                            <i class="bi bi-upload"></i> Upload Photo
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm d-block">
-                            <i class="bi bi-trash"></i> Remove
-                        </button>
-                    </div>
+
+            <!-- Image Preview or Upload Area -->
+            <div class="image-upload-wrapper">
+                <!-- When Image is Selected -->
+                <div class="mt-3 image-preview-container" *ngIf="isSelect">
+                    <img [src]="coverImageSrc()" alt="Cover Preview" class="image-preview">
+                    <button type="button" class="btn-remove-image"   title="Remove image">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
                 </div>
+
+                <!-- Upload Controls -->
+                <div class="upload-controls" [class.mt-3]="isSelect()">
+                    <input #imageInput type="file" accept="image/*" (change)="onImageSelected($event)" class="d-none"
+                        id="cover-upload" required>
+
+                    <label for="cover-upload" (click)="triggerFileInput()"
+                        class="btn btn-upload d-inline-flex align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Upload Image
+                    </label>
+
+                    <button (click)="remove()" class="btn btn-remove d-inline-flex align-items-center gap-2"
+                        *ngIf="isSelect">
+                        <i class="bi bi-trash"></i>
+                        Remove
+                    </button>
+                </div>
+
+                <!-- Upload Helper Text -->
+                <p class="upload-helper-text" *ngIf="!isSelect">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Recommended size: 1200x400px. JPG, PNG or GIF (Max 5MB)
+                </p>
             </div>
         </div>
     </div>
@@ -35,26 +58,30 @@
     <div class="card card-custom mb-4">
         <div class="card-body p-4">
             <h5 class="h6 fw-bold mb-3">Basic Information</h5>
-            
+
             <div class="row g-3">
                 <!-- First Name -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">First Name *</label>
-                    <input type="text" class="form-control form-control-custom" [(ngModel)]="firstname" placeholder="First Name" >
+                    <input type="text" class="form-control form-control-custom" [(ngModel)]="firstname"
+                        placeholder="First Name">
                 </div>
 
                 <!-- Last Name -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">Last Name *</label>
-                    <input type="text" class="form-control form-control-custom" [(ngModel)]="lastname" placeholder="Last Name "  >
+                    <input type="text" class="form-control form-control-custom" [(ngModel)]="lastname"
+                        placeholder="Last Name ">
                 </div>
 
                 <!-- Username -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">Username *</label>
                     <div class="input-group">
-                        <span class="input-group-text" style="background: var(--input-color); border-color: var(--input-border); color: var(--text-muted);">@</span>
-                        <input type="text" class="form-control form-control-custom" [(ngModel)]="username"  placeholder="Username " >
+                        <span class="input-group-text"
+                            style="background: var(--input-color); border-color: var(--input-border); color: var(--text-muted);">@</span>
+                        <input type="text" class="form-control form-control-custom" [(ngModel)]="username"
+                            placeholder="Username ">
                     </div>
                     <small class="text-muted-custom">Your unique username</small>
                 </div>
@@ -62,13 +89,15 @@
                 <!-- Email -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">Email *</label>
-                    <input type="email" class="form-control form-control-custom" [(ngModel)]="email"  placeholder="john@example.com" value="john@example.com">
+                    <input type="email" class="form-control form-control-custom" [(ngModel)]="email"
+                        placeholder="john@example.com" value="john@example.com">
                 </div>
 
                 <!-- About -->
                 <div class="col-12">
                     <label class="form-label small text-muted-custom">About</label>
-                    <textarea class="form-control form-control-custom" rows="4" [(ngModel)]="about"  placeholder="Tell us about yourself...">Full-stack developer passionate about React, Node.js, and building great user experiences.</textarea>
+                    <textarea class="form-control form-control-custom" rows="4" [(ngModel)]="about"
+                        placeholder="Tell us about yourself...">Full-stack developer passionate about React, Node.js, and building great user experiences.</textarea>
                     <small class="text-muted-custom">Max 500 characters</small>
                 </div>
             </div>
@@ -82,7 +111,8 @@
             <div class="mb-3">
                 <label class="form-label small text-muted-custom">Add Skills</label>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control form-control-custom"  (keyup.enter)="addSkill()" [(ngModel)]="skills" placeholder="e.g. JavaScript, React, Node.js">
+                    <input type="text" class="form-control form-control-custom" (keyup.enter)="addSkill()"
+                        [(ngModel)]="skills" placeholder="e.g. JavaScript, React, Node.js">
                     <button class="btn btn-custom-primary" (click)="addSkill()">
                         <i class="bi bi-plus-lg"></i> Add
                     </button>
@@ -95,7 +125,7 @@
                     {{skills.skills}}
                     <i class="bi bi-x ms-1"></i>
                 </span>
-                 
+
             </div>
         </div>
     </div>
@@ -104,31 +134,33 @@
     <div class="card card-custom mb-4">
         <div class="card-body p-4">
             <h5 class="h6 fw-bold mb-3">Social Links</h5>
-            
+
             <div class="row g-3">
-                
+
                 <!-- GitHub -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">
                         <i class="bi bi-github me-1"></i> GitHub
                     </label>
-                    <input type="text" class="form-control form-control-custom" placeholder="github.com/username" value="github.com/johndev">
+                    <input type="text" class="form-control form-control-custom" placeholder="github.com/username"
+                        value="github.com/johndev">
                 </div>
 
-                
+
 
                 <!-- LinkedIn -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">
                         <i class="bi bi-linkedin me-1"></i> LinkedIn
                     </label>
-                    <input type="text" class="form-control form-control-custom" placeholder="linkedin.com/in/username" value="linkedin.com/in/johndev">
+                    <input type="text" class="form-control form-control-custom" placeholder="linkedin.com/in/username"
+                        value="linkedin.com/in/johndev">
                 </div>
             </div>
         </div>
     </div>
 
- 
+
 
     <!-- Action Buttons -->
     <div class="d-flex gap-3 justify-content-end">

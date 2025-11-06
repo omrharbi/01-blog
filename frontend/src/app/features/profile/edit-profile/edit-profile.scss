@@ -161,7 +161,18 @@ small.text-muted-custom {
 .text-muted-custom {
     color: var(--text-muted) !important;
 }
+.mt-3.image-preview-container {
+  width: 115px;
+  height: 300;
+  height: 115px;
+  border-radius: 50%;
+}
 
+.image-preview{
+  width: 100%;
+  height: 100%;
+   border-radius: 50% !important;
+}
 /* Responsive */
 @media (max-width: 768px) {
     .edit-profile-container {

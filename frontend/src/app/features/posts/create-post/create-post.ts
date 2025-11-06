@@ -29,7 +29,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './create-post.html',
   styleUrl: './create-post.scss',
 })
-export class CreatePost  {
+export class CreatePost {
   constructor(
     private router: Router,
     private preview: PreviewService,
@@ -192,6 +192,7 @@ export class CreatePost  {
   triggerFileInput() {
     this.imageInput.nativeElement.click();
   }
+ 
 
   get previewHtml(): string {
     let text_content = this.preview.renderMarkdownWithMedia(this.content);
