@@ -40,13 +40,13 @@
                 <!-- First Name -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">First Name *</label>
-                    <input type="text" class="form-control form-control-custom" placeholder="John" value="John">
+                    <input type="text" class="form-control form-control-custom" [(ngModel)]="firstname" placeholder="First Name" >
                 </div>
 
                 <!-- Last Name -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">Last Name *</label>
-                    <input type="text" class="form-control form-control-custom" placeholder="Developer" value="Developer">
+                    <input type="text" class="form-control form-control-custom" [(ngModel)]="lastname" placeholder="Last Name "  >
                 </div>
 
                 <!-- Username -->
@@ -54,7 +54,7 @@
                     <label class="form-label small text-muted-custom">Username *</label>
                     <div class="input-group">
                         <span class="input-group-text" style="background: var(--input-color); border-color: var(--input-border); color: var(--text-muted);">@</span>
-                        <input type="text" class="form-control form-control-custom" placeholder="johndev" value="johndev">
+                        <input type="text" class="form-control form-control-custom" [(ngModel)]="username"  placeholder="Username " >
                     </div>
                     <small class="text-muted-custom">Your unique username</small>
                 </div>
@@ -62,13 +62,13 @@
                 <!-- Email -->
                 <div class="col-md-6">
                     <label class="form-label small text-muted-custom">Email *</label>
-                    <input type="email" class="form-control form-control-custom" placeholder="john@example.com" value="john@example.com">
+                    <input type="email" class="form-control form-control-custom" [(ngModel)]="email"  placeholder="john@example.com" value="john@example.com">
                 </div>
 
                 <!-- About -->
                 <div class="col-12">
                     <label class="form-label small text-muted-custom">About</label>
-                    <textarea class="form-control form-control-custom" rows="4" placeholder="Tell us about yourself...">Full-stack developer passionate about React, Node.js, and building great user experiences.</textarea>
+                    <textarea class="form-control form-control-custom" rows="4" [(ngModel)]="about"  placeholder="Tell us about yourself...">Full-stack developer passionate about React, Node.js, and building great user experiences.</textarea>
                     <small class="text-muted-custom">Max 500 characters</small>
                 </div>
             </div>
@@ -79,12 +79,11 @@
     <div class="card card-custom mb-4">
         <div class="card-body p-4">
             <h5 class="h6 fw-bold mb-3">Skills & Interests</h5>
-            
             <div class="mb-3">
                 <label class="form-label small text-muted-custom">Add Skills</label>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control form-control-custom" placeholder="e.g. JavaScript, React, Node.js">
-                    <button class="btn btn-custom-primary">
+                    <input type="text" class="form-control form-control-custom"  (keyup.enter)="addSkill()" [(ngModel)]="skills" placeholder="e.g. JavaScript, React, Node.js">
+                    <button class="btn btn-custom-primary" (click)="addSkill()">
                         <i class="bi bi-plus-lg"></i> Add
                     </button>
                 </div>
@@ -92,30 +91,11 @@
 
             <!-- Skills Display -->
             <div class="d-flex flex-wrap gap-2">
-                <span class="tag tag-removable">
-                    JavaScript
+                <span class="tag tag-removable" *ngFor="let skills of AllSkills()">
+                    {{skills.skills}}
                     <i class="bi bi-x ms-1"></i>
                 </span>
-                <span class="tag tag-removable">
-                    React
-                    <i class="bi bi-x ms-1"></i>
-                </span>
-                <span class="tag tag-removable">
-                    Node.js
-                    <i class="bi bi-x ms-1"></i>
-                </span>
-                <span class="tag tag-removable">
-                    TypeScript
-                    <i class="bi bi-x ms-1"></i>
-                </span>
-                <span class="tag tag-removable">
-                    MongoDB
-                    <i class="bi bi-x ms-1"></i>
-                </span>
-                <span class="tag tag-removable">
-                    Docker
-                    <i class="bi bi-x ms-1"></i>
-                </span>
+                 
             </div>
         </div>
     </div>
