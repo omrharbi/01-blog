@@ -13,7 +13,7 @@
    --card-color: #ffffff;
    --card-foreground: #1a1a1a;
    /* UI elements */
-   --border: hsl(0, 0%, 20%);
+   --border: "";
    --input-color: #ffffff;
    --input-border: hsl(0, 0%, 80%);
    --primary-bg: hsl(142, 86%, 35%, 0.1);
@@ -28,7 +28,7 @@
    --gradient-to: rgba(245, 124, 0, 0.08);
    --background: hsl(0, 0%, 8%);
    --color: hsl(0, 0%, 71%);
-   --sidebar-border: hsl(0 0% 16%);
+   --sidebar-border: '';
    --icons: hsl(0 0% 16%);
    /* Background / overlay colors for header blur */
    --header-bg-color: rgba(0, 0, 0, 0.4);

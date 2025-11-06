@@ -121,6 +121,23 @@
 .bg-warning\/10 {
     background-color: rgba(245, 158, 11, 0.1);
 }
+.action-buttons {
+    // opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.users-table tbody tr:hover .action-buttons {
+    opacity: 1;
+}
+
+.border-btn {
+    border-radius:  5px !important;
+    border: none !important;
+    outline: none !important;
+}
 
 .text-destructive {
     color: var(--destructive);
