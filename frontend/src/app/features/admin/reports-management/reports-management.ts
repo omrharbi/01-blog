@@ -27,25 +27,21 @@ export class ReportsManagement {
   lenghtUser = signal(0);
   status = signal(false);
   ngOnInit() {
-    this.loadingPosts();
+
+    
+    this.adminService.update_user$.subscribe({
+      next: response => {
+        if (response) {
+          this.status.set(response?.hidden)
+        }
+        console.log(response, "responst ", this.status());
+        
+      }
+    })
+    
     this.loadingUser()
-
-    // this.adminService.update_user$.subscribe({
-    //   next: response => {
-    //     this.reportServiceUser.update(users =>
-    //       users.map(u => u.postId ===response?.id ?{ ...u, ...response } : u 
-    //        )
-    //     );
-    //   }
-    // })
-
-    // this.adminService.check_delete_user$.subscribe({
-    //   next: response => {
-    //     if (response == true) {
-    //       this.reportServiceUser.update(users => users.filter(u => u.id !== this.userId()));
-    //     }
-    //   }
-    // })
+    this.loadingPosts();
+ 
   }
 
   loadingUser() {

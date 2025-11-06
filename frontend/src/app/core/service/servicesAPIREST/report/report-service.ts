@@ -59,7 +59,7 @@ export class ReportService {
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponse<any>>(
+    return this.http.get<ApiResponseWithPage<any>>(
       `${environment.report.get_all_user_report}`,
       {
         headers

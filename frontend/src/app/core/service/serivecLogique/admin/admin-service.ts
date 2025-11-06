@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { UserResponseInAdmin } from "../../../models/admin/UserResponseInAdmin";
+import { ReportPosts, UserResponseInAdmin } from "../../../models/admin/UserResponseInAdmin";
 import { AdminService } from "../../servicesAPIREST/admin/admin-service";
 import { NotificationService } from "../../notificationAlert/NotificationService";
 
@@ -11,12 +11,17 @@ export class AdminServiceShared {
     adminService = inject(AdminService);
     notificationAlert = inject(NotificationService);
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
+    updateUserReport = new BehaviorSubject<ReportPosts | null>(null)
     checkDeleteUser = new BehaviorSubject<boolean>(false)
     update_user$ = this.updateUser.asObservable();
+    update_user_report$ = this.updateUserReport.asObservable();
     checkDeletePosts = new BehaviorSubject<boolean>(false)
 
     check_delete_user$ = this.checkDeleteUser.asObservable();
     check_delete_post$ = this.checkDeletePosts.asObservable();
+
+
+
     banUser(userId: string, days: number) {
         this.adminService.banUser(userId, days).subscribe({
             next: response => {

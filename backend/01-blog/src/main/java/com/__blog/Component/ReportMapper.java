@@ -12,19 +12,11 @@ public class ReportMapper {
 
     public ReportResponse convReportToDTO(Report report) {
         String reportedContent = null;
-        UUID postId = null;
-        UUID commentId = null;
+        // UUID commentId = null;
 
         if (report.getPost() != null) {
             reportedContent = report.getPost().getTitle();
-            postId = report.getPost().getId();
         }
-        // else if (report.getComment() != null) {
-        // String content = report.getComment().getContent();
-        // reportedContent = content.length() > 50 ? content.substring(0, 50) + "..." :
-        // content;
-        // commentId = report.getComment().getId();
-        // }
 
         else if (report.getReportedUser() != null) {
             reportedContent = report.getReportedUser().getUsername();
@@ -40,8 +32,7 @@ public class ReportMapper {
                 .reason(report.getReasons())
                 .createdAt(report.getCreatedAt())
                 .status(report.isStatus()) // you can adjust if you have a status field
-
-                .commentId(commentId)
+                // .commentId(report.getComment().getId())
                 .build();
     }
 
