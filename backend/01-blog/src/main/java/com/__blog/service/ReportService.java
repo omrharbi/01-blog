@@ -159,6 +159,7 @@ public class ReportService {
         }
 
     }
+
     @Transactional
 
     public ResponseEntity<ApiResponse<Page<ReportResponse>>> getAllReportUser(int page, int size) {
@@ -173,7 +174,7 @@ public class ReportService {
             return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
 
         } catch (Exception e) {
-            return ApiResponseUtil.error("Post not found"+e.getMessage(), HttpStatus.NOT_FOUND);
+            return ApiResponseUtil.error("this user is not found ", HttpStatus.NOT_FOUND);
         }
     }
 }

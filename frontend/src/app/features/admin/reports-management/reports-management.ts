@@ -38,6 +38,14 @@ export class ReportsManagement {
         
       }
     })
+
+    this.adminService.check_delete_user$.subscribe({
+      next: response => {
+        if (response == true) {
+          this.reportServiceUser.update(users => users.filter(u => u.reportedUserId !== this.userId()));
+        }
+      }
+    })
     
     this.loadingUser()
     this.loadingPosts();
