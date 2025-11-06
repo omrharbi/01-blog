@@ -5,13 +5,14 @@ import { ApiResponse } from '../../../models/authentication/autResponse-module';
 import { UserProfile } from '../../../models/user/userProfileResponse';
 import { environment, token } from '../../../constant/constante';
 import { ApiResponseWithPage, PostResponse } from '../../../models/post/postResponse';
+import { RequestEditProfile } from '../../../models/user/userProfileRequest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
   constructor(private http: HttpClient) { }
-  profile(username:string): Observable<ApiResponse<UserProfile>> {
+  profile(username: string): Observable<ApiResponse<UserProfile>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
@@ -22,7 +23,7 @@ export class ProfileService {
     }
     )
   }
-  GetMyPosts(username:string, page:number, size:number): Observable<ApiResponseWithPage<PostResponse[]>> {
+  GetMyPosts(username: string, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
@@ -33,4 +34,31 @@ export class ProfileService {
     }
     )
   }
+
+
+  editProfile(info: RequestEditProfile, image?: File): Observable<ApiResponse<any>> {
+    const token = localStorage.getItem('token'); // or your auth token
+
+    const formData = new FormData();
+
+    // Append JSON data as a blob
+    formData.append('request', new Blob([JSON.stringify(info)], { type: 'application/json' }));
+
+    // Append file if present
+    if (image) {
+      formData.append('files', image); // name must match @RequestParam("files") in Spring
+    }
+
+    // Headers: only Authorization, do NOT set Content-Type
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.patch<ApiResponse<any>>(
+      `${environment.user.edit_profile}`,
+      formData,
+      { headers }
+    );
+  }
+
 }

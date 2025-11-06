@@ -14,6 +14,6 @@ public class UpdateProfileRequest {
     private String lastname;
     private String about;
     private String username;
-    private String avatar;
+    // private String avatar;
     private Set<String> skills ;
 }

@@ -17,9 +17,6 @@
                 <!-- When Image is Selected -->
                 <div class="mt-3 image-preview-container" *ngIf="isSelect">
                     <img [src]="coverImageSrc()" alt="Cover Preview" class="image-preview">
-                    <button type="button" class="btn-remove-image"   title="Remove image">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
                 </div>
 
                 <!-- Upload Controls -->
@@ -28,7 +25,7 @@
                         id="cover-upload" required>
 
                     <label for="cover-upload" (click)="triggerFileInput()"
-                        class="btn btn-upload d-inline-flex align-items-center gap-2">
+                        class="btn btn-upload d-inline-flex align-items-center gap-2 ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -38,7 +35,7 @@
                         Upload Image
                     </label>
 
-                    <button (click)="remove()" class="btn btn-remove d-inline-flex align-items-center gap-2"
+                    <button (click)="remove()" class="btn btn-remove btn-upload d-inline-flex align-items-center gap-2"
                         *ngIf="isSelect">
                         <i class="bi bi-trash"></i>
                         Remove
@@ -167,7 +164,7 @@
         <button class="btn btn-custom-secondary px-4">
             <i class="bi bi-x-circle me-2"></i>Cancel
         </button>
-        <button class="btn btn-custom-primary px-4">
+        <button class="btn btn-custom-primary px-4" (click)="saveProfile()">
             <i class="bi bi-check-circle me-2"></i>Save Changes
         </button>
     </div>

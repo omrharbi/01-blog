@@ -35,11 +35,7 @@ export class UploadImage {
 
     // Create file with random name
     const randomFileName = this.generateRandomFileName(file.name);
-    const fileWithRandomName = new File([file], randomFileName, { type: file.type });
-
-    // console.log('Selected image file:', fileWithRandomName.name, 'Size:', file.size, 'Type:', file.type);
-
-    // Add to fileUpload array (this is what gets sent to backend)
+    const fileWithRandomName = new File([file], randomFileName, { type: file.type }); 
     this.fileUpload.push(fileWithRandomName);
 
     // Create media request for preview (use original file for createObjectURL)
