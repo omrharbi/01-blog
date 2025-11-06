@@ -30,6 +30,12 @@ public class ReportController {
         return reportService.createReport(userPrincipal, reportRequest);
     }
 
+    @PostMapping("/create-report-user")
+    public ResponseEntity<?> createReportUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody ReportRequest reportRequest) {
+        return reportService.createReportUser(userPrincipal, reportRequest);
+    }
+
     @GetMapping("/get-posts-all-report")
     public ResponseEntity<?> getAllRepostPosts(
             @RequestParam(defaultValue = "0") int page,

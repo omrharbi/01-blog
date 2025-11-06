@@ -26,6 +26,21 @@ export class ReportService {
   }
 
 
+  reportUser(report: any): Observable<ApiResponse<any>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.post<ApiResponse<any>>(
+      `${environment.report.report_user}`,
+      report,
+      {
+        headers
+      }
+    )
+  }
+
+
   getReportPosts(): Observable<ApiResponseWithPage<any>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,

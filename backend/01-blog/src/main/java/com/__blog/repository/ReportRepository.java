@@ -1,5 +1,6 @@
 package com.__blog.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -13,16 +14,20 @@ import com.__blog.model.entity.Report;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, UUID> {
 
-    @Query("""
-            SELECT r FROM Report r WHERE r.post IS NOT NULL
-            """)
-    Page<Report> findAllPostReports(Pageable pageable);
+        @Query("""
+                        SELECT r FROM Report r WHERE r.post IS NOT NULL
+                        """)
+        Page<Report> findAllPostReports(Pageable pageable);
 
-    @Query("""
-            SELECT r FROM Report r WHERE r.post IS   NULL  AND   r.comment IS NULL
-            """)
-    Page<Report> findAllUserReports(Pageable pageable);
+        @Query("""
+                        SELECT r FROM Report r WHERE r.post IS   NULL  AND   r.comment IS NULL
+                        """)
+        Page<Report> findAllUserReports(Pageable pageable);
 
-    boolean existsByReporterIdAndPostId(UUID userId,UUID postId);
+        boolean existsByReporterIdAndPostId(UUID userId, UUID postId);
+
+        boolean existsByReporterIdAndReportedUserId(UUID userId, UUID reportedUserId);
+
+        Optional<Report> findByReportedUser_Id(UUID reportedUserId);
 
 }

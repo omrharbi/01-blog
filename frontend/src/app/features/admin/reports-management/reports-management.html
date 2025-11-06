@@ -51,13 +51,13 @@
                         <tr class="border-b border-border/50 hover:bg-secondary/30 transition-colors group"
                             *ngFor="let report of postReposrt()">
                             <td class="py-4 px-4">
-                                <span class="font-medium text-foreground">{{report.reporter}}
+                                <span class="font-medium text-foreground">{{report.reportedUser}}
                                     {{report.reportedContent}}</span>
                             </td>
                             <td class="py-4 px-4 text-muted-foreground">@{{report.reporter}}</td>
                             <td class="py-4 px-4 text-muted-foreground">{{report.reason}}</td>
-                            <td class="py-4 px-4 text-muted-foreground text-sm">{{report.createdAt | prettyDate:'MMM d,
-                                y'}}</td>
+                            <td class="py-4 px-4 text-muted-foreground text-sm">{{report.createdAt | prettyDate:'MMM
+                                d,y'}}</td>
                             <td class="py-4 px-4">
                                 <div
                                     class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-warning text-warning-foreground hover:bg-warning/80 shadow-sm">
@@ -65,7 +65,7 @@
                             </td>
                             <td class="py-4 px-4">
                                 <div class="flex gap-2 justify-end  group-hover:opacity-100 transition-opacity">
-                                    <button  (click)="viewPosts(report.postId)"
+                                    <button (click)="viewPosts(report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -114,7 +114,7 @@
                 <div
                     class="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-warning text-warning-foreground hover:bg-warning/80 text-sm shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-current mr-1.5 animate-pulse"></span>
-                    0 pending
+                    {{lenghtUser()}} pending
                 </div>
             </div>
 
@@ -143,19 +143,70 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-border/50 hover:bg-secondary/30 transition-colors group">
+                        <tr class="border-b border-border/50 hover:bg-secondary/30 transition-colors group"
+                            *ngFor="let user of reportServiceUser()">
                             <td class="py-4 px-4">
-                                <span class="font-medium text-foreground">@omar</span>
+                                <span class="font-medium text-foreground">@{{user.reportedUser}}</span>
                             </td>
-                            <td class="py-4 px-4 text-muted-foreground">@admin</td>
-                            <td class="py-4 px-4 text-muted-foreground">Harassment</td>
-                            <td class="py-4 px-4 text-muted-foreground text-sm">Oct 29, 2025 - 18:45</td>
+                            <td class="py-4 px-4 text-muted-foreground">@{{user.reporter}}</td>
+                            <td class="py-4 px-4 text-muted-foreground">{{user.reason}}</td>
+                            <td class="py-4 px-4 text-muted-foreground text-sm">{{user.createdAt | prettyDate:'MMM
+                                d,y'}}</td>
                             <td class="py-4 px-4">
-                                <div
-                                    class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-success text-success-foreground hover:bg-success/80 shadow-sm">
-                                    resolved</div>
+                                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-sm
+                                font-semibold    
+                                      
+                                  
+                                 " [ngClass]="{
+                                    'bg-success  ': user.status,
+                                     'bg-warning ': !user.status
+                                 }">
+                                    {{user.status? "resolved": "pending"}} </div>
+
                             </td>
-                            <td class="py-4 px-4"></td>
+                            <td class="py-4 px-4">
+
+                                <button class="action-btn bg-warning text-dark" *ngIf="user.status"
+                                    (click)="actionTypeHandle('ban', user.reportedUserId)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <line x1="17" x2="22" y1="8" y2="13"></line>
+                                        <line x1="22" x2="17" y1="8" y2="13"></line>
+                                    </svg>
+                                    Ban
+                                </button>
+                                <button *ngIf="!user.status" class="action-btn bg-success text-white"
+                                    (click)="actionTypeHandle('unban', user.reportedUserId)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <polyline points="16 11 18 13 22 9"></polyline>
+                                    </svg>
+                                    Unban
+                                </button>
+
+                                <button class="action-btn bg-danger text-white"
+                                    (click)="actionTypeHandle('delete',user.reportedUserId)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                        <line x1="10" x2="10" y1="11" y2="17"></line>
+                                        <line x1="14" x2="14" y1="11" y2="17"></line>
+                                    </svg>
+                                    Delete
+                                </button>
+                                <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
+                                    [isVisible]="showBanPopup" (close)="showBanPopup = false"
+                                    [userId]="userId()"></app-ban-popup>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

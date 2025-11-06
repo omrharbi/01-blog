@@ -22,7 +22,7 @@ public class ReportResponse {
     private String reporter;        // username of the reporter
     private ReportReason reason;    // report reason
     private LocalDateTime createdAt; // timestamp
-    private String status;          // e.g., "pending", "resolved"
+    private boolean status;          // e.g., "pending", "resolved"
     private UUID postId;            // optional, if content is post
     private UUID commentId;         // optional, if content is comment
     private UUID reportedUserId;    // optional, if just user reported

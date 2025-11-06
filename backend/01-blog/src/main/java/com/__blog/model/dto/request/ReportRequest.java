@@ -16,6 +16,7 @@ public class ReportRequest {
     // private UUID reporterId;// the user who created the report
     private ReportReason reasons;
     private UUID postReportId;
+    private UUID userReportId;
     private UUID commentReportId;
     private String details;
 }

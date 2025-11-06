@@ -42,6 +42,7 @@ public class ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
+    @Transactional
     public ResponseEntity<ApiResponse<ReportResponse>> createReport(UserPrincipal userPrincipal,
             ReportRequest reportRequest) {
         if (userPrincipal == null) {
@@ -98,6 +99,49 @@ public class ReportService {
         return ApiResponseUtil.error("Something Error ", HttpStatus.NOT_FOUND);
 
     }
+
+    @Transactional
+    public ResponseEntity<ApiResponse<ReportResponse>> createReportUser(UserPrincipal userPrincipal,
+            ReportRequest reportRequest) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        }
+        UUID userId = userPrincipal.getId();
+        Report report = new Report();
+        var reporter = userRepository.findById(userId);
+        if (!reporter.isPresent()) {
+            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+
+        }
+        report.setReasons(reportRequest.getReasons());
+        report.setReporter(reporter.get());
+
+        if (reportRequest.getUserReportId() != null) {
+            var isAllReadyReport = reportRepository.existsByReporterIdAndReportedUserId(userId,
+                    reportRequest.getUserReportId());
+            if (isAllReadyReport) {
+                return ApiResponseUtil.error("You already Report This User ", HttpStatus.BAD_REQUEST);
+            }
+            var postOpt = userRepository.findById(reportRequest.getUserReportId());
+            if (postOpt.isEmpty()) {
+                return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+            }
+
+            User user = postOpt.get();
+            if (userId.equals(user.getId())) {
+                return ApiResponseUtil.error("You cannot report your own accont", HttpStatus.BAD_REQUEST);
+            }
+
+            User reportedUser = user;
+            report.setReporter(reporter.get());
+            report.setReportedUser(reportedUser);
+
+            reportRepository.save(report);
+            return ApiResponseUtil.success(null, null, "Report User Success");
+        }
+        return ApiResponseUtil.error("Something Error ", HttpStatus.NOT_FOUND);
+    }
+
     @Transactional
     public ResponseEntity<ApiResponse<Page<ReportResponse>>> getAllReportPost(int page, int size) {
         try {
@@ -111,7 +155,7 @@ public class ReportService {
             return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
 
         } catch (Exception e) {
-            return ApiResponseUtil.error("Post not found "+e.getMessage(), HttpStatus.NOT_FOUND);
+            return ApiResponseUtil.error("Post not found " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
     }

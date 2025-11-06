@@ -82,8 +82,6 @@ export class UsersManagement {
       error: () => this.loading.set(false)
     });
   }
-
-
   actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true
     this.actionType.set(type)

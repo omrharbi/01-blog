@@ -29,12 +29,14 @@ export interface ReportPosts {
     postId: string,
     reason: string,
     reportId: string,
-    status: string,
+    status: boolean,
     reportedContent: string,
     reportedUser: string,
     reporter: string,
     reportCount: string,
     createdAt: string,
     hidden: boolean,
+    reportedUserId: string
+
 }
 export type ActionType = 'ban' | 'unban' | 'delete' | 'role';

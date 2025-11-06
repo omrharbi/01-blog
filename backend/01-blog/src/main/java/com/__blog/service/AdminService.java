@@ -120,14 +120,19 @@ public class AdminService {
         }
         User admin = userPrincipal.getUser();
         var user = repouser.findById(userId);
-        if (user.isPresent()) {
+        var reported = reportRepository.findByReportedUser_Id(userId);
+        if (user.isPresent() && reported.isPresent()) {
             boolean wasHidden = user.get().isHidden();
+
             String message;
             if (wasHidden) {
+                reported.get().setStatus(false);
+
                 user.get().setHidden(false);
                 message = user.get().getUsername() + ", your Account has been unhidden.";
             } else {
                 user.get().setHidden(true);
+                reported.get().setStatus(true);
                 message = user.get().getUsername() + ", your Account has been banned.";
             }
             user.get().setHiddenUntil(LocalDateTime.now().plusDays(days));

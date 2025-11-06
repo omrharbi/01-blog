@@ -33,7 +33,7 @@ public class Report {
     @Column(name = "reason", nullable = false)
     private ReportReason reasons;
     @Column(name = "status", nullable = false)
-    private boolean status;
+    private boolean status = false;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
