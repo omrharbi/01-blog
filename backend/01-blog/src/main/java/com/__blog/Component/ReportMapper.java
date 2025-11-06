@@ -31,7 +31,7 @@ public class ReportMapper {
                 .reporter(report.getReporter() != null ? report.getReporter().getUsername() : null)
                 .reason(report.getReasons())
                 .createdAt(report.getCreatedAt())
-                .status(report.isStatus()) // you can adjust if you have a status field
+                .status(!report.isStatus()) // you can adjust if you have a status field
                 // .commentId(report.getComment().getId())
                 .build();
     }

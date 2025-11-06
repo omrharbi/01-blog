@@ -11,7 +11,7 @@ export class AdminServiceShared {
     adminService = inject(AdminService);
     notificationAlert = inject(NotificationService);
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
-    updateUserReport = new BehaviorSubject<ReportPosts | null>(null)
+    updateUserReport = new BehaviorSubject<any>('')
     checkDeleteUser = new BehaviorSubject<boolean>(false)
     update_user$ = this.updateUser.asObservable();
     update_user_report$ = this.updateUserReport.asObservable();
@@ -26,6 +26,8 @@ export class AdminServiceShared {
         this.adminService.banUser(userId, days).subscribe({
             next: response => {
                 this.updateUser.next(response.data)
+                this.updateUserReport.next({ reportedUserId: userId, status:response.data?.hidden });
+ 
             },
             error: error => {
                 console.log(error, "error ");

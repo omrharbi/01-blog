@@ -127,7 +127,6 @@ public class AdminService {
             String message;
             if (wasHidden) {
                 reported.get().setStatus(false);
-
                 user.get().setHidden(false);
                 message = user.get().getUsername() + ", your Account has been unhidden.";
             } else {

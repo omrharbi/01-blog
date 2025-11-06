@@ -28,28 +28,34 @@ export class ReportsManagement {
   status = signal(false);
   ngOnInit() {
 
-    
-    this.adminService.update_user$.subscribe({
+
+    this.adminService.update_user_report$.subscribe({
       next: response => {
-        if (response) {
-          this.status.set(response?.hidden)
-        }
-        console.log(response, "responst ", this.status());
-        
+        if (!response) return;
+        console.log(response, "response ", this.reportServiceUser());
+        this.reportServiceUser.update(users =>
+          users.map(u =>
+            u.reportedUserId === response?.reportedUserId
+              ? { ...u, status: !response.status }
+              : u
+          )
+        );
+
       }
     })
 
     this.adminService.check_delete_user$.subscribe({
       next: response => {
         if (response == true) {
+          this.lenghtUser() - 1;
           this.reportServiceUser.update(users => users.filter(u => u.reportedUserId !== this.userId()));
         }
       }
     })
-    
+
     this.loadingUser()
     this.loadingPosts();
- 
+
   }
 
   loadingUser() {
