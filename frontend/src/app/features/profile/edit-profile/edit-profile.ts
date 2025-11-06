@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, input, Output, output } from '@angular/core';
 
 @Component({
   selector: 'app-edit-profile',
@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './edit-profile.scss'
 })
 export class EditProfile {
-  
+  @Input() profileEdite: boolean = false;
+   addSkill(){}
+  addExperience(){}
+  removeExperience(){}
+  saveProfile(){}
 }

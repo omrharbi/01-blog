@@ -60,11 +60,13 @@ export class Profile {
   loading = false;
   EditProfile() {
     this.editProfile = !this.editProfile;
+    // console.log(this.editProfile);
+    
   }
 
   isPostOwner(usernameID: any): boolean {
     const check = usernameID === this.auth.getCurrentUserUUID();
-    console.log(check);
+    // console.log(check);
     return check;
   }
 
@@ -130,7 +132,7 @@ export class Profile {
     return this.currentPage < this.totalPages - 1;
   }
 
-
+  
 
   followUser(id: string) {
     console.log(id);
@@ -172,4 +174,5 @@ export class Profile {
   toggleLikePost(postId: string, post: PostResponse) {
     this.like.toggleLikePost(postId, post);
   }
+  
 }
