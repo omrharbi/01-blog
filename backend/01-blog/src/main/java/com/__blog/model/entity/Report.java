@@ -6,12 +6,15 @@ import java.util.UUID;
 import com.__blog.model.enums.ReportReason;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,11 +32,12 @@ public class Report {
     // @Enumerated(EnumType.STRING)
     @Column(name = "reason", nullable = false)
     private ReportReason reasons;
-
+    @Column(name = "status", nullable = false)
+    private boolean status;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = true)
     private Post post;
     @JsonIgnore

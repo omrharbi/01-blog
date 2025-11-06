@@ -25,15 +25,22 @@ public class ReportController {
     private ReportService reportService;
 
     @PostMapping("/create-report")
-    public ResponseEntity<?> createReport(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody ReportRequest reportRequest) {
+    public ResponseEntity<?> createReport(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody ReportRequest reportRequest) {
         return reportService.createReport(userPrincipal, reportRequest);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/get-all-report")
+    @GetMapping("/get-posts-all-report")
     public ResponseEntity<?> getAllRepostPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return reportService.getAllReportPost(page,size);
+        return reportService.getAllReportPost(page, size);
+    }
+
+    @GetMapping("/get-user-all-report")
+    public ResponseEntity<?> getAllRepostUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return reportService.getAllReportUser(page, size);
     }
 }

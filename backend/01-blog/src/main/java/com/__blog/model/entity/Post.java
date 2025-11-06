@@ -1,7 +1,9 @@
 package com.__blog.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -53,6 +55,7 @@ public class Post {
     private LocalDateTime updatedAt;
     @Column(nullable = false)
     private boolean hidden = false;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -63,6 +66,7 @@ public class Post {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -80,6 +84,8 @@ public class Post {
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Tags> tags = new HashSet<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Report> reports = new ArrayList<>();
 
     public void addMedia(Media media) {
         medias.add(media);
@@ -102,6 +108,6 @@ public class Post {
     }
 
     // public User getUser(User user) {
-    //     this.
+    // this.
     // }
 }

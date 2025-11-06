@@ -24,4 +24,17 @@ export interface PostsResponseInAdmin {
     hidden: boolean,
 }
 
+
+export interface ReportPosts {
+    postId: string,
+    reason: string,
+    reportId: string,
+    status: string,
+    reportedContent: string,
+    reportedUser: string,
+    reporter: string,
+    reportCount: string,
+    createdAt: string,
+    hidden: boolean,
+}
 export type ActionType = 'ban' | 'unban' | 'delete' | 'role';

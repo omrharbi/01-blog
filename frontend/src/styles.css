@@ -177,7 +177,7 @@
  /* Apply dark mode variables */
  body.dark {
    height: 100vh;
-   background-color: var(--card-color);
+   background-color: var(--background-color);
    color: var(--foreground-color);
    /* overflow: hidden; */
  }
@@ -363,3 +363,7 @@
    cursor: pointer;
    transition: all 0.3s ease;
  }
+
+
+
+ 

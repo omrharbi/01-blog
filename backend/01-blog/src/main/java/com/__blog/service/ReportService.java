@@ -25,6 +25,8 @@ import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ReportService {
 
@@ -96,7 +98,7 @@ public class ReportService {
         return ApiResponseUtil.error("Something Error ", HttpStatus.NOT_FOUND);
 
     }
-
+    @Transactional
     public ResponseEntity<ApiResponse<Page<ReportResponse>>> getAllReportPost(int page, int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
@@ -109,7 +111,7 @@ public class ReportService {
             return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
 
         } catch (Exception e) {
-            return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+            return ApiResponseUtil.error("Post not found "+e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
     }
