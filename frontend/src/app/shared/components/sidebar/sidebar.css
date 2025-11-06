@@ -21,7 +21,11 @@
   font-weight: 500;
   transition: background-color 0.3s;
 }
-
+ .card-side{
+  background-color: var(--background-color) !important;
+  border-radius: 8px;
+  margin: 5px ;
+ }
 .write-story-btn .btn-enabled:hover {
   background-color: var(--brand-primary-hover);
 }
