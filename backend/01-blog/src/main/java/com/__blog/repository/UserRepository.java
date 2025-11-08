@@ -31,6 +31,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Page<User> findByRole(Roles role, Pageable pageable);
 
     Page<User> findByHidden(boolean status, Pageable pageable);
+
     @Query("""
                 SELECT u FROM User u
                 WHERE u.id <> :userId
@@ -39,4 +40,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                   )
             """)
     Page<User> findUsersNotFollowedBy(@Param("userId") UUID userId, Pageable pageable);
+
+    @Query("""
+                SELECT s.subscribedTo FROM Subscription s
+                WHERE s.subscriberUser.id = :userId
+            """)
+    Page<User> findSubscribedUsers(@Param("userId") UUID userId, Pageable pageable);
 }

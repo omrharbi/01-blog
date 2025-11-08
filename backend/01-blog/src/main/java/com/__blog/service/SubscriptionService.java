@@ -1,6 +1,5 @@
 package com.__blog.service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -48,24 +47,17 @@ public class SubscriptionService {
         try {
             // Fetch subscriptions where the user is the subscriber
             Pageable pageable = PageRequest.of(page, size);
-            Page<Subscription> userSubscriptions = subscriptionRepository.findBySubscriberUser_Id(userId, pageable);
-
+            // Page<Subscription> userSubscriptions =
+            // subscriptionRepository.findBySubscriberUser_Id(userId, pageable);
+            Page<User> usersFollowed = userRepository.findSubscribedUsers(userId, pageable);
             // Extract the users the current user follows
-            List<User> followUsers = userSubscriptions.stream()
-                    .map(Subscription::getSubscribedTo)
-                    .collect(Collectors.toList());
-
-            // Convert each User entity to UserResponse DTO
-            List<UserResponse> userResponses = followUsers.stream().map(user -> {
-                Hibernate.initialize(user.getSkills()); // ensure skills are loaded
+            Page<UserResponse> userResponses = usersFollowed.map(user -> {
+                Hibernate.initialize(user.getSkills());
                 return userMapper.ConvertResponse(user, userId);
-            }).collect(Collectors.toList());
-            Page<UserResponse> responses1 = new PageImpl<>(
-                    userResponses,
-                    pageable,
-                    userResponses.size());
-            // Return success with a message
-            return ApiResponseUtil.success(responses1, null, "Users you follow retrieved successfully");
+            });
+ 
+
+            return ApiResponseUtil.success(userResponses, null, "Users you follow retrieved successfully");
 
         } catch (Exception e) {
             return ApiResponseUtil.error("Failed to fetch users you follow: " + e.getMessage(),
@@ -105,7 +97,7 @@ public class SubscriptionService {
             }
             // users I Follow
             Pageable pageable = PageRequest.of(page, size);
- 
+
             Page<User> usersNotFollowed = userRepository.findUsersNotFollowedBy(userId, pageable);
             Page<UserResponse> userResponses = usersNotFollowed.map(user -> {
                 Hibernate.initialize(user.getSkills());

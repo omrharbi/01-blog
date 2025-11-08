@@ -75,11 +75,11 @@ export class Following {
       })
     );
 
-    // this.subscriptions.add(
-    //   this.followingLogic.countFollowing$.subscribe(countFollowing => {
-    //     this.countFollowing = countFollowing;
-    //   })
-    // );
+    this.subscriptions.add(
+      this.followingLogic.countFollowing$.subscribe(countFollowing => {
+        this.countFollowing = countFollowing;
+      })
+    );
   }
 
   loadingMoreFollowes() {
