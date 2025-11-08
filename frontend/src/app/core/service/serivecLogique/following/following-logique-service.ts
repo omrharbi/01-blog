@@ -17,23 +17,41 @@ export class FollowingLogiqueService {
   private followersSubject = new BehaviorSubject<UserProfile[]>([]);
   private countFollowingSubject = new BehaviorSubject<number>(0);
   private countFollowersSubject = new BehaviorSubject<number>(0);
+  private totalElementsSubject = new BehaviorSubject<any>({});
+  private pagesSubject = new BehaviorSubject<any>({});
+
+
+
   explore$ = this.exploreSubject.asObservable();
   following$ = this.followingSubject.asObservable();
   followers$ = this.followersSubject.asObservable();
   countFollowing$ = this.countFollowingSubject.asObservable();
   countFollowers$ = this.countFollowersSubject.asObservable();
+  pages$ = this.pagesSubject.asObservable();
+  totalElementsSubject$ = this.totalElementsSubject.asObservable();
 
-  loadingData() {
-    this.loadingExplore();
-    this.loadingFollowers();
-    this.loadingFollowing()
-  }
+  // loadingData(page: number, size: number) {
+  //   this.loadingExplore(0, 5);
+  //   this.loadingFollowers(0, 5);
+  //   this.loadingFollowing(page, 5)
+  // }
 
-  private loadingFollowing() {
-    this.users.following().subscribe({
+  loadingFollowing(page: number, size: number) {
+    this.users.following(page, size).subscribe({
       next: respnse => {
-        this.followingSubject.next(respnse.data);
-        this.countFollowingSubject.next(respnse.data.length)
+        console.log(respnse, "following ");
+        const currentFollowing = this.followingSubject.value;
+        this.followingSubject.next([...currentFollowing, ...respnse.data.content])
+
+
+        this.countFollowingSubject.next(respnse.data.content.length)
+
+        this.totalElementsSubject.next(respnse.data.totalElements)
+
+        this.pagesSubject.next({
+          currentPage: respnse.data.number,
+          totalPage: respnse.data.totalPages
+        })
       },
       error: error => {
         console.log("Error loading following:", error);
@@ -41,15 +59,21 @@ export class FollowingLogiqueService {
     })
   }
 
-  private loadingFollowers() {
-    this.users.followers().subscribe({
+  loadingFollowers(page: number, size: number) {
+    this.users.followers(0, 10).subscribe({
       next: respnse => {
-        this.followersSubject.next(respnse.data);
-        console.log(respnse,"following ");
-        
-        this.countFollowersSubject.next(respnse.data.length)
+        console.log(respnse, "following ");
+        const currentFollowers = this.followersSubject.value;
+
+        this.followersSubject.next([...currentFollowers, ...respnse.data.content]);
+
+        this.countFollowersSubject.next(respnse.data.content.length)
+        this.totalElementsSubject.next(respnse.data.totalElements)
         // console.log(respnse, "loadingFollowers ");
-
+        this.pagesSubject.next({
+          currentPage: respnse.data.number,
+          totalPage: respnse.data.totalPages
+        })
       },
       error: error => {
         console.log("Error loading following:", error);
@@ -58,12 +82,21 @@ export class FollowingLogiqueService {
   }
 
 
-  private loadingExplore() {
-    this.users.explore().subscribe({
+  loadingExplore(page: number, size: number) {
+    this.users.explore(page, size).subscribe({
       next: respnse => {
-        this.exploreSubject.next(respnse.data);
-        // console.log(respnse, "loadingExplore ");
+        console.log(respnse, " explore **");
 
+        const currentexploreSubject = this.exploreSubject.value;
+
+        this.exploreSubject.next([...currentexploreSubject, ...respnse.data.content]);
+
+        this.totalElementsSubject.next(respnse.data.totalElements)
+        // console.log(respnse, "loadingFollowers "); 
+        this.pagesSubject.next({
+          currentPage: respnse.data.number,
+          totalPage: respnse.data.totalPages
+        })
       },
       error: error => {
         console.log("Error loading following:", error);
@@ -72,7 +105,7 @@ export class FollowingLogiqueService {
   }
   follow(id: string) {
     const currentExpler = this.exploreSubject.value;
- 
+
     const userindex = currentExpler.findIndex(user => user.id == id);
     if (userindex === -1) return;
     const userToFollow = currentExpler[userindex];
@@ -102,8 +135,8 @@ export class FollowingLogiqueService {
     const userIndex = currentFollowing.findIndex(user => user.id == id)
     if (userIndex === -1) return;
     const userUnFollow = currentFollowing[userIndex];
-    console.log(userUnFollow,"userUnFollow");
-    
+    console.log(userUnFollow, "userUnFollow");
+
     this.users.unfollow(id).subscribe({
       next: response => {
         if (response.status === true) {

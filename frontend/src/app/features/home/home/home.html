@@ -93,7 +93,7 @@
             </div>
           </div>
 
-          <div class="card shadow-sm border-0 bg-card">
+          <div class="card shadow-sm border-0 bg-card" *ngIf="isAuthenticated">
             <div class="card-body">
               <h3 class="h6 fw-semibold mb-3">Your Activity</h3>
               <div class="d-flex justify-content-between"><span class="text-muted">Posts published</span><span

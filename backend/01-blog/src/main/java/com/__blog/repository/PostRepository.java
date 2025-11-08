@@ -52,7 +52,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
             """)
     Page<PostResponse> findAllPostsWithFirstMedia(Pageable pageable);
 
-    Optional<Page<Post>> findByUserId(UUID id,Pageable pageable);
+    Optional<Page<Post>> findByUserIdOrderByCreatedAtDesc(UUID id,Pageable pageable);
 
     int countByUserId(UUID id);
 

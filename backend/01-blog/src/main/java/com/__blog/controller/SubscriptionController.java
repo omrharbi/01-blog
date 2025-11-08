@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.__blog.security.UserPrincipal;
@@ -24,34 +25,42 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    //   Get users I follow
+    // Get users I follow
     @GetMapping("/following")
-    public ResponseEntity<?> getUsersIFollow(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return subscriptionService.getUsersIFollow(userPrincipal.getId());
+    public ResponseEntity<?> getUsersIFollow(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return subscriptionService.getUsersIFollow(userPrincipal.getId(), page, size);
     }
 
     // Get my followers
     @GetMapping("/followers")
-    public ResponseEntity<?> getFollowers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return subscriptionService.getFollowers(userPrincipal);
+    public ResponseEntity<?> getFollowers(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return subscriptionService.getFollowers(userPrincipal, page, size);
 
     }
 
     // Get users I DON'T follow (for Explore page)
     @GetMapping("/explore")
-    public ResponseEntity<?> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return subscriptionService.getUsersNotFollowing(userPrincipal);
+    public ResponseEntity<?> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return subscriptionService.getUsersNotFollowing(userPrincipal, page, size);
     }
 
     // Follow a user
     @PostMapping("/follow/{targetUserId}")
-    public ResponseEntity<?> followUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
+    public ResponseEntity<?> followUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID targetUserId) {
         return subscriptionService.followUser(userPrincipal, targetUserId);
     }
 
     // Unfollow a user
     @DeleteMapping("/unfollow/{targetUserId}")
-    public ResponseEntity<?> unfollowUser(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID targetUserId) {
+    public ResponseEntity<?> unfollowUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID targetUserId) {
         return subscriptionService.unfollowUser(userPrincipal, targetUserId);
     }
 }

@@ -1,11 +1,9 @@
 package com.__blog.service.posts;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,11 +19,11 @@ import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
-import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
+import com.__blog.model.entity.Subscription;
 import com.__blog.model.entity.Tags;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
@@ -82,7 +80,9 @@ public class PostService {
                 post.addTag(tag);
             });
         }
-        var followers = subscriptionRepository.findBySubscribedTo_Id(user.getId());
+        Pageable unpaged = Pageable.unpaged();
+        Page<Subscription> followersPage = subscriptionRepository.findBySubscribedTo_Id( user.getId(), unpaged);
+        List<Subscription> followers = followersPage.getContent(); 
         Post savedPost = postRepository.save(post);
         for (var follow : followers) {
             User receiver = follow.getSubscriberUser();
@@ -148,7 +148,8 @@ public class PostService {
 
     public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(UUID postId, UUID userId) {
         // if (user == null) {
-        //     return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        // return ApiResponseUtil.error("Unauthorized: please login first",
+        // HttpStatus.UNAUTHORIZED);
         // }
         // UUID userId = user.getId();
         Optional<Post> postOptional = postRepository.findByIdWithMedias(postId);
@@ -166,7 +167,8 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsFromUserUsername(String username, int page, int size) {
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsFromUserUsername(String username, int page,
+            int size) {
         try {
             Optional<User> userOpt = userRepository.findByUsername(username);
             if (userOpt.isEmpty()) {
@@ -174,14 +176,15 @@ public class PostService {
             }
             Pageable pageable = PageRequest.of(page, size);
             User user = userOpt.get();
-            Optional<Page<Post>> postsOpt = postRepository.findByUserId(user.getId(), pageable);
+            Optional<Page<Post>> postsOpt = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), pageable);
 
             if (postsOpt.isEmpty() || postsOpt.get().isEmpty()) {
                 return ApiResponseUtil.success(null, null, "");
 
             }
 
-            Page<PostResponse> postResponses = postsOpt.get().map(post->postMapper.ConvertPostResponse(post, user.getId()));
+            Page<PostResponse> postResponses = postsOpt.get()
+                    .map(post -> postMapper.ConvertPostResponse(post, user.getId()));
 
             return ApiResponseUtil.success(postResponses, null, "");
 
@@ -194,7 +197,8 @@ public class PostService {
 
     public ResponseEntity<ApiResponse<Page<PostResponse>>> getPosts(UUID userId, int page, int size) {
         // if (user == null) {
-        //     return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        // return ApiResponseUtil.error("Unauthorized: please login first",
+        // HttpStatus.UNAUTHORIZED);
         // }
         Pageable pageable = PageRequest.of(page, size);
         Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(pageable);

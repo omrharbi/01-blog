@@ -693,3 +693,91 @@
 2025-11-02 18:25:26.683 GMT [4422] LOG:  checkpoint starting: shutdown immediate
 2025-11-02 18:25:26.688 GMT [4422] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.007 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=29 kB; lsn=0/A3A1C30, redo lsn=0/A3A1C30
 2025-11-02 18:25:26.695 GMT [4421] LOG:  database system is shut down
+2025-11-04 13:13:00.243 GMT [71469] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-04 13:13:00.243 GMT [71469] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-04 13:13:00.246 GMT [71469] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-04 13:13:00.249 GMT [71472] LOG:  database system was shut down at 2025-11-04 12:35:43 GMT
+2025-11-04 13:13:00.256 GMT [71469] LOG:  database system is ready to accept connections
+2025-11-04 13:18:00.301 GMT [71470] LOG:  checkpoint starting: time
+2025-11-04 13:18:00.312 GMT [71470] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.001 s, total=0.012 s; sync files=3, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/B4CB7E0, redo lsn=0/B4CB788
+2025-11-04 13:26:21.990 GMT [71469] LOG:  received smart shutdown request
+2025-11-04 13:26:21.997 GMT [71469] LOG:  background worker "logical replication launcher" (PID 71475) exited with exit code 1
+2025-11-04 13:26:21.997 GMT [71470] LOG:  shutting down
+2025-11-04 13:26:21.998 GMT [71470] LOG:  checkpoint starting: shutdown immediate
+2025-11-04 13:26:22.002 GMT [71470] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.006 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/B4CB890, redo lsn=0/B4CB890
+2025-11-04 13:26:22.004 GMT [71469] LOG:  database system is shut down
+2025-11-08 09:01:19.532 GMT [38567] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-08 09:01:19.532 GMT [38567] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-08 09:01:19.534 GMT [38567] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-08 09:01:19.538 GMT [38570] LOG:  database system was shut down at 2025-11-04 13:26:22 GMT
+2025-11-08 09:01:19.544 GMT [38567] LOG:  database system is ready to accept connections
+2025-11-08 09:01:32.618 GMT [39044] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:01:32.618 GMT [39044] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:06:19.637 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 09:06:20.051 GMT [38568] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.404 s, sync=0.005 s, total=0.414 s; sync files=7, longest=0.004 s, average=0.001 s; distance=23 kB, estimate=23 kB; lsn=0/B4D1628, redo lsn=0/B4D15D0
+2025-11-08 09:16:19.120 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 09:16:20.235 GMT [38568] LOG:  checkpoint complete: wrote 12 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.103 s, sync=0.005 s, total=1.115 s; sync files=11, longest=0.004 s, average=0.001 s; distance=33 kB, estimate=33 kB; lsn=0/B4D9A90, redo lsn=0/B4D9A00
+2025-11-08 09:26:19.434 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 09:26:20.852 GMT [38568] LOG:  checkpoint complete: wrote 15 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.407 s, sync=0.005 s, total=1.418 s; sync files=12, longest=0.004 s, average=0.001 s; distance=54 kB, estimate=54 kB; lsn=0/B4E72B8, redo lsn=0/B4E7260
+2025-11-08 09:29:18.078 GMT [48448] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.078 GMT [47456] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.078 GMT [47412] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.079 GMT [47404] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.079 GMT [47234] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.079 GMT [43918] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.079 GMT [39044] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.079 GMT [43919] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.083 GMT [47593] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:29:18.591 GMT [49139] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:29:18.591 GMT [49139] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:29:20.606 GMT [49211] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:29:20.606 GMT [49211] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:31:19.951 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 09:31:20.765 GMT [38568] LOG:  checkpoint complete: wrote 9 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.804 s, sync=0.005 s, total=0.814 s; sync files=7, longest=0.005 s, average=0.001 s; distance=20 kB, estimate=50 kB; lsn=0/B4EC4C0, redo lsn=0/B4EC468
+2025-11-08 09:32:30.310 GMT [50857] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:32:30.310 GMT [50857] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:32:36.094 GMT [50954] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:32:36.094 GMT [50954] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:32:37.832 GMT [50973] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:32:37.832 GMT [50973] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:32:42.621 GMT [51035] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:32:42.621 GMT [51035] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:33:02.377 GMT [51217] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:33:02.377 GMT [51217] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:33:06.138 GMT [51267] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:33:06.138 GMT [51267] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:33:38.940 GMT [51472] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:33:38.940 GMT [51472] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:34:42.730 GMT [51472] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:34:43.071 GMT [52033] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:34:43.071 GMT [52033] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:36:19.865 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 09:36:21.180 GMT [38568] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.304 s, sync=0.005 s, total=1.316 s; sync files=6, longest=0.004 s, average=0.001 s; distance=21 kB, estimate=47 kB; lsn=0/B4F1CA8, redo lsn=0/B4F1C50
+2025-11-08 09:36:57.664 GMT [52289] ERROR:  column "status" of relation "report" contains null values
+2025-11-08 09:36:57.664 GMT [52289] STATEMENT:  alter table if exists report add column status boolean not null
+2025-11-08 09:37:27.730 GMT [52289] ERROR:  syntax error at or near "=" at character 38
+2025-11-08 09:37:27.730 GMT [52289] STATEMENT:  alter table report ADD COLUMN status =false
+2025-11-08 09:41:19.280 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 09:41:20.592 GMT [38568] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.304 s, sync=0.002 s, total=1.313 s; sync files=12, longest=0.002 s, average=0.001 s; distance=35 kB, estimate=46 kB; lsn=0/B4FAB88, redo lsn=0/B4FAB30
+2025-11-08 09:43:28.490 GMT [53527] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:43:28.490 GMT [52512] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:43:28.490 GMT [53652] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:43:28.490 GMT [52036] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:43:28.491 GMT [53528] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 09:43:28.492 GMT [52033] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 10:24:57.380 GMT [77036] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 10:36:36.245 GMT [81441] LOG:  unexpected EOF on client connection with an open transaction
+2025-11-08 10:46:20.611 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 10:46:21.331 GMT [38568] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.704 s, sync=0.009 s, total=0.720 s; sync files=6, longest=0.005 s, average=0.002 s; distance=20 kB, estimate=44 kB; lsn=0/B4FFF80, redo lsn=0/B4FFF28
+2025-11-08 11:01:20.587 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 11:01:21.299 GMT [38568] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.713 s; sync files=6, longest=0.004 s, average=0.001 s; distance=19 kB, estimate=41 kB; lsn=0/B504E50, redo lsn=0/B504DF8
+2025-11-08 11:16:20.536 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 11:16:20.645 GMT [38568] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.102 s, sync=0.004 s, total=0.110 s; sync files=2, longest=0.003 s, average=0.002 s; distance=1 kB, estimate=37 kB; lsn=0/B505590, redo lsn=0/B505538
+2025-11-08 11:26:20.793 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 11:26:21.505 GMT [38568] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.002 s, total=0.712 s; sync files=6, longest=0.002 s, average=0.001 s; distance=23 kB, estimate=36 kB; lsn=0/B50B438, redo lsn=0/B50B3E0
+2025-11-08 11:41:20.804 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 11:41:21.819 GMT [38568] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.006 s, sync=0.002 s, total=1.016 s; sync files=7, longest=0.002 s, average=0.001 s; distance=29 kB, estimate=35 kB; lsn=0/B512B60, redo lsn=0/B512B08
+2025-11-08 11:46:20.919 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 11:46:21.733 GMT [38568] LOG:  checkpoint complete: wrote 9 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.803 s, sync=0.003 s, total=0.814 s; sync files=7, longest=0.002 s, average=0.001 s; distance=19 kB, estimate=34 kB; lsn=0/B517970, redo lsn=0/B517918
+2025-11-08 11:51:20.832 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 11:51:21.043 GMT [38568] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.005 s, total=0.211 s; sync files=3, longest=0.004 s, average=0.002 s; distance=4 kB, estimate=31 kB; lsn=0/B5189E0, redo lsn=0/B518988

@@ -2,12 +2,15 @@ package com.__blog.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,10 +44,11 @@ public class SubscriptionService {
     @Autowired
     private NotificationService notificationService;
 
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsersIFollow(UUID userId) {
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getUsersIFollow(UUID userId, int page, int size) {
         try {
             // Fetch subscriptions where the user is the subscriber
-            List<Subscription> userSubscriptions = subscriptionRepository.findBySubscriberUser_Id(userId);
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Subscription> userSubscriptions = subscriptionRepository.findBySubscriberUser_Id(userId, pageable);
 
             // Extract the users the current user follows
             List<User> followUsers = userSubscriptions.stream()
@@ -56,9 +60,12 @@ public class SubscriptionService {
                 Hibernate.initialize(user.getSkills()); // ensure skills are loaded
                 return userMapper.ConvertResponse(user, userId);
             }).collect(Collectors.toList());
-
+            Page<UserResponse> responses1 = new PageImpl<>(
+                    userResponses,
+                    pageable,
+                    userResponses.size());
             // Return success with a message
-            return ApiResponseUtil.success(userResponses, null, "Users you follow retrieved successfully");
+            return ApiResponseUtil.success(responses1, null, "Users you follow retrieved successfully");
 
         } catch (Exception e) {
             return ApiResponseUtil.error("Failed to fetch users you follow: " + e.getMessage(),
@@ -66,7 +73,8 @@ public class SubscriptionService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getFollowers(UserPrincipal userPrincipal) {
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getFollowers(UserPrincipal userPrincipal, int page,
+            int size) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
         }
@@ -74,17 +82,19 @@ public class SubscriptionService {
         if (!userRepository.existsById(userId)) {
             return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
         }
+        Pageable pageable = PageRequest.of(page, size);
 
-        List<Subscription> userSubscriptions = subscriptionRepository.findBySubscribedTo_Id(userId);
+        Page<Subscription> userSubscriptions = subscriptionRepository.findBySubscribedTo_Id(userId, pageable);
 
         // Use your existing helper method to convert subscriptions to UserResponse
-        List<UserResponse> userResponses = returnSameDatApiResponse(userSubscriptions, userId).getData();
+        Page<UserResponse> userResponses = returnSameDatApiResponse(userSubscriptions, userId, pageable).getData();
 
         // Return success response with message
         return ApiResponseUtil.success(userResponses, null, "Followers retrieved successfully");
     }
 
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsersNotFollowing(UserPrincipal userPrincipal) {
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getUsersNotFollowing(UserPrincipal userPrincipal, int page,
+            int size) {
         try {
             if (userPrincipal == null) {
                 return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
@@ -93,24 +103,16 @@ public class SubscriptionService {
             if (!userRepository.existsById(userId)) {
                 return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
             }
-            // users I Follow 
-            List<User> allUser = userRepository.findAll();
-            List<Subscription> userSubscriptions = subscriptionRepository.findBySubscriberUser_Id(userId);
-            Set<UUID> userIFollowIds = userSubscriptions.stream().map(sub -> sub.getSubscribedTo().getId())
-                    .collect(Collectors.toSet());
+            // users I Follow
+            Pageable pageable = PageRequest.of(page, size);
+ 
+            Page<User> usersNotFollowed = userRepository.findUsersNotFollowedBy(userId, pageable);
+            Page<UserResponse> userResponses = usersNotFollowed.map(user -> {
+                Hibernate.initialize(user.getSkills());
+                return userMapper.ConvertResponse(user, userId);
+            });
 
-            List<User> usersINotFollow = allUser.stream()
-                    .filter(user -> !user.getId().equals(userId))
-                    .filter(user -> !userIFollowIds.contains(user.getId()))
-                    .collect(Collectors.toList());
-            List<UserResponse> responses = usersINotFollow.stream()
-                    .map(user -> {
-                        Hibernate.initialize(user.getSkills());
-                        UserResponse userResponse = userMapper.ConvertResponse(user, userId);
-                        return userResponse;
-                    }).collect(Collectors.toList());
-
-            return ApiResponseUtil.success(responses, null, "Users you don't follow retrieved successfully");
+            return ApiResponseUtil.success(userResponses, null, "Users you don't follow retrieved successfully");
         } catch (Exception e) {
             return ApiResponseUtil.error("Error retrieving users you don't follow: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
@@ -138,7 +140,8 @@ public class SubscriptionService {
                 return ApiResponseUtil.error("You cannot follow yourself", HttpStatus.BAD_REQUEST);
             }
 
-            boolean isAlreadyFollow = subscriptionRepository.existsBySubscriberUser_IdAndSubscribedTo_Id(userId, targetUserId);
+            boolean isAlreadyFollow = subscriptionRepository.existsBySubscriberUser_IdAndSubscribedTo_Id(userId,
+                    targetUserId);
             if (isAlreadyFollow) {
                 return ApiResponseUtil.error("You are already following this user", HttpStatus.CONFLICT);
             }
@@ -188,15 +191,19 @@ public class SubscriptionService {
         return ApiResponseUtil.success(null, null, "Successfully unfollowed " + targetUserOpt.get().getUsername());
     }
 
-    private ApiResponse<List<UserResponse>> returnSameDatApiResponse(List<Subscription> user, UUID userId) {
+    private ApiResponse<Page<UserResponse>> returnSameDatApiResponse(Page<Subscription> user, UUID userId,
+            Pageable pageable) {
 
         var follow = user.stream()
                 .map(sub -> userMapper.ConvertResponse(sub.getSubscriberUser(), userId))
                 .collect(Collectors.toList());
-
-        return ApiResponse.<List<UserResponse>>builder()
+        Page<UserResponse> responses1 = new PageImpl<>(
+                follow,
+                pageable,
+                follow.size());
+        return ApiResponse.<Page<UserResponse>>builder()
                 .status(true)
-                .data(follow)
+                .data(responses1)
                 .build();
     }
 

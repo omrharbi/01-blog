@@ -21,7 +21,11 @@
   object-position: center;
   /* Centers the image within the container */
 }
-
+.border-bottom{
+  // border: 2px dashed var(--border) !important;
+  border-bottom: 1px solid var(--border) !important;
+  border-top: 1px solid var(--border) !important;
+}
 /* Alternative: If you want the image to show full content without cropping */
 .img-contain img {
   object-fit: contain;

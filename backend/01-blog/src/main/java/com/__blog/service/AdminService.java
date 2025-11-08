@@ -1,13 +1,10 @@
 package com.__blog.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,7 +16,6 @@ import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
-import com.__blog.model.dto.response.user.UserResponse;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
 import com.__blog.model.enums.Roles;

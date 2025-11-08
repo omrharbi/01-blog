@@ -108,7 +108,7 @@ export class UploadImage {
         if (index < media.length) {
           const image = media[index];
           index++;
-          return `<img class="imageMa image-preview" src="${apiUrl}${image.filePath}" alt="Post image"${after}>`;
+          return `<div class="image-post"> <img class="imageMa image-preview" src="${apiUrl}${image.filePath}" alt="Post image"${after}> </div>`;
         }
         return match;
       }

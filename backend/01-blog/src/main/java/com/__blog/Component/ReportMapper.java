@@ -1,7 +1,5 @@
 package com.__blog.Component;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Component;
 
 import com.__blog.model.dto.response.ReportResponse;

@@ -77,9 +77,7 @@ export class Profile {
     this.profile.profile(username).subscribe({
       next: (respone) => {
         this.userProfile = respone.data;
-        // if (respone.status === false && respone.error != null) {
-        //   // this.showMessage.showError(respone.error, false);
-        // }
+      
       },
       error: (error) => {
         console.log(error, 'error herr ');

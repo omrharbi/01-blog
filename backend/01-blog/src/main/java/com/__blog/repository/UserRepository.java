@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Roles;
 
@@ -30,4 +31,12 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Page<User> findByRole(Roles role, Pageable pageable);
 
     Page<User> findByHidden(boolean status, Pageable pageable);
+    @Query("""
+                SELECT u FROM User u
+                WHERE u.id <> :userId
+                  AND u.id NOT IN (
+                      SELECT s.subscribedTo.id FROM Subscription s WHERE s.subscriberUser.id = :userId
+                  )
+            """)
+    Page<User> findUsersNotFollowedBy(@Param("userId") UUID userId, Pageable pageable);
 }

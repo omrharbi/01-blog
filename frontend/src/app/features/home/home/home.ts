@@ -92,8 +92,7 @@ export class Home {
     this.loading = true;
     this.postservice.getAllPost(0, this.pageSize).subscribe(response => {
       if (response.data && response.data.content) {
-        console.log(response);
-
+        // console.log(response);
         this.posts = response.data.content;
         this.currentPage = response.data.number;
         this.totalPages = response.data.totalPages;

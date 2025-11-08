@@ -4,6 +4,7 @@ import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-
 import { Materaile } from '../../../modules/materaile-module';
 import { BanPopup } from '../ban-popup/ban-popup';
 import { AdminServiceShared } from '../../../core/service/serivecLogique/admin/admin-service';
+import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 
 @Component({
   selector: 'app-users-management',
@@ -17,48 +18,55 @@ export class UsersManagement {
   allUsers = signal<UserResponseInAdmin[]>([]);
   actionType = signal<ActionType>('ban')
   adminService = inject(AdminServiceShared);
+  adminAuth = inject(AuthService);
   currentPage = signal(0);
   pageSize = signal(10);
   totalPages = signal(0);
   loading = signal(false);
-   startIndex = computed(() => this.currentPage() * this.pageSize() + 1);
+  startIndex = computed(() => this.currentPage() * this.pageSize() + 1);
   endIndex = computed(() =>
     Math.min(this.startIndex() + this.allUsers().length - 1, this.totalPages())
   );
 
   userId = signal<string>('')
   ngOnInit() {
-    this.getAllUsers()
+    if (this.adminAuth.isLoggedIn() && this.adminAuth.hasRole("ADMIN")) {
+      this.getAllUsers()
 
-    this.adminService.update_user$.subscribe({
-      next: response => {
-        this.allUsers.update(users =>
-          users.map(u =>
-            u.id === response?.id ? { ...u, ...response } : u
-          )
-        );
-      }
-    })
-
-    this.adminService.check_delete_user$.subscribe({
-      next: response => {
-        if (response == true) {
-          this.allUsers.update(users => users.filter(u => u.id !== this.userId()));
+      this.adminService.update_user$.subscribe({
+        next: response => {
+          this.allUsers.update(users =>
+            users.map(u =>
+              u.id === response?.id ? { ...u, ...response } : u
+            )
+          );
         }
-      }
-    })
+      })
+
+      this.adminService.check_delete_user$.subscribe({
+        next: response => {
+          if (response == true) {
+            this.allUsers.update(users => users.filter(u => u.id !== this.userId()));
+          }
+        }
+      })
+    } else {
+      console.log("you need login ");
+
+    }
+
   }
   getAllUsers() {
     this.admin.getAllUsers(0, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
           console.log(response);
-          
+
           this.allUsers.set(response.data.content);
           // this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
-         
+
         }
         this.loading.set(false);
       },

@@ -53,10 +53,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           if (authService.isLoggedIn()) {
             authService.logout();
           }
-          router.navigate(['/error'], {
-            queryParams: { status: 401 },
-            skipLocationChange: false
-          });
+          // router.navigate(['/error'], {
+          //   queryParams: { status: 401 },
+          //   skipLocationChange: false
+          // });
           break;
 
         case 403:

@@ -2,11 +2,9 @@ package com.__blog.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,11 +21,9 @@ import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
-import com.__blog.model.entity.User;
 import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
-import com.__blog.repository.TagRepository;
-import com.__blog.repository.UserRepository;
+ import com.__blog.repository.TagRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -47,8 +43,6 @@ public class PostMapper {
     @Autowired
     private MediaRepository mediaRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 

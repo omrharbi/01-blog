@@ -13,12 +13,12 @@ import { Subscription } from 'rxjs';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
-  constructor(private auth: AuthService, private followingLogic: FollowingLogiqueService) {}
+  constructor(private auth: AuthService, private followingLogic: FollowingLogiqueService) { }
   isAuthenticated: boolean = false;
   explore: UserProfile[] = [];
   private subscription = new Subscription();
   username: string | null = null;
-  IsAdmin: boolean =false;
+  IsAdmin: boolean = false;
 
   ngOnInit() {
     this.username = this.auth.getCurrentUsername();
@@ -26,11 +26,11 @@ export class Sidebar {
     this.isAuthenticated = this.auth.isLoggedIn();
     if (this.auth.hasRole('ADMIN')) {
       this.IsAdmin = true;
-    } 
- 
+    }
+
     // this.isAuthenticated = this.auth.is();
     if (this.isAuthenticated) {
-      this.followingLogic.loadingData();
+      // this.followingLogic.loadingData(0, 5);
       this.subscription.add(
         this.followingLogic.explore$.subscribe((explose) => {
           this.explore = explose;
