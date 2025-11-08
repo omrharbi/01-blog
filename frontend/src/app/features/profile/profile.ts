@@ -137,12 +137,18 @@ export class Profile {
     this.following.followUser(id).subscribe({
       next: (res) => {
         if (res.status) {
-          this.isFollowing.set(res.status);
+          // this.isFollowing.set(res.status);
+          this.isFollowing.set(true);
         }
         console.log(res);
       },
       error: (error) => {
-        console.log(error);
+        if (error.status === 409) {
+          console.log('Already following this user');
+          this.isFollowing.set(true); // Sync state with server
+        } else {
+          this.isFollowing.set(false); // Revert on other errors
+        }
       },
     });
   }
@@ -150,12 +156,14 @@ export class Profile {
     this.following.unfollow(id).subscribe({
       next: (res) => {
         if (res.status) {
-          this.isFollowing.set(res.status);
+          this.isFollowing.set(false);
+          // this.isFollowing.set(res.status);
         }
         console.log(res);
       },
       error: (error) => {
         console.log(error);
+        this.isFollowing.set(true);
       },
     });
   }
@@ -164,9 +172,8 @@ export class Profile {
     if (this.isFollowing()) {
       this.Unfollow(userId);
     } else {
-      // this.followUser(userId);
+      this.followUser(userId);
     }
-    this.isFollowing.set(!this.isFollowing());
   }
   toggleLikePost(postId: string, post: PostResponse) {
     this.like.toggleLikePost(postId, post);
