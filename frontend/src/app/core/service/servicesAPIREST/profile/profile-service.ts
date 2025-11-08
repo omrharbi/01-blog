@@ -42,8 +42,8 @@ export class ProfileService {
     const formData = new FormData();
 
     // Append JSON data as a blob
-    formData.append('request', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-
+    // const datajson = new Blob([JSON.stringify(info)], { type: 'application/json' })
+    formData.append('request', JSON.stringify(info));
     // Append file if present
     if (image) {
       formData.append('files', image); // name must match @RequestParam("files") in Spring

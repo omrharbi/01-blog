@@ -1,6 +1,5 @@
 package com.__blog.controller;
 
- 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,26 +50,27 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-   @PatchMapping(value = "/edit-profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<?> updateProfile(
-        @AuthenticationPrincipal UserPrincipal user,
-        @RequestPart("request") String requestJson,
-        @RequestPart(value = "files", required = false) MultipartFile[] files
-) throws JsonProcessingException {
+    @PatchMapping(value = "/edit-profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateProfile(
+            @AuthenticationPrincipal UserPrincipal user,
+            @RequestParam(value = "request", required = false) String requestJsonString,
+            @RequestPart(value = "files", required = false) MultipartFile[] files) throws JsonProcessingException {
 
-    ObjectMapper mapper = new ObjectMapper();
-    UpdateProfileRequest request = mapper.readValue(requestJson, UpdateProfileRequest.class);
+        // System.out.println("File name: " + requestJson.getAbout());
+        ObjectMapper objectMapper = new ObjectMapper();
+        UpdateProfileRequest requestJson = objectMapper.readValue(requestJsonString, UpdateProfileRequest.class);
+        System.out.println("Received files count: " + requestJson);
 
-    // Debug: confirm files received
-    if (files != null) {
-        System.out.println("Received files count: " + files.length);
-        for (MultipartFile file : files) {
-            System.out.println("File name: " + file.getOriginalFilename());
+        if (files != null) {
+            System.out.println("Received files count: " + files.length);
+            for (MultipartFile file : files) {
+                System.out.println("File name: " + file.getOriginalFilename());
+            }
+        } else {
+            System.out.println("No files received");
         }
-    } else {
-        System.out.println("No files received");
-    }
 
-    return userService.updateProfile(user, request, files);
- }
+        return userService.updateProfile(user, requestJson, files);
+        // return ResponseEntity.ok(null);
+    }
 }

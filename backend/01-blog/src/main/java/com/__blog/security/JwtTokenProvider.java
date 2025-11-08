@@ -1,5 +1,6 @@
 package com.__blog.security;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -147,7 +148,7 @@ public class JwtTokenProvider {
     }
 
     private SecretKey generateKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(Base64.getEncoder().encodeToString(secretKey.getBytes()));
+        byte[] keyBytes = Decoders.BASE64.decode(Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

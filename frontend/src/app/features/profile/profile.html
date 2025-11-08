@@ -8,12 +8,12 @@
 
             <!-- Profile Avatar -->
             <div class="profile-avatar">
-                <img [src]="userProfile.avatar" alt="John Developer">
+                <img [src]="(userProfile().avatar.startsWith('http')?userProfile().avatar:apiUrl+userProfile().avatar)" alt="John Developer">
             </div>
 
             <!-- Action Buttons -->
             <div class="position-absolute bottom-0 end-0 p-3 d-flex gap-2">
-                <ng-container *ngIf="isPostOwner(userProfile.id); else followUnfollowBlock">
+                <ng-container *ngIf="isPostOwner(userProfile().id); else followUnfollowBlock">
                     <!-- Edit Profile button for owner -->
                     <button class="btn btn-custom-secondary d-flex align-items-center gap-2" (click)="EditProfile()">
                         <i class="bi bi-gear"></i>
@@ -28,7 +28,7 @@
 
                 <ng-template #followUnfollowBlock>
                     <!-- Follow / Unfollow button for other users -->
-                    <button class="btn btn-primary" (click)="toggleFollow(userProfile.id)">
+                    <button class="btn btn-primary" (click)="toggleFollow(userProfile().id)">
                         <i class="bi" [ngClass]="isFollowing ? 'bi-person-dash' : 'bi-person-plus'"></i>
                         <span class="d-none d-sm-inline">{{ isFollowing ? 'Unfollow' : 'Follow' }}</span>
                     </button>
@@ -46,15 +46,15 @@
             <div class="px-4" style="padding-top: 4rem;">
                 <div class="mb-4">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <h1 class="h2 font-playfair fw-bold mb-0">{{userProfile.firstname | uppercase}}
-                            {{userProfile.lastname | uppercase}}</h1>
+                        <h1 class="h2 font-playfair fw-bold mb-0">{{userProfile().firstname | uppercase}}
+                            {{userProfile().lastname | uppercase}}</h1>
                         <!-- <span class="badge badge-verified">Verified</span> -->
                     </div>
-                    <p class="fs-5 text-muted-custom mb-3">@{{userProfile.username}}</p>
+                    <p class="fs-5 text-muted-custom mb-3">@{{userProfile().username}}</p>
                 </div>
 
                 <p class="mb-4 text-secondary-custom" style="max-width: 600px; line-height: 1.6;">
-                    {{userProfile.about}}
+                    {{userProfile().about}}
                     <!-- Full-stack developer passionate about React, Node.js, and building great user experiences. Sharing my learning journey and insights from 5+ years in tech. -->
                 </p>
 
@@ -76,15 +76,15 @@
                 <!-- Stats -->
                 <div class="d-flex gap-5 mb-4">
                     <div class="text-center">
-                        <div class="h3 fw-bold mb-0">{{userProfile.followingCount }}</div>
+                        <div class="h3 fw-bold mb-0">{{userProfile().followingCount }}</div>
                         <div class="small text-muted-custom">Following</div>
                     </div>
                     <div class="text-center">
-                        <div class="h3 fw-bold mb-0">{{userProfile.followersCount }}</div>
+                        <div class="h3 fw-bold mb-0">{{userProfile().followersCount }}</div>
                         <div class="small text-muted-custom">Followers</div>
                     </div>
                     <div class="text-center">
-                        <div class="h3 fw-bold mb-0">{{userProfile.postsCount }}</div>
+                        <div class="h3 fw-bold mb-0">{{userProfile().postsCount }}</div>
                         <div class="small text-muted-custom">Posts</div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                 <!-- Tags -->
                 <div class="skills d-flex ">
 
-                    <ng-container *ngFor="let skl of userProfile.skills ">
+                    <ng-container *ngFor="let skl of userProfile().skills ">
                         <div class="d-flex flex-wrap gap-2 mb-4 p-1">
                             <span class="tag">{{skl}}</span>
                         </div>
@@ -106,7 +106,7 @@
                 <li class="nav-item flex-fill" role="presentation">
                     <button class="nav-link active w-100" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts"
                         type="button" role="tab">
-                        <i class="bi bi-file-text me-2"></i>Posts ({{userProfile.postsCount }})
+                        <i class="bi bi-file-text me-2"></i>Posts ({{userProfile().postsCount }})
                     </button>
                 </li>
                 <!-- <li class="nav-item flex-fill" role="presentation">
@@ -149,7 +149,7 @@
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="avatar-sm">
-                                            <img [src]="(userProfile.avatar.startsWith('http')?userProfile.avatar:apiUrl+userProfile.avatar)"
+                                            <img [src]="(userProfile().avatar.startsWith('http')?userProfile().avatar:apiUrl+userProfile().avatar)"
                                                 alt="userProfile.username">
                                         </div>
                                         <div>
@@ -310,7 +310,7 @@
 
 
         <ng-container *ngIf="editProfile">
-            <app-edit-profile></app-edit-profile>
+            <app-edit-profile (profileUpdated)="onProfileUpdated($event)"></app-edit-profile>
              <!-- <div> edit profile</div> -->
         </ng-container>
     </div>

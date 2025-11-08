@@ -2,10 +2,8 @@ export interface RequestEditProfile {
     firstname: string;
     lastname: string;
     // avatar: string;
-    skills: Skills[];
+    skills: string[];
     email:string,
     about :string,
 }
-export interface Skills {
-    skills: string
-}
+ 

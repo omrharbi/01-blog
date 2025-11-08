@@ -161,8 +161,7 @@ public class UserService {
         }
 
         if (request.getAbout() != null) {
-            // System.err.println("about"+);
-            existingUser.setAbout(request.getAbout());
+             existingUser.setAbout(request.getAbout());
         }
         if (files != null) {
             try {

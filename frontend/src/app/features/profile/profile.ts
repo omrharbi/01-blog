@@ -14,6 +14,7 @@ import { NotificationService } from '../../core/service/notificationAlert/Notifi
 import { FollowingService } from '../../core/service/servicesAPIREST/following/following-service';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 import { use } from 'marked';
+import { ProfileServiceLogique } from '../../core/service/serivecLogique/profile/profile-service-post';
 
 @Component({
   selector: 'app-profile',
@@ -26,15 +27,15 @@ export class Profile {
     private like: likesServiceLogique,
     private route: ActivatedRoute,
     private auth: AuthService,
-    private profile: ProfileService,
+    private profileService: ProfileServiceLogique,
     private replceimge: UploadImage,
     private preview: PreviewService,
-    private showMessage: NotificationService,
+    private profile: ProfileService,
     private following: FollowingService
   ) { }
   isAuthenticated: boolean = false;
   editProfile = false;
-  userProfile: UserProfile = {
+  userProfile = signal<UserProfile>({
     id: '',
     firstname: '',
     lastname: '',
@@ -47,7 +48,8 @@ export class Profile {
     followingMe: false,
     skills: [],
     createdAt: ""
-  };
+  });
+
 
   apiUrl = apiUrl;
   countPost = 0;
@@ -61,12 +63,10 @@ export class Profile {
   EditProfile() {
     this.editProfile = !this.editProfile;
     // console.log(this.editProfile);
-    
   }
 
   isPostOwner(usernameID: any): boolean {
     const check = usernameID === this.auth.getCurrentUserUUID();
-    // console.log(check);
     return check;
   }
 
@@ -74,20 +74,16 @@ export class Profile {
     const username = this.route.snapshot.paramMap.get('username') || '';
     this.username.set(username);
     this.isAuthenticated = this.auth.isLoggedIn();
-    this.profile.profile(username).subscribe({
-      next: (respone) => {
-        this.userProfile = respone.data;
-      
-      },
-      error: (error) => {
-        console.log(error, 'error herr ');
-      },
-    });
-    const page = 0;
-    const size = 3;
+    this.profileService.loadingProfile(username)
+    this.profileService.dataProfile$.subscribe({
+      next: response => {
+        this.userProfile.set(response)
+      }
+    })
     this.loadingPosts(username);
-
   }
+
+
   loadingPosts(username: string) {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;
@@ -130,7 +126,7 @@ export class Profile {
     return this.currentPage < this.totalPages - 1;
   }
 
-  
+
 
   followUser(id: string) {
     console.log(id);
@@ -172,5 +168,9 @@ export class Profile {
   toggleLikePost(postId: string, post: PostResponse) {
     this.like.toggleLikePost(postId, post);
   }
-  
+  onProfileUpdated(updatedData: any) {
+    this.userProfile.set(updatedData.data)
+    console.log('Profile update triggered', updatedData.data);
+    this.editProfile = false;
+  }
 }

@@ -1,8 +1,10 @@
-import { Component, ElementRef, Input, input, Output, output, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, input, Output, output, signal, ViewChild } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
-import { RequestEditProfile, Skills } from '../../../core/models/user/userProfileRequest';
+import { RequestEditProfile } from '../../../core/models/user/userProfileRequest';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { ProfileService } from '../../../core/service/servicesAPIREST/profile/profile-service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProfileServiceLogique } from '../../../core/service/serivecLogique/profile/profile-service-post';
 
 @Component({
   selector: 'app-edit-profile',
@@ -11,7 +13,10 @@ import { ProfileService } from '../../../core/service/servicesAPIREST/profile/pr
   styleUrl: './edit-profile.scss'
 })
 export class EditProfile {
-  constructor(private uploadImage: UploadImage, private editInof: ProfileService) { }
+  constructor(private uploadImage: UploadImage, private editInof: ProfileService, private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private profileService: ProfileServiceLogique
+  ) { }
   @Input() profileEdite: boolean = false;
   firstname = signal("")
   lastname = signal("")
@@ -19,22 +24,19 @@ export class EditProfile {
   email = signal("")
   about = signal("")
   skills = signal<string>("")
-  AllSkills = signal<Skills[]>([]);
+  AllSkills = signal<string[]>([]);
   coverImageSrc = signal("");
   isSelect = signal(false);
   newFiles: File[] = [];
   infoUserUpdate = signal<RequestEditProfile | null>(null);
 
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
-
+  @Output() profileUpdated = new EventEmitter<any>();
   addSkill() {
     if ((this.skills().trim() !== "" && this.skills().trim() != null) && this.skills.length < 8) {
-      const existSkills = this.AllSkills().some(skils => skils.skills === this.skills())
+      const existSkills = this.AllSkills().some(skils => skils === this.skills())
       if (!existSkills) {
-        const newSkills: Skills = {
-          skills: this.skills()
-        };
-        this.AllSkills.update(oldSkills => [...oldSkills, newSkills])
+        this.AllSkills.update(oldSkills => [...oldSkills, this.skills().trim()])
       }
     }
     this.skills.set("")
@@ -68,11 +70,9 @@ export class EditProfile {
   removeExperience() { }
   saveProfile() {
     this.newFiles = this.uploadImage.uploadfiles();
-
     this.infoUserUpdate.set({
       firstname: this.firstname(),
       lastname: this.lastname(),
-      // avatar: this.newFiles[0].name,
       skills: this.AllSkills(),
       email: this.email(),
       about: this.about()
@@ -82,7 +82,12 @@ export class EditProfile {
     const file = this.newFiles?.[0] ?? null; //
     if (info) {
       this.editInof.editProfile(info, file).subscribe({
-        next: response => console.log(response, "done"),
+        next: response => {
+          this.profileUpdated.emit(response);
+
+          // Close modal or reset form
+          // this.closeModal();
+        },
         error: error => console.log(error)
       });
     }

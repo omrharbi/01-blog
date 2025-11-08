@@ -787,3 +787,28 @@
 2025-11-08 12:06:21.227 GMT [38568] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.714 s; sync files=6, longest=0.005 s, average=0.001 s; distance=33 kB, estimate=131 kB; lsn=0/B544780, redo lsn=0/B544728
 2025-11-08 12:11:20.327 GMT [38568] LOG:  checkpoint starting: time
 2025-11-08 12:11:21.240 GMT [38568] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.903 s, sync=0.005 s, total=0.913 s; sync files=6, longest=0.004 s, average=0.001 s; distance=44 kB, estimate=122 kB; lsn=0/B54F7A0, redo lsn=0/B54F748
+2025-11-08 12:16:20.272 GMT [38568] LOG:  checkpoint starting: time
+2025-11-08 12:16:22.792 GMT [38568] LOG:  checkpoint complete: wrote 26 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=2.507 s, sync=0.005 s, total=2.520 s; sync files=13, longest=0.004 s, average=0.001 s; distance=118 kB, estimate=122 kB; lsn=0/B56D238, redo lsn=0/B56D1E0
+2025-11-08 13:00:54.196 GMT [38567] LOG:  received smart shutdown request
+2025-11-08 13:00:54.197 GMT [38567] LOG:  background worker "logical replication launcher" (PID 38573) exited with exit code 1
+2025-11-08 13:00:54.198 GMT [38568] LOG:  shutting down
+2025-11-08 13:00:54.199 GMT [38568] LOG:  checkpoint starting: shutdown immediate
+2025-11-08 13:00:54.207 GMT [38568] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.010 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=109 kB; lsn=0/B56D2E8, redo lsn=0/B56D2E8
+2025-11-08 13:00:54.216 GMT [38567] LOG:  database system is shut down
+2025-11-08 15:45:43.971 GMT [202682] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-08 15:45:43.972 GMT [202682] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-08 15:45:43.974 GMT [202682] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-08 15:45:43.976 GMT [202685] LOG:  database system was shut down at 2025-11-08 15:32:43 GMT
+2025-11-08 15:45:43.982 GMT [202682] LOG:  database system is ready to accept connections
+2025-11-08 15:50:44.002 GMT [202683] LOG:  checkpoint starting: time
+2025-11-08 15:50:44.013 GMT [202683] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.001 s, total=0.011 s; sync files=3, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/B575558, redo lsn=0/B575500
+2025-11-08 16:30:44.641 GMT [202683] LOG:  checkpoint starting: time
+2025-11-08 16:30:44.758 GMT [202683] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.102 s, sync=0.004 s, total=0.118 s; sync files=2, longest=0.002 s, average=0.002 s; distance=7 kB, estimate=7 kB; lsn=0/B5774C0, redo lsn=0/B577468
+2025-11-08 16:50:45.078 GMT [202683] LOG:  checkpoint starting: time
+2025-11-08 16:50:45.593 GMT [202683] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.005 s, total=0.515 s; sync files=6, longest=0.004 s, average=0.001 s; distance=20 kB, estimate=20 kB; lsn=0/B57C6D0, redo lsn=0/B57C678
+2025-11-08 17:00:45.712 GMT [202683] LOG:  checkpoint starting: time
+2025-11-08 17:00:45.922 GMT [202683] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.001 s, total=0.210 s; sync files=3, longest=0.001 s, average=0.001 s; distance=9 kB, estimate=19 kB; lsn=0/B57EDF8, redo lsn=0/B57EDA0
+2025-11-08 17:10:46.042 GMT [202683] LOG:  checkpoint starting: time
+2025-11-08 17:10:46.254 GMT [202683] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.005 s, total=0.212 s; sync files=3, longest=0.004 s, average=0.002 s; distance=7 kB, estimate=18 kB; lsn=0/B580DC8, redo lsn=0/B580D70
+2025-11-08 17:20:46.453 GMT [202683] LOG:  checkpoint starting: time
+2025-11-08 17:20:46.664 GMT [202683] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.002 s, total=0.211 s; sync files=3, longest=0.001 s, average=0.001 s; distance=9 kB, estimate=17 kB; lsn=0/B583298, redo lsn=0/B583240
