@@ -4,10 +4,11 @@ import { Materaile } from '../../../modules/materaile-module';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../modules/services/theme-service';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
+import { PrettyDatePipe } from '../../../shared/pipes/pretty-date.pipe';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [Materaile],
+  imports: [Materaile, PrettyDatePipe],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
@@ -43,7 +44,7 @@ export class Login {
             'An unexpected error occurred'; // default message
 
           this.messageError.set(errorMessage)
-          console.log(errorMessage, 'err');
+          console.log(err, 'err');
         },
       });
     }

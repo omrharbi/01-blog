@@ -32,7 +32,9 @@ public class ReportController {
     @PostMapping("/create-report-user")
     public ResponseEntity<?> createReportUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody ReportRequest reportRequest) {
+        System.err.println("****************" + reportRequest);
         return reportService.createReportUser(userPrincipal, reportRequest);
+        // return  ResponseEntity.ok(null);
     }
 
     @GetMapping("/admin/get-posts-all-report")

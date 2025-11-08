@@ -4,7 +4,7 @@ import { RequestEditProfile } from '../../../core/models/user/userProfileRequest
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { ProfileService } from '../../../core/service/servicesAPIREST/profile/profile-service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProfileServiceLogique } from '../../../core/service/serivecLogique/profile/profile-service-post';
+import { ProfileServiceLogique } from '../../../core/service/serivecLogique/profile/profile-service-profile';
 
 @Component({
   selector: 'app-edit-profile',

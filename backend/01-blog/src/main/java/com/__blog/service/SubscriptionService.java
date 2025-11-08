@@ -55,7 +55,6 @@ public class SubscriptionService {
                 Hibernate.initialize(user.getSkills());
                 return userMapper.ConvertResponse(user, userId);
             });
- 
 
             return ApiResponseUtil.success(userResponses, null, "Users you follow retrieved successfully");
 
@@ -83,6 +82,29 @@ public class SubscriptionService {
 
         // Return success response with message
         return ApiResponseUtil.success(userResponses, null, "Followers retrieved successfully");
+    }
+
+    public ResponseEntity<ApiResponse<Boolean>> getUSerIsFollow(UserPrincipal userPrincipal, String username) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        }
+        UUID userId = userPrincipal.getId();
+        if (!userRepository.existsById(userId)) {
+            return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
+        }
+        Optional<User> userIsFollow = userRepository.findByUsername(username);
+        if (userIsFollow.isPresent()) {
+            var isFollowing = subscriptionRepository.existsBySubscriberUser_IdAndSubscribedTo_Id(userId,
+                    userIsFollow.get().getId());
+            return ApiResponseUtil.success(isFollowing, null, "Followers retrieved successfully");
+
+        } else {
+            return ApiResponseUtil.error("Error To Get This User", HttpStatus.NOT_FOUND);
+
+        }
+        // return ApiResponseUtil.success(false, null, "Followers retrieved
+        // successfully");
+        // Return success response with message
     }
 
     public ResponseEntity<ApiResponse<Page<UserResponse>>> getUsersNotFollowing(UserPrincipal userPrincipal, int page,

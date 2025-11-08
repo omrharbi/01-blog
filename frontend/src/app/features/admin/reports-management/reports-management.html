@@ -158,15 +158,15 @@
                                       border-btn
                                   
                                  " [ngClass]="{
-                                    'bg-success  ': user.status,
-                                     'bg-warning ': !user.status
+                                    'bg-success  ': !user.status,
+                                     'bg-warning ': user.status
                                  }">
-                                    {{user.status? "resolved": "pending"}} </div>
+                                    {{!user.status? "resolved": "pending"}} </div>
 
                             </td>
                             <td class="py-4 px-4">
                                 <div class="action-buttons">
-                                    <button class=" action-btn bg-warning text-dark  border-btn" *ngIf="!user.status"
+                                    <button class=" action-btn bg-warning text-dark  border-btn" *ngIf="user.status"
                                         (click)="actionTypeHandle('ban', user.reportedUserId)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -178,7 +178,7 @@
                                         </svg>
                                         Ban
                                     </button>
-                                    <button *ngIf="user.status" class=" action-btn  border-btn bg-success text-white"
+                                    <button *ngIf="!user.status" class=" action-btn  border-btn bg-success text-white"
                                         (click)="actionTypeHandle('unban', user.reportedUserId)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

@@ -31,6 +31,8 @@ export class ProfileServiceLogique {
   loadingProfile(username: string) {
     this.profile.profile(username).subscribe({
       next: (respone) => {
+        console.log(respone, "*************");
+        
         this.dataProfileSubject.next(respone.data);
       },
       error: (error) => {

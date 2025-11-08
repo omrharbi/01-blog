@@ -23,6 +23,17 @@ export class ProfileService {
     }
     )
   }
+  isIFollow(username: string): Observable<ApiResponse<boolean>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+    return this.http.get<ApiResponse<boolean>>(
+      `${environment.subscriptions.is_I_follow}/${username}`, {
+      headers
+    }
+    )
+  }
   GetMyPosts(username: string, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,

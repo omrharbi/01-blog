@@ -39,7 +39,11 @@ public class SubscriptionController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         return subscriptionService.getFollowers(userPrincipal, page, size);
+    }
 
+    @GetMapping("/is_i_following/{username}")
+    public ResponseEntity<?> getUserIsFollow(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("username") String username) {
+        return subscriptionService.getUSerIsFollow(userPrincipal, username);
     }
 
     // Get users I DON'T follow (for Explore page)

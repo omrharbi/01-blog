@@ -1,19 +1,4 @@
-<div>
-  <div class="dropdown-menu show p-2 shadow border rounded bg-card"
-    style="position: absolute; right: 0; top: 100%; min-width: 180px; font-size: 0.875rem; z-index: 1000; background-color: white;"
-    *ngIf="isAuthenticated">
-    <ng-container *ngIf="isOwner">
-      <button class="drop py-2 text-muted" (click)="onEdit()">Edit</button>
-      <button class="drop py-2 text-muted" (click)="onDelete()">Delete</button>
-    </ng-container>
-    <button id="report" *ngIf="!isOwner" class="drop py-2 text-danger text-muted" (click)="report()">Report story...</button>
-  </div>
-</div>
-<app-pop-up-report [showpPopUp]="isVisible()" [post]="post" [comment]="comment">
-
-</app-pop-up-report>
-<!-- Move popup OUTSIDE the dropdown container -->
-<!-- <div class="report-popup-overlay" *ngIf="isVisible()" (click)="closePopup()">
+<div class="report-popup-overlay" *ngIf="showpPopUp" (click)="closePopup()">
   <div class="report-popup-container" (click)="$event.stopPropagation()">
     <div class="popup-header">
       <h2>Report Post</h2>
@@ -47,4 +32,4 @@
       </button>
     </div>
   </div>
-</div> -->
+</div>

@@ -1,6 +1,7 @@
 package com.__blog.service.auth;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,8 +64,12 @@ public class AuthService {
             return ApiResponseUtil.error("No account found with the provided username or email.", HttpStatus.NOT_FOUND);
         }
 
-        if (dbUserResponse.getData().isHidden() && dbUserResponse.getData().getHiddenUntil() != null && dbUserResponse.getData().getHiddenUntil().isAfter(LocalDateTime.now())) {
-            return ApiResponseUtil.error("Your account is temporarily banned until " + dbUserResponse.getData().getHiddenUntil(), HttpStatus.FORBIDDEN);
+        if (dbUserResponse.getData().isHidden() && dbUserResponse.getData().getHiddenUntil() != null
+                && dbUserResponse.getData().getHiddenUntil().isAfter(LocalDateTime.now())) {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            var date = dbUserResponse.getData().getHiddenUntil().format(formatter);
+            return ApiResponseUtil.error("Your account is temporarily banned until " + date, HttpStatus.FORBIDDEN);
         }
 
         User userEntity = dbUserResponse.getData();

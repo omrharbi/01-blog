@@ -12,12 +12,13 @@ import { flatMap } from 'rxjs';
 import { Materaile } from '../../modules/materaile-module';
 import { ReportService } from '../../core/service/servicesAPIREST/report/report-service';
 import { NotificationService } from '../../core/service/notificationAlert/NotificationService';
+import { PopUpReport } from './pop-up-report/pop-up-report';
 
 @Component({
   selector: 'app-pop-up',
   // imports: [Materaile],
   standalone: true,
-  imports: [CommonModule, Materaile],
+  imports: [CommonModule, Materaile, PopUpReport],
   templateUrl: './pop-up.html',
   styleUrl: './pop-up.scss'
 })

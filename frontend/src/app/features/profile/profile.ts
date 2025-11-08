@@ -14,11 +14,13 @@ import { NotificationService } from '../../core/service/notificationAlert/Notifi
 import { FollowingService } from '../../core/service/servicesAPIREST/following/following-service';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 import { use } from 'marked';
-import { ProfileServiceLogique } from '../../core/service/serivecLogique/profile/profile-service-post';
+import { ProfileServiceLogique } from '../../core/service/serivecLogique/profile/profile-service-profile';
+import { PopUp } from '../pop-up/pop-up';
+import { PopUpReport } from '../pop-up/pop-up-report/pop-up-report';
 
 @Component({
   selector: 'app-profile',
-  imports: [EditProfile, Materaile, TimeAgoPipe],
+  imports: [EditProfile, Materaile, TimeAgoPipe, PopUp,PopUpReport],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -51,6 +53,7 @@ export class Profile {
     createdAt: ""
   });
 
+  show = false;
 
   apiUrl = apiUrl;
   countPost = 0;
@@ -63,6 +66,9 @@ export class Profile {
   loading = false;
   EditProfile() {
     this.editProfile = !this.editProfile;
+  }
+  report() {
+    this.show=!this.show
   }
   createPost() {
     this.router.navigate(['/create'])
@@ -81,7 +87,19 @@ export class Profile {
     this.profileService.loadingProfile(username)
     this.profileService.dataProfile$.subscribe({
       next: response => {
+        console.log(response, "profile 000");
+
         this.userProfile.set(response)
+      }
+    })
+    this.profile.isIFollow(username).subscribe({
+      next: response => {
+        this.isFollowing.set(response.data)
+        console.log(response, "is follow");
+
+      }, error: error => {
+        console.log(error);
+
       }
     })
     this.loadingPosts(username);

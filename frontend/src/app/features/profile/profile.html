@@ -34,10 +34,17 @@
                         <span class="d-none d-sm-inline">{{ isFollowing() ? 'Unfollow' : 'Follow' }}</span>
                     </button>
 
-                    <button class="btn btn-custom-primary d-flex align-items-center gap-2">
+                    <button class="btn btn-custom-primary d-flex align-items-center gap-2" (click)="report()">
                         <i class="bi bi-plus"></i>
                         <span class="d-none d-sm-inline">Report </span>
                     </button>
+
+                    <app-pop-up-report [showpPopUp]="show" [userProfile]="userProfile()">
+
+                </app-pop-up-report>
+                     <!-- <ng-container *ngIf="show">
+                        <app-pop-up></app-pop-up>
+                    </ng-container> -->
                 </ng-template>
 
 

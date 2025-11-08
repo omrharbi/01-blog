@@ -36,6 +36,7 @@ export const environment = {
         explore: apiUrl + "api/subscriptions/explore",
         addFollow: apiUrl + "api/subscriptions/follow",
         unfollow: apiUrl + "api/subscriptions/unfollow",
+        is_I_follow: apiUrl + "api/subscriptions/is_i_following",
     },
     comment: {
         addComment: apiUrl + "api/comment/create",
