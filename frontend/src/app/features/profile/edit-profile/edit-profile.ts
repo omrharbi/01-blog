@@ -73,11 +73,11 @@ export class EditProfile {
   saveProfile() {
     this.newFiles = this.uploadImage.uploadfiles();
     this.infoUserUpdate.set({
-      firstname: this.firstname(),
-      lastname: this.lastname(),
+      firstname: this.firstname().trim(),
+      lastname: this.lastname().trim(),
       skills: this.AllSkills(),
-      email: this.email(),
-      about: this.about()
+      email: this.email().trim(),
+      about: this.about().trim()
     });
 
     const info = this.infoUserUpdate();

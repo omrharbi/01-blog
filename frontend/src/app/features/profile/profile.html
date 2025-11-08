@@ -8,7 +8,8 @@
 
             <!-- Profile Avatar -->
             <div class="profile-avatar">
-                <img [src]="(userProfile().avatar.startsWith('http')?userProfile().avatar:apiUrl+userProfile().avatar)" alt="John Developer">
+                <img [src]="(userProfile().avatar.startsWith('http')?userProfile().avatar:apiUrl+userProfile().avatar)"
+                    alt="John Developer">
             </div>
 
             <!-- Action Buttons -->
@@ -17,10 +18,10 @@
                     <!-- Edit Profile button for owner -->
                     <button class="btn btn-custom-secondary d-flex align-items-center gap-2" (click)="EditProfile()">
                         <i class="bi bi-gear"></i>
-                        <span class="d-none d-sm-inline">Edit Profile</span>
+                        <span class="d-none d-sm-inline" >Edit Profile</span>
                     </button>
 
-                    <button class="btn btn-custom-primary d-flex align-items-center gap-2">
+                    <button class="btn btn-custom-primary d-flex align-items-center gap-2" (click)="createPost()">
                         <i class="bi bi-plus"></i>
                         <span class="d-none d-sm-inline">Write Posts</span>
                     </button>
@@ -29,16 +30,18 @@
                 <ng-template #followUnfollowBlock>
                     <!-- Follow / Unfollow button for other users -->
                     <button class="btn btn-primary" (click)="toggleFollow(userProfile().id)">
-                        <i class="bi" [ngClass]="isFollowing ? 'bi-person-dash' : 'bi-person-plus'"></i>
-                        <span class="d-none d-sm-inline">{{ isFollowing ? 'Unfollow' : 'Follow' }}</span>
+                        <i class="bi" [ngClass]="isFollowing() ? 'bi-person-dash' : 'bi-person-plus'"></i>
+                        <span class="d-none d-sm-inline">{{ isFollowing() ? 'Unfollow' : 'Follow' }}</span>
+                    </button>
+
+                    <button class="btn btn-custom-primary d-flex align-items-center gap-2">
+                        <i class="bi bi-plus"></i>
+                        <span class="d-none d-sm-inline">Report </span>
                     </button>
                 </ng-template>
 
 
-                <button class="btn btn-custom-primary d-flex align-items-center gap-2">
-                    <i class="bi bi-plus"></i>
-                    <span class="d-none d-sm-inline">Report </span>
-                </button>
+
             </div>
         </div>
         <ng-container *ngIf="!editProfile">
@@ -311,7 +314,7 @@
 
         <ng-container *ngIf="editProfile">
             <app-edit-profile (profileUpdated)="onProfileUpdated($event)"></app-edit-profile>
-             <!-- <div> edit profile</div> -->
+            <!-- <div> edit profile</div> -->
         </ng-container>
     </div>
 </main>

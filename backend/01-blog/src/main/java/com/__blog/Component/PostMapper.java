@@ -129,7 +129,7 @@ public class PostMapper {
 
         Page<PostResponse> enrichedPosts = basicPosts.map(post -> {
             var post_avatar = postRepository.findById(post.getId());
-            System.err.println("****"+post_avatar.get().getUser().getAvatarUrl());
+            // System.err.println("****"+post_avatar.get().getUser().getAvatarUrl());
           return  PostResponse.builder()
                     .id(post.getId())
                     .uuid_user(post.getUuid_user())

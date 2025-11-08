@@ -9,7 +9,7 @@ import { UploadImage } from '../../core/service/serivecLogique/upload-images/upl
 import { PreviewService } from '../../core/service/serivecLogique/preview/preview.service';
 import { apiUrl } from '../../core/constant/constante';
 import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { NotificationService } from '../../core/service/notificationAlert/NotificationService';
 import { FollowingService } from '../../core/service/servicesAPIREST/following/following-service';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
@@ -26,6 +26,7 @@ export class Profile {
   constructor(
     private like: likesServiceLogique,
     private route: ActivatedRoute,
+    private router: Router,
     private auth: AuthService,
     private profileService: ProfileServiceLogique,
     private replceimge: UploadImage,
@@ -54,7 +55,7 @@ export class Profile {
   apiUrl = apiUrl;
   countPost = 0;
   post: PostResponse[] = [];
-  isFollowing: boolean = false;
+  isFollowing = signal(false);
   username = signal("")
   currentPage = 0;
   pageSize = 5;
@@ -62,11 +63,14 @@ export class Profile {
   loading = false;
   EditProfile() {
     this.editProfile = !this.editProfile;
-    // console.log(this.editProfile);
   }
-
+  createPost() {
+    this.router.navigate(['/create'])
+  }
   isPostOwner(usernameID: any): boolean {
     const check = usernameID === this.auth.getCurrentUserUUID();
+    console.log(check, "check this pot ");
+
     return check;
   }
 
@@ -133,7 +137,7 @@ export class Profile {
     this.following.followUser(id).subscribe({
       next: (res) => {
         if (res.status) {
-          this.isFollowing = res.status;
+          this.isFollowing.set(res.status);
         }
         console.log(res);
       },
@@ -146,7 +150,7 @@ export class Profile {
     this.following.unfollow(id).subscribe({
       next: (res) => {
         if (res.status) {
-          this.isFollowing = res.status;
+          this.isFollowing.set(res.status);
         }
         console.log(res);
       },
@@ -157,13 +161,12 @@ export class Profile {
   }
 
   toggleFollow(userId: string) {
-    if (this.isFollowing) {
+    if (this.isFollowing()) {
       this.Unfollow(userId);
     } else {
       // this.followUser(userId);
     }
-    // Toggle the state
-    this.isFollowing = !this.isFollowing;
+    this.isFollowing.set(!this.isFollowing());
   }
   toggleLikePost(postId: string, post: PostResponse) {
     this.like.toggleLikePost(postId, post);

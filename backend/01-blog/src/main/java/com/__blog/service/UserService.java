@@ -145,22 +145,22 @@ public class UserService {
             return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
         }
         User existingUser = user.get();
-        if (request.getEmail() != null) {
+        if (request.getEmail() != null &&  !request.getEmail().isEmpty()) {
             existingUser.setEmail(request.getEmail());
         }
-        if (request.getUsername() != null) {
+        if (request.getUsername() != null && !request.getUsername().isEmpty()) {
             existingUser.setUsername(request.getUsername());
         }
 
-        if (request.getFirstname() != null) {
+        if (request.getFirstname() != null && !request.getFirstname().isEmpty()) {
             existingUser.setFirstname(request.getFirstname());
         }
 
-        if (request.getLastname() != null) {
+        if (request.getLastname() != null && !request.getLastname().isEmpty()) {
             existingUser.setLastname(request.getLastname());
         }
 
-        if (request.getAbout() != null) {
+        if (request.getAbout() != null && !request.getAbout().isEmpty()) {
              existingUser.setAbout(request.getAbout());
         }
         if (files != null) {
