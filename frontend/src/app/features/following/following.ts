@@ -109,8 +109,7 @@ export class Following {
   }
   follow(id: string) {
     this.followingLogic.follow(id)
-    // this.notifLogique.connect();
-  }
+   }
   Unfollow(id: string) {
     this.followingLogic.Unfollow(id);
   }

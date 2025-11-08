@@ -20,8 +20,6 @@ export class FollowingLogiqueService {
   private totalElementsSubject = new BehaviorSubject<any>({});
   private pagesSubject = new BehaviorSubject<any>({});
 
-
-
   explore$ = this.exploreSubject.asObservable();
   following$ = this.followingSubject.asObservable();
   followers$ = this.followersSubject.asObservable();
@@ -29,20 +27,12 @@ export class FollowingLogiqueService {
   countFollowers$ = this.countFollowersSubject.asObservable();
   pages$ = this.pagesSubject.asObservable();
   totalElementsSubject$ = this.totalElementsSubject.asObservable();
-
-  // loadingData(page: number, size: number) {
-  //   this.loadingExplore(0, 5);
-  //   this.loadingFollowers(0, 5);
-  //   this.loadingFollowing(page, 5)
-  // }
-
   loadingFollowing(page: number, size: number) {
     this.users.following(page, size).subscribe({
       next: respnse => {
         console.log(respnse, "following ");
         const currentFollowing = this.followingSubject.value;
         this.followingSubject.next([...currentFollowing, ...respnse.data.content])
-
         this.countFollowingSubject.next(respnse.data.totalElements)
 
  
@@ -113,11 +103,14 @@ export class FollowingLogiqueService {
       next: response => {
         if (response.status === true) {
           const currentFollowing = this.followingSubject.value;
+          // console.log(currentFollowing,"currentFollowing **** ");
+          
           this.followingSubject.next([userToFollow, ...currentFollowing])
           const updateExplore = [...currentExpler]
           updateExplore.splice(userindex, 1)
           this.exploreSubject.next(updateExplore)
-          this.countFollowingSubject.next(currentFollowing.length + 1);
+          const totalFollowing = this.countFollowingSubject.value; //
+          this.countFollowingSubject.next(totalFollowing + 1);
         }
       },
       error: error => {
@@ -147,8 +140,9 @@ export class FollowingLogiqueService {
 
           const currentExpler = this.exploreSubject.value;
           this.exploreSubject.next([...currentExpler, userUnFollow])
+          const totalFollowing = this.countFollowingSubject.value; //
 
-          this.countFollowingSubject.next(updateFollowing.length)
+          this.countFollowingSubject.next(totalFollowing-1)
         }
         console.log(response, "followUser**");
       },
