@@ -66,7 +66,9 @@ export class EditProfile {
   remove() {
     this.coverImageSrc.set("")
   }
-  addExperience() { }
+  countChar(): number {
+    return this.about().length;
+  }
   removeExperience() { }
   saveProfile() {
     this.newFiles = this.uploadImage.uploadfiles();
