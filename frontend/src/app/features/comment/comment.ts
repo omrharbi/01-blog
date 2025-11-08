@@ -31,7 +31,8 @@ export class Comment {
     private route: ActivatedRoute,
     private jwtService: AuthService,
     private global: Global,
-    private servicePopUp: SharedServicePopUp
+    private servicePopUp: SharedServicePopUp,
+    private auth: AuthService
   ) { }
   commentResponse?: CommentResponse;
   getAllComment: CommentResponse[] = [];
@@ -47,8 +48,12 @@ export class Comment {
   isEdit = false
   idComment = "";
   // isOwner: boolean = false;
+  isAuthenticated: boolean = false;
+
   showPopUp: { [commentId: string]: boolean } = {};
   ngOnInit() {
+    this.isAuthenticated = this.auth.isLoggedIn();
+
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'comment') {
         this.idComment = event.data.id

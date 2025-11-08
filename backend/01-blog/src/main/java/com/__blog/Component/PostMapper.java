@@ -2,6 +2,7 @@ package com.__blog.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,10 +23,13 @@ import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
 import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
+import com.__blog.model.entity.User;
 import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
 import com.__blog.repository.TagRepository;
 import com.__blog.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Component
 
@@ -48,7 +52,7 @@ public class PostMapper {
 
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
-        boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
+        // boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
         int countLike = postRepository.countBylikesPostId(post.getId());
         List<MediaResponse> mediaResponses = new ArrayList<>();
@@ -72,7 +76,7 @@ public class PostMapper {
                 .avatarUser(post.getUser().getAvatarUrl())
                 .username(post.getUser().getUsername())
                 .tags(tags)
-                .isLiked(isLiked)
+                // .isLiked(isLiked)
                 .commentCount(countComment)
                 .likesCount(countLike)
                 .firstname(post.getUser().getFirstname())
@@ -116,36 +120,42 @@ public class PostMapper {
         return postResponse;
     }
 
+    @Transactional
     public Page<PostResponse> ConvertPostResponse(Page<PostResponse> basicPosts, UUID userId) {
         List<UUID> postIds = basicPosts.getContent().stream()
                 .map(PostResponse::getId)
                 .collect(Collectors.toList());
         Map<UUID, Long> likeCounts = getLikeCountsMap(postIds);
         Map<UUID, Long> commentCounts = getCommentCountsMap(postIds);
-        Set<UUID> userLikedPostIds = postRepository.findUserLikedPostIds(postIds, userId);
+        // Set<UUID> userLikedPostIds = userId != null
+        //         ? postRepository.findUserLikedPostIds(postIds, userId)
+        //         : new HashSet<>();
         Map<UUID, List<MediaResponse>> mediaMap = getMediaMap(postIds);
         Map<UUID, List<TagsResponse>> tagsMap = getTagsMap(postIds);
-        var user = userRepository.findById(userId);
 
-        Page<PostResponse> enrichedPosts = basicPosts.map(post -> PostResponse.builder()
-                .id(post.getId())
-                .uuid_user(post.getUuid_user())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .createdAt(post.getCreatedAt())
-                .firstImage(post.getFirstImage())
-                // User info already fetched
-                .avatarUser(user.get().getAvatarUrl())
-                .username(post.getUsername())
-                .firstname(post.getFirstname())
-                .lastname(post.getLastname())
-                // Enriched data
-                .tags(tagsMap.getOrDefault(post.getId(), Collections.emptyList()))
-                .medias(mediaMap.getOrDefault(post.getId(), Collections.emptyList()))
-                .isLiked(userLikedPostIds.contains(post.getId()))
-                .likesCount(likeCounts.getOrDefault(post.getId(), 0L).intValue())
-                .commentCount(commentCounts.getOrDefault(post.getId(), 0L).intValue())
-                .build());
+        Page<PostResponse> enrichedPosts = basicPosts.map(post -> {
+            var post_avatar = postRepository.findById(post.getId());
+            System.err.println("****"+post_avatar.get().getUser().getAvatarUrl());
+          return  PostResponse.builder()
+                    .id(post.getId())
+                    .uuid_user(post.getUuid_user())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .createdAt(post.getCreatedAt())
+                    .firstImage(post.getFirstImage())
+                    .avatarUser(post_avatar.get().getUser().getAvatarUrl())
+                    .username(post.getUsername())
+                    .firstname(post.getFirstname())
+                    .lastname(post.getLastname())
+                    // Enriched data
+                    .tags(tagsMap.getOrDefault(post.getId(), Collections.emptyList()))
+                    .medias(mediaMap.getOrDefault(post.getId(), Collections.emptyList()))
+                    // .isLiked(userLikedPostIds.contains(post.getId()))
+                    .likesCount(likeCounts.getOrDefault(post.getId(), 0L).intValue())
+                    .commentCount(commentCounts.getOrDefault(post.getId(), 0L).intValue())
+                    .build();
+             
+        });
 
         return enrichedPosts;
     }

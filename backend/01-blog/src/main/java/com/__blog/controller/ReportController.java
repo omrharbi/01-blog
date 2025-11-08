@@ -2,7 +2,6 @@ package com.__blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +35,14 @@ public class ReportController {
         return reportService.createReportUser(userPrincipal, reportRequest);
     }
 
-    @GetMapping("/get-posts-all-report")
+    @GetMapping("/admin/get-posts-all-report")
     public ResponseEntity<?> getAllRepostPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return reportService.getAllReportPost(page, size);
     }
 
-    @GetMapping("/get-user-all-report")
+    @GetMapping("/admin/get-user-all-report")
     public ResponseEntity<?> getAllRepostUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

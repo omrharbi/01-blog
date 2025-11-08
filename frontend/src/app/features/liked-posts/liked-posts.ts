@@ -5,6 +5,7 @@ import { Materaile } from '../../modules/materaile-module';
 import { PopUp } from '../pop-up/pop-up';
 import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
 import { apiUrl } from '../../core/constant/constante';
+import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 
 @Component({
   selector: 'app-liked-posts',
@@ -13,15 +14,19 @@ import { apiUrl } from '../../core/constant/constante';
   styleUrl: './liked-posts.scss'
 })
 export class LikedPosts {
-  constructor(private likedPost: LikesService, private like: likesServiceLogique) { }
+  constructor(private likedPost: LikesService, private like: likesServiceLogique, private auth: AuthService
+  ) { }
   posts: PostResponse[] = [];
   apiUrl = apiUrl
   countPost = 0;
+  isAuthenticated = false;
   ngOnInit() {
+    this.isAuthenticated = this.auth.isLoggedIn();
+    if (!this.isAuthenticated) return;
     this.likedPost.LikedPost().subscribe({
       next: response => {
         this.posts = response.data;
-        this.countPost=this.posts.length
+        this.countPost = this.posts.length
         console.log(this.posts);
 
       },

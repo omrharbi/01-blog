@@ -29,8 +29,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDeService userDetailsService;
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+        // List of public endpoints that don't require authentication
+
+        String requestPublic = request.getRequestURI();
+        if (isPublicEndpoint(requestPublic)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        // Only validate token if it's a protected endpoint
+
         try {
 
             String header = request.getHeader("Authorization");
@@ -56,7 +66,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 sendErrorResponse(response, "Invalid JWT token. Please login again.");
                 return;
             }
-            if (  sc.getAuthentication() == null) {
+            if (sc.getAuthentication() == null) {
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
@@ -77,7 +87,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 
-   
+    private boolean isPublicEndpoint(String requestPath) {
+        return "/auth/login".equals(requestPath) ||
+                "/auth/register".equals(requestPath) ||
+                "/api/posts/getallPost".equals(requestPath) ||
+                requestPath.startsWith("/api/posts/getPostById/")||///
+                requestPath.startsWith("/api/comment/getCommentsWithPost")||///
+                "/uploads/**".equals(requestPath) ||
+                "/ws/**".equals(requestPath);
+    }
+
     private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
         response.setContentType("application/json");

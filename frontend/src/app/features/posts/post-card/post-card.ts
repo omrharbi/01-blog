@@ -49,8 +49,11 @@ export class PostCard {
   };
   @Output() editPost = new EventEmitter<any>();
   show = false;
+  isAuthenticated: boolean = false;
 
   ngOnInit() {
+    this.isAuthenticated = this.auth.isLoggedIn();
+
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'post') {
         this.onEditPost(event.data);

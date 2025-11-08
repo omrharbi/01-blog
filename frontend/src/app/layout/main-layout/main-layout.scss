@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 .contain {
-  height: 100vh;
+  // height: 100vh;
   .flex.flex-1.header-container {
     width:calc(100% - 16rem);
     background: var(--background-color);
@@ -17,7 +17,7 @@
 
 
 .contain {
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   z-index: 1;
 }

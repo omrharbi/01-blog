@@ -19,6 +19,7 @@ import com.__blog.model.dto.request.CommentRequest;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.CommentService;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 
 @RestController
@@ -38,8 +39,10 @@ public class CommentController {
     }
 
     @GetMapping("/getCommentsWithPost/{postId}")
-    public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") UUID postId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return commentService.getCommentWithPost(postId, userPrincipal);
+    public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") UUID postId, @AuthenticationPrincipal @Nullable UserPrincipal userPrincipal) {
+            UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
+        
+        return commentService.getCommentWithPost(postId, userId);
     }
 
     @PutMapping("editComment/{idComment}")

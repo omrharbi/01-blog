@@ -23,7 +23,8 @@ public class ReportMapper {
         }
 
         return ReportResponse.builder()
-                .postId(report.getId()) // report ID
+
+                .postId(report.getPost().getId()) // report ID
                 .reportId(report.getReporter().getId()) // report ID
                 .reportedContent(reportedContent) // post title / username
                 .reportedUser(report.getReportedUser() != null ? report.getReportedUser().getUsername() : null)

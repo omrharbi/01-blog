@@ -46,11 +46,11 @@ export class Home {
   totalPages = 0;
   loading = false;
   ngOnInit() {
-
+    this.loadingPosts()
 
     this.isAuthenticated = this.auth.isLoggedIn();
     if (this.isAuthenticated) {
-      this.loadingPosts()
+
       this.postDatashard.newpost$.subscribe(post => {
         if (post) {
           this.updatePostInList(post);
@@ -72,7 +72,6 @@ export class Home {
           // this.isNotificated = event.data;
         }
       });
-
       this.tranding.TrendingTag().subscribe({
         next: repose => {
           this.tags = repose;
@@ -83,6 +82,9 @@ export class Home {
 
         }
       })
+    } else {
+      console.log("you need login ");
+
     }
   }
   loadingPosts() {
@@ -91,7 +93,7 @@ export class Home {
     this.postservice.getAllPost(0, this.pageSize).subscribe(response => {
       if (response.data && response.data.content) {
         console.log(response);
-        
+
         this.posts = response.data.content;
         this.currentPage = response.data.number;
         this.totalPages = response.data.totalPages;

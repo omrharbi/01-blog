@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportResponse {
-
+    
     private UUID reportId;          // the report ID
     private String reportedContent; // post title / comment snippet / username
     private String reportedUser;    // username of the reported user

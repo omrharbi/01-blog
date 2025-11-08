@@ -87,11 +87,11 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<CommentResponse>>> getCommentWithPost(UUID postId, UserPrincipal userPrincipal) {
+    public ResponseEntity<ApiResponse<List<CommentResponse>>> getCommentWithPost(UUID postId, UUID userPrincipal) {
         try {
-            if (userPrincipal == null) {
-                return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
-            }
+            // if (userPrincipal == null) {
+            //     return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            // }
 
             // Fetch all comments for a given post, ordered by creation date descending
             List<Comment> allCommentsByPost = commentRespository.findByPostIdOrderByCreateAtDesc(postId);
@@ -104,7 +104,7 @@ public class CommentService {
             // Convert each Comment entity to CommentResponse DTO
             List<CommentResponse> commentResponses = new ArrayList<>();
             for (Comment comment : allCommentsByPost) {
-                CommentResponse commentResponse = commentMapper.convertToResponseComment(comment, userPrincipal.getId());
+                CommentResponse commentResponse = commentMapper.convertToResponseComment(comment, userPrincipal);
                 commentResponses.add(commentResponse);
             }
 

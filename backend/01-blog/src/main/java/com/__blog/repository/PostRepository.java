@@ -44,7 +44,6 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
                 (SELECT MIN(m2.filePath) FROM Media m2 WHERE m2.post.id = p.id),
                 u.firstname,
                 u.lastname,
-                u.avatar,
                 u.username
             )
             FROM Post p

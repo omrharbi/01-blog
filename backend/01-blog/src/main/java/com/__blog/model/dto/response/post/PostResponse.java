@@ -42,8 +42,7 @@ public class PostResponse {
             String firstImage,
             String firstname,
             String lastname,
-            String avatarUser,
-            String username) {
+             String username) {
         this.id = id;
         this.uuid_user = uuid_user;
         this.title = title;
@@ -52,8 +51,7 @@ public class PostResponse {
         this.firstImage = firstImage;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.avatarUser = avatarUser;
-        this.username = username;
+         this.username = username;
     }
 
 }

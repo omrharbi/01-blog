@@ -146,11 +146,11 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(UUID postId, UserPrincipal user) {
-        if (user == null) {
-            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
-        }
-        UUID userId = user.getId();
+    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(UUID postId, UUID userId) {
+        // if (user == null) {
+        //     return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        // }
+        // UUID userId = user.getId();
         Optional<Post> postOptional = postRepository.findByIdWithMedias(postId);
 
         if (postOptional.isPresent()) {
@@ -192,11 +192,10 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPosts(UserPrincipal user, int page, int size) {
-        if (user == null) {
-            return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
-        }
-        UUID userId = user.getId();
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPosts(UUID userId, int page, int size) {
+        // if (user == null) {
+        //     return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+        // }
         Pageable pageable = PageRequest.of(page, size);
         Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(pageable);
         if (findPostResponses.isEmpty()) {

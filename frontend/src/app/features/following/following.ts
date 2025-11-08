@@ -7,6 +7,7 @@ import { use } from 'marked';
 import { FollowingLogiqueService } from '../../core/service/serivecLogique/following/following-logique-service';
 import { Subscription } from 'rxjs';
 import { NotificationsServiceLogique } from '../../core/service/serivecLogique/notifications/notifications-service-logique';
+import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
 
 @Component({
   selector: 'app-following',
@@ -18,7 +19,9 @@ export class Following {
 
   constructor(private users: FollowingService,
     private notifLogique: NotificationsServiceLogique,
-    private followingLogic: FollowingLogiqueService
+    private followingLogic: FollowingLogiqueService,
+    private auth: AuthService
+
   ) { }
   private subscriptions = new Subscription();
   following: UserProfile[] = []
@@ -27,12 +30,15 @@ export class Following {
   apiUrl = apiUrl;
   countFollowing = 0;
   countFollowers = 0;
+  isAuthenticated = false;
   ngOnInit() {
+    this.isAuthenticated = this.auth.isLoggedIn();
+    if (!this.isAuthenticated) return;
     this.followingLogic.loadingData();
     this.subscriptions.add(
       this.followingLogic.following$.subscribe(following => {
         // console.log(following, "following");
-        
+
         this.following = following;
       })
     );
@@ -48,7 +54,7 @@ export class Following {
     this.subscriptions.add(
       this.followingLogic.explore$.subscribe(explore => {
         // console.log(explore,"explore");
-        
+
         this.explore = explore;
       })
     );

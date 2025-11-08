@@ -52,7 +52,9 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
 
-                            <button [class.liked]="post.liked"
+                            <button 
+                            [disabled]="!isAuthenticated"
+                            [class.liked]="post.liked"
                                 [class.not-liked]="!(post.liked)" (click)="toggleLikePost(post.id, post)"
                                 class="btn btn-link text-decoration-none p-0 d-flex align-items-center gap-2 like-btn">
 
@@ -69,9 +71,12 @@
                                 </span>
                             </button>
                             <!-- href="/post/1#comments" -->
-                            <a class="btn btn-link text-muted text-decoration-none p-0 d-flex align-items-center gap-2"
+
+                            <a  class="btn btn-link text-muted text-decoration-none p-0 d-flex align-items-center gap-2"
                                 [queryParams]="{ scrollTo: 'comments' }"
                                 routerLink="/comments/{{post.id}}"
+                               [class.disabled]="!isAuthenticated"
+
  
                                 >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

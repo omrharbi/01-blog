@@ -23,6 +23,7 @@ import com.__blog.security.UserPrincipal;
 import com.__blog.service.posts.PostService;
 import com.__blog.util.ApiResponse;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 
 @RestController
@@ -46,17 +47,18 @@ public class PostController {
     }
 
     @GetMapping("/getallPost")
-    public ResponseEntity<?> getPosts(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<?> getPosts(@AuthenticationPrincipal @Nullable UserPrincipal userPrincipal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+        UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
 
-        return postservice.getPosts(userPrincipal, page, size);
+        return postservice.getPosts(userId, page, size);
 
     }
 
     @GetMapping("/getPostById/{id}")
-    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(@PathVariable UUID id,
-            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(@AuthenticationPrincipal @Nullable 
+    UserPrincipal userPrincipal ,@PathVariable UUID id) {
 
         try {
             if (id.equals(new UUID(0, 0))) {
@@ -65,7 +67,10 @@ public class PostController {
                         .error("Invalid post ID " + id)
                         .build());
             }
-            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userPrincipal);
+            UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
+
+            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id,
+                    userId);
             ApiResponse<PostResponseWithMedia> postBody = getPostResponse.getBody();
 
             if (postBody == null || postBody.getData() == null) {

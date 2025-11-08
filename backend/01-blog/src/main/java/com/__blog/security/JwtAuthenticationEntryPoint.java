@@ -14,14 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
- 
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 public class JwtAuthenticationEntryPoint {
-    //@Autowired
-    //private UserDeService userDeService;
+    // @Autowired
+    // private UserDeService userDeService;
 
     @Autowired
     private JwtAuthenticationFilter filer;
@@ -36,30 +35,31 @@ public class JwtAuthenticationEntryPoint {
                 .cors(cors -> {
                 })
                 .exceptionHandling(ex -> ex
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"error\": \"You do not have permission to access this resource.\"}");
-                }).authenticationEntryPoint((request, response, authException) -> {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"You must be logged in to access this resource.\"}");
-        })
-                )
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/json");
+                            response.getWriter()
+                                    .write("{\"error\": \"You do not have permission to access this resource.\"}");
+                        }).authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter()
+                                    .write("{\"error\": \"You must be logged in to access this resource.\"}");
+                        }))
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/report/get-all-report").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/uploads/**").permitAll()
-                .requestMatchers("/ws/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/posts/getallPost").permitAll()
-                .requestMatchers("/auth/login", "/auth/register").permitAll()
-                .requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
-                .anyRequest().authenticated()
-                )
+                        .requestMatchers(HttpMethod.GET, "/api/posts/getallPost").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/getPostById/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/comment/**").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/report/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(filer, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -67,21 +67,23 @@ public class JwtAuthenticationEntryPoint {
 
     // @Bean
     // public CorsConfigurationSource corsConfigurationSource() {
-    //     CorsConfiguration configuration = new CorsConfiguration();
-    //     configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-    //     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    //     configuration.setAllowedHeaders(Arrays.asList("*"));
-    //     configuration.setAllowCredentials(true);
-    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //     source.registerCorsConfiguration("/**", configuration);
-    //     return source;
+    // CorsConfiguration configuration = new CorsConfiguration();
+    // configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+    // configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE",
+    // "OPTIONS"));
+    // configuration.setAllowedHeaders(Arrays.asList("*"));
+    // configuration.setAllowCredentials(true);
+    // UrlBasedCorsConfigurationSource source = new
+    // UrlBasedCorsConfigurationSource();
+    // source.registerCorsConfiguration("/**", configuration);
+    // return source;
     // }
     // @Bean
     // public AuthenticationProvider authenticationProvider() {
-    //     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    //     provider.setPasswordEncoder(passwordEncoder());
-    //     provider.setUserDetailsService(userDeService);
-    //     return provider;
+    // DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    // provider.setPasswordEncoder(passwordEncoder());
+    // provider.setUserDetailsService(userDeService);
+    // return provider;
     // }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

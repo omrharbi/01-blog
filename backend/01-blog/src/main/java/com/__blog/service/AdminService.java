@@ -34,6 +34,7 @@ import jakarta.transaction.Transactional;
 import lombok.NonNull;
 
 @Service
+@Transactional
 public class AdminService {
 
     // Add authentication-related methods here
@@ -113,43 +114,51 @@ public class AdminService {
     @Transactional
     public ResponseEntity<ApiResponse<UserResponseToAdmin>> banUser(UserPrincipal userPrincipal, UUID userId,
             int days) {
-        if (userPrincipal == null) {
-            return ApiResponseUtil.error(
-                    "❌ You are not authorized to ban this user.",
-                    HttpStatus.UNAUTHORIZED);
-        }
-        User admin = userPrincipal.getUser();
-        var user = repouser.findById(userId);
-        var reported = reportRepository.findByReportedUser_Id(userId);
-        if (user.isPresent() && reported.isPresent()) {
-            boolean wasHidden = user.get().isHidden();
 
-            String message;
-            if (wasHidden) {
-                reported.get().setStatus(false);
-                user.get().setHidden(false);
-                message = user.get().getUsername() + ", your Account has been unhidden.";
-            } else {
-                user.get().setHidden(true);
-                reported.get().setStatus(true);
-                message = user.get().getUsername() + ", your Account has been banned.";
+        try {
+            if (userPrincipal == null) {
+                return ApiResponseUtil.error(
+                        "❌ You are not authorized to ban this user.",
+                        HttpStatus.UNAUTHORIZED);
             }
-            user.get().setHiddenUntil(LocalDateTime.now().plusDays(days));
-            var userResponse = repouser.save(user.get());
-            var convertToResponse = userMapper.ConvertToResponseUserAdmin(userResponse);
+            User admin = userPrincipal.getUser();
+            var user = repouser.findById(userId);
+            var reported = reportRepository.findByReportedUser_Id(userId);
+            if (user.isPresent() && reported.isPresent()) {
+                boolean wasHidden = user.get().isHidden();
 
-            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
-                    .type(Notifications.USER_BANNED)
-                    .triggerUserId(admin.getId())
-                    .receiverId(userId)
-                    .message(message)
-                    .build();
-            notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
-            String responseMessage = wasHidden ? "Account unhidden successfully" : "Account banned successfully";
+                String message;
+                if (wasHidden) {
+                    reported.get().setStatus(false);
+                    user.get().setHidden(false);
+                    message = user.get().getUsername() + ", your Account has been unhidden.";
+                } else {
+                    user.get().setHidden(true);
+                    reported.get().setStatus(true);
+                    message = user.get().getUsername() + ", your Account has been banned.";
+                    user.get().setHiddenUntil(LocalDateTime.now().plusDays(days));
+                }
+                var userResponse = repouser.save(user.get());
+                var convertToResponse = userMapper.ConvertToResponseUserAdmin(userResponse);
 
-            return ApiResponseUtil.success(convertToResponse, null, responseMessage);
+                NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                        .type(Notifications.USER_BANNED)
+                        .triggerUserId(admin.getId())
+                        .receiverId(userId)
+                        .message(message)
+                        .build();
+                notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
+                String responseMessage = wasHidden ? "Account unhidden successfully" : "Account banned successfully";
+
+                return ApiResponseUtil.success(convertToResponse, null, responseMessage);
+            }
+            return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Error " + e.getMessage(), HttpStatus.BAD_REQUEST);
+
         }
-        return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+
     }
 
     @Transactional
