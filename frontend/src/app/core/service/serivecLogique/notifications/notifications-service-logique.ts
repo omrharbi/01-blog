@@ -8,8 +8,11 @@ import { JwtService } from '../../JWT/jwt-service';
 import { Title } from '@angular/platform-browser';
 import { NotificationRequest, NotificationResponse } from '../../../models/Notification/Notification';
 import { ToastrService } from 'ngx-toastr';
-import { NotificationService } from '../../servicesAPIREST/Notifications/notification-service';
+import { NotificationServiceApi } from '../../servicesAPIREST/Notifications/notification-service';
 import { AuthService } from '../../servicesAPIREST/auth/auth-service';
+import { NotificationService } from '../../notificationAlert/NotificationService';
+// import { NotificationService  } from '../../../core/service/notificationAlert/NotificationService';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,8 +20,10 @@ export class NotificationsServiceLogique {
 
   constructor(private jwt: JwtService,
     private toasterService: ToastrService,
-    private notificationServices: NotificationService, private auth: AuthService) { }
-    
+    private notificationServices: NotificationServiceApi, private auth: AuthService,
+      private notificationAlert: NotificationService
+  ) { }
+
   private notificationsSubject = new BehaviorSubject<any>(null);
   notifications$ = this.notificationsSubject.asObservable();
 
@@ -110,7 +115,8 @@ export class NotificationsServiceLogique {
                     type: notifications.type,
                     senderUsername: notifications.senderUsername
                   }
-                  this.toasterService.info(notifications.message, notifications.type)
+                  this.getNotificationMessage(notifications.type, notifications.message)
+
                   this.addNotification(newNotification);
                   this.showBrowserNotification(newNotification);
                 }
@@ -128,24 +134,34 @@ export class NotificationsServiceLogique {
     }
   }
 
-  getNotificationMessage(type: string, message: string): string {
+  getNotificationMessage(type: string, message: string) {
     switch (type) {
       case "FOLLOW":
-        return message
-      case "NEW_POST":
-        return message
+        this.toasterService.info(message, type);
+        break
+      case "USER_BANNED":
+        this.notificationAlert.showError(message, true);
+
+        // this.toasterService.info(message, type);
+        break
       case "POST_LIKED":
-        return message
+        this.toasterService.info(message, type);
+        break
       case "POST_COMMENTED":
-        return message
+        this.toasterService.info(message, type);
+        break
       case "ADMIN_REPORT_POST":
-        return message
+        this.toasterService.info(message, type);
+        break
       case "ADMIN_REPORT_USER":
-        return message
+        this.toasterService.info(message, type);
+        break
       case "ADMIN_WARNING":
-        return message
+        this.toasterService.info(message, type);
+        break
       default:
-        return 'You have a new notification';
+        'You have a new notification';
+        break
     }
   }
   private showBrowserNotification(notification: NotificationResponse): void {

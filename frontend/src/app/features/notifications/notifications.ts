@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { NotificationRequest, NotificationResponse } from '../../core/models/Notification/Notification';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
-import { NotificationService } from '../../core/service/servicesAPIREST/Notifications/notification-service';
+import {  NotificationServiceApi } from '../../core/service/servicesAPIREST/Notifications/notification-service';
 
 @Component({
   selector: 'app-notifications',
@@ -16,7 +16,7 @@ import { NotificationService } from '../../core/service/servicesAPIREST/Notifica
 export class NotificationPopup {
   isOpen = false;
   notifications: NotificationResponse[] = []
-  constructor(private notifLogique: NotificationsServiceLogique, private auth: AuthService, private notificationService: NotificationService) { }
+  constructor(private notifLogique: NotificationsServiceLogique, private auth: AuthService, private notificationService: NotificationServiceApi) { }
   private subscriptions = new Subscription();
   unreadCount = 0;
   ngOnInit() {

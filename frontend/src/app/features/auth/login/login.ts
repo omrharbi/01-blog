@@ -8,7 +8,7 @@ import { PrettyDatePipe } from '../../../shared/pipes/pretty-date.pipe';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [Materaile, PrettyDatePipe],
+  imports: [Materaile],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })

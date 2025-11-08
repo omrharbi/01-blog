@@ -20,7 +20,7 @@ import { PopUpReport } from '../pop-up/pop-up-report/pop-up-report';
 
 @Component({
   selector: 'app-profile',
-  imports: [EditProfile, Materaile, TimeAgoPipe, PopUp,PopUpReport],
+  imports: [EditProfile, Materaile, TimeAgoPipe, PopUpReport],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })

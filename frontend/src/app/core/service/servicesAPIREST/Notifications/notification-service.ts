@@ -8,7 +8,7 @@ import { NotificationResponse } from '../../../models/Notification/Notification'
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
+export class NotificationServiceApi {
   constructor(private http: HttpClient) {
 
   }
