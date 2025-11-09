@@ -39,19 +39,19 @@ public class CommentController {
     }
 
     @GetMapping("/getCommentsWithPost/{postId}")
-    public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") UUID postId, @AuthenticationPrincipal @Nullable UserPrincipal userPrincipal) {
+    public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") String postId, @AuthenticationPrincipal @Nullable UserPrincipal userPrincipal) {
             UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
         
         return commentService.getCommentWithPost(postId, userId);
     }
 
     @PutMapping("editComment/{idComment}")
-    public ResponseEntity<?> editComment(@PathVariable("idComment") UUID idComment, @Valid @RequestBody CommentRequest commentRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<?> editComment(@PathVariable("idComment") String idComment, @Valid @RequestBody CommentRequest commentRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         return commentService.editComment(idComment, commentRequest, userPrincipal);
     }
 
     @DeleteMapping("delete/{idComment}")
-    public ResponseEntity<?> delete(@PathVariable("idComment") UUID idComment) {
+    public ResponseEntity<?> delete(@PathVariable("idComment") String idComment) {
         return commentService.deleteComment(idComment);
     }
 }

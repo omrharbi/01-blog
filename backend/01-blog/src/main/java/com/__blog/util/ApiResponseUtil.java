@@ -1,5 +1,7 @@
 package com.__blog.util;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,5 +23,14 @@ public class ApiResponseUtil {
                 .error(message)
                 .build();
         return ResponseEntity.status(stauts).body(response);
+    }
+
+    public static boolean isValidUUID(String uuid) {
+        try {
+            UUID.fromString(uuid);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }

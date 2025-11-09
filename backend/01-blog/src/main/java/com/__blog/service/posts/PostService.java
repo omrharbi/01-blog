@@ -81,8 +81,8 @@ public class PostService {
             });
         }
         Pageable unpaged = Pageable.unpaged();
-        Page<Subscription> followersPage = subscriptionRepository.findBySubscribedTo_Id( user.getId(), unpaged);
-        List<Subscription> followers = followersPage.getContent(); 
+        Page<Subscription> followersPage = subscriptionRepository.findBySubscribedTo_Id(user.getId(), unpaged);
+        List<Subscription> followers = followersPage.getContent();
         Post savedPost = postRepository.save(post);
         for (var follow : followers) {
             User receiver = follow.getSubscriberUser();
@@ -102,8 +102,14 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<PostResponse>> editPost(PostRequest postRequest, UUID id, UserPrincipal user) {
+    public ResponseEntity<ApiResponse<PostResponse>> editPost(PostRequest postRequest, String uuid,
+            UserPrincipal user) {
         try {
+            if (!ApiResponseUtil.isValidUUID(uuid)) {
+                return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
+            }
+            UUID id = UUID.fromString(uuid);
+
             if (user == null) {
                 return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
             }
@@ -146,12 +152,16 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(UUID postId, UUID userId) {
-        // if (user == null) {
-        // return ApiResponseUtil.error("Unauthorized: please login first",
-        // HttpStatus.UNAUTHORIZED);
-        // }
-        // UUID userId = user.getId();
+    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(String uuid, UUID userId) {
+
+        if (!ApiResponseUtil.isValidUUID(uuid)) {
+            return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
+        }
+        UUID postId = UUID.fromString(uuid);
+        if (postId.equals(new UUID(0, 0))) {
+            return ApiResponseUtil.error("Invalid post ID " + postId, HttpStatus.NOT_FOUND);
+        }
+
         Optional<Post> postOptional = postRepository.findByIdWithMedias(postId);
 
         if (postOptional.isPresent()) {
@@ -159,11 +169,13 @@ public class PostService {
             if (post.isHidden()) {
                 return ApiResponseUtil.error("this Post Is Hidan From Admin ", HttpStatus.BAD_REQUEST);
             }
+
             PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post, userId);
             return ApiResponseUtil.success(postResponse, null, ""); // token null si pas nécessaire
         } else {
             return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
         }
+
     }
 
     @Transactional
@@ -196,10 +208,7 @@ public class PostService {
     }
 
     public ResponseEntity<ApiResponse<Page<PostResponse>>> getPosts(UUID userId, int page, int size) {
-        // if (user == null) {
-        // return ApiResponseUtil.error("Unauthorized: please login first",
-        // HttpStatus.UNAUTHORIZED);
-        // }
+
         Pageable pageable = PageRequest.of(page, size);
         Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(pageable);
         if (findPostResponses.isEmpty()) {

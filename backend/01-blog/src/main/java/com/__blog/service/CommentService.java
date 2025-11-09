@@ -41,8 +41,10 @@ public class CommentService {
     private CommentMapper commentMapper;
     @Autowired
     NotificationService notificationService;
+
     @Transactional
-    public ResponseEntity<ApiResponse<CommentResponse>> addComment(UserPrincipal userPrincipal, CommentRequest request) {
+    public ResponseEntity<ApiResponse<CommentResponse>> addComment(UserPrincipal userPrincipal,
+            CommentRequest request) {
         try {
             if (userPrincipal == null) {
                 return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
@@ -60,8 +62,9 @@ public class CommentService {
             Comment comment = commentMapper.convertToEntityComment(request, post, user);
 
             // if (request.getParentCommentId() != null) {
-            //     Optional<Comment> parentCommentOpt = commentRespository.findById(request.getParentCommentId());
-            //     parentCommentOpt.ifPresent(comment::setParentComment);
+            // Optional<Comment> parentCommentOpt =
+            // commentRespository.findById(request.getParentCommentId());
+            // parentCommentOpt.ifPresent(comment::setParentComment);
             // }
             if (!user.equals(post.getUser())) {
                 NotificationRequest notificationRequest = NotificationRequest.builder()
@@ -87,12 +90,16 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<CommentResponse>>> getCommentWithPost(UUID postId, UUID userPrincipal) {
+    public ResponseEntity<ApiResponse<List<CommentResponse>>> getCommentWithPost(String uuid, UUID userPrincipal) {
         try {
             // if (userPrincipal == null) {
-            //     return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
+            // return ApiResponseUtil.error("Unauthorized: please login first",
+            // HttpStatus.UNAUTHORIZED);
             // }
-
+            if (!ApiResponseUtil.isValidUUID(uuid)) {
+                return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
+            }
+            UUID postId = UUID.fromString(uuid);
             // Fetch all comments for a given post, ordered by creation date descending
             List<Comment> allCommentsByPost = commentRespository.findByPostIdOrderByCreateAtDesc(postId);
 
@@ -117,8 +124,13 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<ApiResponse<CommentResponse>> editComment(UUID commentId, CommentRequest commentRequest, UserPrincipal user) {
+    public ResponseEntity<ApiResponse<CommentResponse>> editComment(String uuid, CommentRequest commentRequest,
+            UserPrincipal user) {
         try {
+            if (!ApiResponseUtil.isValidUUID(uuid)) {
+                return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
+            }
+            UUID commentId = UUID.fromString(uuid);
             if (user == null) {
                 return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
             }
@@ -144,8 +156,12 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<ApiResponse<Void>> deleteComment(UUID commentId) {
+    public ResponseEntity<ApiResponse<Void>> deleteComment(String uuid) {
         try {
+            if (!ApiResponseUtil.isValidUUID(uuid)) {
+                return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
+            }
+            UUID commentId = UUID.fromString(uuid);
             Optional<Comment> commentOpt = commentRespository.findById(commentId);
 
             if (commentOpt.isEmpty()) {

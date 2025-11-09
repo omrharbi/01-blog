@@ -41,7 +41,7 @@ public class PostController {
     }
 
     @PutMapping("/post/edit/{postid}")
-    public ResponseEntity<?> editPost(@PathVariable("postid") UUID postId, @RequestBody PostRequest postRequest,
+    public ResponseEntity<?> editPost(@PathVariable("postid") String postId, @RequestBody PostRequest postRequest,
             @AuthenticationPrincipal UserPrincipal userPrincipa) {
         return postservice.editPost(postRequest, postId, userPrincipa);
     }
@@ -57,20 +57,14 @@ public class PostController {
     }
 
     @GetMapping("/getPostById/{id}")
-    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(@AuthenticationPrincipal @Nullable 
-    UserPrincipal userPrincipal ,@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(
+            @AuthenticationPrincipal @Nullable UserPrincipal userPrincipal, @PathVariable String id) {
 
         try {
-            if (id.equals(new UUID(0, 0))) {
-                return ResponseEntity.badRequest().body(ApiResponse.<PostResponseWithMedia>builder()
-                        .status(false)
-                        .error("Invalid post ID " + id)
-                        .build());
-            }
+
             UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
 
-            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id,
-                    userId);
+            ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userId);
             ApiResponse<PostResponseWithMedia> postBody = getPostResponse.getBody();
 
             if (postBody == null || postBody.getData() == null) {
@@ -80,11 +74,7 @@ public class PostController {
                                 .error("Post not found with ID: " + id)
                                 .build());
             }
-            if (postBody.getData() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ApiResponse.<PostResponseWithMedia>builder().status(false)
-                                .error("Post not found with ID: " + id).build());
-            }
+
             return ResponseEntity.ok(postBody);
 
         } catch (Exception e) {

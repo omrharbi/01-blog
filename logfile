@@ -869,3 +869,5 @@
 2025-11-09 11:12:08.143 GMT [295644] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.005 s, total=0.615 s; sync files=6, longest=0.004 s, average=0.001 s; distance=18 kB, estimate=207 kB; lsn=0/B6EF2A0, redo lsn=0/B6EF248
 2025-11-09 11:17:07.243 GMT [295644] LOG:  checkpoint starting: time
 2025-11-09 11:17:07.956 GMT [295644] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.704 s, sync=0.002 s, total=0.714 s; sync files=6, longest=0.002 s, average=0.001 s; distance=22 kB, estimate=189 kB; lsn=0/B6F4B28, redo lsn=0/B6F4AD0
+2025-11-09 11:27:08.155 GMT [295644] LOG:  checkpoint starting: time
+2025-11-09 11:27:09.568 GMT [295644] LOG:  checkpoint complete: wrote 15 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.405 s, sync=0.002 s, total=1.414 s; sync files=10, longest=0.002 s, average=0.001 s; distance=51 kB, estimate=175 kB; lsn=0/B7018C0, redo lsn=0/B701868
