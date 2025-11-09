@@ -69,7 +69,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (sc.getAuthentication() == null) {
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
+                // userDetails.
+                if (!userDetailsService.isBanned(username)) {
+                    // System.err.println("user is band  *****************" + userDetailsService.isBanned(username));
+                    sendErrorResponse(response, String.format("banned: %s",
+                            userDetails.getUsername()));
+                    return;
+                }
                 if (jwtproProvider.isTokenValid(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
@@ -91,8 +97,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return "/auth/login".equals(requestPath) ||
                 "/auth/register".equals(requestPath) ||
                 "/api/posts/getallPost".equals(requestPath) ||
-                requestPath.startsWith("/api/posts/getPostById/")||///
-                requestPath.startsWith("/api/comment/getCommentsWithPost")||///
+                requestPath.startsWith("/api/posts/getPostById/") || ///
+                requestPath.startsWith("/api/comment/getCommentsWithPost") || ///
                 "/uploads/**".equals(requestPath) ||
                 "/ws/**".equals(requestPath);
     }

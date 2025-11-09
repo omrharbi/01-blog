@@ -135,7 +135,6 @@ public class ReportService {
             User reportedUser = user;
             report.setReporter(reporter.get());
             report.setReportedUser(reportedUser);
-
             reportRepository.save(report);
             return ApiResponseUtil.success(null, null, "Report User Success");
         }

@@ -23,11 +23,18 @@ public class UserDeService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
 
         Optional<User> user = userRepo.findByUsername(username);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             return new UserPrincipal(user.get());
-
         }
-        return  null;
+        return null;
+
+    }
+
+    @Transactional
+    public boolean isBanned(String username) {
+
+        Optional<User> user = userRepo.findByUsername(username);
+        return user.isPresent() && !user.get().isHidden();
 
     }
 

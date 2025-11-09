@@ -9,12 +9,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.__blog.model.entity.User;
+
 public class UserPrincipal implements UserDetails {
 
     private final User user;
+    // private final boolean status;
 
-    public UserPrincipal(User user) {
+    public UserPrincipal(User user  ) {
         this.user = user;
+        // this.status = status;
     }
 
     @Override
@@ -58,6 +61,11 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    
+    public boolean isBanned() {
+        return user.isHidden();
     }
 
 }

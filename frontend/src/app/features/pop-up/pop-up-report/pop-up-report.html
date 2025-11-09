@@ -1,4 +1,4 @@
-<div class="report-popup-overlay" *ngIf="showpPopUp" (click)="closePopup()">
+<div class="report-popup-overlay" *ngIf="showpPopUp()" (click)="closePopup()">
   <div class="report-popup-container" (click)="$event.stopPropagation()">
     <div class="popup-header">
       <h2>Report Post</h2>

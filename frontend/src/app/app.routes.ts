@@ -59,5 +59,5 @@ export const routes: Routes = [
   ,
   { path: 'error', component: ErrorPageComponent },
 
-  // { path: '**', redirectTo: '/error?status=404' },
+  { path: '**', redirectTo: '/error?status=404' },
 ];

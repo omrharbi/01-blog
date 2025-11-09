@@ -86,11 +86,10 @@ export class ErrorPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const statusCode = parseInt(params['status']) || 404;
-      // this.errorInfo = this.errorMessages[statusCode] || this.errorMessages[404];
-
+      this.errorInfo = this.errorMessages[statusCode] || this.errorMessages[404];
       // Only show notification once
       if (!this.notificationShown) {
-        // this.handleErrorStatus(statusCode);
+        this.handleErrorStatus(statusCode);
         this.notificationShown = true;
       }
     });
@@ -99,9 +98,6 @@ export class ErrorPageComponent implements OnInit {
   private handleErrorStatus(status: number): void {
     // Show notification ONLY when error page loads
     switch (status) {
-      case 401:
-        this.notificationAlert.showError('Your session has expired. Please log in again.', true);
-        break;
 
       case 403:
         this.notificationAlert.showError('Access forbidden. You don\'t have permission.', false);
@@ -127,6 +123,7 @@ export class ErrorPageComponent implements OnInit {
         break;
     }
   }
+
 
   handleAction(): void {
     // Clear notification flag when navigating away

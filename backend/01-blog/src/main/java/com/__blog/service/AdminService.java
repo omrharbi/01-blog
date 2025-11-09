@@ -1,7 +1,8 @@
 package com.__blog.service;
 
 import java.time.LocalDateTime;
- import java.util.UUID;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
+import com.__blog.model.entity.Report;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
 import com.__blog.model.enums.Roles;
@@ -118,37 +120,44 @@ public class AdminService {
                         HttpStatus.UNAUTHORIZED);
             }
             User admin = userPrincipal.getUser();
-            var user = repouser.findById(userId);
-            var reported = reportRepository.findByReportedUser_Id(userId);
-            if (user.isPresent() && reported.isPresent()) {
-                boolean wasHidden = user.get().isHidden();
+            var userOptional = repouser.findById(userId);
 
-                String message;
-                if (wasHidden) {
-                    reported.get().setStatus(false);
-                    user.get().setHidden(false);
-                    message = user.get().getUsername() + ", your Account has been unhidden.";
-                } else {
-                    user.get().setHidden(true);
-                    reported.get().setStatus(true);
-                    message = user.get().getUsername() + ", your Account has been banned.";
-                    user.get().setHiddenUntil(LocalDateTime.now().plusDays(days));
-                }
-                var userResponse = repouser.save(user.get());
-                var convertToResponse = userMapper.ConvertToResponseUserAdmin(userResponse);
-
-                NotificationRequest requestNotificationRequest = NotificationRequest.builder()
-                        .type(Notifications.USER_BANNED)
-                        .triggerUserId(admin.getId())
-                        .receiverId(userId)
-                        .message(message)
-                        .build();
-                notificationService.saveAndSendNotification(requestNotificationRequest, user.get(), admin);
-                String responseMessage = wasHidden ? "Account unhidden successfully" : "Account banned successfully";
-
-                return ApiResponseUtil.success(convertToResponse, null, responseMessage);
+            if (userOptional.isEmpty()) {
+                return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
             }
-            return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
+            User user = userOptional.get();
+            if (admin.getId().equals(user.getId())) {
+                return ApiResponseUtil.error("You Can Not Banne Your Account ", HttpStatus.BAD_REQUEST);
+            }
+
+            boolean wasHidden = user.isHidden();
+
+            String message;
+            if (wasHidden) {
+                Optional<Report> reportedOptional = reportRepository.findByReportedUser_Id(userId);
+                reportedOptional.ifPresent(report -> report.setStatus(false));
+                user.setHidden(false);
+                message = user.getUsername() + ", your Account has been unhidden.";
+            } else {
+                user.setHidden(true);
+                Optional<Report> reportedOptional = reportRepository.findByReportedUser_Id(userId);
+                reportedOptional.ifPresent(report -> report.setStatus(true));
+                message = user.getUsername() + ", your Account has been banned.";
+                user.setHiddenUntil(LocalDateTime.now().plusDays(days));
+            }
+            var userResponse = repouser.save(user);
+            var convertToResponse = userMapper.ConvertToResponseUserAdmin(userResponse);
+
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.USER_BANNED)
+                    .triggerUserId(admin.getId())
+                    .receiverId(userId)
+                    .message(message)
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, user, admin);
+            String responseMessage = wasHidden ? "Account unhidden successfully" : "Account banned successfully";
+
+            return ApiResponseUtil.success(convertToResponse, null, responseMessage);
 
         } catch (Exception e) {
             return ApiResponseUtil.error("Error " + e.getMessage(), HttpStatus.BAD_REQUEST);

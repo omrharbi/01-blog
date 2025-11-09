@@ -27,10 +27,11 @@ export class AdminServiceShared {
             next: response => {
                 this.updateUser.next(response.data)
                 this.updateUserReport.next({ reportedUserId: userId, status:response.data?.hidden });
- 
             },
             error: error => {
-                console.log(error, "error ");
+                const message=error?.error.error || "error "
+                this.notificationAlert.showErrorWithoutRedirect(message)
+                console.log(error?.error.error, "error ");
             }
         })
     }

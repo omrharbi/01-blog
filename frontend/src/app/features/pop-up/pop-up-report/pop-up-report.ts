@@ -38,7 +38,7 @@ export class PopUpReport {
   @Input() userProfile!: UserProfile;
   selectedReason: string = '';
   reportDetails: string = '';
-  @Input() showpPopUp = false;
+  @Input() showpPopUp =signal(false);
   reportReasons = [
     'SPAM',
     'HARASSMENT',
@@ -80,7 +80,7 @@ export class PopUpReport {
     if (this.selectedReason === 'OTHER' && !this.reportDetails?.trim()) {
       return;
     }
-    console.log(this.userProfile ? this.userProfile.id : null, "user ");
+    // console.log(this.userProfile ? this.userProfile.id : null, "user ");
 
     const report = {
       reasons: this.selectedReason,
@@ -129,7 +129,7 @@ export class PopUpReport {
   }
 
   closePopup() {
-    this.isVisible.set(false);
+    this.showpPopUp.set(false);
     this.selectedReason = '';
     this.reportDetails = '';
   }

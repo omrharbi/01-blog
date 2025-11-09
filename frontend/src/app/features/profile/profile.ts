@@ -68,15 +68,13 @@ export class Profile {
     this.editProfile = !this.editProfile;
   }
   report() {
-    this.show=!this.show
+    this.show = !this.show
   }
   createPost() {
     this.router.navigate(['/create'])
   }
   isPostOwner(usernameID: any): boolean {
     const check = usernameID === this.auth.getCurrentUserUUID();
-    console.log(check, "check this pot ");
-
     return check;
   }
 
@@ -104,8 +102,7 @@ export class Profile {
     })
     this.loadingPosts(username);
   }
-
-
+  
   loadingPosts(username: string) {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;

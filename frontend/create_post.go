@@ -30,11 +30,11 @@ type PostRequest struct {
 
 func main() {
 	apiURL := "http://localhost:9090/api/posts/create"
-	token := "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInV1aWQiOiI4ZGNkNGMyZS04ZWE2LTQyMzYtYTUyZS1mMDg3N2U1YjAxMWEiLCJzdWIiOiJqb2huZG9lIiwiaWF0IjoxNzYyNTQzNzU3LCJleHAiOjE3NjI1NDY3NTd9.nFsYl2TgpBfd9oEP1YotTxhvpD9nr9Sg4gAzHySjPlM"
+	token := "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInV1aWQiOiIyMTU4NDA1Mi1lNTZkLTQzZjAtYTUzYi0zYmYwY2M1OWE2YWUiLCJzdWIiOiJvbWFyMyIsImlhdCI6MTc2MjY3OTEzOCwiZXhwIjoxNzYyNzY1NTM4fQ._ic-ysA-0_PTq16JPbLOOHzi28asQR7_8X3nWJvzj-E"
 
 	client := &http.Client{}
 
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 3; i++ {
 		post := PostRequest{
 			HTMLContent: fmt.Sprintf("<p> omar 3 %d created by Go.</p>", i),
 			Title:       fmt.Sprintf("Generated Post #%d", i),

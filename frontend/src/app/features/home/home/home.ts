@@ -50,7 +50,6 @@ export class Home {
 
     this.isAuthenticated = this.auth.isLoggedIn();
     if (this.isAuthenticated) {
-
       this.postDatashard.newpost$.subscribe(post => {
         if (post) {
           this.updatePostInList(post);

@@ -22,14 +22,12 @@ export class Sidebar {
 
   ngOnInit() {
     this.username = this.auth.getCurrentUsername();
-    // this.username = this.auth.getCurrentUserRole();
     this.isAuthenticated = this.auth.isLoggedIn();
-    if (this.auth.hasRole('ADMIN')) {
-      this.IsAdmin = true;
-    }
-
     // this.isAuthenticated = this.auth.is();
     if (this.isAuthenticated) {
+      if (this.auth.hasRole('ADMIN')) {
+        this.IsAdmin = true;
+      }
       // this.followingLogic.loadingData(0, 5);
       this.subscription.add(
         this.followingLogic.explore$.subscribe((explose) => {

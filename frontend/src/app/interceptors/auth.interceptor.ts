@@ -41,8 +41,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error) => {
       const status = error.status;
 
-      // Prevent infinite loops - don't intercept errors on error page
-      const currentUrl = router.url;
+       const currentUrl = router.url;
       if (currentUrl.includes('/error')) {
         return throwError(() => error);
       }
@@ -53,10 +52,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           if (authService.isLoggedIn()) {
             authService.logout();
           }
-          // router.navigate(['/error'], {
-          //   queryParams: { status: 401 },
-          //   skipLocationChange: false
-          // });
+          router.navigate(['/error'], {
+            queryParams: { status: 401 },
+            skipLocationChange: false
+          });
+          // authService.logout();
           break;
 
         case 403:
@@ -71,17 +71,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           });
           break;
 
-        // case 400:
-        //   router.navigate(['/error'], {
-        //     queryParams: { status: 400 }
-        //   });
-        //   break;
+        case 400:
+          // router.navigate(['/error'], {
+          //   queryParams: { status: 400 }
+          // });
+          // 
+          break;
 
-        // case 500:
-        //   router.navigate(['/error'], {
-        //     queryParams: { status: 500 }
-        //   });
-        //   break;
+        case 500:
+          router.navigate(['/error'], {
+            queryParams: { status: 500 }
+          });
+          break;
 
         // case 503:
         //   router.navigate(['/error'], {

@@ -14,7 +14,11 @@ import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-ser
 })
 export class UsersManagement {
   showBanPopup = false;
-  constructor(private admin: AdminService) { }
+  currentUserId: string | null;
+  constructor(private admin: AdminService) {
+    this.currentUserId = this.adminAuth.getCurrentUserUUID();
+
+  }
   allUsers = signal<UserResponseInAdmin[]>([]);
   actionType = signal<ActionType>('ban')
   adminService = inject(AdminServiceShared);
@@ -27,9 +31,10 @@ export class UsersManagement {
   endIndex = computed(() =>
     Math.min(this.startIndex() + this.allUsers().length - 1, this.totalPages())
   );
-
+  isAdmin = signal(false);
   userId = signal<string>('')
   ngOnInit() {
+
     if (this.adminAuth.isLoggedIn() && this.adminAuth.hasRole("ADMIN")) {
       this.getAllUsers()
 
@@ -51,7 +56,6 @@ export class UsersManagement {
         }
       })
     } else {
-      console.log("you need login ");
 
     }
 
@@ -61,8 +65,10 @@ export class UsersManagement {
       next: (response: any) => {
         if (response.data && response.data.content) {
           console.log(response);
+          // if (response.data.content)
 
           this.allUsers.set(response.data.content);
+          // this.allUsers.update(user=>user.)
           // this.totalPages.set(response.data.totalElements);
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
