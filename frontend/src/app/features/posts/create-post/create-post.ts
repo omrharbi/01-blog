@@ -192,7 +192,7 @@ export class CreatePost {
   triggerFileInput() {
     this.imageInput.nativeElement.click();
   }
- 
+
 
   get previewHtml(): string {
     let text_content = this.preview.renderMarkdownWithMedia(this.content);
@@ -215,7 +215,9 @@ export class CreatePost {
 
   private removeImage(html: string): string {
     if (!html) return '';
-    return html.replace(/<img\b[^>]*>/gi, '');
+    html = html.replace(/<img\b[^>]*>/gi, '');
+    html = html.replace(/<video\b[^>]*>[\s\S]*?<\/video>/gi, '')
+    return html;
   }
 
   onImageSelected(event: Event) {
@@ -230,6 +232,7 @@ export class CreatePost {
     });
   }
 
+  // onVideoSelected()
   cancel() {
     this.clearAll()
     this.uploadImage.clearFiles()

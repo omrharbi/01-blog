@@ -41,7 +41,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
                 p.title,
                 p.content,
                 p.createdAt,
-                (SELECT MIN(m2.filePath) FROM Media m2 WHERE m2.post.id = p.id),
+                (SELECT m2.filePath FROM Media m2 WHERE m2.post.id = p.id ORDER BY m2.displayOrder ASC LIMIT 1),
                 u.firstname,
                 u.lastname,
                 u.username

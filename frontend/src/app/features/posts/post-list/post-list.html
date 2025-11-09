@@ -36,13 +36,13 @@
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle overflow-hidden" style="width: 48px; height: 48px;">
                                             <img class="w-100 h-100 object-fit-cover"
-                                                 [src]="(post.avatarUser?.startsWith('http')?post.avatarUser:apiUrl+post.avatarUser)"
-                                                
+                                                [src]="(post.avatarUser?.startsWith('http')?post.avatarUser:apiUrl+post.avatarUser)"
                                                 [alt]="'Image by ' + post.firstname + ' ' + post.lastname">
                                         </div>
                                         <div>
                                             <a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
-                                                [routerLink]="['/profile/'+post.username]">{{post.firstname}} {{post.lastname}}</a>
+                                                [routerLink]="['/profile/'+post.username]">{{post.firstname}}
+                                                {{post.lastname}}</a>
                                             <div class="small text-muted-foreground">{{post.createdAt |timeAgo }}</div>
                                         </div>
                                     </div>

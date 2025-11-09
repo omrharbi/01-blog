@@ -20,6 +20,7 @@ export class UploadImage {
   onImageSelected(event: Event, callback: (imgHTML: string) => void) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
+    console.log(file, "file ");
 
     if (!file) {
       console.log('No file selected');
@@ -27,15 +28,14 @@ export class UploadImage {
     }
 
     // Validate file type first
-    if (!file.type.startsWith('image/')) {
+    if (!file.type.startsWith('image/')  &&  !file.type.startsWith("video/")) {
       console.error('Selected file is not an image');
       this.uploadMessage = 'Please select a valid image file';
       return;
     }
-
     // Create file with random name
     const randomFileName = this.generateRandomFileName(file.name);
-    const fileWithRandomName = new File([file], randomFileName, { type: file.type }); 
+    const fileWithRandomName = new File([file], randomFileName, { type: file.type });
     this.fileUpload.push(fileWithRandomName);
 
     // Create media request for preview (use original file for createObjectURL)
@@ -50,7 +50,7 @@ export class UploadImage {
 
     // Set selected image and trigger callback
     this.selectedImageFile = file;
-    this.selectImage(callback);
+    this.selectImage(file.type, callback);
 
     // console.log('Total files ready for upload:', this.fileUpload.length);
   }
@@ -77,13 +77,25 @@ export class UploadImage {
     return `${timestamp}_${random}.${extension}`;
   }
 
-  selectImage(callback: (imgHTML: string) => void) {
+  selectImage(type: string, callback: (imgHTML: string) => void) {
     const file = this.selectedImageFile;
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = () => {
-      const imgHTML = `<img src="${reader.result}" class="imageMa">`;
+      let imgHTML = "";
+      if (type.startsWith("image/")) {
+        imgHTML = `<img src="${reader.result}" class="imageMa">`;
+      }
+
+      if (type.startsWith("video/")) {
+        imgHTML = `
+          <video controls class="videoMa">
+            <source src="${reader.result}" type="${type}">
+            Your browser does not support the video tag.
+          </video>
+        `;
+      }
       callback(imgHTML);
     };
     reader.readAsDataURL(file);
@@ -99,7 +111,7 @@ export class UploadImage {
   }
 
   replaceImage(html: string, post: PostResponse): string {
-    let index = 1; 
+    let index = 1;
     const media = post.medias ?? [];
 
     const processHtml = html.replace(

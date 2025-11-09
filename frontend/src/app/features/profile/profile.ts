@@ -53,7 +53,7 @@ export class Profile {
     createdAt: ""
   });
 
-  show = false;
+  show = signal(false);
 
   apiUrl = apiUrl;
   countPost = 0;
@@ -68,7 +68,7 @@ export class Profile {
     this.editProfile = !this.editProfile;
   }
   report() {
-    this.show = !this.show
+    this.show.set(!this.show)
   }
   createPost() {
     this.router.navigate(['/create'])
@@ -102,7 +102,7 @@ export class Profile {
     })
     this.loadingPosts(username);
   }
-  
+
   loadingPosts(username: string) {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;

@@ -37,6 +37,7 @@ export class PopUp {
   @Input() comment!: CommentResponse;
   selectedReason: string = '';
   reportDetails: string = '';
+  isVisible = signal(false)
 
   reportReasons = [
     'SPAM',
@@ -50,7 +51,6 @@ export class PopUp {
   ngOnInit() {
     this.isAuthenticated = this.auth.isAuthenticated();
   }
-  isVisible = signal(false)
   isEdit: boolean = false;
   @Output() editPost = new EventEmitter<any>();
   @Output() clickedInside = new EventEmitter<boolean>();
