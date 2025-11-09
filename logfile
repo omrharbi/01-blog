@@ -927,3 +927,7 @@
 	FROM posts p
 	JOIN users u ON u.id = p.user_id
 	ORDER BY p.created_at DESC LIMIT 100
+2025-11-09 15:12:27.088 GMT [446168] LOG:  checkpoint starting: time
+2025-11-09 15:12:56.565 GMT [446168] LOG:  checkpoint complete: wrote 295 buffers (1.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=29.466 s, sync=0.005 s, total=29.478 s; sync files=12, longest=0.005 s, average=0.001 s; distance=2561 kB, estimate=8962 kB; lsn=0/C79FF50, redo lsn=0/C79FEC0
+2025-11-09 15:17:27.663 GMT [446168] LOG:  checkpoint starting: time
+2025-11-09 15:17:28.079 GMT [446168] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.403 s, sync=0.006 s, total=0.417 s; sync files=5, longest=0.005 s, average=0.002 s; distance=16 kB, estimate=8067 kB; lsn=0/C7A3FA8, redo lsn=0/C7A3F50

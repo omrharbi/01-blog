@@ -38,7 +38,7 @@ export class PopUpReport {
   @Input() userProfile!: UserProfile;
   selectedReason: string = '';
   reportDetails: string = '';
-  @Input() showpPopUp =signal(false);
+  @Input() showpPopUp = false;
   reportReasons = [
     'SPAM',
     'HARASSMENT',
@@ -87,14 +87,15 @@ export class PopUpReport {
       details: this.selectedReason === 'OTHER' ? this.reportDetails : null,
       postReportId: this.post ? this.post.id : null,
       commentReportId: this.comment ? this.comment.id : null,
-      userReportId:this.userProfile ? this.userProfile.id : null,
+      userReportId: this.userProfile ? this.userProfile.id : null,
       timestamp: new Date()
     };
-    if (this.userProfile.id !== null) {
-       
+    if (this.userProfile !== undefined && this.userProfile.id !== null) {
+
       this.reporting.reportUser(report).subscribe({
         next: response => {
-          console.log(response, "response ");
+          console.log(response.message, "response message ");
+          this.notificationAlert.showSuccess(response.message || "Report could not be submitted", "Report Post");
 
         },
         error: error => {
@@ -107,12 +108,14 @@ export class PopUpReport {
 
         }
       })
-    }else{
+    } else {
 
       this.reporting.reportPosts(report).subscribe({
         next: response => {
-          console.log(response, "response ");
-  
+          console.log(response.message, "response ");
+          this.notificationAlert.showSuccess(response.message || "Report could not be submitted", "Report Post");
+
+
         },
         error: error => {
           const message =
@@ -121,7 +124,7 @@ export class PopUpReport {
             'Something went wrong. Please try again.'
           this.notificationAlert.showErrorWithoutRedirect(message);
           console.log(error);
-  
+
         }
       })
     }
@@ -129,9 +132,11 @@ export class PopUpReport {
   }
 
   closePopup() {
-    this.showpPopUp.set(false);
     this.selectedReason = '';
     this.reportDetails = '';
+    this.showpPopUp = false;
+    console.log("close ");
+
   }
 
   onOverlayClick(event: Event) {

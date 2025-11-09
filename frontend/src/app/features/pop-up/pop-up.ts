@@ -37,7 +37,7 @@ export class PopUp {
   @Input() comment!: CommentResponse;
   selectedReason: string = '';
   reportDetails: string = '';
-  isVisible = signal(false)
+  isVisible = false
 
   reportReasons = [
     'SPAM',
@@ -83,8 +83,8 @@ export class PopUp {
   }
 
   report() {
-    this.isVisible.set(true)
-    console.log(this.isVisible());
+    this.isVisible = true
+    console.log(this.isVisible);
   }
 
   onReasonChange() {
@@ -98,48 +98,5 @@ export class PopUp {
       word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     ).join(' ');
   }
-
-  submitReport() {
-    if (!this.selectedReason) return;
-
-    if (this.selectedReason === 'OTHER' && !this.reportDetails?.trim()) {
-      return;
-    }
-    console.log(this.post ? this.post.id : null, "posts ", this.comment ? this.comment.id : null ,"comment ");
-    
-    const report = {
-      reasons: this.selectedReason,
-      details: this.selectedReason === 'OTHER' ? this.reportDetails : null,
-      postReportId: this.post ? this.post.id : null,
-      commentReportId: this.comment ? this.comment.id : null,
-      timestamp: new Date()
-    };
-    this.reporting.reportPosts(report).subscribe({
-      next: response => {
-        console.log(response, "response ");
-
-      },
-      error: error => {
-        const message =
-          error?.error?.error ||
-          error?.error?.message ||
-          'Something went wrong. Please try again.'
-        this.notificationAlert.showErrorWithoutRedirect(message);
-        console.log(error);
-
-      }
-    })
-    this.closePopup();
-  }
-
-  closePopup() {
-    this.isVisible.set(false);
-    this.selectedReason = '';
-    this.reportDetails = '';
-  }
-
-  onOverlayClick(event: Event) {
-    this.closePopup();
-  }
-
+ 
 }
