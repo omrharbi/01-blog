@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+/home/omrharbi/01-blog/frontend/create_post.go
+/home/omrharbi/01-blog/frontend/register_users.go
+/home/omrharbi/01-blog/frontend/01blog_architecture.md

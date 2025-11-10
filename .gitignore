@@ -1,2 +1,3 @@
 backend/01-blog/src/main/resources/application.yaml
 node_modules
+/home/omrharbi/01-blog/docker-compose.yml
