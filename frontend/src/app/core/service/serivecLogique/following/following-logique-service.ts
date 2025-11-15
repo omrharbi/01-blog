@@ -25,6 +25,7 @@ export class FollowingLogiqueService {
   // count 
   private countFollowingSubject = new BehaviorSubject<number>(0);
   private countFollowersSubject = new BehaviorSubject<number>(0);
+  private countExploreSubject = new BehaviorSubject<number>(0);
 
 
   // Separate pagination for each list
@@ -43,6 +44,7 @@ export class FollowingLogiqueService {
   followers$ = this.followersSubject.asObservable();
   countFollowing$ = this.countFollowingSubject.asObservable();
   countFollowers$ = this.countFollowersSubject.asObservable();
+  countexplore$ = this.countExploreSubject.asObservable();
 
 
   // Separate pagination observables
@@ -53,14 +55,16 @@ export class FollowingLogiqueService {
 
 
   loadingFollowing(page: number, size: number) {
+    if (page === 0) {
+      this.followingSubject.next([]);
+    }
     this.loadingSubject.next(true);
     this.users.following(page, size).subscribe({
       next: response => {
         if (response.data.content) {
-          const currentFollowing = this.followingSubject.value;
+          const currentFollowing = page === 0 ? [] : this.followingSubject.value;
           this.followingSubject.next([...currentFollowing, ...response.data.content])
-          this.countFollowingSubject.next(response.data.totalElements);
-
+          this.countFollowingSubject.next(response.data.totalElements)
 
           this.followingPagesSubject.next({
             currentPage: response.data.number,
@@ -79,49 +83,52 @@ export class FollowingLogiqueService {
     })
   }
 
-  loadingFollowers(page: number, size: number) {
-    this.loadingSubject.next(true)
-    this.users.followers(page, size).subscribe({
-      next: respnse => {
-        if (respnse.data.content) {
+  // loadingFollowers(page: number, size: number) {
+  //   this.loadingSubject.next(true)
+  //   this.users.followers(page, size).subscribe({
+  //     next: respnse => {
+  //       if (respnse.data.content) {
 
-          const currentFollowers = this.followersSubject.value;
-          this.followersSubject.next([...currentFollowers, ...respnse.data.content]);
-          this.countFollowersSubject.next(respnse.data.totalElements)
+  //         const currentFollowers = this.followersSubject.value;
+  //         this.followersSubject.next([...currentFollowers, ...respnse.data.content]);
+  //         this.countFollowersSubject.next(respnse.data.totalElements)
 
-          this.followersPagesSubject.next({
-            currentPage: respnse.data.number,
-            totalPages: respnse.data.totalPages,
-            totalElements: respnse.data.totalElements,
-            totalDataResponse: respnse.data.content.length
-          })
-        } else {
-          this.loadingSubject.next(false);
-        }
-      },
-      error: error => {
-        this.loadingSubject.next(false);
-        console.log("Error loading following:", error);
-      }
-    })
-  }
+  //         this.followersPagesSubject.next({
+  //           currentPage: respnse.data.number,
+  //           totalPages: respnse.data.totalPages,
+  //           totalElements: respnse.data.totalElements,
+  //           totalDataResponse: respnse.data.content.length
+  //         })
+  //       } else {
+  //         this.loadingSubject.next(false);
+  //       }
+  //     },
+  //     error: error => {
+  //       this.loadingSubject.next(false);
+  //       console.log("Error loading following:", error);
+  //     }
+  //   })
+  // }
 
 
   loadingExplore(page: number, size: number) {
+    if (page === 0) {
+      this.exploreSubject.next([]);
+    }
     this.loadingSubject.next(true);
 
     this.users.explore(page, size).subscribe({
       next: response => {
         if (response.data.content) {
-          console.log(response);
+          console.log(response, "expl");
 
-          const currentExplore = this.exploreSubject.value;
+          const currentExplore = page === 0 ? [] : this.exploreSubject.value;
           const currentFollowing = this.followingSubject.value;
-          const newUsers = response.data.content.filter(newUser => {
-            const alreadyFollowing = currentFollowing.some(user => user.id === newUser.id);
-            const alreadyInExplore = currentExplore.some(user => user.id === newUser.id);
-            return !alreadyFollowing && !alreadyInExplore;
-          });
+          this.countExploreSubject.next(response.data.totalElements)
+
+          const newUsers = response.data.content.filter(newUser =>
+            !currentFollowing.some(user => user.id === newUser.id)
+          );
 
           this.exploreSubject.next([...currentExplore, ...newUsers]);
           this.explorePagesSubject.next({
@@ -160,11 +167,22 @@ export class FollowingLogiqueService {
             // Update following count
             const totalFollowing = this.countFollowingSubject.value;
             this.countFollowingSubject.next(totalFollowing + 1);
-
+            const currentFollowingPage = this.followingPagesSubject.value;
+            if (currentFollowingPage) {
+              this.followingPagesSubject.next({
+                ...currentFollowingPage,
+                totalElements: currentFollowingPage.totalElements + 1
+              });
+            }
           }
 
           const updatedExplore = currentExplore.filter(user => user.id !== id);
           this.exploreSubject.next(updatedExplore);
+
+          // Update explore count and pagination
+          const currentExploreCount = this.countExploreSubject.value;
+          this.countExploreSubject.next(Math.max(0, currentExploreCount - 1));
+
 
           // Update explore pagination to reflect removed item
           const currentExplorePage = this.explorePagesSubject.value;
@@ -174,7 +192,8 @@ export class FollowingLogiqueService {
               totalElements: Math.max(0, currentExplorePage.totalElements - 1)
             });
           }
-
+          // Update followers count for the user we followed
+          // this.updateFollowersCount(id, true);
           // Call success callback
           if (onSuccess) onSuccess();
         }
@@ -187,7 +206,6 @@ export class FollowingLogiqueService {
   }
 
 
-
   Unfollow(id: string) {
     const currentFollowing = this.followingSubject.value;
     const userIndex = currentFollowing.findIndex(user => user.id == id)
@@ -198,25 +216,48 @@ export class FollowingLogiqueService {
     this.users.unfollow(id).subscribe({
       next: response => {
         if (response.status === true) {
-
           // Remove from following list
-          const updateFollowing = currentFollowing.filter((_, index) => index !== userIndex)
+          const updatedFollowing = currentFollowing.filter(user => user.id !== id);
+          this.followingSubject.next(updatedFollowing);
 
-          this.followingSubject.next(updateFollowing);
+          // Update following count and pagination
+          const totalFollowing = this.countFollowingSubject.value;
+          this.countFollowingSubject.next(Math.max(0, totalFollowing - 1));
 
+          const currentFollowingPage = this.followingPagesSubject.value;
+          if (currentFollowingPage) {
+            this.followingPagesSubject.next({
+              ...currentFollowingPage,
+              totalElements: Math.max(0, currentFollowingPage.totalElements - 1)
+            });
+          }
+
+          // Add to explore list (only if not already there and not in current loaded pages)
           const currentExplore = this.exploreSubject.value;
-          this.exploreSubject.next([userToUnfollow, ...currentExplore]);
-          // Update counts
-          const totalFollowing = this.countFollowingSubject.value; //
-          this.countFollowingSubject.next(totalFollowing - 1)
+          const alreadyInExplore = currentExplore.some(user => user.id === id);
+          if (!alreadyInExplore) {
+            this.exploreSubject.next([userToUnfollow, ...currentExplore]);
+
+            // Update explore count and pagination
+            const currentExploreCount = this.countExploreSubject.value;
+            this.countExploreSubject.next(currentExploreCount + 1);
+
+            const currentExplorePage = this.explorePagesSubject.value;
+            if (currentExplorePage) {
+              this.explorePagesSubject.next({
+                ...currentExplorePage,
+                totalElements: currentExplorePage.totalElements + 1
+              });
+            }
+          }
         }
-        console.log(response, "followUser**");
       },
       error: error => {
         console.log("error", error);
-
       }
     })
   }
+
+
 
 }
