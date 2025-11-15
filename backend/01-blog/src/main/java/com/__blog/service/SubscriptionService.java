@@ -42,7 +42,7 @@ public class SubscriptionService {
     private UserMapper userMapper;
     @Autowired
     private NotificationService notificationService;
-
+    @Transactional
     public ResponseEntity<ApiResponse<Page<UserResponse>>> getUsersIFollow(UUID userId, int page, int size) {
         try {
             // Fetch subscriptions where the user is the subscriber
@@ -52,7 +52,7 @@ public class SubscriptionService {
             Page<User> usersFollowed = userRepository.findSubscribedUsers(userId, pageable);
             // Extract the users the current user follows
             Page<UserResponse> userResponses = usersFollowed.map(user -> {
-                Hibernate.initialize(user.getSkills());
+                // Hibernate.initialize(user.getSkills());
                 return userMapper.ConvertResponse(user, userId);
             });
 

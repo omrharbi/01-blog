@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.__blog.service.TagsService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/trand")
 public class TrandingController {
 
     @Autowired

@@ -32,32 +32,37 @@ export class Following {
   countFollowers = 0;
   isAuthenticated = false;
   loading = signal(false);
-  currentPage = signal(0)
+  currentPage =0
+  currentData = 0;
+  currentPageFollwing = signal(0)
   totalPages = signal(0);
-  pageSize = signal(5);
+  totalPagesFollwing = signal(0);
+  pageSize = signal(3);
+  totalElement = 0;
+  nextPage=0;
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
     if (!this.isAuthenticated) return;
     this.followingLogic.loadingFollowers(0, this.pageSize())
     this.followingLogic.loadingFollowing(0, this.pageSize())
     this.followingLogic.loadingExplore(0, this.pageSize())
+
     this.followingLogic.pages$.subscribe({
-      next:response=>{
-        // console.log(response.totalPage, "totle numver ");
-        
+      next: response => {
         this.totalPages.set(response.totalPage)
-      }
+        this.totalPagesFollwing.set(response.totalPagesFollwing)
+        this.totalElement = response.totalElements;
+        this.currentData = response.totalDataResponse
+       }
     })
     this.subscriptions.add(
       this.followingLogic.following$.subscribe(following => {
         this.following = following;
+        console.log(following, "following ");
       })
     );
-
     this.subscriptions.add(
       this.followingLogic.followers$.subscribe(followers => {
-        // console.log(followers, "followers");
-
         this.followers = followers;
       })
     );
@@ -84,36 +89,94 @@ export class Following {
 
   loadingMoreFollowes() {
     // this.followingLogic.loadingData(page, size);
-    const nextPage = this.currentPage() + 1;
-    console.log(nextPage,"next page ");
-    
+    const nextPage = this.currentPage + 1;
+    this.followingLogic.loading$.subscribe({
+      next: response => this.loading.set(response),
+      error: err => this.loading.set(false)
+    })
+
     if (nextPage >= this.totalPages()) return;
     this.followingLogic.loadingFollowers(nextPage, this.pageSize())
   }
 
   loadingMoreExplore() {
-    // this.followingLogic.loadingData(page, size);
-    const nextPage = this.currentPage() + 1;
-    console.log(nextPage,"next page ");
+     this.nextPage+=this.currentPage+1;
+    console.log(this.nextPage,"here==");
+    
+    // console.log(nextPage, "))", this.totalPagesFollwing(), "next **");
+    this.followingLogic.pages$.subscribe({
+      next: response => {
+        this.currentData += response.totalDataResponse + 1;
+        if (this.currentData >= this.totalElement) {
+          this.loading.set(true)
+          return;
+        } else {
+          this.loading.set(false)
+        }
+      },
+      error: err => this.loading.set(false)
+    })
 
-    if (nextPage >= this.totalPages()) return;
-    this.followingLogic.loadingExplore(nextPage, this.pageSize())
+    if (this.nextPage >= this.totalPagesFollwing()) return;
+    this.followingLogic.loadingExplore(this.nextPage, this.pageSize())
+    // this.loading.set(false);
+
   }
   loadingMoreFollowing() {
-    // this.followingLogic.loadingData(page, size);
-    const nextPage = this.currentPage() + 1;
-    console.log(nextPage,"next page ");
+    // if (this.loading() || this.currentPageFollwing() >= this.totalPagesFollwing() - 1) { return }
+    // let nextPage =0;
+    this.nextPage+=this.currentPage+1;
+    console.log(this.nextPage,"here==");
+    
+    // console.log(nextPage, "))", this.totalPagesFollwing(), "next **");
+    this.followingLogic.pages$.subscribe({
+      next: response => {
+        this.currentData += response.totalDataResponse + 1;
+        if (this.currentData >= this.totalElement) {
+          this.loading.set(true)
+          return;
+        } else {
+          this.loading.set(false)
+        }
+      },
+      error: err => this.loading.set(false)
+    })
 
-    if (nextPage >= this.totalPages()) return;
-    this.followingLogic.loadingFollowing(nextPage, this.pageSize())
+    if (this.nextPage >= this.totalPagesFollwing()) return;
+    this.followingLogic.loadingFollowing(this.nextPage, this.pageSize())
   }
   follow(id: string) {
     this.followingLogic.follow(id)
-   }
+  }
   Unfollow(id: string) {
     this.followingLogic.Unfollow(id);
   }
-  hasMorePosts(): boolean {
-    return this.currentPage() < this.totalPages() - 1;
+  hasMoreFollowers(): boolean {
+    if (this.currentData >= this.totalElement) {
+      // console.log("herer");
+      return false
+    }
+    else {
+      return true
+    }
+    // return this.currentPage() < this.totalPages() - 1;
   }
+
+  hasMorefollowing(): boolean {
+    // this.loading.set(false)
+    // console.log(this.currentData, this.totalElement);
+
+    if (this.currentData === this.totalElement) {
+      // console.log("herer");
+      return false
+
+    }
+    else {
+      // console.log(" oo is here ");
+
+      return true
+    }
+    // return this.currentPageFollwing() < this.totalPagesFollwing() - 1;
+  }
+
 }

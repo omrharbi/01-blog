@@ -67,7 +67,7 @@ export const environment = {
     }
     ,
     tags: {
-        tags: apiUrl + "api/trainding",
+        tags: apiUrl + "api/trand/trainding",
         // postByID: apiUrl + "api/posts/getPostById/"
     },
     report: {

@@ -29,7 +29,7 @@ public class SubscriptionController {
     @GetMapping("/following")
     public ResponseEntity<?> getUsersIFollow(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "2") int size) {
         return subscriptionService.getUsersIFollow(userPrincipal.getId(), page, size);
     }
 
@@ -37,12 +37,13 @@ public class SubscriptionController {
     @GetMapping("/followers")
     public ResponseEntity<?> getFollowers(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "2") int size) {
         return subscriptionService.getFollowers(userPrincipal, page, size);
     }
 
     @GetMapping("/is_i_following/{username}")
-    public ResponseEntity<?> getUserIsFollow(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("username") String username) {
+    public ResponseEntity<?> getUserIsFollow(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable("username") String username) {
         return subscriptionService.getUSerIsFollow(userPrincipal, username);
     }
 
@@ -50,7 +51,7 @@ public class SubscriptionController {
     @GetMapping("/explore")
     public ResponseEntity<?> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "2") int size) {
         return subscriptionService.getUsersNotFollowing(userPrincipal, page, size);
     }
 

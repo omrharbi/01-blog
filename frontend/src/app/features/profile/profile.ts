@@ -53,7 +53,7 @@ export class Profile {
     createdAt: ""
   });
 
-  show = signal(false);
+  show =  false;
 
   apiUrl = apiUrl;
   countPost = 0;
@@ -68,7 +68,7 @@ export class Profile {
     this.editProfile = !this.editProfile;
   }
   report() {
-    this.show.set(!this.show)
+    this.show=!this.show
   }
   createPost() {
     this.router.navigate(['/create'])
