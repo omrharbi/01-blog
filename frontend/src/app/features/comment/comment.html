@@ -45,12 +45,16 @@
 
                                 <div class="flex-grow-1">
                                     <div>
+                                        <!-- [src]="(comment.avatar || 'apiUrl')" -->
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div class="d-flex align-items-center gap-3">
                                                 <div class="rounded-circle overflow-hidden"
                                                     style="width: 48px; height: 48px;">
                                                     <img class="rounded-circle flex-shrink-0"
-                                                        [src]="(comment.avatar || 'apiUrl')" width="40" height="40">
+                                                        
+                                                        [src]="(comment.avatar?.startsWith('http')?comment.avatar:apiUrl+comment.avatar)"
+                                                        
+                                                        width="40" height="40">
 
                                                 </div>
                                                 <div><a class="fw-semibold text-decoration-none hover-text-primary transition-smooth"
