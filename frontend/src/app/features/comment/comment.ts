@@ -17,6 +17,7 @@ import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 import { PostService } from '../../core/service/servicesAPIREST/posts/post-service';
 import { SharedServicePopUp } from '../../core/service/serivecLogique/SharedServicePopUp/shared-service-popup';
 import { JwtService } from '../../core/service/JWT/jwt-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-comment',
@@ -32,7 +33,8 @@ export class Comment {
     private jwtService: AuthService,
     private global: Global,
     private servicePopUp: SharedServicePopUp,
-    private auth: AuthService
+    private auth: AuthService,
+
   ) { }
   commentResponse?: CommentResponse;
   getAllComment: CommentResponse[] = [];
@@ -61,10 +63,7 @@ export class Comment {
         this.isEdit = true;
       }
 
-      if (event.type === 'Deletecomment') {
-        console.log('Deletecomment comment:', event.data);
-        this.delete(event.data.id)
-      }
+      
     })
 
     this.servicePopUp.popService$.subscribe(commentId => {
@@ -141,27 +140,9 @@ export class Comment {
 
 
 
-  delete(id: string) {
-    this.commentService.delete(id).subscribe({
-      next: response => {
-        if (response.status) {
-          this.removeComment(id);
-          console.log("delete it ");
-        }
-      },
-      error: error => {
-        console.log(error);
 
-      }
-    })
-  }
 
-  removeComment(commentid: string) {
-    if (this.getAllComment !== null) {
-      const posts = this.getAllComment.filter(p => p.id !== commentid);
-      this.getAllComment = [...posts]
-    }
-  }
+
   EditComment(id: string) {
 
 

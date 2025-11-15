@@ -8,11 +8,12 @@ import { PostService } from '../../core/service/servicesAPIREST/posts/post-servi
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
 import { Global } from '../../core/service/serivecLogique/globalEvent/global';
 import { SharedService } from '../../core/service/serivecLogique/shared-service/shared-service-post';
-import { flatMap } from 'rxjs';
 import { Materaile } from '../../modules/materaile-module';
 import { ReportService } from '../../core/service/servicesAPIREST/report/report-service';
 import { NotificationService } from '../../core/service/notificationAlert/NotificationService';
 import { PopUpReport } from './pop-up-report/pop-up-report';
+import { CommentService } from '../../core/service/servicesAPIREST/comment/comment-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-pop-up',
@@ -23,10 +24,9 @@ import { PopUpReport } from './pop-up-report/pop-up-report';
   styleUrl: './pop-up.scss'
 })
 export class PopUp {
-  constructor(private auth: AuthService, private user: JwtService, private postService: PostService,
+
+  constructor(private auth: AuthService, private toasterService: ToastrService, private user: JwtService, private postService: PostService, private commentService: CommentService,
     private global: Global
-    , private sharedService: SharedService,
-    private reporting: ReportService
   ) {
   }
   @Input() isOwner: boolean = false;
@@ -65,19 +65,38 @@ export class PopUp {
 
   onDelete() {
     if (this.isComment === true) {
-      this.global.sharedData.emit({ type: 'Deletecomment', data: this.comment });
+
+      this.commentService.delete(this.comment.id).subscribe({
+        next: response => {
+          if (response.status) {
+            const postDiv = document.getElementById(this.comment.id)
+            if (postDiv) {
+              this.toasterService.success("Delete Comment  Success");
+              postDiv?.remove()
+            }
+          }
+        },
+        error: error => {
+          console.log(error);
+
+        }
+      })
+
+      console.log();
+
+
+
     } else {
       this.postService.DeletePost(this.post.id).subscribe({
         next: response => {
           if (response.status) {
 
-            // this.sharedService.removePost(this.post.id);
             const postDiv = document.getElementById(this.post.id)
             if (postDiv) {
+              this.toasterService.success("Delete Post  Success");
               postDiv?.remove()
             }
           }
-          // console.log(response, "delete post");
         },
         error: error => {
           console.log(error, "****");

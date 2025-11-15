@@ -1,4 +1,4 @@
-<section class="col-12" id="comments">
+<section class="col-12" id="comments" >
 
     <div class="card bg-card text-card-foreground shadow-sm " *ngIf="isAuthenticated">
         <div class=" p-4">
@@ -37,7 +37,7 @@
                 <!-- Comment 1 -->
                 <div class="col-12" *ngFor="let comment of getAllComment">
 
-                    <div class="card bg-card text-card-foreground shadow-sm">
+                    <div class="card bg-card text-card-foreground shadow-sm " [id]="comment.id">
                         <div class="card-body p-4">
                             <div class="d-flex gap-3">
 
