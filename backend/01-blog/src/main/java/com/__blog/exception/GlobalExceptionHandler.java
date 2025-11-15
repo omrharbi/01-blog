@@ -3,21 +3,23 @@ package com.__blog.exception;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-        @ExceptionHandler(ApiException.class)
-        public ResponseEntity<?> handleApiException(ApiException ex) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", ex.getHttpStatus().value());
-            response.put("error", ex.getMessage());
-            return new ResponseEntity<>(response, ex.getHttpStatus());
-        }
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<?> handleApiException(ApiException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", ex.getHttpStatus().value());
+        response.put("error", ex.getMessage());
+        return new ResponseEntity<>(response, ex.getHttpStatus());
+    }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<String> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex) {
@@ -30,5 +32,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(500)
                 .body("An unexpected error occurred: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        String message = "your input is invalid";
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", message));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, String>> handleMethodArgumentTypeMismatchException(
+            MethodArgumentTypeMismatchException ex) {
+        String message = "invalid input";
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", message));
     }
 }

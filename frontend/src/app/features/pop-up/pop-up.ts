@@ -71,7 +71,7 @@ export class PopUp {
         next: response => {
           if (response.status) {
 
-            this.sharedService.removePost(this.post.id);
+            // this.sharedService.removePost(this.post.id);
             const postDiv = document.getElementById(this.post.id)
             if (postDiv) {
               postDiv?.remove()

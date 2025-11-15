@@ -26,43 +26,20 @@ export class SharedService {
     this.countPostSubject.next(posts.length)
   }
 
-  removePost(postId: string) {
-    const posts = this.postsSubject.getValue().filter(p => p.id !== postId);
-    this.postsSubject.next(posts);
-  }
-
-  removeComment(commentid: string) {
-    const comment = this.commentSubject.getValue().filter(p => p.id !== commentid);
-    this.commentSubject.next(comment);
-  }
   setCurrentPostId(id: string) {
     this.currentPostIdSubject.next(id);
   }
-
-
   newpost$ = this.newPostData.asObservable();
   setNewPost(post: any) {
     this.newPostData.next(post)
   }
 
-  getCurrentPostId(): String {
-    return this.currentPostIdSubject.value || localStorage.getItem('post-id');
-  }
   editPost(post: PostResponse) {
     this.postToEdit = post;
   }
-  notifyPostUpdated(updatedPost: PostResponse) {
-    this.newPostData.next(updatedPost); // Notify home to update the post
-  }
-  getNewPost(): any {
-    return this.newPostData;
-  }
+
   getEditPost(): any {
     return this.postToEdit;
   }
 
-  clear() {
-    this.newPostData.next(null);
-    this.postToEdit.next(null);
-  }
 }

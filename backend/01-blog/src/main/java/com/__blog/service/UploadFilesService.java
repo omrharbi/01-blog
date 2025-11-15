@@ -21,7 +21,8 @@ import com.__blog.util.ApiResponseUtil;
 @Service
 public class UploadFilesService {
 
-    public ResponseEntity<ApiResponse<List<Map<String, String>>>> uploadFile(MultipartFile[] files, Path uploadPath) throws IOException {
+    public ResponseEntity<ApiResponse<List<Map<String, String>>>> uploadFile(MultipartFile[] files, Path uploadPath)
+            throws IOException {
         List<Map<String, String>> response = new ArrayList<>();
         for (var file : files) {
 
@@ -44,7 +45,6 @@ public class UploadFilesService {
             response.add(fileResponse);
         }
         return ApiResponseUtil.success(response, null, "Upload Sucess ");
-
 
     }
 }
