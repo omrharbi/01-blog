@@ -64,7 +64,11 @@ public class PostService {
                     HttpStatus.UNAUTHORIZED);
         }
         User user = userPrincipal.getUser();
-
+        // if (postRequest.getTitle().isEmpty() || postRequest.getContent().isEmpty() ){
+        //      return ApiResponseUtil.error(
+        //             "❌ Title or content cannot be empty",
+        //             HttpStatus.BAD_REQUEST);
+        // }
         Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {

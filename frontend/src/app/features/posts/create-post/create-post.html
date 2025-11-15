@@ -3,11 +3,8 @@
 
     <div class="">
       <div class="d-flex align-items-center justify-content-between">
-        <h1 class="h2 fw-bold font-playfair">
-
+        <h1 class="h2 fw-bold font-playfair"> 
           {{ isEdit ? 'Edit Post' : 'Write Your Post' }}
-
-
         </h1>
         <div class="d-flex gap-2">
           <button class="btn btn-outline-secondary d-inline-flex align-items-center">
@@ -55,7 +52,7 @@
                 </svg>
                 <p class="text-muted mb-3 text font-playfair">Add a cover image to make your story stand out</p>
 
-                <input #imageInput   type="file" accept="image/*" (change)="onImageSelected($event)" class="d-none"
+                <input #imageInput type="file" accept="image/*" (change)="onImageSelected($event)" class="d-none"
                   id="cover-upload" required>
                 <label for="cover-upload" #titleRef (click)="triggerFileInput()" contenteditable="true"
                   class="btn btn-outline-secondary d-inline-flex align-items-center cursor-pointer">
@@ -78,7 +75,7 @@
             <div class="mt-3 image" *ngIf="isSelect">
               <img [src]="coverImageSrc" alt="Cover Preview" class="img-fluid rounded">
               <!-- Close button (X) -->
-              <button type="button" class="botton-close position-absolute   " (click)="removeCoverImage()">
+              <button type="button" class="botton-close position-absolute " (click)="removeCoverImage()">
                 <!--  -->
                 &times;
               </button>
@@ -89,21 +86,17 @@
         <!-- Title -->
         <div class="card shadow-sm">
           <div class="card-body hover">
-            <!-- <p>{{postData.title}} **************</p> -->
-            <input class="form-control border-0 fs-2 fw-bold font-playfair" [(ngModel)]="postData.title"
+             <input class="form-control border-0 fs-2 fw-bold font-playfair"  [(ngModel)]="postData.title"
               (input)="onTitle($event.target.value)" placeholder="Write your story title..." #title="ngModel"
               required />
           </div>
-
-          <div *ngIf="title.invalid && (title.dirty || title.touched || submitted)" class="error-message">
-            title is required
-          </div>
+ 
         </div>
 
         <!-- Content -->
 
         <div *ngIf="!previewMode">
-          <app-markdown-editor [(content)]="content" (contentChange)="onContentChange($event)" >
+          <app-markdown-editor [(content)]="content" (contentChange)="onContentChange($event)">
           </app-markdown-editor>
 
         </div>

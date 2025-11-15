@@ -1,10 +1,10 @@
-<section class="col-12" id="comments" >
+<section class="col-12" id="comments">
 
     <div class="card bg-card text-card-foreground shadow-sm " *ngIf="isAuthenticated">
         <div class=" p-4">
             <div class="d-flex align-items-start gap-3">
                 <!-- <img class="rounded-circle flex-shrink-0" [src]="(post.avatar_user || 'apiUrl')" width="40" height="40"> -->
-                <div class="w-100" >
+                <div class="w-100">
                     <textarea class="form-control border rounded-3 textarea " rows="4"
                         placeholder="What are your thoughts?" [(ngModel)]="content"></textarea>
                     <div class="d-flex justify-content-end mt-3">
@@ -40,9 +40,6 @@
                     <div class="card bg-card text-card-foreground shadow-sm " [id]="comment.id">
                         <div class="card-body p-4">
                             <div class="d-flex gap-3">
-
-                                <!--  -->
-
                                 <div class="flex-grow-1">
                                     <div>
                                         <!-- [src]="(comment.avatar || 'apiUrl')" -->
@@ -51,9 +48,7 @@
                                                 <div class="rounded-circle overflow-hidden"
                                                     style="width: 48px; height: 48px;">
                                                     <img class="rounded-circle flex-shrink-0"
-                                                        
-                                                        [src]="(comment.avatar?.startsWith('http')?comment.avatar:apiUrl+comment.avatar)"
-                                                        
+                                                        [src]="(comment.avatar.startsWith('http')?comment.avatar:apiUrl+comment.avatar)"
                                                         width="40" height="40">
 
                                                 </div>
@@ -70,8 +65,8 @@
                                                 <button
                                                     class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center rounded-circle"
                                                     style="width: 40px; height: 40px;"
-                                                    (clickedInside)="OnPopUp($event, comment.id,comment)" appDiractiveEvenet><i
-                                                        class="material-icons"
+                                                    (clickedInside)="OnPopUp($event, comment.id,comment)"
+                                                    appDiractiveEvenet><i class="material-icons"
                                                         style="font-size: 16px;">more_horiz</i></button>
 
                                                 <div *ngIf="showPopUp[comment.id]">
@@ -86,10 +81,8 @@
 
                                     <p class="text-foreground mb-3 lh-base">{{comment.content }}</p>
                                     <div class="d-flex align-items-center gap-3">
-                                        <button  [class.liked]="comment.liked" [class.not-liked]="!(comment.liked)"
-                                            (click)="toggleLikePost(comment.id, comment)"
-                               [disabled]="!isAuthenticated"
-
+                                        <button [class.liked]="comment.liked" [class.not-liked]="!(comment.liked)"
+                                            (click)="toggleLikePost(comment.id, comment)" [disabled]="!isAuthenticated"
                                             class="btn btn-link text-decoration-none p-0 d-flex align-items-center gap-2 like-btn">
 
                                             <mat-icon [class.liked-icon]="comment.liked"

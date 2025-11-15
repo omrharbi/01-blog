@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                         <tr class="border-b border-border/50 hover:bg-secondary/30 transition-colors group"
-                            *ngFor="let report of postReposrt()">
+                            *ngFor="let report of postReposrt()" [id]="report.postId">
                             <td class="py-4 px-4">
                                 <span class="font-medium text-foreground">{{report.reportedUser}}
                                     {{report.reportedContent}}</span>
@@ -76,7 +76,7 @@
                                         View
                                     </button>
                                     <!-- (click)="actionTypeHandle('delete',user.reportedUserId)" -->
-                                    <button (click)="deletePosts('delete',report.postId)"
+                                    <button (click)="actionTypeHandle('delete-post',report.postId)"
 
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

@@ -40,7 +40,7 @@ export class UploadImage {
     }
     // Validate file type first
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
-      'video/mp4', 'video/mpeg', 'video/ogg', 'video/webm', 'video/quicktime'];
+      'video/mp4', 'video/mpeg', 'video/ogg', 'video/webm',];
 
     if (!allowedTypes.some(type => file.type.startsWith(type.replace(/\/.*$/, '/')))) {
       console.error('Invalid file type:', file.type);

@@ -26,10 +26,10 @@ export class AdminServiceShared {
         this.adminService.banUser(userId, days).subscribe({
             next: response => {
                 this.updateUser.next(response.data)
-                this.updateUserReport.next({ reportedUserId: userId, status:response.data?.hidden });
+                this.updateUserReport.next({ reportedUserId: userId, status: response.data?.hidden });
             },
             error: error => {
-                const message=error?.error.error || "error "
+                const message = error?.error.error || "error "
                 this.notificationAlert.showErrorWithoutRedirect(message)
                 console.log(error?.error.error, "error ");
             }
@@ -61,10 +61,16 @@ export class AdminServiceShared {
         })
     }
 
-    deletePosts(userId: string) {
-        this.adminService.deletePost(userId).subscribe({
+    deletePosts(postId: string) {
+        this.adminService.deletePost(postId).subscribe({
             next: response => {
-                this.checkDeletePosts.next(response.status || false)
+                if (response.status) {
+                    const post = document.getElementById(postId)
+                    if (post) {
+                        post.remove();
+                    }
+                    this.checkDeletePosts.next(response.status || false)
+                }
             },
             error: error => {
                 console.log(error, "error ");

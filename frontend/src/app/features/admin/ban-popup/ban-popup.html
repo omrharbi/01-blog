@@ -27,6 +27,9 @@
                 <div *ngSwitchCase="'delete'" class="icon-delete">
                     <button class="btn btn-confirm" (click)="deleteUser()">Yes,{{actionType}}</button>
                 </div>
+                 <div *ngSwitchCase="'delete-post'" class="icon-delete">
+                    <button class="btn btn-confirm" (click)="deletePost()">Yes,{{actionType}}</button>
+                </div>
 
                 <div *ngSwitchCase="'role'" class="icon-role">
                     <!-- <button class="btn btn-confirm" (click)="nextStep()">Yes, {{actionType}} User</button> -->

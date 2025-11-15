@@ -20,6 +20,7 @@ export class ReportsManagement {
   showBanPopup = false;
   actionType = signal<ActionType>('ban')
   userId = signal<string>('')
+  postId = signal<string>('')
 
   postReposrt = signal<ReportPosts[]>([]);
   reportServiceUser = signal<ReportPosts[]>([]);
@@ -90,11 +91,14 @@ export class ReportsManagement {
     this.router.navigate([`/post/${postId}`])
   }
 
-  deletePosts(type: ActionType,postId: string) {
+  deletePosts(type: ActionType, postId: string) {
     this.showBanPopup = true
-    this.adminService.deletePosts(postId)
-    this.postReposrt.update(post => post.filter(p => p.postId != postId));
-    this.lenghtPosts.set(this.postReposrt.length)
+    this.actionType.set(type)
+    this.postId.set(postId)
+    // if ()
+    // // this.adminService.deletePosts(postId)
+    // this.postReposrt.update(post => post.filter(p => p.postId != postId));
+    // this.lenghtPosts.set(this.postReposrt.length)
   }
   actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true

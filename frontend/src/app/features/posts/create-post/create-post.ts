@@ -97,6 +97,26 @@ export class CreatePost {
   }
 
   submitPost() {
+if (!this.isSelect) {
+      this.toasterService.warning("Cover image is required");
+      return;
+    }
+    if (!this.title.trim()) {
+      this.toasterService.warning("Title is required");
+      return;
+    }
+
+    
+
+    if (!this.content.trim()) {
+      this.toasterService.warning("Content cannot be empty");
+      return;
+    }
+
+    if (this.tags.length === 0) {
+      this.toasterService.warning("Please add at least one tag");
+      return;
+    }
     this.newFiles = this.uploadImage.uploadfiles();
     this.images.saveImages(this.newFiles).subscribe({
       next: (response) => {
@@ -106,7 +126,7 @@ export class CreatePost {
             uploadedMedias.push({
               filePath: fileResponse.filePath,
               filename: fileResponse.filename,
-              fileType: fileResponse.fileType,
+              fileType: fileResponse.fileType || this.getFileType(fileResponse.filename),
               fileSize: fileResponse.fileSize || 0,
               displayOrder: index
             });
@@ -229,6 +249,7 @@ export class CreatePost {
     });
   }
 
+  // onVideoSelected()
   cancel() {
     this.clearAll()
     this.uploadImage.clearFiles()
@@ -264,4 +285,18 @@ export class CreatePost {
     this.previewMode = false;
   }
 
+  private getFileType(filename: string): string {
+    if (!filename) return 'application/octet-stream';
+    const ext = filename.split('.').pop()?.toLowerCase();
+    const mimeTypes: { [key: string]: string } = {
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'png': 'image/png',
+      'gif': 'image/gif',
+      'webp': 'image/webp',
+      'svg': 'image/svg+xml',
+      'pdf': 'application/pdf'
+    };
+    return mimeTypes[ext || ''] || 'application/octet-stream';
+  }
 }
