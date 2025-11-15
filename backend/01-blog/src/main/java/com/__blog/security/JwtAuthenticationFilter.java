@@ -24,7 +24,7 @@ import lombok.NonNull;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtTokenProvider jwtproProvider;
+    private JwtTokenProvider jwtProvider;
     @Autowired
     private UserDeService userDetailsService;
 
@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.err.println("this token is null");
                 return;
             }
-            Claims claims = jwtproProvider.getPayloadFromToken(token);
+            Claims claims = jwtProvider.getPayloadFromToken(token);
             if (claims == null) {
                 sendErrorResponse(response, "Invalid JWT token. Please login again.");
                 return;
@@ -75,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             userDetails.getUsername()));
                     return;
                 }
-                if (jwtproProvider.isTokenValid(token, userDetails)) {
+                if (jwtProvider.isTokenValid(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -96,6 +96,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return "/auth/login".equals(requestPath) ||
                 "/auth/register".equals(requestPath) ||
                 "/api/posts/getallPost".equals(requestPath) ||
+                "/api/trand/trainding".equals(requestPath) ||
                 requestPath.startsWith("/api/posts/getPostById/") || ///
                 requestPath.startsWith("/api/comment/getCommentsWithPost") || ///
                 "/uploads/**".equals(requestPath) ||

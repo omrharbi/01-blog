@@ -12,13 +12,13 @@ export class Tranding {
   constructor(private http: HttpClient) { }
   TrendingTag(): Observable<TrendingTag[]> {
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    })
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${token}`
+    // })
 
     return this.http.get<TrendingTag[]>(
-      `${environment.tags.tags}`,
-      { headers }
+      `${environment.tags.tags}`
+      // { headers }
     );
   }
 }
