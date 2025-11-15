@@ -276,13 +276,13 @@ body.dark .nav-tabs-custom {
 
 @media (min-width: 576px) {
     .card-image {
-        aspect-ratio: 4/3;
+        aspect-ratio: 7/3;
     }
 }
 
 @media (min-width: 768px) {
     .card-image {
-        aspect-ratio: 1;
+        aspect-ratio:0;
     }
 }
 
