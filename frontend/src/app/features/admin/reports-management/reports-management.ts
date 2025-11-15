@@ -90,7 +90,8 @@ export class ReportsManagement {
     this.router.navigate([`/post/${postId}`])
   }
 
-  deletePosts(postId: string) {
+  deletePosts(type: ActionType,postId: string) {
+    this.showBanPopup = true
     this.adminService.deletePosts(postId)
     this.postReposrt.update(post => post.filter(p => p.postId != postId));
     this.lenghtPosts.set(this.postReposrt.length)

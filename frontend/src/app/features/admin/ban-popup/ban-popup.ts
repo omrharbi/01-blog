@@ -46,6 +46,11 @@ export class BanPopup {
     this.closePopup();
   }
 
+
+  deletePost() {
+    this.adminService.deletePosts(this.userId);
+    this.closePopup();
+  }
   changeRole() {
     this.adminService.changeRole(this.userId);
     this.closePopup();
