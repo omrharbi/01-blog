@@ -51,7 +51,7 @@ public class SubscriptionController {
     @GetMapping("/explore")
     public ResponseEntity<?> getExploreUsers(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "2") int size) {
         return subscriptionService.getUsersNotFollowing(userPrincipal, page, size);
     }
 

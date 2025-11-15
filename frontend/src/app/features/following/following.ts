@@ -55,12 +55,19 @@ export class Following {
     this.followingLogic.loadingFollowers(0, this.pageSize())
     this.followingLogic.loadingFollowing(0, this.pageSize())
     this.followingLogic.loadingExplore(0, this.pageSize())
-
+    this.subscriptions.add(
+      this.followingLogic.loading$.subscribe(isLoading => {
+        this.loading.set(isLoading);
+      })
+    );
     this.followingLogic.followingPages$.subscribe({
       next: pages => {
         this.followingCurrentPage = pages?.currentPage ?? 0;
         this.followingTotalPages.set(pages?.totalPages ?? 0);
         this.followingTotalElements = pages?.totalElements ?? 0;
+
+
+        console.log('Following pagination updated:', pages);
       }
     })
 
@@ -126,37 +133,73 @@ export class Following {
       return;
     }
     const nextPage = this.exploreCurrentPage + 1;
+    console.log(nextPage, "next ***", this.loading());
+
     this.followingLogic.loadingExplore(nextPage, this.pageSize());
   }
 
 
   loadingMoreFollowing() {
 
-    if (this.loading() || this.followingCurrentPage >= this.followersTotalPages() - 1) {
+    console.log(this.followingCurrentPage, this.followingTotalPages() - 1, "next ***");
+    if (this.loading() || this.followingCurrentPage >= this.followingTotalPages() - 1) {
       return;
     }
     const nextPage = this.followingCurrentPage + 1;
+    console.log(nextPage, "next ***");
+
     this.followingLogic.loadingFollowing(nextPage, this.pageSize())
   }
   follow(id: string) {
+    const exploreCountBefore = this.explore.length;
     this.followingLogic.follow(id)
+
+    setTimeout(() => {
+      const exploreCountAfter = this.explore.length;
+
+      // If we removed a user and have less than pageSize visible, load more
+      if (exploreCountAfter < exploreCountBefore &&
+        exploreCountAfter < this.pageSize() &&
+        this.hasMoreExplore()) {
+        console.log(`Auto-loading more: only ${exploreCountAfter} users left`);
+
+        // Calculate which page to load next
+        // We need to load the next unloaded page
+        const nextPage = this.exploreCurrentPage + 1;
+        this.followingLogic.loadingExplore(nextPage, this.pageSize());
+      }
+    }, 500);
   }
   Unfollow(id: string) {
+
     this.followingLogic.Unfollow(id);
+
+    setTimeout(() => {
+      // If we have less than pageSize following users visible, load more
+      if (this.following.length < this.pageSize() && this.hasMoreFollowing()) {
+        this.loadingMoreFollowing();
+      }
+    }, 500);
   }
   hasMoreFollowers(): boolean {
-    return this.followers.length < this.followersTotalElements;
+    const hasMoreItems = this.followers.length < this.followersTotalElements;
+    const hasMorePages = this.followerCurrentPage < this.followersTotalPages() - 1;
+    return hasMoreItems && hasMorePages;
   }
 
   hasMoreFollowing(): boolean {
-
-    return this.following.length < this.followingTotalElements;
+    const hasMoreItems = this.following.length < this.followingTotalElements;
+    const hasMorePages = this.followingCurrentPage < this.followingTotalPages() - 1;
+    console.log(hasMoreItems, hasMorePages, "****");
+    
+    return hasMoreItems && hasMorePages;
   }
 
   hasMoreExplore(): boolean {
-    return this.explore.length < this.exploreTotalElements;
+    const hasMoreItems = this.explore.length < this.exploreTotalElements;
+    const hasMorePages = this.exploreCurrentPage < this.exploreTotalPages() - 1;
+    return hasMoreItems && hasMorePages;
   }
-
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

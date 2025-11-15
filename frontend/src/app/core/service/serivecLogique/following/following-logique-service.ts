@@ -32,7 +32,7 @@ export class FollowingLogiqueService {
   private followersPagesSubject = new BehaviorSubject<PaginationInfo | null>(null);
   private explorePagesSubject = new BehaviorSubject<PaginationInfo | null>(null);
 
- 
+
   private loadingSubject = new BehaviorSubject<any>({});
 
 
@@ -68,9 +68,9 @@ export class FollowingLogiqueService {
             totalElements: response.data.totalElements,
             totalDataResponse: response.data.content.length
           })
-        } else {
-          this.loadingSubject.next(false);
         }
+        this.loadingSubject.next(false);
+
       },
       error: error => {
         this.loadingSubject.next(false);
@@ -109,9 +109,12 @@ export class FollowingLogiqueService {
 
   loadingExplore(page: number, size: number) {
     this.loadingSubject.next(true);
+
     this.users.explore(page, size).subscribe({
       next: response => {
         if (response.data.content) {
+          console.log(response);
+
           const currentExplore = this.exploreSubject.value;
           const currentFollowing = this.followingSubject.value;
           const newUsers = response.data.content.filter(newUser => {
