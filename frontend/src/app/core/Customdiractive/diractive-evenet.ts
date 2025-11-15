@@ -15,6 +15,7 @@ export class DiractiveEvenet {
   @HostListener('document:click', ['$event']) OnPopUp(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const id = target.id;
+
     const isClicked = this.element.nativeElement.contains(event.target)
     if (!isClicked && id !== "report") {
       this.clickedInside.emit(false);

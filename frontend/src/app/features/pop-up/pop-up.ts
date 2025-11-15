@@ -84,8 +84,7 @@ export class PopUp {
 
   report() {
     this.isVisible = true
-    console.log(this.isVisible);
-  }
+   }
 
   onReasonChange() {
     if (this.selectedReason !== 'OTHER') {

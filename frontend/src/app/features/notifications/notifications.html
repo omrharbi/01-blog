@@ -12,9 +12,9 @@
       </div>
     </div>
 
-    <div class="notification-list">
+    <div class="notification-list" >
       <ng-container *ngIf="(notifications ?? []).length > 0; else emptyState">
-        <div 
+        <div   
           *ngFor="let notif of notifications"
           class="notification-item"
           [class.unread]="!notif.read"
@@ -30,7 +30,7 @@
             </svg>
           </div>
 
-          <div class="notification-content" (click)="markAsRead(notif.id)">
+          <div class="notification-content" id="notification" (click)="markAsRead(notif.id)">
             <div class="notification-item-title">{{ notif.title }}</div>
             <div class="notification-item-message">{{ notif.message }}</div>
             <div class="notification-time">{{ notif.createdAt  | timeAgo}}</div>

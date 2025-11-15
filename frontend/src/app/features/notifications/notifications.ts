@@ -46,7 +46,6 @@ export class NotificationPopup {
       next: reponse => {
         if (reponse) {
           const notification = this.notifications.find(n => n.id === id);
-
           if (notification) {
             notification.read = true;
           }
@@ -57,19 +56,18 @@ export class NotificationPopup {
   }
 
   markAllAsRead(): void {
-    this.notifications.forEach(not=>{
-      // console.log(not.id);
+    this.notifications.forEach(not => {
       this.notificationService.readNotification(not.id).subscribe({
-      next: reponse => {
-        if (reponse) {
-          const notification = this.notifications.find(n => n.id === not.id);
+        next: reponse => {
+          if (reponse) {
+            const notification = this.notifications.find(n => n.id === not.id);
 
-          if (notification) {
-            notification.read = true;
+            if (notification) {
+              notification.read = true;
+            }
           }
         }
-      }
-    })
+      })
     });
   }
 }
