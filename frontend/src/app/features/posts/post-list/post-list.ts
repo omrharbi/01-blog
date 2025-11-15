@@ -31,7 +31,7 @@ export class PostList {
     firstImage: "",
     htmlContent: "",
     excerpt: "",
-    username:"",
+    username: "",
     createdAt: "",
     medias: [],
     tags: [],
@@ -52,12 +52,12 @@ export class PostList {
       const id = params["id"];
       this.postSerivce.getpostByID(id).subscribe({
         next: (response) => {
-          console.log(response.data,"all data from post ");
-          
+          console.log(response.data, "all data from post ");
+
           Object.assign(this.post, response.data);
           let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
           this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
-         },
+        },
         error: (error) => {
           console.log("error to get post", error);
 
@@ -82,4 +82,7 @@ export class PostList {
     this.cdr.detectChanges();
   }
 
+  back() {
+    window.history.back();
+  }
 }

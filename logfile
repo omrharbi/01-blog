@@ -43,3 +43,18 @@
 2025-11-15 11:48:15.908 GMT [883241] LOG:  checkpoint complete: wrote 20 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.905 s, sync=0.004 s, total=1.916 s; sync files=11, longest=0.002 s, average=0.001 s; distance=87 kB, estimate=87 kB; lsn=0/CAA9EA8, redo lsn=0/CAA9E18
 2025-11-15 11:53:14.007 GMT [883241] LOG:  checkpoint starting: time
 2025-11-15 11:53:14.722 GMT [883241] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.716 s; sync files=8, longest=0.004 s, average=0.001 s; distance=42 kB, estimate=82 kB; lsn=0/CAB4868, redo lsn=0/CAB4810
+2025-11-15 11:58:14.728 GMT [883241] LOG:  checkpoint starting: time
+2025-11-15 11:58:16.847 GMT [883241] LOG:  checkpoint complete: wrote 22 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=2.108 s, sync=0.004 s, total=2.120 s; sync files=14, longest=0.002 s, average=0.001 s; distance=86 kB, estimate=86 kB; lsn=0/CACA358, redo lsn=0/CACA300
+2025-11-15 12:39:21.031 GMT [982542] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-15 12:39:21.031 GMT [982542] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-15 12:39:21.033 GMT [982542] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-15 12:39:21.037 GMT [982545] LOG:  database system was interrupted; last known up at 2025-11-15 11:58:16 GMT
+2025-11-15 12:39:21.078 GMT [982545] LOG:  database system was not properly shut down; automatic recovery in progress
+2025-11-15 12:39:21.079 GMT [982545] LOG:  redo starts at 0/CACA300
+2025-11-15 12:39:21.079 GMT [982545] LOG:  invalid record length at 0/CACA408: expected at least 24, got 0
+2025-11-15 12:39:21.079 GMT [982545] LOG:  redo done at 0/CACA3D0 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2025-11-15 12:39:21.084 GMT [982543] LOG:  checkpoint starting: end-of-recovery immediate wait
+2025-11-15 12:39:21.092 GMT [982543] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.002 s, total=0.009 s; sync files=3, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/CACA408, redo lsn=0/CACA408
+2025-11-15 12:39:21.094 GMT [982542] LOG:  database system is ready to accept connections
+2025-11-15 12:49:21.155 GMT [982543] LOG:  checkpoint starting: time
+2025-11-15 12:49:21.970 GMT [982543] LOG:  checkpoint complete: wrote 9 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.804 s, sync=0.006 s, total=0.815 s; sync files=3, longest=0.005 s, average=0.002 s; distance=10 kB, estimate=10 kB; lsn=0/CACCE38, redo lsn=0/CACCDE0

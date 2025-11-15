@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { NotificationRequest, NotificationResponse } from '../../core/models/Notification/Notification';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
-import {  NotificationServiceApi } from '../../core/service/servicesAPIREST/Notifications/notification-service';
+import { NotificationServiceApi } from '../../core/service/servicesAPIREST/Notifications/notification-service';
 
 @Component({
   selector: 'app-notifications',
@@ -42,12 +42,10 @@ export class NotificationPopup {
   }
 
   markAsRead(id: string): void {
-    console.log(id);
     this.notificationService.readNotification(id).subscribe({
       next: reponse => {
         if (reponse) {
           const notification = this.notifications.find(n => n.id === id);
-          console.log(notification);
 
           if (notification) {
             notification.read = true;
@@ -59,6 +57,19 @@ export class NotificationPopup {
   }
 
   markAllAsRead(): void {
-    // this.notifications.forEach(n => n.read = true);
+    this.notifications.forEach(not=>{
+      // console.log(not.id);
+      this.notificationService.readNotification(not.id).subscribe({
+      next: reponse => {
+        if (reponse) {
+          const notification = this.notifications.find(n => n.id === not.id);
+
+          if (notification) {
+            notification.read = true;
+          }
+        }
+      }
+    })
+    });
   }
 }
