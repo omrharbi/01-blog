@@ -114,3 +114,7 @@
 2025-11-15 16:10:43.116 GMT [1087199] STATEMENT:  insert into media (created_at,display_order,file_path,file_size,file_type,filename,posts_id,updated_at,id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
 2025-11-15 16:14:25.592 GMT [982543] LOG:  checkpoint starting: time
 2025-11-15 16:14:25.903 GMT [982543] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.302 s, sync=0.005 s, total=0.312 s; sync files=4, longest=0.004 s, average=0.002 s; distance=14 kB, estimate=2853 kB; lsn=0/DBC18A8, redo lsn=0/DBC1850
+2025-11-15 16:19:26.003 GMT [982543] LOG:  checkpoint starting: time
+2025-11-15 16:19:26.718 GMT [982543] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.004 s, total=0.715 s; sync files=8, longest=0.002 s, average=0.001 s; distance=26 kB, estimate=2570 kB; lsn=0/DBC80C8, redo lsn=0/DBC8070
+2025-11-15 16:24:26.803 GMT [982543] LOG:  checkpoint starting: time
+2025-11-15 16:24:28.019 GMT [982543] LOG:  checkpoint complete: wrote 13 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.204 s, sync=0.005 s, total=1.217 s; sync files=12, longest=0.004 s, average=0.001 s; distance=46 kB, estimate=2318 kB; lsn=0/DBD3A30, redo lsn=0/DBD39D8
