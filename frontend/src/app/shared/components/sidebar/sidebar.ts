@@ -28,7 +28,7 @@ export class Sidebar {
       if (this.auth.hasRole('ADMIN')) {
         this.IsAdmin = true;
       }
-      // this.followingLogic.loadingData(0, 5);
+      this.followingLogic.loadingExplore(0, 5)
       this.subscription.add(
         this.followingLogic.explore$.subscribe((explose) => {
           this.explore = explose;

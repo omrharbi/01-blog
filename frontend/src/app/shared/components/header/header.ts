@@ -12,7 +12,7 @@ import { NotificationsServiceLogique } from '../../../core/service/serivecLogiqu
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header implements OnInit, OnDestroy {
+export class Header implements OnInit {
   searchQuery = '';
   s = signal('')
   authService = inject(AuthService);
@@ -27,22 +27,23 @@ export class Header implements OnInit, OnDestroy {
   // dfgdf = output();
   hasUnreadNotifications = false;
   ngOnInit() {
-    this.notifLogique.loadingNotifications();
-    this.notificationIcons.notificationIcons$.subscribe({
-      next: isNotification => {
-        this.hasUnreadNotifications = isNotification
-      }
-    })
     this.isAuthenticated = this.auth.isLoggedIn();
+    if (this.isAuthenticated){
+      this.notifLogique.loadingNotifications();
+      this.notificationIcons.notificationIcons$.subscribe({
+        next: isNotification => {
+          this.hasUnreadNotifications = isNotification
+        }
+      })
+    }
+
   }
   onSearch() {
     if (this.searchQuery.trim()) {
       console.log('Searching for:', this.searchQuery);
     }
   }
-  ngOnDestroy() {
-    // this.subscription?.unsubscribe();
-  }
+  
   toggleTheme() {
     this.themeService.toggleTheme();
   }

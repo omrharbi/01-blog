@@ -27,19 +27,28 @@ export class Following {
   following: UserProfile[] = []
   followers: UserProfile[] = []
   explore: UserProfile[] = []
+
+
   apiUrl = apiUrl;
   countFollowing = 0;
   countFollowers = 0;
   isAuthenticated = false;
   loading = signal(false);
-  currentPage =0
-  currentData = 0;
-  currentPageFollwing = signal(0)
-  totalPages = signal(0);
-  totalPagesFollwing = signal(0);
-  pageSize = signal(3);
-  totalElement = 0;
-  nextPage=0;
+
+  // Separate pagination for each list
+  followingCurrentPage = 0;
+  followerCurrentPage = 0;
+  exploreCurrentPage = 0;
+
+  followingTotalPages = signal(0);
+  followersTotalPages = signal(0);
+  exploreTotalPages = signal(0);
+
+  followingTotalElements = 0;
+  followersTotalElements = 0;
+  exploreTotalElements = 0;
+
+  pageSize = signal(5);
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
     if (!this.isAuthenticated) return;
@@ -47,18 +56,36 @@ export class Following {
     this.followingLogic.loadingFollowing(0, this.pageSize())
     this.followingLogic.loadingExplore(0, this.pageSize())
 
-    this.followingLogic.pages$.subscribe({
-      next: response => {
-        this.totalPages.set(response.totalPage)
-        this.totalPagesFollwing.set(response.totalPagesFollwing)
-        this.totalElement = response.totalElements;
-        this.currentData = response.totalDataResponse
-       }
+    this.followingLogic.followingPages$.subscribe({
+      next: pages => {
+        this.followingCurrentPage = pages?.currentPage ?? 0;
+        this.followingTotalPages.set(pages?.totalPages ?? 0);
+        this.followingTotalElements = pages?.totalElements ?? 0;
+      }
     })
+
+    this.followingLogic.followersPages$.subscribe({
+      next: pages => {
+        this.followerCurrentPage = pages?.currentPage ?? 0;
+        this.followersTotalPages.set(pages?.totalPages ?? 0);
+        this.followersTotalElements = pages?.totalElements ?? 0;
+      }
+    })
+
+    this.followingLogic.explorePages$.subscribe({
+      next: pages => {
+        this.exploreCurrentPage = pages?.currentPage ?? 0;
+        this.exploreTotalPages.set(pages?.totalPages ?? 0);
+        this.exploreTotalElements = pages?.totalElements ?? 0;
+      }
+    })
+
+
+
+    // Subscribe to data
     this.subscriptions.add(
       this.followingLogic.following$.subscribe(following => {
         this.following = following;
-        console.log(following, "following ");
       })
     );
     this.subscriptions.add(
@@ -69,7 +96,6 @@ export class Following {
 
     this.subscriptions.add(
       this.followingLogic.explore$.subscribe(explore => {
-        console.log(explore, "explore");
         this.explore = explore;
       })
     );
@@ -88,62 +114,29 @@ export class Following {
   }
 
   loadingMoreFollowes() {
-    // this.followingLogic.loadingData(page, size);
-    const nextPage = this.currentPage + 1;
-    this.followingLogic.loading$.subscribe({
-      next: response => this.loading.set(response),
-      error: err => this.loading.set(false)
-    })
-
-    if (nextPage >= this.totalPages()) return;
+    if (this.loading() || this.followerCurrentPage >= this.followersTotalPages() - 1) {
+      return;
+    }
+    const nextPage = this.followerCurrentPage + 1;
     this.followingLogic.loadingFollowers(nextPage, this.pageSize())
   }
 
   loadingMoreExplore() {
-     this.nextPage+=this.currentPage+1;
-    console.log(this.nextPage,"here==");
-    
-    // console.log(nextPage, "))", this.totalPagesFollwing(), "next **");
-    this.followingLogic.pages$.subscribe({
-      next: response => {
-        this.currentData += response.totalDataResponse + 1;
-        if (this.currentData >= this.totalElement) {
-          this.loading.set(true)
-          return;
-        } else {
-          this.loading.set(false)
-        }
-      },
-      error: err => this.loading.set(false)
-    })
-
-    if (this.nextPage >= this.totalPagesFollwing()) return;
-    this.followingLogic.loadingExplore(this.nextPage, this.pageSize())
-    // this.loading.set(false);
-
+    if (this.loading() || this.exploreCurrentPage >= this.exploreTotalPages() - 1) {
+      return;
+    }
+    const nextPage = this.exploreCurrentPage + 1;
+    this.followingLogic.loadingExplore(nextPage, this.pageSize());
   }
-  loadingMoreFollowing() {
-    // if (this.loading() || this.currentPageFollwing() >= this.totalPagesFollwing() - 1) { return }
-    // let nextPage =0;
-    this.nextPage+=this.currentPage+1;
-    console.log(this.nextPage,"here==");
-    
-    // console.log(nextPage, "))", this.totalPagesFollwing(), "next **");
-    this.followingLogic.pages$.subscribe({
-      next: response => {
-        this.currentData += response.totalDataResponse + 1;
-        if (this.currentData >= this.totalElement) {
-          this.loading.set(true)
-          return;
-        } else {
-          this.loading.set(false)
-        }
-      },
-      error: err => this.loading.set(false)
-    })
 
-    if (this.nextPage >= this.totalPagesFollwing()) return;
-    this.followingLogic.loadingFollowing(this.nextPage, this.pageSize())
+
+  loadingMoreFollowing() {
+
+    if (this.loading() || this.followingCurrentPage >= this.followersTotalPages() - 1) {
+      return;
+    }
+    const nextPage = this.followingCurrentPage + 1;
+    this.followingLogic.loadingFollowing(nextPage, this.pageSize())
   }
   follow(id: string) {
     this.followingLogic.follow(id)
@@ -152,31 +145,21 @@ export class Following {
     this.followingLogic.Unfollow(id);
   }
   hasMoreFollowers(): boolean {
-    if (this.currentData >= this.totalElement) {
-      // console.log("herer");
-      return false
-    }
-    else {
-      return true
-    }
-    // return this.currentPage() < this.totalPages() - 1;
+    return this.followers.length < this.followersTotalElements;
   }
 
-  hasMorefollowing(): boolean {
-    // this.loading.set(false)
-    // console.log(this.currentData, this.totalElement);
+  hasMoreFollowing(): boolean {
 
-    if (this.currentData === this.totalElement) {
-      // console.log("herer");
-      return false
+    return this.following.length < this.followingTotalElements;
+  }
 
-    }
-    else {
-      // console.log(" oo is here ");
+  hasMoreExplore(): boolean {
+    return this.explore.length < this.exploreTotalElements;
+  }
 
-      return true
-    }
-    // return this.currentPageFollwing() < this.totalPagesFollwing() - 1;
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }
