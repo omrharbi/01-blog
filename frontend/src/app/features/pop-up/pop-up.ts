@@ -77,13 +77,9 @@ export class PopUp {
           }
         },
         error: error => {
-          console.log(error);
-
+          this.toasterService.error("Error To delete");
         }
       })
-
-      console.log();
-
 
 
     } else {
@@ -99,6 +95,7 @@ export class PopUp {
           }
         },
         error: error => {
+          this.toasterService.error("Error To delete");
           console.log(error, "****");
         }
       });
