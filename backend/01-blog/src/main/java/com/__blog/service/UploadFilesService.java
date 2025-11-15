@@ -25,7 +25,7 @@ public class UploadFilesService {
             throws IOException {
         List<Map<String, String>> response = new ArrayList<>();
         for (var file : files) {
-
+            
             String originalName = file.getOriginalFilename();
             if (originalName == null) {
                 originalName = "unnamed";

@@ -3,12 +3,13 @@ import { MediaRequest } from '../../../models/post/postRequest';
 import { Uploadimages } from '../../servicesAPIREST/uploadImages/uploadimages';
 import { MediaResponse, PostResponse } from '../../../models/post/postResponse';
 import { apiUrl } from '../../../constant/constante';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadImage {
-  constructor(private files: Uploadimages) { }
+  constructor(private toasterService: ToastrService) { }
 
   selectedImageFile?: File;
   selectedVideoFile?: File;
@@ -27,12 +28,31 @@ export class UploadImage {
       return;
     }
 
-    // Validate file type first
-    if (!file.type.startsWith('image/')  &&  !file.type.startsWith("video/")) {
-      console.error('Selected file is not an image');
-      this.uploadMessage = 'Please select a valid image file';
+
+    const maxSize = 100 * 1024 * 1024; // 100MB in bytes
+    if (file.size > maxSize) {
+      console.error('File too large:', this.formatFileSize(file.size), 'max allowed: 100MB');
+      this.uploadMessage = `File size ${this.formatFileSize(file.size)} exceeds 100MB limit`;
+      this.toasterService.error(this.uploadMessage);
+      // Clear the file input
+      input.value = '';
       return;
     }
+    // Validate file type first
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
+      'video/mp4', 'video/mpeg', 'video/ogg', 'video/webm', 'video/quicktime'];
+
+    if (!allowedTypes.some(type => file.type.startsWith(type.replace(/\/.*$/, '/')))) {
+      console.error('Invalid file type:', file.type);
+      this.uploadMessage = 'Please select a valid image (JPEG, PNG, GIF, WebP) or video (MP4, WebM, OGG) file';
+
+      // Clear the file input
+      this.toasterService.error(this.uploadMessage);
+
+      input.value = '';
+      return;
+    }
+
     // Create file with random name
     const randomFileName = this.generateRandomFileName(file.name);
     const fileWithRandomName = new File([file], randomFileName, { type: file.type });
@@ -53,6 +73,39 @@ export class UploadImage {
     this.selectImage(file.type, callback);
 
     // console.log('Total files ready for upload:', this.fileUpload.length);
+  }
+
+  private formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+  selectImage(type: string, callback: (imgHTML: string) => void) {
+    const file = this.selectedImageFile;
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      let imgHTML = "";
+      if (type.startsWith("image/")) {
+        imgHTML = `<img src="${reader.result}" class="imageMa">`;
+      }
+
+      if (type.startsWith("video/")) {
+        imgHTML = `
+          <video controls class="videoMa">
+            <source src="${reader.result}" type="${type}">
+            Your browser does not support the video tag.
+          </video>
+        `;
+      }
+      callback(imgHTML);
+    };
+    reader.readAsDataURL(file);
   }
 
   clearFiles() {
@@ -77,29 +130,6 @@ export class UploadImage {
     return `${timestamp}_${random}.${extension}`;
   }
 
-  selectImage(type: string, callback: (imgHTML: string) => void) {
-    const file = this.selectedImageFile;
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      let imgHTML = "";
-      if (type.startsWith("image/")) {
-        imgHTML = `<img src="${reader.result}" class="imageMa">`;
-      }
-
-      if (type.startsWith("video/")) {
-        imgHTML = `
-          <video controls class="videoMa">
-            <source src="${reader.result}" type="${type}">
-            Your browser does not support the video tag.
-          </video>
-        `;
-      }
-      callback(imgHTML);
-    };
-    reader.readAsDataURL(file);
-  }
 
   returnfiles(): MediaRequest[] {
     return this.medias;

@@ -24,7 +24,7 @@
     </button> -->
     <!-- Image Upload -->
     <input type="file" #imageInput style="display:none"
-     (change)="onImageSelected($event)" multiple accept="image//*" multiple>
+     (change)="onImageSelected($event)" multiple accept="image/*" multiple>
     <button class="btn btn-sm btn-outline-secondary" (click)="imageInput.click()" [disabled]="isUploading">
       {{ isUploading ? 'Uploading...' : 'Image' }}
     </button>

@@ -82,7 +82,6 @@ export class CreatePost {
     return true;
   }
   ngOnInit(): void {
-    // this.uploadImage.clearFiles()
     this.route.queryParams.subscribe(params => {
       this.isEdit = params['edit'] === 'true';
     });
@@ -107,7 +106,7 @@ export class CreatePost {
             uploadedMedias.push({
               filePath: fileResponse.filePath,
               filename: fileResponse.filename,
-              fileType: fileResponse.fileType || this.getFileType(fileResponse.filename),
+              fileType: fileResponse.fileType,
               fileSize: fileResponse.fileSize || 0,
               displayOrder: index
             });
@@ -117,8 +116,8 @@ export class CreatePost {
         this.clearAll()
       },
       error: (error) => {
-        this.toasterService.error(error);
-
+        const message = error?.message;
+        this.toasterService.error(message);
         console.log('error uploading images', error);
       }
     });
@@ -192,8 +191,6 @@ export class CreatePost {
   triggerFileInput() {
     this.imageInput.nativeElement.click();
   }
-
-
   get previewHtml(): string {
     let text_content = this.preview.renderMarkdownWithMedia(this.content);
     return text_content;
@@ -232,7 +229,6 @@ export class CreatePost {
     });
   }
 
-  // onVideoSelected()
   cancel() {
     this.clearAll()
     this.uploadImage.clearFiles()
@@ -268,18 +264,4 @@ export class CreatePost {
     this.previewMode = false;
   }
 
-  private getFileType(filename: string): string {
-    if (!filename) return 'application/octet-stream';
-    const ext = filename.split('.').pop()?.toLowerCase();
-    const mimeTypes: { [key: string]: string } = {
-      'jpg': 'image/jpeg',
-      'jpeg': 'image/jpeg',
-      'png': 'image/png',
-      'gif': 'image/gif',
-      'webp': 'image/webp',
-      'svg': 'image/svg+xml',
-      'pdf': 'application/pdf'
-    };
-    return mimeTypes[ext || ''] || 'application/octet-stream';
-  }
 }
