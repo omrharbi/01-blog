@@ -72,6 +72,10 @@ export class PopUp {
           if (response.status) {
 
             this.sharedService.removePost(this.post.id);
+            const postDiv = document.getElementById(this.post.id)
+            if (postDiv) {
+              postDiv?.remove()
+            }
           }
           // console.log(response, "delete post");
         },
@@ -84,7 +88,7 @@ export class PopUp {
 
   report() {
     this.isVisible = true
-   }
+  }
 
   onReasonChange() {
     if (this.selectedReason !== 'OTHER') {
@@ -97,5 +101,5 @@ export class PopUp {
       word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     ).join(' ');
   }
- 
+
 }

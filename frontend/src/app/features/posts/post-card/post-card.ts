@@ -96,6 +96,4 @@ export class PostCard {
     this.like.toggleLikePost(postId, post);
   }
 
-
-
 }

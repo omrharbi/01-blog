@@ -10,10 +10,6 @@ import { CommentResponse } from '../../../models/comment/CommentResponse';
 })
 export class likesServiceLogique {
   constructor(private like: LikesService) { }
-  // post?: PostResponse;
-  // private postSubject = new BehaviorSubject<PostResponse>({} as PostResponse);
-  // posts$ = this.postSubject.asObservable();
-
 
   toggleLikePost(postId: string, post: PostResponse) {
     const previousLiked = post.liked;

@@ -85,7 +85,7 @@ export class Profile {
     this.profileService.loadingProfile(username)
     this.profileService.dataProfile$.subscribe({
       next: response => {
-        console.log(response, "profile 000");
+        // console.log(response, "profile 000");
 
         this.userProfile.set(response)
       }
@@ -93,7 +93,7 @@ export class Profile {
     this.profile.isIFollow(username).subscribe({
       next: response => {
         this.isFollowing.set(response.data)
-        console.log(response, "is follow");
+        // console.log(response, "is follow");
 
       }, error: error => {
         console.log(error);
