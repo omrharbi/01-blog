@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NotificationServiceApi } from '../../servicesAPIREST/Notifications/notification-service';
 import { AuthService } from '../../servicesAPIREST/auth/auth-service';
 import { NotificationService } from '../../notificationAlert/NotificationService';
- 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -136,11 +136,6 @@ export class NotificationsServiceLogique {
       case "FOLLOW":
         this.toasterService.info(message, type);
         break
-      case "USER_BANNED":
-        this.notificationAlert.showError(message, true);
-
-        // this.toasterService.info(message, type);
-        break
       case "POST_LIKED":
         this.toasterService.info(message, type);
         break
@@ -150,11 +145,11 @@ export class NotificationsServiceLogique {
       case "ADMIN_REPORT_POST":
         this.toasterService.info(message, type);
         break
-      case "ADMIN_REPORT_USER":
-        this.toasterService.info(message, type);
+      case "USER_BANNED":
+        this.toasterService.warning(message, type);
         break
-      case "ADMIN_WARNING":
-        this.toasterService.info(message, type);
+      case "NEW_POST":
+        this.toasterService.info(message, "New Post");
         break
       default:
         'You have a new notification';
@@ -169,11 +164,13 @@ export class NotificationsServiceLogique {
       });
     }
   }
-  disconnect(): void {
-    // if (this.stompClient && this.stompClient.connected) {
-    //   this.stompClient.deactivate();
-    //   console.log('🔌 Disconnected');
-    // }
+  disconnect() {
+    if (this.notificationsSubscription) {
+      this.notificationsSubscription.unsubscribe();
+    }
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => console.log('❌ WebSocket disconnected'));
+    }
   }
 
   getNotifications() {

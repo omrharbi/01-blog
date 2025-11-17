@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../models/authentication/autResponse-module';
@@ -40,8 +40,15 @@ export class ProfileService {
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
+    let params = new HttpParams()
+       .set("page", page)
+      .set("size", size);
+    if (snapshotTime) {
+      params = params.set("snapshotTime", snapshotTime);
+    }
     return this.http.get<ApiResponseWithPage<PostResponse[]>>(
-      `${environment.user.getMyPosts}/${username}/posts?snapshotTime=${snapshotTime}&page=${page}&size=${size}`, {
+      `${environment.user.getMyPosts}/${username}/posts`, {
+      params,
       headers
     }
     )

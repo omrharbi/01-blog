@@ -121,7 +121,7 @@ export class Profile {
     if (this.loading || this.currentPage >= this.totalPages - 1) {
       return;
     }
-    this.snapshotTime=new Date().toISOString().replace('Z', '');;
+    this.snapshotTime= this.post[this.post.length-1].createdAt;
     this.loading = true;
     const nextPage = this.currentPage + 1;
     this.profile.GetMyPosts(this.snapshotTime,this.username(), nextPage, this.pageSize).subscribe({

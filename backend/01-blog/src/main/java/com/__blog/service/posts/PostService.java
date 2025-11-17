@@ -184,7 +184,8 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsFromUserUsername(String username,LocalDateTime snapshotTime,  int page,
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsFromUserUsername(String username,
+            LocalDateTime snapshotTime, int page,
             int size) {
         try {
             Optional<User> userOpt = userRepository.findByUsername(username);
@@ -192,18 +193,14 @@ public class PostService {
                 return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
             }
             LocalDateTime effectiveSnapshotTime = snapshotTime != null
-                ? snapshotTime
-                : LocalDateTime.now();
+                    ? snapshotTime
+                    : LocalDateTime.now();
             Pageable pageable = PageRequest.of(page, size);
             User user = userOpt.get();
-            Optional<Page<Post>> postsOpt = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(),effectiveSnapshotTime,  pageable);
+            Page<Post> postsOpt = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), effectiveSnapshotTime,
+                    pageable);
 
-            if (postsOpt.isEmpty() || postsOpt.get().isEmpty()) {
-                return ApiResponseUtil.success(null, null, "");
-
-            }
-
-            Page<PostResponse> postResponses = postsOpt.get()
+            Page<PostResponse> postResponses = postsOpt
                     .map(post -> postMapper.ConvertPostResponse(post, user.getId()));
 
             return ApiResponseUtil.success(postResponses, null, "");
@@ -222,7 +219,8 @@ public class PostService {
         LocalDateTime effectiveSnapshotTime = snapshotTime != null
                 ? snapshotTime
                 : LocalDateTime.now();
-        Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(effectiveSnapshotTime, pageable);
+        Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(effectiveSnapshotTime,
+                pageable);
         if (findPostResponses.isEmpty()) {
             return ApiResponseUtil.success(findPostResponses, null, "");
         }
