@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostRequest } from '../../../models/post/postRequest';
@@ -46,12 +46,19 @@ export class PostService {
       { headers }
     );
   }
-  getAllPost(page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
+  getAllPost(snapshotTime: string | null, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.get<ApiResponseWithPage<PostResponse[]>>(`${environment.post.posts}?page=${page}&size=${size}`, {
+    let params = new HttpParams()
+      .set("page", page)
+      .set("size", size);
+    if (snapshotTime) {
+      params = params.set("snapshotTime", snapshotTime);
+    }
+    return this.http.get<ApiResponseWithPage<PostResponse[]>>(`${environment.post.posts}`, {
+      params,
       headers
     });
   }

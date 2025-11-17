@@ -12,6 +12,7 @@ import { RequestEditProfile } from '../../../models/user/userProfileRequest';
 })
 export class ProfileService {
   constructor(private http: HttpClient) { }
+  // snapshotTime = null;
   profile(username: string): Observable<ApiResponse<UserProfile>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
@@ -34,13 +35,13 @@ export class ProfileService {
     }
     )
   }
-  GetMyPosts(username: string, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
+  GetMyPosts(snapshotTime: string | null, username: string, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
     return this.http.get<ApiResponseWithPage<PostResponse[]>>(
-      `${environment.user.getMyPosts}/${username}/posts?page=${page}&size=${size}`, {
+      `${environment.user.getMyPosts}/${username}/posts?snapshotTime=${snapshotTime}&page=${page}&size=${size}`, {
       headers
     }
     )

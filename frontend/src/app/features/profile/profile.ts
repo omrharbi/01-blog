@@ -10,12 +10,9 @@ import { PreviewService } from '../../core/service/serivecLogique/preview/previe
 import { apiUrl } from '../../core/constant/constante';
 import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { NotificationService } from '../../core/service/notificationAlert/NotificationService';
 import { FollowingService } from '../../core/service/servicesAPIREST/following/following-service';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
-import { use } from 'marked';
 import { ProfileServiceLogique } from '../../core/service/serivecLogique/profile/profile-service-profile';
-import { PopUp } from '../pop-up/pop-up';
 import { PopUpReport } from '../pop-up/pop-up-report/pop-up-report';
 
 @Component({
@@ -53,8 +50,8 @@ export class Profile {
     createdAt: ""
   });
 
-  show =  false;
-
+  show = false;
+  snapshotTime: string | null = null;
   apiUrl = apiUrl;
   countPost = 0;
   post: PostResponse[] = [];
@@ -68,7 +65,7 @@ export class Profile {
     this.editProfile = !this.editProfile;
   }
   report() {
-    this.show=!this.show
+    this.show = !this.show
   }
   createPost() {
     this.router.navigate(['/create'])
@@ -81,6 +78,7 @@ export class Profile {
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username') || '';
     this.username.set(username);
+    // this.username
     this.isAuthenticated = this.auth.isLoggedIn();
     this.profileService.loadingProfile(username)
     this.profileService.dataProfile$.subscribe({
@@ -104,9 +102,10 @@ export class Profile {
   }
 
   loadingPosts(username: string) {
+    this
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;
-    this.profile.GetMyPosts(username, 0, this.pageSize).subscribe((res) => {
+    this.profile.GetMyPosts(this.snapshotTime, username, 0, this.pageSize).subscribe((res) => {
       this.post = res.data?.content || [];
       this.currentPage = res.data.number;
       this.totalPages = res.data.totalPages;
@@ -122,10 +121,10 @@ export class Profile {
     if (this.loading || this.currentPage >= this.totalPages - 1) {
       return;
     }
-
+    this.snapshotTime=new Date().toISOString().replace('Z', '');;
     this.loading = true;
     const nextPage = this.currentPage + 1;
-    this.profile.GetMyPosts(this.username(), nextPage, this.pageSize).subscribe({
+    this.profile.GetMyPosts(this.snapshotTime,this.username(), nextPage, this.pageSize).subscribe({
       next: response => {
         if (response.data && response.data.content) {
           this.post = [...this.post, ...response.data.content];

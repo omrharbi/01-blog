@@ -137,8 +137,7 @@ public class UserService {
         return ApiResponseUtil.success(allUserResponses, null, "All users retrieved successfully");
     }
 
-    public ResponseEntity<ApiResponse<UserResponse>>
-     updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request,
+    public ResponseEntity<ApiResponse<UserResponse>> updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request,
             MultipartFile[] files) {
         Optional<User> user = repouser.findById(userPrincipal.getId());
         if (!user.isPresent()) {

@@ -34,6 +34,7 @@ export class Home {
   ) {
     // this.posts$ = this.postDatashard.posts$;
   }
+  snapshotTime: string | null = null;
 
   isAuthenticated: boolean = false;
   countPosts = signal(0);
@@ -88,7 +89,7 @@ export class Home {
   loadingPosts() {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;
-    this.postservice.getAllPost(0, this.pageSize).subscribe(response => {
+    this.postservice.getAllPost(this.snapshotTime, 0, this.pageSize).subscribe(response => {
       if (response.data && response.data.content) {
         this.posts = response.data.content;
         this.currentPage = response.data.number;
@@ -104,9 +105,11 @@ export class Home {
     if (this.loading || this.currentPage >= this.totalPages - 1) {
       return;
     }
+    this.snapshotTime=new Date().toISOString();
+
     this.loading = true;
     const nextPage = this.currentPage + 1;
-    this.postservice.getAllPost(nextPage, this.pageSize).subscribe({
+    this.postservice.getAllPost(this.snapshotTime, nextPage, this.pageSize).subscribe({
       next: response => {
         if (response.data && response.data.content) {
           this.posts = [...this.posts, ...response.data.content];

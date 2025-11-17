@@ -1,5 +1,6 @@
 package com.__blog.service.posts;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,9 +66,9 @@ public class PostService {
         }
         User user = userPrincipal.getUser();
         // if (postRequest.getTitle().isEmpty() || postRequest.getContent().isEmpty() ){
-        //      return ApiResponseUtil.error(
-        //             "❌ Title or content cannot be empty",
-        //             HttpStatus.BAD_REQUEST);
+        // return ApiResponseUtil.error(
+        // "❌ Title or content cannot be empty",
+        // HttpStatus.BAD_REQUEST);
         // }
         Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
@@ -183,16 +184,19 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsFromUserUsername(String username, int page,
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsFromUserUsername(String username,LocalDateTime snapshotTime,  int page,
             int size) {
         try {
             Optional<User> userOpt = userRepository.findByUsername(username);
             if (userOpt.isEmpty()) {
                 return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
             }
+            LocalDateTime effectiveSnapshotTime = snapshotTime != null
+                ? snapshotTime
+                : LocalDateTime.now();
             Pageable pageable = PageRequest.of(page, size);
             User user = userOpt.get();
-            Optional<Page<Post>> postsOpt = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), pageable);
+            Optional<Page<Post>> postsOpt = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(),effectiveSnapshotTime,  pageable);
 
             if (postsOpt.isEmpty() || postsOpt.get().isEmpty()) {
                 return ApiResponseUtil.success(null, null, "");
@@ -211,10 +215,14 @@ public class PostService {
         }
     }
 
-    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPosts(UUID userId, int page, int size) {
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPosts(UUID userId, LocalDateTime snapshotTime, int page,
+            int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(pageable);
+        LocalDateTime effectiveSnapshotTime = snapshotTime != null
+                ? snapshotTime
+                : LocalDateTime.now();
+        Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(effectiveSnapshotTime, pageable);
         if (findPostResponses.isEmpty()) {
             return ApiResponseUtil.success(findPostResponses, null, "");
         }

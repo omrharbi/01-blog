@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-// import { Notification } from '../../../models/Notification/Notification';
 import SockJS from 'sockjs-client';
 import * as Stomp from "stompjs"
 import { apiUrl, token } from '../../../constant/constante';
 import { JwtService } from '../../JWT/jwt-service';
-import { Title } from '@angular/platform-browser';
-import { NotificationRequest, NotificationResponse } from '../../../models/Notification/Notification';
+import { NotificationResponse } from '../../../models/Notification/Notification';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationServiceApi } from '../../servicesAPIREST/Notifications/notification-service';
 import { AuthService } from '../../servicesAPIREST/auth/auth-service';
 import { NotificationService } from '../../notificationAlert/NotificationService';
-// import { NotificationService  } from '../../../core/service/notificationAlert/NotificationService';
-
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +18,7 @@ export class NotificationsServiceLogique {
   constructor(private jwt: JwtService,
     private toasterService: ToastrService,
     private notificationServices: NotificationServiceApi, private auth: AuthService,
-      private notificationAlert: NotificationService
+    private notificationAlert: NotificationService
   ) { }
 
   private notificationsSubject = new BehaviorSubject<any>(null);

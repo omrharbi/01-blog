@@ -1,6 +1,9 @@
 package com.__blog.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,9 +43,10 @@ public class UserController {
 
     @GetMapping("/usersProfile/{username}/posts")
     public ResponseEntity<?> getAllMyPosts(@PathVariable("username") String username,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
-        return postService.getPostsFromUserUsername(username, page, size);
+        return postService.getPostsFromUserUsername(username, snapshotTime, page, size);
     }
 
     @GetMapping("/AllUser")

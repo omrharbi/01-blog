@@ -1,8 +1,10 @@
 package com.__blog.controller;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -48,11 +50,13 @@ public class PostController {
 
     @GetMapping("/getallPost")
     public ResponseEntity<?> getPosts(@AuthenticationPrincipal @Nullable UserPrincipal userPrincipal,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
+
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
 
-        return postservice.getPosts(userId, page, size);
+        return postservice.getPosts(userId, snapshotTime, page, size);
 
     }
 

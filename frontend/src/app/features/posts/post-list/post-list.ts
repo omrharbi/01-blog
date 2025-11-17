@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
 import { ActivatedRoute, } from '@angular/router';
@@ -15,7 +15,8 @@ import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
   selector: 'app-post-list',
   imports: [Materaile, Comment, TimeAgoPipe],
   templateUrl: './post-list.html',
-  styleUrl: './post-list.scss'
+  styleUrl: './post-list.scss',
+  // changeDetection :ChangeDetectionStrategy.OnPush// this is old to not chnage detections here  not work just i use evenet 
 })
 export class PostList {
   constructor(private postSerivce: PostService, private preview: PreviewService,

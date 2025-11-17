@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.__blog.model.dto.request.auth.RegisterRequest;
@@ -28,7 +28,9 @@ public class UserMapper {
 
         @Autowired
         private UserRepository userRepository;
-        private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        @Autowired
+        private PasswordEncoder encoder;
 
         public UserResponse ConvertResponse(User user, UUID userId) {
                 boolean isFollowingMe = subscriptionRepository
