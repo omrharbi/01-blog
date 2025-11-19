@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, QueryList, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, switchMap } from 'rxjs';
+import { combineLatest, switchMap, count } from 'rxjs';
 
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
@@ -49,7 +49,6 @@ export class PostList {
     private likeService: likesServiceLogique,
     private cdr: ChangeDetectorRef
   ) { }
-
   ngOnInit() {
     combineLatest([
       this.route.params,
@@ -60,6 +59,7 @@ export class PostList {
       )
       .subscribe({
         next: (response) => {
+           
           this.handlePost(response.data);
         },
         error: (err) => {

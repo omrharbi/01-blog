@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, signal, SimpleChanges } from '@angular/core';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { CommentService } from '../../core/service/servicesAPIREST/comment/comment-service';
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
@@ -51,6 +51,7 @@ export class Comment {
   idComment = "";
   // isOwner: boolean = false;
   isAuthenticated: boolean = false;
+  countComments = signal(0);
 
   showPopUp: { [commentId: string]: boolean } = {};
   ngOnInit() {
@@ -62,8 +63,6 @@ export class Comment {
         this.content = event.data.content;
         this.isEdit = true;
       }
-
-      
     })
 
     this.servicePopUp.popService$.subscribe(commentId => {
@@ -116,6 +115,7 @@ export class Comment {
 
     this.commentService.getComments(this.postId).subscribe({
       next: response => {
+        this.countComments.set(response.data.length);
         this.getAllComment = response.data;
       },
       error: error => {
