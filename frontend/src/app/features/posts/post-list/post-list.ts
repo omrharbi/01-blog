@@ -39,8 +39,7 @@ export class PostList {
     likesCount: 0,
     commentCount: 0,
   };
-
-  loading: boolean = true;
+    loading: boolean = true;
 
   constructor(
     private postService: PostService,

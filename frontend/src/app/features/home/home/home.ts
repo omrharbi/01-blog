@@ -46,6 +46,9 @@ export class Home {
   pageSize = 5;
   totalPages = 0;
   loading = false;
+  loading_post=true;
+
+  
   ngOnInit() {
     this.loadingPosts()
 
@@ -96,6 +99,7 @@ export class Home {
         this.totalPages = response.data.totalPages;
         this.postDatashard.setPosts(this.posts);
         this.loading = false;
+        this.loading_post=false;
       }
     });
 

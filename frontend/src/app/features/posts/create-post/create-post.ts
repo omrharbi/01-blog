@@ -50,7 +50,7 @@ export class CreatePost {
   isSelect: boolean = false;
   selectedFiles: File[] = [];
   newFiles: File[] = [];
-
+  loading = false;
   postData: PostResponse = {
     id: "",
     title: '',

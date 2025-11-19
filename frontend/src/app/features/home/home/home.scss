@@ -29,3 +29,33 @@
   overflow: hidden;
 }
 
+
+// loading
+
+
+.feed-card--placeholder {
+  padding: 1rem;
+  background: var(--card-color);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skeleton-line {
+  display: block;
+  height: 1rem;
+  background: var(--card-color);
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
+
+.skeleton-line--xs { width: 20%; }
+.skeleton-line--md { width: 60%; }
+.skeleton-line--lg { width: 90%; }
+
+.skeleton-pill {
+  display: inline-block;
+  width: 4rem;
+  height: 1rem;
+  background: var(--card-color);;
+  border-radius: 50px;
+}

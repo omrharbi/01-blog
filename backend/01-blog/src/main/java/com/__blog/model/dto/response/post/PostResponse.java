@@ -14,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
+// @AllArgsConstructor
 public class PostResponse {
 
     private UUID id;
@@ -32,9 +33,16 @@ public class PostResponse {
     private int likesCount;
     private int commentCount;
 
-    public PostResponse(UUID id, UUID uuid_user, String title, String content,
-            LocalDateTime createdAt, String firstImage,
-            String firstname, String lastname, String username) {
+    public PostResponse(
+            UUID id,
+            UUID uuid_user,
+            String title,
+            String content,
+            LocalDateTime createdAt,
+            String firstImage,
+            String firstname,
+            String lastname,
+             String username) {
         this.id = id;
         this.uuid_user = uuid_user;
         this.title = title;
@@ -43,19 +51,7 @@ public class PostResponse {
         this.firstImage = firstImage;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.username = username;
+         this.username = username;
     }
 
-    public PostResponse(UUID id, UUID uuid_user, String title, String content,
-            LocalDateTime createdAt,
-            String firstname, String lastname, String username) {
-        this.id = id;
-        this.uuid_user = uuid_user;
-        this.title = title;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.username = username;
-    }
 }

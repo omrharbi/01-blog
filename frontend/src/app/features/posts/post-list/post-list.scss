@@ -118,3 +118,43 @@
   75% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
+
+
+// loaded from 'frontend/src/app/features/posts/post-list/post-list.scss'
+
+
+.post-skeleton {
+  padding: 1rem;
+
+  .skeleton-hero {
+    width: 100%;
+    height: 300px;
+    background: #e0e0e0;
+    border-radius: 0.5rem;
+  }
+
+  .skeleton-line {
+    height: 1rem;
+    background: #e0e0e0;
+    border-radius: 4px;
+
+    &.skeleton-line--xs { width: 20%; }
+    &.skeleton-line--sm { width: 40%; }
+    &.skeleton-line--md { width: 60%; }
+    &.skeleton-line--lg { width: 90%; }
+  }
+
+  .skeleton-avatar {
+    width: 48px;
+    height: 48px;
+    background: #e0e0e0;
+    border-radius: 50%;
+  }
+
+  .skeleton-pill {
+    width: 80px;
+    height: 1.5rem;
+    background: #e0e0e0;
+    border-radius: 50px;
+  }
+}

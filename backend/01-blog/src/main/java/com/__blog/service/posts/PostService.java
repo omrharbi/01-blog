@@ -20,8 +20,6 @@ import com.__blog.model.dto.request.MediaRequest;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
-import com.__blog.model.dto.response.MediaResponse;
-import com.__blog.model.dto.response.TagsResponse;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
@@ -169,23 +167,16 @@ public class PostService {
             return ApiResponseUtil.error("Invalid post ID " + postId, HttpStatus.NOT_FOUND);
         }
 
-        Optional<PostResponseWithMedia> postOptional = postRepository.findPostDto(postId);
+        Optional<Post> postOptional = postRepository.findByIdWithMedias(postId);
 
         if (postOptional.isPresent()) {
-            // var post = postOptional.get();
-            // if (post.isHidden()) {
-            // return ApiResponseUtil.error("this Post Is Hidan From Admin ",
-            // HttpStatus.BAD_REQUEST);
-            // }
-            List<MediaResponse> medias = postRepository.findAllMediaByPostId(postId);
-            List<TagsResponse> tags = postRepository.findAllTagsByPostId(postId);
+            Post post = postOptional.get();
+            if (post.isHidden()) {
+                return ApiResponseUtil.error("this Post Is Hidan From Admin ", HttpStatus.BAD_REQUEST);
+            }
 
-            postOptional.get().setMedias(medias);
-            postOptional.get().setTags(tags);
-
-            // PostResponseWithMedia postResponse =
-            // postMapper.convertToPostWithMediaResponse(post, userId);
-            return ApiResponseUtil.success(postOptional.get(), null, ""); // token null si pas nécessaire
+            PostResponseWithMedia postResponse = postMapper.convertToPostWithMediaResponse(post, userId);
+            return ApiResponseUtil.success(postResponse, null, ""); // token null si pas nécessaire
         } else {
             return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
         }
