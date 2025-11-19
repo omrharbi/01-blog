@@ -25,6 +25,8 @@ public class LikeController {
 
     @PostMapping("/toggleLikePost/{target}")
     public ResponseEntity<?> toggleLikePost(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID target) {
+                                    // System.err.println("userLikedPostIds ***********************" + userPrincipal.getId());
+
         return  likeService.toggleLikePost(userPrincipal, target);
      }
 

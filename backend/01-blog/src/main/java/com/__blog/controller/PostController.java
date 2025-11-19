@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,13 +51,21 @@ public class PostController {
     }
 
     @GetMapping("/getallPost")
-    public ResponseEntity<?> getPosts(@AuthenticationPrincipal  UserPrincipal userPrincipal,
+    public ResponseEntity<?> getPosts(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
 
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-                System.err.println("userLikedPostIds ***********************" + userPrincipal);
-        UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
+
+        UUID userId = null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof UserPrincipal) {
+            userId = ((UserPrincipal) auth.getPrincipal()).getId();
+            System.err.println("Authenticated userId: " + userId);
+        } else {
+            System.err.println("Anonymous request, userId is null");
+        }
+        System.err.println("userId in getPosts: " + userId);
 
         return postservice.getPosts(userId, snapshotTime, page, size);
 
