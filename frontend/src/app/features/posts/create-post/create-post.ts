@@ -4,7 +4,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  input,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -27,7 +26,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [Materaile, MarkdownModule, MarkdownEditor, Preview],
   templateUrl: './create-post.html',
-  styleUrl: './create-post.scss',
+  styleUrls: ['./create-post.scss'],
 })
 export class CreatePost {
   constructor(
@@ -88,35 +87,43 @@ export class CreatePost {
     const editData = this.sharedServicePost.getEditPost();
     if (editData) {
       this.postData = { ...editData };
-      this.content = this.postData.content;
-      this.title = this.postData.title;
-      this.excerpt = this.postData.excerpt;
+      this.content = this.postData.content || '';
+      this.title = this.postData.title || '';
+      this.excerpt = this.postData.excerpt || '';
+      // if there is already a cover image in the post, mark as selected
+      if ((this.postData.firstImage && this.postData.firstImage.trim()) ||
+        (this.postData.medias && this.postData.medias.length > 0)) {
+        this.isSelect = true;
+        this.coverImageSrc = this.postData.firstImage || (this.postData.medias && this.postData.medias[0]?.filePath) || '';
+      }
     } else {
       this.clearAll()
     }
   }
 
   submitPost() {
-if (!this.isSelect) {
+    this.submitted = true;
+
+    // For create require cover image; for edit allow existing media
+    const hasExistingCover = !!(this.postData?.firstImage) || (this.postData?.medias && this.postData.medias.length > 0);
+    if (!this.isEdit && !this.isSelect && !hasExistingCover) {
       this.toasterService.warning("Cover image is required");
       return;
     }
-    if (!this.title.trim()) {
+
+    // Validate title
+    if (!this.title || !this.title.trim()) {
       this.toasterService.warning("Title is required");
       return;
     }
 
-    
-
-    if (!this.content.trim()) {
+    // Validate content by stripping HTML (editor may provide html)
+    const plain = this.getPlainText(this.content);
+    if (!plain) {
       this.toasterService.warning("Content cannot be empty");
       return;
     }
 
-    if (this.tags.length === 0) {
-      this.toasterService.warning("Please add at least one tag");
-      return;
-    }
     this.newFiles = this.uploadImage.uploadfiles();
     this.images.saveImages(this.newFiles).subscribe({
       next: (response) => {
@@ -136,7 +143,7 @@ if (!this.isSelect) {
         this.clearAll()
       },
       error: (error) => {
-        const message = error?.message;
+        const message = error?.message || 'Upload error';
         this.toasterService.error(message);
         console.log('error uploading images', error);
       }
@@ -149,7 +156,8 @@ if (!this.isSelect) {
     this.tags = []
     this.newFiles = []
     this.content = ""
-
+    this.isSelect = false;
+    this.coverImageSrc = '';
   }
   private submitPostData(allMedias: any[]) {
     const contentWithoutHTML = this.removeImage(this.content);
@@ -168,24 +176,25 @@ if (!this.isSelect) {
       this.postService.editPost(postRequest, this.postData.id).subscribe({
         next: (response) => {
           this.sharedServicePost.setNewPost(response.data);
-          this.toasterService.success("Edite Posts Posts Success");
+          this.toasterService.success("Edit Post Success");
           this.clearAll()
           this.router.navigate(['/home']);
         },
         error: (error) => {
-          this.toasterService.error(error);
+          this.toasterService.error(error?.message || 'Update error');
           console.error('error to update post', error);
         }
       });
     } else {
       this.postService.createPosts(postRequest).subscribe({
         next: (response) => {
-          this.toasterService.success("create Posts Success");
+          this.toasterService.success("Create Post Success");
           this.sharedServicePost.setNewPost(response.data);
           this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('error to save post', error);
+          this.toasterService.error(error?.message || 'Save error');
         }
       });
     }
@@ -235,6 +244,13 @@ if (!this.isSelect) {
     html = html.replace(/<img\b[^>]*>/gi, '');
     html = html.replace(/<video\b[^>]*>[\s\S]*?<\/video>/gi, '')
     return html;
+  }
+
+  private getPlainText(html: string): string {
+    if (!html) return '';
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent?.trim() || '';
   }
 
   onImageSelected(event: Event) {

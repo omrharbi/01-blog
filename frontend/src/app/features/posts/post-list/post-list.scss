@@ -1,56 +1,46 @@
+/* ----------------------------- */
+/* Typography                    */
+/* ----------------------------- */
+
 .text-header {
   color: var(--foreground) !important;
   font-size: 2.5rem;
 }
 
+/* ----------------------------- */
+/* Image Styles                  */
+/* ----------------------------- */
+
 .img-cover {
   width: 100%;
   height: 400px;
-  /* Adjust this height as needed */
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  /* Optional: if you want rounded corners */
 }
 
 .img-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* This makes the image cover the container */
   object-position: center;
-  /* Centers the image within the container */
 }
-.border-bottom{
-  // border: 2px dashed var(--border) !important;
-  border-bottom: 1px solid var(--border) !important;
-  border-top: 1px solid var(--border) !important;
-}
-/* Alternative: If you want the image to show full content without cropping */
+
+/* Alternative (contain image without cropping) */
 .img-contain img {
   object-fit: contain;
   background-color: #f8f9fa;
-  /* Adds background for empty space */
 }
 
-/* Responsive height variations */
-.img-cover-sm {
-  height: 200px;
-}
+/* Responsive sizes */
+.img-cover-sm { height: 200px; }
+.img-cover-md { height: 300px; }
+.img-cover-lg { height: 500px; }
 
-.img-cover-md {
-  height: 300px;
-}
-
-.img-cover-lg {
-  height: 500px;
-}
-
-/* For dynamic height based on aspect ratio */
+/* Auto aspect ratio container */
 .img-cover-auto {
   height: 0;
   padding-bottom: 56.25%;
-  /* 16:9 aspect ratio */
   position: relative;
 }
 
@@ -62,52 +52,69 @@
   height: 100%;
   object-fit: cover;
 }
-.btn  {
-  color: var( --muted-foreground);
+
+/* ----------------------------- */
+/* Borders                       */
+/* ----------------------------- */
+
+.border-bottom {
+  border-bottom: 1px solid var(--border) !important;
+  border-top: 1px solid var(--border) !important;
 }
 
- 
+/* ----------------------------- */
+/* Buttons                       */
+/* ----------------------------- */
 
- 
+.btn {
+  color: var(--muted-foreground) !important;
+  border: none !important;
+  background: transparent;
+}
+
+/* Override bootstrap muted text */
+.text-muted {
+  color: var(--muted) !important;
+}
+
+/* ----------------------------- */
+/* Like Button Styles            */
+/* ----------------------------- */
+
+/* When liked */
 .liked .liked-icon {
-    color: var(--accent) !important;
-    animation: heartBeat 0.6s ease;
+  color: var(--accent) !important;
+  animation: heartBeat 0.6s ease;
 }
 
 .liked .liked-text {
-    color: var(--accent) !important;
-    font-weight: 600;
+  color: var(--accent) !important;
+  font-weight: 600;
 }
 
- 
+/* When NOT liked */
 .not-liked .not-liked-icon {
-    color: var(--muted) !important; /* Bootstrap text-muted color */
+  color: var(--muted) !important;
 }
 
 .not-liked .not-liked-text {
-    color: var(--muted) !important;
-}
- 
-@keyframes heartBeat {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.3); }
-    50% { transform: scale(1.1); }
-    75% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+  color: var(--muted) !important;
 }
 
-/* hover effect */
-.like-btn:hover .not-liked-icon {
-    color: var(--accent) !important; /* Bootstrap danger color */
-}
-
+/* Hover effect */
+.like-btn:hover .not-liked-icon,
 .like-btn:hover .not-liked-text {
-    color: var(--accent) !important;
+  color: var(--accent) !important;
 }
-.text-muted{
-    color: var(--muted) !important;
-}
-.btn{
-  border: none;
-    animation: heartBeat 0.6s ease;
+
+/* ----------------------------- */
+/* Animations                    */
+/* ----------------------------- */
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(1.1); }
+  75% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }

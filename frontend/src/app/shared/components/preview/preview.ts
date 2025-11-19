@@ -22,7 +22,7 @@ export class Preview {
     if (!this.isPreviewMode) return html;
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
-    const image = doc.querySelectorAll('img')
+    const image = doc.querySelectorAll('img') || doc.querySelectorAll('vidoe')
      image.forEach(img => {
       const div = document.createElement("div");
       div.classList.add("container-image-perview")

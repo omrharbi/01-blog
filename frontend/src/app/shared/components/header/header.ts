@@ -32,6 +32,8 @@ export class Header implements OnInit {
       this.notifLogique.loadingNotifications();
       this.notificationIcons.notificationIcons$.subscribe({
         next: isNotification => {
+          console.log(isNotification,"**/****");
+          
           this.hasUnreadNotifications = isNotification
         }
       })

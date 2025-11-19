@@ -60,8 +60,7 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
     prefix: string,
     suffix: string,
     placeholder: string,
-    event?: MouseEvent
-  ): void {
+    event?: MouseEvent ): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();

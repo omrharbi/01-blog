@@ -47,7 +47,7 @@ export class NotificationsServiceLogique {
 
   unreadNotificationCount() {
     let numbers = this.notifications.filter(n => !n.read).length;
-    this.notificationIconsSubject.next(true)
+    this.notificationIconsSubject.next(numbers===0?false:true)
     this.unreadCountSubject.next(numbers)
   }
   markAsRead(id: string): void {

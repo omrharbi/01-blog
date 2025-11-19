@@ -42,7 +42,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Only validate token if it's a protected endpoint
 
         try {
-
             String header = request.getHeader("Authorization");
             SecurityContext sc = SecurityContextHolder.getContext();// for check if user already have authenticate
             if (header == null || !header.startsWith("Bearer ")) {

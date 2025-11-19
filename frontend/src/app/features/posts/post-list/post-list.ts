@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { combineLatest, switchMap } from 'rxjs';
+
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
-import { ActivatedRoute, } from '@angular/router';
 import { PostResponse } from '../../../core/models/post/postResponse';
 import { apiUrl } from '../../../core/constant/constante';
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 import { Comment } from '../../comment/comment';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
-import { likeResponse } from '../../../core/models/like/likeResponse';
 import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
 import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
 
@@ -15,16 +16,14 @@ import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
   selector: 'app-post-list',
   imports: [Materaile, Comment, TimeAgoPipe],
   templateUrl: './post-list.html',
-  styleUrl: './post-list.scss',
-  // changeDetection :ChangeDetectionStrategy.OnPush// this is old to not chnage detections here  not work just i use evenet 
+  styleUrls: ['./post-list.scss']
 })
 export class PostList {
-  constructor(private postSerivce: PostService, private preview: PreviewService,
-    private route: ActivatedRoute, private replceimge: UploadImage,
-    private like: likesServiceLogique,
-    private cdr: ChangeDetectorRef) { }
-  apiUrl = apiUrl
+
+  apiUrl = apiUrl;
+
   @ViewChild('commentsSection') commentsSection!: QueryList<ElementRef>;
+
   post: PostResponse = {
     id: "",
     title: "",
@@ -40,46 +39,68 @@ export class PostList {
     likesCount: 0,
     commentCount: 0,
   };
+
   loading: boolean = true;
-  error: string = '';
+
+  constructor(
+    private postService: PostService,
+    private preview: PreviewService,
+    private route: ActivatedRoute,
+    private replaceImage: UploadImage,
+    private likeService: likesServiceLogique,
+    private cdr: ChangeDetectorRef
+  ) { }
+
   ngOnInit() {
-
-    this.route.queryParams.subscribe(params => {
-      if (params['scrollTo'] === 'comments') {
-        setTimeout(() => this.scrollToComments(), 500);
-      }
-    });
-    this.route.params.subscribe(params => {
-      const id = params["id"];
-      this.postSerivce.getpostByID(id).subscribe({
+    combineLatest([
+      this.route.params,
+      this.route.queryParams
+    ])
+      .pipe(
+        switchMap(([params]) => this.postService.getpostByID(params['id']))
+      )
+      .subscribe({
         next: (response) => {
-          console.log(response.data, "all data from post ");
-
-          Object.assign(this.post, response.data);
-          let htmlContent = this.replceimge.replaceImage(this.post.htmlContent ?? "", this.post);
-          this.post.htmlContent = this.preview.renderMarkdownWithMedia(htmlContent); htmlContent;
+          this.handlePost(response.data);
         },
-        error: (error) => {
-          console.log("error to get post", error);
-
+        error: (err) => {
+          console.error("Failed to load post:", err);
+          this.loading = false;
         }
-      })
-    })
-
-
-  }
-  scrollToComments() {
-    const commentsSection = document.getElementById('commentsSection');
-    if (commentsSection) {
-      commentsSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
       });
+  }
+
+  handlePost(data: PostResponse) {
+    Object.assign(this.post, data);
+
+    let cleanedContent = this.replaceImage.replaceImage(this.post.htmlContent ?? "", this.post);
+
+    // Force images & videos to be responsive
+    cleanedContent = cleanedContent.replace(
+      /<img(.*?)>/g,
+      `<img $1 style="max-width:100%;height:auto;display:block;margin:1rem 0;border-radius:10px;">`
+    );
+
+    cleanedContent = cleanedContent.replace(
+      /<video(.*?)>/g,
+      `<video $1 style="max-width:100%;height:auto;display:block;margin:1rem 0;border-radius:10px;" controls>`
+    );
+
+    this.post.htmlContent = this.preview.renderMarkdownWithMedia(cleanedContent);
+
+    this.loading = false;
+    this.cdr.detectChanges();
+  }
+
+  scrollToComments() {
+    const section = document.getElementById('commentsSection');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
   toggleLikePost(postId: string, post: PostResponse) {
-    this.like.toggleLikePost(postId, post);
+    this.likeService.toggleLikePost(postId, post);
     this.cdr.detectChanges();
   }
 
