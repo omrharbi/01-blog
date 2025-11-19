@@ -108,14 +108,19 @@
                                     <div
                                         class="d-flex align-items-center justify-content-between py-3 border-top border-bottom">
                                         <div class="d-flex align-items-center gap-3">
-                                            <button [class.liked]="post.liked" [class.not-liked]="!post.liked"
+                                            <button [class.liked]="post.liked" [class.not-liked]="!(post.liked)"
+                                                (click)="toggleLikePost(post.id, post)"
                                                 class="btn btn-link text-decoration-none p-0 d-flex align-items-center gap-2 like-btn">
+
                                                 <mat-icon [class.liked-icon]="post.liked"
-                                                    [class.not-liked-icon]="!post.liked">
+                                                    [class.not-liked-icon]="!(post.liked)">
                                                     {{ post.liked ? 'favorite' : 'favorite_border' }}
                                                 </mat-icon>
-                                                <span
-                                                    [ngClass]="{ 'liked-text': post.liked, 'not-liked-text': !post.liked }">
+
+                                                <span [ngClass]="{
+                                                    'liked-text': post.liked,
+                                                    'not-liked-text': !post.liked
+                                                    }">
                                                     {{ post.likesCount }}
                                                 </span>
                                             </button>
