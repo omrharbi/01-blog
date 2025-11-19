@@ -2,9 +2,11 @@ package com.__blog.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ import com.__blog.model.entity.Post;
 import com.__blog.model.entity.Tags;
 import com.__blog.repository.MediaRepository;
 import com.__blog.repository.PostRepository;
- import com.__blog.repository.TagRepository;
+import com.__blog.repository.TagRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -43,10 +45,10 @@ public class PostMapper {
     @Autowired
     private MediaRepository mediaRepository;
 
-
     public PostResponseWithMedia convertToPostWithMediaResponse(Post post, UUID userid) {
 
-        // boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
+        // boolean isLiked =
+        // postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
         int countComment = postRepository.countByCommentsPostId(post.getId());
         int countLike = postRepository.countBylikesPostId(post.getId());
         List<MediaResponse> mediaResponses = new ArrayList<>();
@@ -121,16 +123,18 @@ public class PostMapper {
                 .collect(Collectors.toList());
         Map<UUID, Long> likeCounts = getLikeCountsMap(postIds);
         Map<UUID, Long> commentCounts = getCommentCountsMap(postIds);
-        // Set<UUID> userLikedPostIds = userId != null
-        //         ? postRepository.findUserLikedPostIds(postIds, userId)
-        //         : new HashSet<>();
+        Set<UUID> userLikedPostIds = userId != null
+                ? postRepository.findUserLikedPostIds(postIds, userId)
+                : new HashSet<>();
+
+
         Map<UUID, List<MediaResponse>> mediaMap = getMediaMap(postIds);
         Map<UUID, List<TagsResponse>> tagsMap = getTagsMap(postIds);
 
         Page<PostResponse> enrichedPosts = basicPosts.map(post -> {
             var post_avatar = postRepository.findById(post.getId());
             // System.err.println("****"+post_avatar.get().getUser().getAvatarUrl());
-          return  PostResponse.builder()
+            return PostResponse.builder()
                     .id(post.getId())
                     .uuid_user(post.getUuid_user())
                     .title(post.getTitle())
@@ -148,7 +152,7 @@ public class PostMapper {
                     .likesCount(likeCounts.getOrDefault(post.getId(), 0L).intValue())
                     .commentCount(commentCounts.getOrDefault(post.getId(), 0L).intValue())
                     .build();
-             
+
         });
 
         return enrichedPosts;

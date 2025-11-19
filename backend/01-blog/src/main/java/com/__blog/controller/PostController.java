@@ -49,11 +49,12 @@ public class PostController {
     }
 
     @GetMapping("/getallPost")
-    public ResponseEntity<?> getPosts(@AuthenticationPrincipal @Nullable UserPrincipal userPrincipal,
+    public ResponseEntity<?> getPosts(@AuthenticationPrincipal  UserPrincipal userPrincipal,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
 
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+                System.err.println("userLikedPostIds ***********************" + userPrincipal);
         UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
 
         return postservice.getPosts(userId, snapshotTime, page, size);
