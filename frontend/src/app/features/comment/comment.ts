@@ -88,13 +88,18 @@ export class Comment {
 
       this.commentService.AddComment(this.addComment).subscribe({
         next: response => {
-          this.commentResponse = response.data;
-          this.getAllComment = this.getAllComment || [];
-          this.getAllComment.unshift(response.data)
-          this.content = "";
+          if (response.status) {
+            this.commentResponse = response.data;
+             this.countComments.set(this.countComments() + 1);
+
+
+            this.getAllComment = this.getAllComment || [];
+            this.getAllComment.unshift(response.data)
+            this.content = "";
+          }
         },
         error: error => {
-          // console.log("Error To Add Comment ", error);
+          console.log("Error To Add Comment ", error);
         }
       })
     }
@@ -112,7 +117,6 @@ export class Comment {
     return this.isPostOwner(comment); (this.post);
   }
   getComments() {
-
     this.commentService.getComments(this.postId).subscribe({
       next: response => {
         this.countComments.set(response.data.length);
@@ -120,7 +124,6 @@ export class Comment {
       },
       error: error => {
         console.log("Error to get comment ", error);
-
       }
     })
   }
