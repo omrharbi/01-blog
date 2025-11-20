@@ -17,8 +17,9 @@ export class UploadImage {
   medias: MediaRequest[] = [];
   fileUpload: File[] = [];
   currentDisplayOrder = 0;
+  isCoverImage = false;
 
-  onImageSelected(event: Event, callback: (imgHTML: string) => void) {
+  onImageSelected(event: Event, callback: (imgHTML: string) => void, isCover: boolean = false) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     console.log(file, "file ");
@@ -28,27 +29,22 @@ export class UploadImage {
       return;
     }
 
-
     const maxSize = 100 * 1024 * 1024; // 100MB in bytes
     if (file.size > maxSize) {
       console.error('File too large:', this.formatFileSize(file.size), 'max allowed: 100MB');
       this.uploadMessage = `File size ${this.formatFileSize(file.size)} exceeds 100MB limit`;
       this.toasterService.error(this.uploadMessage);
-      // Clear the file input
       input.value = '';
       return;
     }
-    // Validate file type first
+
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
       'video/mp4', 'video/mpeg', 'video/ogg', 'video/webm',];
 
     if (!allowedTypes.some(type => file.type.startsWith(type.replace(/\/.*$/, '/')))) {
       console.error('Invalid file type:', file.type);
       this.uploadMessage = 'Please select a valid image (JPEG, PNG, GIF, WebP) or video (MP4, WebM, OGG) file';
-
-      // Clear the file input
       this.toasterService.error(this.uploadMessage);
-
       input.value = '';
       return;
     }
@@ -56,23 +52,41 @@ export class UploadImage {
     // Create file with random name
     const randomFileName = this.generateRandomFileName(file.name);
     const fileWithRandomName = new File([file], randomFileName, { type: file.type });
-    this.fileUpload.push(fileWithRandomName);
 
-    // Create media request for preview (use original file for createObjectURL)
+    // If this is a cover image, handle it separately
+    if (isCover) {
+      // Remove any existing cover image first
+      this.removeCoverImage();
+      this.fileUpload.unshift(fileWithRandomName);
+      this.isCoverImage = true;
+    } else {
+      this.fileUpload.push(fileWithRandomName);
+    }
+
+    // Create media request for preview
     const mediaRequest: MediaRequest = {
-      filename: randomFileName, // Use the random filename here too
+      filename: randomFileName,
       filePath: URL.createObjectURL(file),
       fileType: file.type,
       fileSize: file.size,
-      displayOrder: this.currentDisplayOrder++
+      displayOrder: isCover ? 0 : this.currentDisplayOrder++,
+      isCoverImage: isCover // Add flag to identify cover images
     };
-    this.medias.push(mediaRequest);
 
-    // Set selected image and trigger callback
+    // If cover image, add at beginning, otherwise add at end
+    if (isCover) {
+      this.medias.unshift(mediaRequest);
+      // Update display order for other medias
+      this.medias.forEach((media, index) => {
+        media.displayOrder = index;
+      });
+      this.currentDisplayOrder = this.medias.length;
+    } else {
+      this.medias.push(mediaRequest);
+    }
+
     this.selectedImageFile = file;
     this.selectImage(file.type, callback);
-
-    // console.log('Total files ready for upload:', this.fileUpload.length);
   }
 
   private formatFileSize(bytes: number): string {
@@ -84,6 +98,7 @@ export class UploadImage {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
+
   selectImage(type: string, callback: (imgHTML: string) => void) {
     const file = this.selectedImageFile;
     if (!file) return;
@@ -108,6 +123,55 @@ export class UploadImage {
     reader.readAsDataURL(file);
   }
 
+  removeFileByName(filename: string) {
+    // Find and remove from fileUpload array
+    const fileIndex = this.fileUpload.findIndex(file => file.name === filename);
+    if (fileIndex !== -1) {
+      this.fileUpload.splice(fileIndex, 1);
+    }
+
+    // Find and remove from medias array
+    const mediaIndex = this.medias.findIndex(media => media.filename === filename);
+    if (mediaIndex !== -1) {
+      // Revoke object URL to prevent memory leak
+      if (this.medias[mediaIndex].filePath.startsWith('blob:')) {
+        URL.revokeObjectURL(this.medias[mediaIndex].filePath);
+      }
+      this.medias.splice(mediaIndex, 1);
+    }
+
+    // Update display order for remaining medias
+    this.medias.forEach((media, index) => {
+      media.displayOrder = index;
+    });
+
+    // Reset current display order
+    this.currentDisplayOrder = this.medias.length;
+
+    console.log('Removed file:', filename, '- Remaining files:', this.fileUpload.length);
+  }
+
+  // Helper method to remove cover image specifically
+  private removeCoverImage() {
+    const coverIndex = this.medias.findIndex(media => media.filename);
+    if (coverIndex !== -1) {
+      const coverFilename = this.medias[coverIndex].filename;
+      if (coverFilename)
+        this.removeFileByName(coverFilename);
+    }
+
+    // Remove cover from fileUpload
+    const coverFileIndex = this.fileUpload.findIndex(file => {
+      const media = this.medias.find(m => m.filename === file.name);
+      return media && media.isCoverImage;
+    });
+    if (coverFileIndex !== -1) {
+      this.fileUpload.splice(coverFileIndex, 1);
+    }
+
+    this.isCoverImage = false;
+  }
+
   clearFiles() {
     // Revoke object URLs to prevent memory leaks
     this.medias.forEach(media => {
@@ -121,6 +185,7 @@ export class UploadImage {
     this.currentDisplayOrder = 0;
     this.selectedImageFile = undefined;
     this.selectedVideoFile = undefined;
+    this.isCoverImage = false;
   }
 
   generateRandomFileName(originalFileName: string): string {
@@ -130,13 +195,11 @@ export class UploadImage {
     return `${timestamp}_${random}.${extension}`;
   }
 
-
   returnfiles(): MediaRequest[] {
     return this.medias;
   }
 
   uploadfiles(): File[] {
-    // console.log('uploadfiles() called - returning', this.fileUpload.length, 'files');
     return this.fileUpload;
   }
 
@@ -158,4 +221,13 @@ export class UploadImage {
 
     return processHtml;
   }
+
+  getCoverImageFilename(): string {
+    const coverMedia = this.medias.find(media => media.isCoverImage);
+    if (coverMedia && coverMedia.filename) {
+      return coverMedia.filename;
+    }
+    return '';
+  }
+
 }

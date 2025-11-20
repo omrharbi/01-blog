@@ -10,21 +10,19 @@
                 <a class="font-playfair fs-4 fw-bold text-gradient text-decoration-none" href="/">01Blog</a>
             </div> -->
       <div class="flex items-center gap-4 ">
-        <a class="font-playfair text-2xl font-bold text-gradient" routerLink="/">
-          <!-- SVG Gradient Text -->
-          <svg width="120" height="40" xmlns="http://www.w3.org/2000/svg" class="inline-block">
-            <defs>
-              <linearGradient id="blogGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color: hsl(142, 86%, 35%); stop-opacity: 1" />
-                <!-- <stop offset="100%" style="stop-color: hsl(24, 95%, 60%); stop-opacity: 1" /> -->
-              </linearGradient>
-            </defs>
-            <text x="5" y="28" font-family="Playfair Display, serif" font-size="24" font-weight="bold"
-              fill="url(#blogGradient)">
-              01Blog
-            </text>
-          </svg>
-        </a>
+       <a class="d-flex align-items-center gap-2 text-decoration-none   fs-4 fw-bold" [routerLink]="['/']">
+                    <div class="custom-logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-white">
+                            <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                            <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                            <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                            <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+                        </svg>
+                    </div>
+                    01Blog
+                </a>
       </div>
       <!-- Center Section: Search Bar -->
       <div class="flex-grow-1 mx-3 mx-lg-5 search-container" style="max-width: 28rem;">

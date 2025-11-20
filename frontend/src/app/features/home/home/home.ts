@@ -97,7 +97,7 @@ export class Home {
     this.loading = true;
     this.postservice.getAllPost(this.userId(), this.snapshotTime, 0, this.pageSize).subscribe(response => {
       if (response.data && response.data.content) {
-        console.log(response.data.content, "home posts");
+        // console.log(response.data.content, "home posts");
 
         this.posts = response.data.content;
         this.currentPage = response.data.number;

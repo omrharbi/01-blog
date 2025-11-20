@@ -51,6 +51,7 @@ export class CreatePost {
   selectedFiles: File[] = [];
   newFiles: File[] = [];
   loading = false;
+  coverImageFilename: string = '';
   postData: PostResponse = {
     id: "",
     title: '',
@@ -76,10 +77,12 @@ export class CreatePost {
   tags: Tags[] = [];
   isEdit: boolean = false;
   showtitle = '';
+
   canDeactivate(): boolean {
     this.uploadImage.clearFiles();
     return true;
   }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.isEdit = params['edit'] === 'true';
@@ -90,7 +93,6 @@ export class CreatePost {
       this.content = this.postData.content || '';
       this.title = this.postData.title || '';
       this.excerpt = this.postData.excerpt || '';
-      // if there is already a cover image in the post, mark as selected
       if ((this.postData.firstImage && this.postData.firstImage.trim()) ||
         (this.postData.medias && this.postData.medias.length > 0)) {
         this.isSelect = true;
@@ -104,20 +106,17 @@ export class CreatePost {
   submitPost() {
     this.submitted = true;
 
-    // For create require cover image; for edit allow existing media
     const hasExistingCover = !!(this.postData?.firstImage) || (this.postData?.medias && this.postData.medias.length > 0);
     if (!this.isEdit && !this.isSelect && !hasExistingCover) {
       this.toasterService.warning("Cover image is required");
       return;
     }
 
-    // Validate title
     if (!this.title || !this.title.trim()) {
       this.toasterService.warning("Title is required");
       return;
     }
 
-    // Validate content by stripping HTML (editor may provide html)
     const plain = this.getPlainText(this.content);
     if (!plain) {
       this.toasterService.warning("Content cannot be empty");
@@ -125,6 +124,13 @@ export class CreatePost {
     }
 
     this.newFiles = this.uploadImage.uploadfiles();
+
+    // If no new files to upload, submit directly
+    if (this.newFiles.length === 0) {
+      this.submitPostData([]);
+      return;
+    }
+
     this.images.saveImages(this.newFiles).subscribe({
       next: (response) => {
         const uploadedMedias: any[] = [];
@@ -148,8 +154,8 @@ export class CreatePost {
         console.log('error uploading images', error);
       }
     });
-
   }
+
   private clearAll() {
     this.title = ""
     this.excerpt = ""
@@ -158,7 +164,9 @@ export class CreatePost {
     this.content = ""
     this.isSelect = false;
     this.coverImageSrc = '';
+    this.coverImageFilename = '';
   }
+
   private submitPostData(allMedias: any[]) {
     const contentWithoutHTML = this.removeImage(this.content);
     const contenHtml = this.removeSrcImage(this.content);
@@ -220,6 +228,7 @@ export class CreatePost {
   triggerFileInput() {
     this.imageInput.nativeElement.click();
   }
+
   get previewHtml(): string {
     let text_content = this.preview.renderMarkdownWithMedia(this.content);
     return text_content;
@@ -261,27 +270,41 @@ export class CreatePost {
       if (img) {
         this.coverImageSrc = img.src;
         this.isSelect = true;
+
+        // Extract filename from the uploadImage service
+        const medias = this.uploadImage.returnfiles();
+        if (medias.length > 0) {
+          if (medias[0].filename) {
+            this.coverImageFilename = medias[0].filename;
+          }
+        }
       }
-    });
+    }, true); // Pass true to indicate this is a cover image
   }
 
-  // onVideoSelected()
   cancel() {
     this.clearAll()
     this.uploadImage.clearFiles()
     this.router.navigate(['/'])
   }
+
   removeCoverImage() {
+    // Remove the cover image file from upload service
+    if (this.coverImageFilename) {
+      this.uploadImage.removeFileByName(this.coverImageFilename);
+      this.coverImageFilename = '';
+    }
+
     this.postData.medias = [];
-    this.uploadImage.clearFiles();
     this.isSelect = false;
     this.coverImageSrc = '';
     this.selectedFiles = [];
+
     if (this.imageInput && this.imageInput.nativeElement) {
       this.imageInput.nativeElement.value = '';
     }
-    console.log("remov some this here ");
 
+    console.log("removed cover image");
   }
 
   onContentChange(newContent: string) {

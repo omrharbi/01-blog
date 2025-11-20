@@ -12,6 +12,7 @@ export interface MediaRequest {
   fileType?: string;
   fileSize?: number;
   displayOrder?: number;
+  isCoverImage?: boolean;
 }
 
 export interface Tags {

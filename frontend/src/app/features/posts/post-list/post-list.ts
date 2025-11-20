@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, QueryList, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, switchMap, count } from 'rxjs';
+import { combineLatest, switchMap, count, endWith } from 'rxjs';
 
 import { Materaile } from '../../../modules/materaile-module';
 import { PostService } from '../../../core/service/servicesAPIREST/posts/post-service';
@@ -64,7 +64,8 @@ export class PostList {
       )
       .subscribe({
         next: (response) => {
-
+          console.log(response,"list ");
+          
           this.handlePost(response.data);
         },
         error: (err) => {
