@@ -38,7 +38,7 @@ export class CreatePost {
     private images: Uploadimages,
     private route: ActivatedRoute,
     private toasterService: ToastrService
-  ) { }
+  ) {}
 
   previewMode = false;
   content: string = '';
@@ -53,13 +53,13 @@ export class CreatePost {
   loading = false;
   coverImageFilename: string = '';
   postData: PostResponse = {
-    id: "",
+    id: '',
     title: '',
-    firstImage: "",
+    firstImage: '',
     content: '',
     htmlContent: '',
     excerpt: '',
-    username: "",
+    username: '',
     avatarUser: '',
     medias: [],
     tags: [],
@@ -84,7 +84,7 @@ export class CreatePost {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.isEdit = params['edit'] === 'true';
     });
     const editData = this.sharedServicePost.getEditPost();
@@ -93,39 +93,56 @@ export class CreatePost {
       this.content = this.postData.content || '';
       this.title = this.postData.title || '';
       this.excerpt = this.postData.excerpt || '';
-      if ((this.postData.firstImage && this.postData.firstImage.trim()) ||
-        (this.postData.medias && this.postData.medias.length > 0)) {
+      if (
+        (this.postData.firstImage && this.postData.firstImage.trim()) ||
+        (this.postData.medias && this.postData.medias.length > 0)
+      ) {
         this.isSelect = true;
-        this.coverImageSrc = this.postData.firstImage || (this.postData.medias && this.postData.medias[0]?.filePath) || '';
+        this.coverImageSrc =
+          this.postData.firstImage ||
+          (this.postData.medias && this.postData.medias[0]?.filePath) ||
+          '';
       }
     } else {
-      this.clearAll()
+      this.clearAll();
     }
   }
 
   submitPost() {
     this.submitted = true;
 
-    const hasExistingCover = !!(this.postData?.firstImage) || (this.postData?.medias && this.postData.medias.length > 0);
-    if (!this.isEdit && !this.isSelect && !hasExistingCover) {
-      this.toasterService.warning("Cover image is required");
+    // Check if cover image exists
+    const hasCoverImage = this.uploadImage.hasCoverImage();
+    const hasExistingCover =
+      !!this.postData?.firstImage ||
+      (this.postData?.medias && this.postData.medias.length > 0);
+    
+    if (!this.isEdit && !hasCoverImage && !hasExistingCover) {
+      this.toasterService.warning('Cover image is required');
       return;
     }
 
     if (!this.title || !this.title.trim()) {
-      this.toasterService.warning("Title is required");
+      this.toasterService.warning('Title is required');
       return;
     }
 
     const plain = this.getPlainText(this.content);
     if (!plain) {
-      this.toasterService.warning("Content cannot be empty");
+      this.toasterService.warning('Content cannot be empty');
       return;
     }
 
+    // Ensure files are ordered correctly before upload
+    this.uploadImage.reorderFilesBasedOnContent(this.content);
+    
+    // Get ALL files (cover + content) in correct order
     this.newFiles = this.uploadImage.uploadfiles();
 
-    // If no new files to upload, submit directly
+    console.log('Uploading files:', this.newFiles.map(f => f.name));
+    console.log('Cover image:', this.uploadImage.getCoverImage());
+    console.log('Content medias:', this.uploadImage.returnfiles());
+
     if (this.newFiles.length === 0) {
       this.submitPostData([]);
       return;
@@ -139,32 +156,36 @@ export class CreatePost {
             uploadedMedias.push({
               filePath: fileResponse.filePath,
               filename: fileResponse.filename,
-              fileType: fileResponse.fileType || this.getFileType(fileResponse.filename),
+              fileType:
+                fileResponse.fileType || this.getFileType(fileResponse.filename),
               fileSize: fileResponse.fileSize || 0,
-              displayOrder: index
+              displayOrder: index, // 0 = cover, 1+ = content images
             });
           });
         }
+        
+        console.log('Uploaded medias:', uploadedMedias);
         this.submitPostData(uploadedMedias);
-        this.clearAll()
+        this.clearAll();
       },
       error: (error) => {
         const message = error?.message || 'Upload error';
         this.toasterService.error(message);
         console.log('error uploading images', error);
-      }
+      },
     });
   }
 
   private clearAll() {
-    this.title = ""
-    this.excerpt = ""
-    this.tags = []
-    this.newFiles = []
-    this.content = ""
+    this.title = '';
+    this.excerpt = '';
+    this.tags = [];
+    this.newFiles = [];
+    this.content = '';
     this.isSelect = false;
     this.coverImageSrc = '';
     this.coverImageFilename = '';
+    this.uploadImage.clearFiles();
   }
 
   private submitPostData(allMedias: any[]) {
@@ -177,43 +198,45 @@ export class CreatePost {
       content: contentWithoutHTML,
       htmlContent: contenHtml,
       medias: allMedias,
-      tags: this.tags
+      tags: this.tags,
     };
+
+    console.log('Submitting post:', postRequest);
 
     if (this.isEdit) {
       this.postService.editPost(postRequest, this.postData.id).subscribe({
         next: (response) => {
           this.sharedServicePost.setNewPost(response.data);
-          this.toasterService.success("Edit Post Success");
-          this.clearAll()
+          this.toasterService.success('Edit Post Success');
+          this.clearAll();
           this.router.navigate(['/home']);
         },
         error: (error) => {
           this.toasterService.error(error?.message || 'Update error');
           console.error('error to update post', error);
-        }
+        },
       });
     } else {
       this.postService.createPosts(postRequest).subscribe({
         next: (response) => {
-          this.toasterService.success("Create Post Success");
+          this.toasterService.success('Create Post Success');
           this.sharedServicePost.setNewPost(response.data);
           this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('error to save post', error);
           this.toasterService.error(error?.message || 'Save error');
-        }
+        },
       });
     }
   }
 
   addTag() {
-    if ((this.newTags.trim() && this.newTags.trim() != null) && this.tags.length < 6) {
-      const existTag = this.tags.some(tag => tag.tag === this.newTags.trim());
+    if (this.newTags.trim() && this.newTags.trim() != null && this.tags.length < 6) {
+      const existTag = this.tags.some((tag) => tag.tag === this.newTags.trim());
       if (!existTag) {
         const newTag: Tags = {
-          tag: this.newTags.trim()
+          tag: this.newTags.trim(),
         };
         this.tags.push(newTag);
         this.newTags = '';
@@ -242,7 +265,7 @@ export class CreatePost {
     const pars = new DOMParser();
     const doc = pars.parseFromString(html, 'text/html');
     const imgs = doc.querySelectorAll('img');
-    imgs.forEach(img => {
+    imgs.forEach((img) => {
       img.src = '';
     });
     return doc.body.innerHTML;
@@ -251,7 +274,7 @@ export class CreatePost {
   private removeImage(html: string): string {
     if (!html) return '';
     html = html.replace(/<img\b[^>]*>/gi, '');
-    html = html.replace(/<video\b[^>]*>[\s\S]*?<\/video>/gi, '')
+    html = html.replace(/<video\b[^>]*>[\s\S]*?<\/video>/gi, '');
     return html;
   }
 
@@ -263,33 +286,31 @@ export class CreatePost {
   }
 
   onImageSelected(event: Event) {
-    this.uploadImage.onImageSelected(event, (imgHTML: string) => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(imgHTML, 'text/html');
-      const img = doc.querySelector('img');
-      if (img) {
-        this.coverImageSrc = img.src;
-        this.isSelect = true;
-
-        // Extract filename from the uploadImage service
-        const medias = this.uploadImage.returnfiles();
-        if (medias.length > 0) {
-          if (medias[0].filename) {
-            this.coverImageFilename = medias[0].filename;
-          }
+    // This is for COVER IMAGE only - single image
+    this.uploadImage.onImageSelected(
+      event,
+      (imgHTML: string, filename: string) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(imgHTML, 'text/html');
+        const img = doc.querySelector('img') || doc.querySelector('video');
+        if (img) {
+          this.coverImageSrc = img.src;
+          this.isSelect = true;
+          this.coverImageFilename = filename;
+          console.log('Cover image set:', filename);
         }
-      }
-    }, true); // Pass true to indicate this is a cover image
+      },
+      true // isCover = true
+    );
   }
 
   cancel() {
-    this.clearAll()
-    this.uploadImage.clearFiles()
-    this.router.navigate(['/'])
+    this.clearAll();
+    this.uploadImage.clearFiles();
+    this.router.navigate(['/']);
   }
 
   removeCoverImage() {
-    // Remove the cover image file from upload service
     if (this.coverImageFilename) {
       this.uploadImage.removeFileByName(this.coverImageFilename);
       this.coverImageFilename = '';
@@ -304,7 +325,7 @@ export class CreatePost {
       this.imageInput.nativeElement.value = '';
     }
 
-    console.log("removed cover image");
+    console.log('removed cover image');
   }
 
   onContentChange(newContent: string) {
@@ -328,13 +349,16 @@ export class CreatePost {
     if (!filename) return 'application/octet-stream';
     const ext = filename.split('.').pop()?.toLowerCase();
     const mimeTypes: { [key: string]: string } = {
-      'jpg': 'image/jpeg',
-      'jpeg': 'image/jpeg',
-      'png': 'image/png',
-      'gif': 'image/gif',
-      'webp': 'image/webp',
-      'svg': 'image/svg+xml',
-      'pdf': 'application/pdf'
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      gif: 'image/gif',
+      webp: 'image/webp',
+      svg: 'image/svg+xml',
+      pdf: 'application/pdf',
+      mp4: 'video/mp4',
+      webm: 'video/webm',
+      ogg: 'video/ogg',
     };
     return mimeTypes[ext || ''] || 'application/octet-stream';
   }

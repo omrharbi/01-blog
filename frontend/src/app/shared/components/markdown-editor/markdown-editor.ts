@@ -43,9 +43,6 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
     // Optional: cleanup if needed per-component basis
   }
 
-  /**
-   * Handle image selection and insertion into editor
-   */
   onImageSelected(event: Event): void {
     this.uploadImage.onImageSelected(event, (imgHtml: string) => {
       const div = this.textareaRef.nativeElement;
@@ -105,27 +102,20 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
     this.onContentChange();
   }
 
-  /**
-   * Capture content changes
-   */
   onContentChange(): void {
     const div = this.textareaRef.nativeElement;
     this.content = div.innerHTML;
     this.contentChange.emit(this.content);
   }
 
-  /**
-   * Trigger video input (placeholder for future video support)
-   */
+
   selectVideo(): void {
     if (this.videoInput) {
       this.videoInput.nativeElement.click();
     }
   }
 
-  /**
-   * Handle video selection (can be implemented when ready)
-   */
+
   onVideoSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -140,7 +130,11 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
       return;
     }
 
-    console.log('Video selected:', file.name);
+    this.uploadImage.onImageSelected(event, (imgHtml: string) => {
+      const div = this.textareaRef.nativeElement;
+      div.innerHTML += imgHtml;
+      this.onContentChange();
+    });
     // Future implementation for video handling
   }
 }

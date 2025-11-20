@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MediaRequest } from '../../../models/post/postRequest';
-import { Uploadimages } from '../../servicesAPIREST/uploadImages/uploadimages';
-import { MediaResponse, PostResponse } from '../../../models/post/postResponse';
+import { PostResponse } from '../../../models/post/postResponse';
 import { apiUrl } from '../../../constant/constante';
 import { ToastrService } from 'ngx-toastr';
 
@@ -9,172 +8,232 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class UploadImage {
-  constructor(private toasterService: ToastrService) { }
+  constructor(private toasterService: ToastrService) {}
 
   selectedImageFile?: File;
-  selectedVideoFile?: File;
   uploadMessage = '';
   medias: MediaRequest[] = [];
   fileUpload: File[] = [];
-  currentDisplayOrder = 0;
-  isCoverImage = false;
+  coverImageFile?: File;
+  coverImageMedia?: MediaRequest;
+  contentDisplayOrder = 1; // Start from 1, cover is 0
 
-  onImageSelected(event: Event, callback: (imgHTML: string) => void, isCover: boolean = false) {
+  onImageSelected(
+    event: Event,
+    callback: (imgHTML: string, filename: string) => void,
+    isCover: boolean = false
+  ) {
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-    console.log(file, "file ");
+    const files = input.files;
 
-    if (!file) {
+    if (!files || files.length === 0) {
       console.log('No file selected');
       return;
     }
 
-    const maxSize = 100 * 1024 * 1024; // 100MB in bytes
+    // Cover image: only ONE image allowed
+    if (isCover) {
+      if (files.length > 1) {
+        this.toasterService.warning('Cover image: Only one image allowed');
+        input.value = '';
+        return;
+      }
+      
+      const file = files[0];
+      
+      // Cover must be image only (no videos)
+      if (!file.type.startsWith('image/')) {
+        this.toasterService.error('Cover image must be an image file (no videos)');
+        input.value = '';
+        return;
+      }
+
+      this.processSingleFile(file, callback, true);
+      input.value = '';
+      return;
+    }
+
+    // Content: multiple images/videos allowed
+    Array.from(files).forEach((file) => {
+      this.processSingleFile(file, callback, false);
+    });
+
+    input.value = '';
+  }
+
+  private processSingleFile(
+    file: File,
+    callback: (imgHTML: string, filename: string) => void,
+    isCover: boolean
+  ) {
+    const maxSize = 100 * 1024 * 1024; // 100MB
     if (file.size > maxSize) {
-      console.error('File too large:', this.formatFileSize(file.size), 'max allowed: 100MB');
-      this.uploadMessage = `File size ${this.formatFileSize(file.size)} exceeds 100MB limit`;
+      this.uploadMessage = `File ${file.name} size ${this.formatFileSize(file.size)} exceeds 100MB limit`;
       this.toasterService.error(this.uploadMessage);
-      input.value = '';
       return;
     }
 
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
-      'video/mp4', 'video/mpeg', 'video/ogg', 'video/webm',];
+    const allowedTypes = [
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'video/mp4',
+      'video/mpeg',
+      'video/ogg',
+      'video/webm',
+    ];
 
-    if (!allowedTypes.some(type => file.type.startsWith(type.replace(/\/.*$/, '/')))) {
-      console.error('Invalid file type:', file.type);
-      this.uploadMessage = 'Please select a valid image (JPEG, PNG, GIF, WebP) or video (MP4, WebM, OGG) file';
+    if (!allowedTypes.some((type) => file.type.startsWith(type.replace(/\/.*$/, '/')))) {
+      this.uploadMessage = `Invalid file type: ${file.type}`;
       this.toasterService.error(this.uploadMessage);
-      input.value = '';
       return;
     }
 
-    // Create file with random name
     const randomFileName = this.generateRandomFileName(file.name);
     const fileWithRandomName = new File([file], randomFileName, { type: file.type });
 
-    // If this is a cover image, handle it separately
     if (isCover) {
-      // Remove any existing cover image first
-      this.removeCoverImage();
-      this.fileUpload.unshift(fileWithRandomName);
-      this.isCoverImage = true;
+      // Remove previous cover if exists
+      if (this.coverImageFile && this.coverImageMedia) {
+        URL.revokeObjectURL(this.coverImageMedia.filePath);
+      }
+
+      this.coverImageFile = fileWithRandomName;
+      this.coverImageMedia = {
+        filename: randomFileName,
+        filePath: URL.createObjectURL(file),
+        fileType: file.type,
+        fileSize: file.size,
+        displayOrder: 0, // Cover is always 0
+      };
     } else {
+      // Content image/video
       this.fileUpload.push(fileWithRandomName);
-    }
-
-    // Create media request for preview
-    const mediaRequest: MediaRequest = {
-      filename: randomFileName,
-      filePath: URL.createObjectURL(file),
-      fileType: file.type,
-      fileSize: file.size,
-      displayOrder: isCover ? 0 : this.currentDisplayOrder++,
-      isCoverImage: isCover // Add flag to identify cover images
-    };
-
-    // If cover image, add at beginning, otherwise add at end
-    if (isCover) {
-      this.medias.unshift(mediaRequest);
-      // Update display order for other medias
-      this.medias.forEach((media, index) => {
-        media.displayOrder = index;
-      });
-      this.currentDisplayOrder = this.medias.length;
-    } else {
+      const mediaRequest: MediaRequest = {
+        filename: randomFileName,
+        filePath: URL.createObjectURL(file),
+        fileType: file.type,
+        fileSize: file.size,
+        displayOrder: this.contentDisplayOrder++,
+      };
       this.medias.push(mediaRequest);
     }
 
     this.selectedImageFile = file;
-    this.selectImage(file.type, callback);
+    this.selectImage(file.type, randomFileName, callback);
   }
 
   private formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
-
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
-  selectImage(type: string, callback: (imgHTML: string) => void) {
+  selectImage(type: string, filename: string, callback: (imgHTML: string, filename: string) => void) {
     const file = this.selectedImageFile;
     if (!file) return;
+            console.log("    ***********","vid");
 
     const reader = new FileReader();
     reader.onload = () => {
-      let imgHTML = "";
-      if (type.startsWith("image/")) {
-        imgHTML = `<img src="${reader.result}" class="imageMa">`;
+      let imgHTML = '';
+      if (type.startsWith('image/')) {
+        imgHTML = `<img src="${reader.result}" class="imageMa" data-filename="${filename}">`;
       }
 
-      if (type.startsWith("video/")) {
-        imgHTML = `
-          <video controls class="videoMa">
-            <source src="${reader.result}" type="${type}">
-            Your browser does not support the video tag.
-          </video>
-        `;
+      if (type.startsWith('video/')) {
+        imgHTML = `<video controls class="videoMa" data-filename="${filename}"><source src="${reader.result}" type="${type}">Your browser does not support the video tag.</video>`;
+     
+        
       }
-      callback(imgHTML);
+      callback(imgHTML, filename);
     };
     reader.readAsDataURL(file);
   }
 
   removeFileByName(filename: string) {
-    // Find and remove from fileUpload array
-    const fileIndex = this.fileUpload.findIndex(file => file.name === filename);
+    // Check if it's the cover image
+    if (this.coverImageMedia && this.coverImageMedia.filename === filename) {
+      URL.revokeObjectURL(this.coverImageMedia.filePath);
+      this.coverImageFile = undefined;
+      this.coverImageMedia = undefined;
+      console.log('Removed cover image:', filename);
+      return;
+    }
+
+    // Remove from content images
+    const fileIndex = this.fileUpload.findIndex((file) => file.name === filename);
     if (fileIndex !== -1) {
       this.fileUpload.splice(fileIndex, 1);
     }
 
-    // Find and remove from medias array
-    const mediaIndex = this.medias.findIndex(media => media.filename === filename);
+    const mediaIndex = this.medias.findIndex((media) => media.filename === filename);
     if (mediaIndex !== -1) {
-      // Revoke object URL to prevent memory leak
       if (this.medias[mediaIndex].filePath.startsWith('blob:')) {
         URL.revokeObjectURL(this.medias[mediaIndex].filePath);
       }
       this.medias.splice(mediaIndex, 1);
     }
 
-    // Update display order for remaining medias
+    // Reorder remaining content medias
     this.medias.forEach((media, index) => {
-      media.displayOrder = index;
+      media.displayOrder = index + 1; // +1 because cover is 0
     });
 
-    // Reset current display order
-    this.currentDisplayOrder = this.medias.length;
-
-    console.log('Removed file:', filename, '- Remaining files:', this.fileUpload.length);
+    console.log('Removed content file:', filename);
   }
 
-  // Helper method to remove cover image specifically
-  private removeCoverImage() {
-    const coverIndex = this.medias.findIndex(media => media.filename);
-    if (coverIndex !== -1) {
-      const coverFilename = this.medias[coverIndex].filename;
-      if (coverFilename)
-        this.removeFileByName(coverFilename);
-    }
-
-    // Remove cover from fileUpload
-    const coverFileIndex = this.fileUpload.findIndex(file => {
-      const media = this.medias.find(m => m.filename === file.name);
-      return media && media.isCoverImage;
+  // Reorder content files based on actual content order (cover always stays 0)
+  reorderFilesBasedOnContent(htmlContent: string) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const allMedia = doc.querySelectorAll('img[data-filename], video[data-filename]');
+    
+    const orderedFilenames: string[] = [];
+    allMedia.forEach((element) => {
+      const filename = element.getAttribute('data-filename');
+      if (filename && filename !== this.coverImageMedia?.filename) {
+        // Exclude cover image from content ordering
+        orderedFilenames.push(filename);
+      }
     });
-    if (coverFileIndex !== -1) {
-      this.fileUpload.splice(coverFileIndex, 1);
-    }
 
-    this.isCoverImage = false;
+    // Reorder content medias array based on content order
+    const reorderedMedias: MediaRequest[] = [];
+    const reorderedFiles: File[] = [];
+
+    orderedFilenames.forEach((filename, index) => {
+      const mediaIndex = this.medias.findIndex((m) => m.filename === filename);
+      if (mediaIndex !== -1) {
+        const media = { ...this.medias[mediaIndex], displayOrder: index + 1 }; // +1 for cover
+        reorderedMedias.push(media);
+      }
+
+      const fileIndex = this.fileUpload.findIndex((f) => f.name === filename);
+      if (fileIndex !== -1) {
+        reorderedFiles.push(this.fileUpload[fileIndex]);
+      }
+    });
+
+    this.medias = reorderedMedias;
+    this.fileUpload = reorderedFiles;
+    this.contentDisplayOrder = this.medias.length + 1;
   }
 
   clearFiles() {
-    // Revoke object URLs to prevent memory leaks
-    this.medias.forEach(media => {
+    // Clear cover image
+    if (this.coverImageMedia) {
+      URL.revokeObjectURL(this.coverImageMedia.filePath);
+    }
+    this.coverImageFile = undefined;
+    this.coverImageMedia = undefined;
+
+    // Clear content images
+    this.medias.forEach((media) => {
       if (media.filePath.startsWith('blob:')) {
         URL.revokeObjectURL(media.filePath);
       }
@@ -182,10 +241,8 @@ export class UploadImage {
 
     this.medias = [];
     this.fileUpload = [];
-    this.currentDisplayOrder = 0;
+    this.contentDisplayOrder = 1;
     this.selectedImageFile = undefined;
-    this.selectedVideoFile = undefined;
-    this.isCoverImage = false;
   }
 
   generateRandomFileName(originalFileName: string): string {
@@ -199,35 +256,58 @@ export class UploadImage {
     return this.medias;
   }
 
+  // Get ALL files including cover (cover first)
   uploadfiles(): File[] {
-    return this.fileUpload;
+    const allFiles: File[] = [];
+    
+    // Cover image first
+    if (this.coverImageFile) {
+      allFiles.push(this.coverImageFile);
+    }
+    
+    // Then content files in order
+    allFiles.push(...this.fileUpload);
+    
+    return allFiles;
+  }
+
+  // Get all medias including cover
+  getAllMedias(): MediaRequest[] {
+    const allMedias: MediaRequest[] = [];
+    
+    if (this.coverImageMedia) {
+      allMedias.push(this.coverImageMedia);
+    }
+    
+    allMedias.push(...this.medias);
+    
+    return allMedias;
+  }
+
+  getCoverImage(): { file?: File; media?: MediaRequest } {
+    return {
+      file: this.coverImageFile,
+      media: this.coverImageMedia,
+    };
+  }
+
+  hasCoverImage(): boolean {
+    return !!this.coverImageFile && !!this.coverImageMedia;
   }
 
   replaceImage(html: string, post: PostResponse): string {
     let index = 1;
     const media = post.medias ?? [];
 
-    const processHtml = html.replace(
-      /<img([^>]*) ([^>]*)>/gi,
-      (match, after) => {
-        if (index < media.length) {
-          const image = media[index];
-          index++;
-          return `<div class="image-post"> <img class="imageMa image-preview" src="${apiUrl}${image.filePath}" alt="Post image"${after}> </div>`;
-        }
-        return match;
+    const processHtml = html.replace(/<img([^>]*) ([^>]*)>/gi, (match, after) => {
+      if (index < media.length) {
+        const image = media[index];
+        index++;
+        return `<div class="image-post"> <img class="imageMa image-preview" src="${apiUrl}${image.filePath}" alt="Post image"${after}> </div>`;
       }
-    );
+      return match;
+    });
 
     return processHtml;
   }
-
-  getCoverImageFilename(): string {
-    const coverMedia = this.medias.find(media => media.isCoverImage);
-    if (coverMedia && coverMedia.filename) {
-      return coverMedia.filename;
-    }
-    return '';
-  }
-
 }
