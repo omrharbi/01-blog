@@ -1,4 +1,15 @@
 ```
+# 01Blog
+
+01Blog is a social blogging platform designed for students to share their learning experiences, discoveries, and progress. Users can create posts with text and media, interact through likes and comments, follow others, and receive notifications from subscribed profiles. Administrators can manage content and users through a secure dashboard with role-based access control. The platform is built as a fullstack application using Java Spring Boot for the backend and Angular for the frontend, with a relational SQL database for storing user and post data. Features include authentication, media uploads, content moderation, and responsive UI design.
+```
+
+
+
+```
+
+
+
     01blog-backend/
     ├── src/
     │   ├── main/
