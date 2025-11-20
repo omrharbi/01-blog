@@ -1,0 +1,11 @@
+2025-11-20 13:46:15.693 GMT [733100] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-20 13:46:15.694 GMT [733100] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-20 13:46:15.696 GMT [733100] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-20 13:46:15.699 GMT [733104] LOG:  database system was shut down at 2025-11-20 13:38:03 GMT
+2025-11-20 13:46:15.705 GMT [733100] LOG:  database system is ready to accept connections
+2025-11-20 13:51:15.702 GMT [733102] LOG:  checkpoint starting: time
+2025-11-20 13:51:16.312 GMT [733102] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.604 s, sync=0.002 s, total=0.610 s; sync files=8, longest=0.001 s, average=0.001 s; distance=17 kB, estimate=17 kB; lsn=0/274CA0E0, redo lsn=0/274CA088
+2025-11-20 14:26:15.797 GMT [733102] LOG:  checkpoint starting: time
+2025-11-20 14:26:16.410 GMT [733102] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.002 s, total=0.614 s; sync files=6, longest=0.002 s, average=0.001 s; distance=19 kB, estimate=19 kB; lsn=0/274CF0B8, redo lsn=0/274CF060
+2025-11-20 14:31:15.487 GMT [733102] LOG:  checkpoint starting: time
+2025-11-20 14:31:16.095 GMT [733102] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.002 s, total=0.609 s; sync files=6, longest=0.001 s, average=0.001 s; distance=20 kB, estimate=20 kB; lsn=0/274D4210, redo lsn=0/274D41B8
