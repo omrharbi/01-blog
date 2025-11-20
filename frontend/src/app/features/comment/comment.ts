@@ -51,7 +51,8 @@ export class Comment {
   idComment = "";
   // isOwner: boolean = false;
   isAuthenticated: boolean = false;
-  userId=signal<string | null>(null);
+  userId = signal<string | null>(null);
+  countComment = signal(0);
 
   showPopUp: { [commentId: string]: boolean } = {};
   ngOnInit() {
@@ -65,7 +66,7 @@ export class Comment {
         this.isEdit = true;
       }
 
-      
+
     })
 
     this.servicePopUp.popService$.subscribe(commentId => {
@@ -87,17 +88,18 @@ export class Comment {
     } else {
       this.addComment.content = this.content;
       this.addComment.postId = id;
-      // console.log(this.addComment);
 
       this.commentService.AddComment(this.addComment).subscribe({
         next: response => {
           this.commentResponse = response.data;
           this.getAllComment = this.getAllComment || [];
           this.getAllComment.unshift(response.data)
+          this.countComment.update(n => n + 1);
+
           this.content = "";
         },
         error: error => {
-          // console.log("Error To Add Comment ", error);
+          console.log("Error To Add Comment ", error);
         }
       })
     }
@@ -112,14 +114,17 @@ export class Comment {
     return check
   }
   isOwner(comment: any): boolean {
-    return this.isPostOwner(comment); (this.post);
+    return this.isPostOwner(comment);
   }
   getComments() {
     // console.log(this.comment.userId, "");
-    
-    this.commentService.getComments(this.userId(),this.postId).subscribe({
+
+    this.commentService.getComments(this.userId(), this.postId).subscribe({
       next: response => {
-        this.getAllComment = response.data;
+        if (response.status) {
+          this.countComment.set(response.data.length);
+          this.getAllComment = response.data;
+        }
       },
       error: error => {
         console.log("Error to get comment ", error);
