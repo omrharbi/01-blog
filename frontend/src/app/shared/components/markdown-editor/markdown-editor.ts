@@ -31,7 +31,7 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
   isUploading = false;
   previewMode = false;
 
-  constructor(private uploadImage: UploadImage) {}
+  constructor(private uploadImage: UploadImage) { }
 
   ngAfterViewInit(): void {
     if (this.textareaRef) {
@@ -54,13 +54,12 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
     });
   }
 
-
- 
   applyFormat(
     prefix: string,
     suffix: string,
     placeholder: string,
-    event?: MouseEvent ): void {
+    event?: MouseEvent
+  ): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -72,18 +71,36 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
     const range = selection.getRangeAt(0);
     const selectedText = range.toString() || placeholder;
 
-    const span = document.createElement('span');
-    span.innerHTML = `${prefix}${selectedText}${suffix}`;
+    // Special handling for headings
+    if (prefix === '## ' || prefix === '### ') {
+      const headingLevel = prefix === '## ' ? 2 : 3;
+      const heading = document.createElement(`h${headingLevel}`);
+      heading.className = `H${headingLevel}MarkDown`;
+      heading.textContent = selectedText;
 
-    range.deleteContents();
-    range.insertNode(span);
+      range.deleteContents();
+      range.insertNode(heading);
 
-    const newRange = document.createRange();
-    newRange.setStartAfter(span);
-    newRange.collapse(true);
+      // Move cursor after heading
+      const newRange = document.createRange();
+      newRange.setStartAfter(heading);
+      newRange.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
+    } else {
+      // Regular formatting
+      const span = document.createElement('span');
+      span.innerHTML = `${prefix}${selectedText}${suffix}`;
 
-    selection.removeAllRanges();
-    selection.addRange(newRange);
+      range.deleteContents();
+      range.insertNode(span);
+
+      const newRange = document.createRange();
+      newRange.setStartAfter(span);
+      newRange.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
+    }
 
     this.onContentChange();
   }
@@ -112,7 +129,7 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
   onVideoSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-  
+
     if (!file) {
       console.log('No video file selected');
       return;
