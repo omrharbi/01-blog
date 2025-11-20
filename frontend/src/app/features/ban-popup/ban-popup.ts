@@ -27,9 +27,7 @@ export class BanPopup {
   postService = inject(PostService);
   toasterService = inject(ToastrService);
 
-  ngOnInit() {
-    console.log(this.actionType, "*********************");
-  }
+ 
   @Input() targetId!: string;
 
   nextStep() {
