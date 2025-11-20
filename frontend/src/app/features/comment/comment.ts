@@ -95,7 +95,6 @@ export class Comment {
           this.getAllComment = this.getAllComment || [];
           this.getAllComment.unshift(response.data)
           this.countComment.update(n => n + 1);
-
           this.content = "";
         },
         error: error => {
@@ -139,18 +138,11 @@ export class Comment {
   OnPopUp(isInside: boolean, commentId: string, comment: CommentResponse) {
     if (isInside) {
       this.servicePopUp.onPopUp(commentId)
-
     } else {
       this.servicePopUp.closeAllPopups()
 
     }
   }
-
-
-
-
-
-
   EditComment(id: string) {
 
 

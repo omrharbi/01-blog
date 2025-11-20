@@ -5,7 +5,8 @@ import { Materaile } from '../../../modules/materaile-module';
 import { PrettyDatePipe } from '../../../shared/pipes/pretty-date.pipe';
 import { Router } from '@angular/router';
 import { AdminServiceShared } from '../../../core/service/serivecLogique/admin/admin-service';
-import { BanPopup } from '../ban-popup/ban-popup';
+import { BanPopup } from '../../ban-popup/ban-popup';
+// import { BanPopup } from '../ban-popup/ban-popup';
 
 @Component({
   selector: 'app-reports-management',
@@ -95,10 +96,6 @@ export class ReportsManagement {
     this.showBanPopup = true
     this.actionType.set(type)
     this.postId.set(postId)
-    // if ()
-    // // this.adminService.deletePosts(postId)
-    // this.postReposrt.update(post => post.filter(p => p.postId != postId));
-    // this.lenghtPosts.set(this.postReposrt.length)
   }
   actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true

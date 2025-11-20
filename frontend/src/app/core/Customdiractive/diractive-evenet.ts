@@ -17,7 +17,7 @@ export class DiractiveEvenet {
     const id = target.id;
 
     const isClicked = this.element.nativeElement.contains(event.target)
-    if (!isClicked && id !== "report") {
+    if (!isClicked && (id !== "report" &&  id !== "delete" )) {
       this.clickedInside.emit(false);
     }
   }

@@ -2,9 +2,10 @@ import { Component, EventEmitter, inject, input, signal, computed } from '@angul
 import { ActionType, UserResponseInAdmin } from '../../../core/models/admin/UserResponseInAdmin';
 import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
 import { Materaile } from '../../../modules/materaile-module';
-import { BanPopup } from '../ban-popup/ban-popup';
+// import { BanPopup } from '../ban-popup/ban-popup';
 import { AdminServiceShared } from '../../../core/service/serivecLogique/admin/admin-service';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
+import { BanPopup } from '../../ban-popup/ban-popup';
 
 @Component({
   selector: 'app-users-management',

@@ -14,12 +14,15 @@ import { NotificationService } from '../../core/service/notificationAlert/Notifi
 import { PopUpReport } from './pop-up-report/pop-up-report';
 import { CommentService } from '../../core/service/servicesAPIREST/comment/comment-service';
 import { ToastrService } from 'ngx-toastr';
+// import { BanPopup } from '../admin/ban-popup/ban-popup';
+import { ActionType } from '../../core/models/admin/UserResponseInAdmin';
+import { BanPopup } from '../ban-popup/ban-popup';
 
 @Component({
   selector: 'app-pop-up',
   // imports: [Materaile],
   standalone: true,
-  imports: [CommonModule, Materaile, PopUpReport],
+  imports: [CommonModule, Materaile, PopUpReport, BanPopup],
   templateUrl: './pop-up.html',
   styleUrl: './pop-up.scss'
 })
@@ -38,6 +41,15 @@ export class PopUp {
   selectedReason: string = '';
   reportDetails: string = '';
   isVisible = false
+  showBanPopup = false;
+  actionType = signal<ActionType>('ban')
+  userId = signal<string>('')
+  postId = signal<string>('')
+
+
+  @Input() deleteType!: 'post' | 'comment';
+  targetId = signal<string>('');
+
 
   reportReasons = [
     'SPAM',
@@ -64,42 +76,44 @@ export class PopUp {
   }
 
   onDelete() {
-    if (this.isComment === true) {
+    // if (this.isComment === true) {
+    //   this.commentService.delete(this.comment.id).subscribe({
+    //     next: response => {
+    //       if (response.status) {
+    //         // this.countComment.update(n => n - 1);
+    //         const postDiv = document.getElementById(this.comment.id)
+    //         if (postDiv) {
+    //           this.toasterService.success("Delete Comment  Success");
+    //           postDiv?.remove()
+    //         }
+    //       }
+    //     },
+    //     error: error => {
+    //       this.toasterService.error("Error To delete");
+    //     }
+    //   })
 
-      this.commentService.delete(this.comment.id).subscribe({
-        next: response => {
-          if (response.status) {
-            const postDiv = document.getElementById(this.comment.id)
-            if (postDiv) {
-              this.toasterService.success("Delete Comment  Success");
-              postDiv?.remove()
-            }
-          }
-        },
-        error: error => {
-          this.toasterService.error("Error To delete");
-        }
-      })
 
+    // } else {
+    //   this.postService.DeletePost(this.post.id).subscribe({
+    //     next: response => {
+    //       if (response.status) {
 
-    } else {
-      this.postService.DeletePost(this.post.id).subscribe({
-        next: response => {
-          if (response.status) {
+    //         const postDiv = document.getElementById(this.post.id)
+    //         if (postDiv) {
+    //           this.toasterService.success("Delete Post  Success");
+    //           postDiv?.remove()
+    //         }
+    //       }
+    //     },
+    //     error: error => {
+    //       this.toasterService.error("Error To delete");
+    //       console.log(error, "****");
+    //     }
+    //   });
+    // }
 
-            const postDiv = document.getElementById(this.post.id)
-            if (postDiv) {
-              this.toasterService.success("Delete Post  Success");
-              postDiv?.remove()
-            }
-          }
-        },
-        error: error => {
-          this.toasterService.error("Error To delete");
-          console.log(error, "****");
-        }
-      });
-    }
+    this.isVisible = true
   }
 
   report() {
@@ -111,6 +125,24 @@ export class PopUp {
       this.reportDetails = '';
     }
   }
+
+
+  actionTypeHandle() {
+    this.showBanPopup = true;
+
+    if (this.isComment) {
+      this.actionType.set('comment'); 
+      
+      this.targetId.set(this.comment.id);
+    } else {
+
+      // this.deleteType = 'post';
+      this.actionType.set("post")
+
+      this.targetId.set(this.post.id);
+    }
+  }
+
 
   formatReasonLabel(reason: string): string {
     return reason.split('_').map(word =>

@@ -4,8 +4,16 @@
     *ngIf="isAuthenticated">
     <ng-container *ngIf="isOwner">
       <button class="drop py-2 text-muted" (click)="onEdit()">Edit</button>
-      <button class="drop py-2 text-muted" (click)="onDelete()">Delete</button>
+
+      <button id="delete" class="drop py-2 text-muted" (click)="actionTypeHandle()">Delete</button>
+
+      <app-ban-popup *ngIf="showBanPopup" [isVisible]="showBanPopup" [actionType]="actionType()" [targetId]="targetId()"
+        (close)="showBanPopup = false">
+      </app-ban-popup>
+
     </ng-container>
+
+
     <button id="report" *ngIf="!isOwner" class="drop py-2 text-danger text-muted" (click)="report()">Report
       story...</button>
   </div>
