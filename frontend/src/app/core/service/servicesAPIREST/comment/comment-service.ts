@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommentRequest } from '../../../models/comment/commentRequest';
 import { Observable } from 'rxjs';
@@ -23,13 +23,20 @@ export class CommentService {
   }
 
 
-  getComments(id: string): Observable<ApiResponse<CommentResponse[]>> {
+  getComments(userId: string | null, id: string): Observable<ApiResponse<CommentResponse[]>> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
+    let params = new HttpParams()
+
+
+    if (userId) {
+      params = params.set("userPrincipal", userId);
+    }
+
     return this.http.get<ApiResponse<CommentResponse[]>>(
-      `${environment.comment.getComments}/${id}`, { headers }
+      `${environment.comment.getComments}/${id}`, { params, headers }
     )
   }
 
@@ -47,7 +54,7 @@ export class CommentService {
 
   delete(id: string): Observable<ApiResponse<CommentResponse>> {
     console.log(id);
-    
+
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"

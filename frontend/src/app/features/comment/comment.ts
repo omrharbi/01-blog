@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, signal, SimpleChanges } from '@angular/core';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { CommentService } from '../../core/service/servicesAPIREST/comment/comment-service';
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
@@ -51,10 +51,12 @@ export class Comment {
   idComment = "";
   // isOwner: boolean = false;
   isAuthenticated: boolean = false;
+  userId=signal<string | null>(null);
 
   showPopUp: { [commentId: string]: boolean } = {};
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
+    this.userId.set(this.auth.getCurrentUserUUID() || null);
 
     this.global.sharedData.subscribe((event) => {
       if (event.type === 'comment') {
@@ -113,8 +115,9 @@ export class Comment {
     return this.isPostOwner(comment); (this.post);
   }
   getComments() {
-
-    this.commentService.getComments(this.postId).subscribe({
+    // console.log(this.comment.userId, "");
+    
+    this.commentService.getComments(this.userId(),this.postId).subscribe({
       next: response => {
         this.getAllComment = response.data;
       },

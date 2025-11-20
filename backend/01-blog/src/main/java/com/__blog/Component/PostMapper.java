@@ -127,7 +127,6 @@ public class PostMapper {
                 ? postRepository.findUserLikedPostIds(postIds, userId)
                 : new HashSet<>();
 
-
         Map<UUID, List<MediaResponse>> mediaMap = getMediaMap(postIds);
         Map<UUID, List<TagsResponse>> tagsMap = getTagsMap(postIds);
 

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.__blog.model.dto.request.CommentRequest;
 import com.__blog.security.UserPrincipal;
 import com.__blog.service.CommentService;
 
-import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 
 @RestController
@@ -39,14 +39,16 @@ public class CommentController {
     }
 
     @GetMapping("/getCommentsWithPost/{postId}")
-    public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") String postId, @AuthenticationPrincipal @Nullable UserPrincipal userPrincipal) {
-            UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
-        
+    public ResponseEntity<?> getCommentsWithPost(@PathVariable("postId") String postId,
+            @RequestParam(required = false) UUID userPrincipal) {
+        UUID userId = userPrincipal != null ? userPrincipal : null;
+
         return commentService.getCommentWithPost(postId, userId);
     }
 
     @PutMapping("editComment/{idComment}")
-    public ResponseEntity<?> editComment(@PathVariable("idComment") String idComment, @Valid @RequestBody CommentRequest commentRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<?> editComment(@PathVariable("idComment") String idComment,
+            @Valid @RequestBody CommentRequest commentRequest, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         return commentService.editComment(idComment, commentRequest, userPrincipal);
     }
 
