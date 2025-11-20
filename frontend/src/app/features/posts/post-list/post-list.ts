@@ -11,6 +11,7 @@ import { Comment } from '../../comment/comment';
 import { UploadImage } from '../../../core/service/serivecLogique/upload-images/upload-image';
 import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
 import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
+import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 
 @Component({
   selector: 'app-post-list',
@@ -39,7 +40,8 @@ export class PostList {
     likesCount: 0,
     commentCount: 0,
   };
-    loading: boolean = true;
+  loading: boolean = true;
+  userId = signal<string | null>(null);
 
   constructor(
     private postService: PostService,
@@ -47,19 +49,22 @@ export class PostList {
     private route: ActivatedRoute,
     private replaceImage: UploadImage,
     private likeService: likesServiceLogique,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private auth: AuthService,
   ) { }
   ngOnInit() {
+    this.userId.set(this.auth.getCurrentUserUUID() || null);
+
     combineLatest([
       this.route.params,
       this.route.queryParams
     ])
       .pipe(
-        switchMap(([params]) => this.postService.getpostByID(params['id']))
+        switchMap(([params]) => this.postService.getpostByID(this.userId(), params['id']))
       )
       .subscribe({
         next: (response) => {
-           
+
           this.handlePost(response.data);
         },
         error: (err) => {

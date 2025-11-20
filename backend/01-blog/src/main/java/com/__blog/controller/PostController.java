@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +25,6 @@ import com.__blog.security.UserPrincipal;
 import com.__blog.service.posts.PostService;
 import com.__blog.util.ApiResponse;
 
-import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 
 @RestController
@@ -54,31 +51,30 @@ public class PostController {
     public ResponseEntity<?> getPosts(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
 
+            @RequestParam(required=false) UUID userPrincipal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         UUID userId = null;
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof UserPrincipal) {
-            userId = ((UserPrincipal) auth.getPrincipal()).getId();
+        if (userPrincipal != null) {
+            userId = userPrincipal;
             System.err.println("Authenticated userId: " + userId);
         } else {
             System.err.println("Anonymous request, userId is null");
         }
-        System.err.println("userId in getPosts: " + userId);
-
+ 
         return postservice.getPosts(userId, snapshotTime, page, size);
 
     }
 
     @GetMapping("/getPostById/{id}")
     public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(
-            @AuthenticationPrincipal @Nullable UserPrincipal userPrincipal, @PathVariable String id) {
+            @RequestParam(required=false) UUID userPrincipal, @PathVariable String id) {
 
         try {
 
-            UUID userId = userPrincipal != null ? userPrincipal.getId() : null;
-
+            UUID userId = userPrincipal != null ? userPrincipal: null;
+            // System.err.println("getPostById called with userId: " + userId + " and postId: " + id);
             ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userId);
             ApiResponse<PostResponseWithMedia> postBody = getPostResponse.getBody();
 

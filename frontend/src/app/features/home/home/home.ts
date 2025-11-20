@@ -46,13 +46,16 @@ export class Home {
   pageSize = 5;
   totalPages = 0;
   loading = false;
-  loading_post=true;
+  loading_post = true;
 
-  
+  userId = signal<string | null>(null);
   ngOnInit() {
-    this.loadingPosts()
 
     this.isAuthenticated = this.auth.isLoggedIn();
+    this.userId.set(this.auth.getCurrentUserUUID() || null);
+    this.loadingPosts()
+    // console.log(this.userId(), "userId home");
+
     if (this.isAuthenticated) {
       this.postDatashard.newpost$.subscribe(post => {
         if (post) {
@@ -92,16 +95,16 @@ export class Home {
   loadingPosts() {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;
-    this.postservice.getAllPost(this.snapshotTime, 0, this.pageSize).subscribe(response => {
+    this.postservice.getAllPost(this.userId(), this.snapshotTime, 0, this.pageSize).subscribe(response => {
       if (response.data && response.data.content) {
-        console.log(response.data.content,"home posts");
-        
+        console.log(response.data.content, "home posts");
+
         this.posts = response.data.content;
         this.currentPage = response.data.number;
         this.totalPages = response.data.totalPages;
         this.postDatashard.setPosts(this.posts);
         this.loading = false;
-        this.loading_post=false;
+        this.loading_post = false;
       }
     });
 
@@ -111,11 +114,11 @@ export class Home {
     if (this.loading || this.currentPage >= this.totalPages - 1) {
       return;
     }
-    this.snapshotTime=new Date().toISOString();
+    this.snapshotTime = new Date().toISOString();
 
     this.loading = true;
     const nextPage = this.currentPage + 1;
-    this.postservice.getAllPost(this.snapshotTime, nextPage, this.pageSize).subscribe({
+    this.postservice.getAllPost(this.userId(), this.snapshotTime, nextPage, this.pageSize).subscribe({
       next: response => {
         if (response.data && response.data.content) {
           this.posts = [...this.posts, ...response.data.content];

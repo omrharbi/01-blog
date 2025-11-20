@@ -46,16 +46,19 @@ export class PostService {
       { headers }
     );
   }
-  getAllPost(snapshotTime: string | null, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
+  getAllPost(userId: string | null, snapshotTime: string | null, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
     const headers = new HttpHeaders({
-      // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
     let params = new HttpParams()
+      // .set("userId", userId)
       .set("page", page)
       .set("size", size);
     if (snapshotTime) {
       params = params.set("snapshotTime", snapshotTime);
+    }
+    if (userId) {
+      params = params.set("userPrincipal", userId);
     }
     return this.http.get<ApiResponseWithPage<PostResponse[]>>(`${environment.post.posts}`, {
       params,
@@ -63,13 +66,20 @@ export class PostService {
     });
   }
 
-  getpostByID(id: string): Observable<ApiResponse<PostResponse>> {
+  getpostByID(userId: string | null, id: string): Observable<ApiResponse<PostResponse>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
+    let params = new HttpParams()
+
+
+    if (userId) {
+      params = params.set("userPrincipal", userId);
+    }
     const url = `${environment.post.postByID}${id}`
     return this.http.get<ApiResponse<PostResponse>>(url, {
+      params,
       headers
     });
   }
