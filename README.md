@@ -1,315 +1,159 @@
-```
 # 01Blog
 
-01Blog is a social blogging platform designed for students to share their learning experiences, discoveries, and progress. Users can create posts with text and media, interact through likes and comments, follow others, and receive notifications from subscribed profiles. Administrators can manage content and users through a secure dashboard with role-based access control. The platform is built as a fullstack application using Java Spring Boot for the backend and Angular for the frontend, with a relational SQL database for storing user and post data. Features include authentication, media uploads, content moderation, and responsive UI design.
+A social blogging platform for students to share learning experiences, discoveries, and progress.
+
+## 📖 Description
+
+01Blog is a fullstack social platform that enables students to:
+- Create and share posts with text and media
+- Interact through likes and comments
+- Follow other users and receive notifications
+- Report inappropriate content
+
+Administrators can manage users, posts, and reports through a secure dashboard with role-based access control.
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
+│                 │         │                 │         │                 │
+│  Angular        │◄───────►│  Spring Boot    │◄───────►│  PostgreSQL     │
+│  Frontend       │  HTTP   │  Backend API    │  JDBC   │  Database       │
+│  (Port 4200)    │         │  (Port 9090)    │         │  (Port 5432)    │
+│                 │         │                 │         │                 │
+└─────────────────┘         └─────────────────┘         └─────────────────┘
 ```
 
+**Tech Stack:**
+- **Frontend:** Angular, TypeScript, SCSS
+- **Backend:** Java Spring Boot, Spring Security, JWT
+- **Database:** PostgreSQL
+- **Media Storage:** File system (uploads/)
 
+## 📁 Project Structure
 
 ```
-
-
-
-    01blog-backend/
-    ├── src/
-    │   ├── main/
-    │   │   ├── java/
-    │   │   │   └── com/
-    │   │   │       └── blog/
-    │   │   │           ├── BlogApplication.java
-    │   │   │           ├── config/
-    │   │   │           │   ├── SecurityConfig.java
-    │   │   │           │   ├── JwtConfig.java
-    │   │   │           │   ├── WebConfig.java
-    │   │   │           │   └── FileUploadConfig.java
-    │   │   │           ├── controller/
-    │   │   │           │   ├── AuthController.java
-    │   │   │           │   ├── UserController.java
-    │   │   │           │   ├── PostController.java
-    │   │   │           │   ├── CommentController.java
-    │   │   │           │   ├── LikeController.java
-    │   │   │           │   ├── SubscriptionController.java
-    │   │   │           │   ├── ReportController.java
-    │   │   │           │   ├── NotificationController.java
-    │   │   │           │   ├── AdminController.java
-    │   │   │           │   └── FileUploadController.java
-    │   │   │           ├── service/
-    │   │   │           │   ├── AuthService.java
-    │   │   │           │   ├── UserService.java
-    │   │   │           │   ├── PostService.java
-    │   │   │           │   ├── CommentService.java
-    │   │   │           │   ├── LikeService.java
-    │   │   │           │   ├── SubscriptionService.java
-    │   │   │           │   ├── ReportService.java
-    │   │   │           │   ├── NotificationService.java
-    │   │   │           │   ├── AdminService.java
-    │   │   │           │   ├── FileStorageService.java
-    │   │   │           │   └── EmailService.java
-    │   │   │           ├── repository/
-    │   │   │           │   ├── UserRepository.java
-    │   │   │           │   ├── PostRepository.java
-    │   │   │           │   ├── CommentRepository.java
-    │   │   │           │   ├── LikeRepository.java
-    │   │   │           │   ├── SubscriptionRepository.java
-    │   │   │           │   ├── ReportRepository.java
-    │   │   │           │   ├── NotificationRepository.java
-    │   │   │           │   └── RoleRepository.java
-    │   │   │           ├── model/
-    │   │   │           │   ├── entity/
-    │   │   │           │   │   ├── User.java
-    │   │   │           │   │   ├── Post.java
-    │   │   │           │   │   ├── Comment.java
-    │   │   │           │   │   ├── Like.java
-    │   │   │           │   │   ├── Subscription.java
-    │   │   │           │   │   ├── Report.java
-    │   │   │           │   │   ├── Notification.java
-    │   │   │           │   │   ├── Role.java
-    │   │   │           │   │   └── Media.java
-    │   │   │           │   ├── dto/
-    │   │   │           │   │   ├── request/
-    │   │   │           │   │   │   ├── LoginRequest.java
-    │   │   │           │   │   │   ├── RegisterRequest.java
-    │   │   │           │   │   │   ├── PostRequest.java
-    │   │   │           │   │   │   ├── CommentRequest.java
-    │   │   │           │   │   │   └── ReportRequest.java
-    │   │   │           │   │   └── response/
-    │   │   │           │   │       ├── JwtResponse.java
-    │   │   │           │   │       ├── UserResponse.java
-    │   │   │           │   │       ├── PostResponse.java
-    │   │   │           │   │       ├── CommentResponse.java
-    │   │   │           │   │       ├── NotificationResponse.java
-    │   │   │           │   │       └── ApiResponse.java
-    │   │   │           │   └── enums/
-    │   │   │           │       ├── Role.java
-    │   │   │           │       ├── PostStatus.java
-    │   │   │           │       ├── MediaType.java
-    │   │   │           │       └── ReportReason.java
-    │   │   │           ├── security/
-    │   │   │           │   ├── JwtAuthenticationEntryPoint.java
-    │   │   │           │   ├── JwtAuthenticationFilter.java
-    │   │   │           │   ├── JwtTokenProvider.java
-    │   │   │           │   └── UserPrincipal.java
-    │   │   │           ├── exception/
-    │   │   │           │   ├── GlobalExceptionHandler.java
-    │   │   │           │   ├── ResourceNotFoundException.java
-    │   │   │           │   ├── BadRequestException.java
-    │   │   │           │   └── UnauthorizedException.java
-    │   │   │           └── util/
-    │   │   │               ├── FileUtil.java
-    │   │   │               ├── DateUtil.java
-    │   │   │               └── ValidationUtil.java
-    │   │   └── resources/
-    │   │       ├── application.properties
-    │   │       ├── application-dev.properties
-    │   │       ├── application-prod.properties
-    │   │       ├── data.sql
-    │   │       ├── schema.sql
-    │   │       └── static/
-    │   │           └── uploads/
-    │   │               ├── images/
-    │   │               └── videos/
-    │   └── test/
-    │       └── java/
-    │           └── com/
-    │               └── blog/
-    │                   ├── controller/
-    │                   ├── service/
-    │                   ├── repository/
-    │                   └── integration/
-    ├── uploads/
-    │   ├── images/
-    │   └── videos/
-    ├── pom.xml
-    ├── .gitignore
-    └── README.md
-
-01blog-frontend/
-├── src/
-│   ├── app/
-│   │   ├── core/
-│   │   │   ├── guards/
-│   │   │   │   ├── auth.guard.ts
-│   │   │   │   ├── admin.guard.ts
-│   │   │   │   └── guest.guard.ts
-│   │   │   ├── interceptors/
-│   │   │   │   ├── auth.interceptor.ts
-│   │   │   │   ├── error.interceptor.ts
-│   │   │   │   └── loading.interceptor.ts
-│   │   │   ├── services/
-│   │   │   │   ├── auth.service.ts
-│   │   │   │   ├── user.service.ts
-│   │   │   │   ├── post.service.ts
-│   │   │   │   ├── comment.service.ts
-│   │   │   │   ├── like.service.ts
-│   │   │   │   ├── subscription.service.ts
-│   │   │   │   ├── notification.service.ts
-│   │   │   │   ├── report.service.ts
-│   │   │   │   ├── admin.service.ts
-│   │   │   │   ├── file-upload.service.ts
-│   │   │   │   └── websocket.service.ts
-│   │   │   └── models/
-│   │   │       ├── user.model.ts
-│   │   │       ├── post.model.ts
-│   │   │       ├── comment.model.ts
-│   │   │       ├── notification.model.ts
-│   │   │       ├── report.model.ts
-│   │   │       └── api-response.model.ts
-│   │   ├── shared/
-│   │   │   ├── components/
-│   │   │   │   ├── header/
-│   │   │   │   │   ├── header.component.ts
-│   │   │   │   │   ├── header.component.html
-│   │   │   │   │   └── header.component.scss
-│   │   │   │   ├── footer/
-│   │   │   │   │   ├── footer.component.ts
-│   │   │   │   │   ├── footer.component.html
-│   │   │   │   │   └── footer.component.scss
-│   │   │   │   ├── sidebar/
-│   │   │   │   │   ├── sidebar.component.ts
-│   │   │   │   │   ├── sidebar.component.html
-│   │   │   │   │   └── sidebar.component.scss
-│   │   │   │   ├── post-card/
-│   │   │   │   │   ├── post-card.component.ts
-│   │   │   │   │   ├── post-card.component.html
-│   │   │   │   │   └── post-card.component.scss
-│   │   │   │   ├── comment/
-│   │   │   │   │   ├── comment.component.ts
-│   │   │   │   │   ├── comment.component.html
-│   │   │   │   │   └── comment.component.scss
-│   │   │   │   ├── media-upload/
-│   │   │   │   │   ├── media-upload.component.ts
-│   │   │   │   │   ├── media-upload.component.html
-│   │   │   │   │   └── media-upload.component.scss
-│   │   │   │   ├── loading-spinner/
-│   │   │   │   │   ├── loading-spinner.component.ts
-│   │   │   │   │   ├── loading-spinner.component.html
-│   │   │   │   │   └── loading-spinner.component.scss
-│   │   │   │   └── confirmation-dialog/
-│   │   │   │       ├── confirmation-dialog.component.ts
-│   │   │   │       ├── confirmation-dialog.component.html
-│   │   │   │       └── confirmation-dialog.component.scss
-│   │   │   ├── pipes/
-│   │   │   │   ├── time-ago.pipe.ts
-│   │   │   │   ├── truncate.pipe.ts
-│   │   │   │   └── safe-url.pipe.ts
-│   │   │   ├── directives/
-│   │   │   │   ├── auto-resize.directive.ts
-│   │   │   │   └── click-outside.directive.ts
-│   │   │   └── validators/
-│   │   │       ├── custom-validators.ts
-│   │   │       └── password-match.validator.ts
-│   │   ├── features/
-│   │   │   ├── auth/
-│   │   │   │   ├── login/
-│   │   │   │   │   ├── login.component.ts
-│   │   │   │   │   ├── login.component.html
-│   │   │   │   │   └── login.component.scss
-│   │   │   │   ├── register/
-│   │   │   │   │   ├── register.component.ts
-│   │   │   │   │   ├── register.component.html
-│   │   │   │   │   └── register.component.scss
-│   │   │   │   └── auth-routing.module.ts
-│   │   │   ├── home/
-│   │   │   │   ├── home.component.ts
-│   │   │   │   ├── home.component.html
-│   │   │   │   ├── home.component.scss
-│   │   │   │   └── home-routing.module.ts
-│   │   │   ├── profile/
-│   │   │   │   ├── profile.component.ts
-│   │   │   │   ├── profile.component.html
-│   │   │   │   ├── profile.component.scss
-│   │   │   │   ├── edit-profile/
-│   │   │   │   │   ├── edit-profile.component.ts
-│   │   │   │   │   ├── edit-profile.component.html
-│   │   │   │   │   └── edit-profile.component.scss
-│   │   │   │   └── profile-routing.module.ts
-│   │   │   ├── posts/
-│   │   │   │   ├── post-list/
-│   │   │   │   │   ├── post-list.component.ts
-│   │   │   │   │   ├── post-list.component.html
-│   │   │   │   │   └── post-list.component.scss
-│   │   │   │   ├── post-detail/
-│   │   │   │   │   ├── post-detail.component.ts
-│   │   │   │   │   ├── post-detail.component.html
-│   │   │   │   │   └── post-detail.component.scss
-│   │   │   │   ├── create-post/
-│   │   │   │   │   ├── create-post.component.ts
-│   │   │   │   │   ├── create-post.component.html
-│   │   │   │   │   └── create-post.component.scss
-│   │   │   │   ├── edit-post/
-│   │   │   │   │   ├── edit-post.component.ts
-│   │   │   │   │   ├── edit-post.component.html
-│   │   │   │   │   └── edit-post.component.scss
-│   │   │   │   └── posts-routing.module.ts
-│   │   │   ├── notifications/
-│   │   │   │   ├── notification-list/
-│   │   │   │   │   ├── notification-list.component.ts
-│   │   │   │   │   ├── notification-list.component.html
-│   │   │   │   │   └── notification-list.component.scss
-│   │   │   │   └── notifications-routing.module.ts
-│   │   │   ├── admin/
-│   │   │   │   ├── dashboard/
-│   │   │   │   │   ├── admin-dashboard.component.ts
-│   │   │   │   │   ├── admin-dashboard.component.html
-│   │   │   │   │   └── admin-dashboard.component.scss
-│   │   │   │   ├── users-management/
-│   │   │   │   │   ├── users-management.component.ts
-│   │   │   │   │   ├── users-management.component.html
-│   │   │   │   │   └── users-management.component.scss
-│   │   │   │   ├── posts-management/
-│   │   │   │   │   ├── posts-management.component.ts
-│   │   │   │   │   ├── posts-management.component.html
-│   │   │   │   │   └── posts-management.component.scss
-│   │   │   │   ├── reports-management/
-│   │   │   │   │   ├── reports-management.component.ts
-│   │   │   │   │   ├── reports-management.component.html
-│   │   │   │   │   └── reports-management.component.scss
-│   │   │   │   └── admin-routing.module.ts
-│   │   │   └── reports/
-│   │   │       ├── report-user/
-│   │   │       │   ├── report-user.component.ts
-│   │   │       │   ├── report-user.component.html
-│   │   │       │   └── report-user.component.scss
-│   │   │       └── reports-routing.module.ts
-│   │   ├── layout/
-│   │   │   ├── main-layout/
-│   │   │   │   ├── main-layout.component.ts
-│   │   │   │   ├── main-layout.component.html
-│   │   │   │   └── main-layout.component.scss
-│   │   │   ├── auth-layout/
-│   │   │   │   ├── auth-layout.component.ts
-│   │   │   │   ├── auth-layout.component.html
-│   │   │   │   └── auth-layout.component.scss
-│   │   │   └── admin-layout/
-│   │   │       ├── admin-layout.component.ts
-│   │   │       ├── admin-layout.component.html
-│   │   │       └── admin-layout.component.scss
-│   │   ├── app-routing.module.ts
-│   │   ├── app.component.ts
-│   │   ├── app.component.html
-│   │   ├── app.component.scss
-│   │   └── app.module.ts
-│   ├── assets/
-│   │   ├── images/
-│   │   │   ├── logo.png
-│   │   │   ├── default-avatar.png
-│   │   │   └── placeholder-image.png
-│   │   ├── icons/
-│   │   └── styles/
-│   │       ├── variables.scss
-│   │       ├── mixins.scss
-│   │       └── themes.scss
-│   ├── environments/
-│   │   ├── environment.ts
-│   │   └── environment.prod.ts
-│   ├── index.html
-│   ├── main.ts
-│   ├── polyfills.ts
-│   └── styles.scss
-├── angular.json
-├── package.json
-├── tsconfig.json
-├── .gitignore
-└── README.md
+01blog/
+├── 01blog-backend/          # Spring Boot backend
+│   ├── src/main/java/com/blog/
+│   │   ├── controller/      # REST API endpoints
+│   │   ├── service/         # Business logic
+│   │   ├── repository/      # Database access
+│   │   ├── model/           # Entities & DTOs
+│   │   ├── security/        # JWT & authentication
+│   │   └── config/          # App configuration
+│   └── pom.xml
+│
+└── 01blog-frontend/         # Angular frontend
+    ├── src/app/
+    │   ├── core/            # Services, guards
+    │   ├── features/        # Feature modules (auth, posts, admin)
+    │   ├── shared/          # Reusable components
+    │   ├── layout/          # Layout components
+    │   ├── modules/         # Shared modules
+    │   └── interceptors/    # HTTP interceptors
+    └── package.json
 ```
 
+## 🚀 Getting Started
+
+### Prerequisites
+- Java 17+
+- Maven 3.8+
+- Node.js 16+ & npm
+- Docker (optional)
+- PostgreSQL 15
+
+### 1️⃣ Database Setup
+
+**Option A: Using Docker**
+```bash
+docker run -d --name db_blog \
+  -e POSTGRES_DB=db_blog \
+  -e POSTGRES_USER=omrharbi \
+  -e POSTGRES_PASSWORD=omrharbi \
+  -p 5432:5432 \
+  postgres:15
+```
+
+**Option B: Local PostgreSQL**
+```sql
+CREATE DATABASE db_blog;
+CREATE USER omrharbi WITH PASSWORD 'omrharbi';
+GRANT ALL PRIVILEGES ON DATABASE db_blog TO omrharbi;
+```
+
+### 2️⃣ Backend Setup
+
+```bash
+cd 01blog-backend
+
+# Install dependencies and run
+mvn clean install
+mvn spring-boot:run
+```
+
+Backend will start on `http://localhost:9090`
+
+**Docker Build (Optional)**
+```bash
+docker build -t 01blog-backend .
+docker run -p 9090:9090 01blog-backend
+```
+
+### 3️⃣ Frontend Setup
+
+```bash
+cd 01blog-frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+```
+
+Frontend will start on `http://localhost:4200`
+
+## 📝 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | User registration |
+| POST | `/api/auth/login` | User login |
+| GET | `/api/posts` | Get all posts |
+| POST | `/api/posts` | Create post |
+| GET | `/api/users/{id}` | Get user profile |
+| POST | `/api/comments` | Add comment |
+| POST | `/api/likes` | Like/unlike post |
+| GET | `/api/notifications` | Get notifications |
+| GET | `/api/admin/dashboard` | Admin dashboard |
+
+## 🔒 Environment Variables
+
+Create `application.properties` in backend:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/db_blog
+spring.datasource.username=omrharbi
+spring.datasource.password=omrharbi
+jwt.secret=your-secret-key
+jwt.expiration=86400000
+file.upload-dir=./uploads
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 👤 Author
+
+**Omar Harbi** - Talent at Zone 01 Oujda
+
+---
+
+Built by students, for students 🚀

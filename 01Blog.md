@@ -98,7 +98,6 @@ CREATE TABLE refresh_tokens (
 **Responsibilities**:
 - Post creation/editing/deletion
 - Content categorization
-- Search functionality
 - Content versioning
 
 **Database Schema**:
@@ -126,12 +125,7 @@ CREATE TABLE categories (
     color VARCHAR(7) DEFAULT '#6366f1'
 );
 
--- Post-category mapping
-CREATE TABLE post_categories (
-    post_id UUID REFERENCES posts(id) ON DELETE CASCADE,
-    category_id UUID REFERENCES categories(id) ON DELETE CASCADE,
-    PRIMARY KEY (post_id, category_id)
-);
+ 
 
 -- Post tags
 CREATE TABLE tags (
