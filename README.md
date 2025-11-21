@@ -152,7 +152,7 @@ file.upload-dir=./uploads
 
 ## 👤 Author
 
-**Omar Harbi** - Talent at Zone 01 Oujda
+**Omar Rharbi** - Talent at Zone 01 Oujda
 
 ---
 
