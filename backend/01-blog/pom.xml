@@ -76,12 +76,10 @@
             <scope>runtime</scope>
         </dependency>
         <!-- db -->
-        <dependency>
-
-
+        <!-- <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-        </dependency>
+        </dependency> -->
     
         <!-- jwt -->
         <dependency>

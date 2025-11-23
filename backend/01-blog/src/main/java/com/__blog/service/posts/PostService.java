@@ -156,7 +156,7 @@ public class PostService {
 
         }
     }
-
+    @Transactional
     public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(String uuid, UUID userId) {
 
         if (!ApiResponseUtil.isValidUUID(uuid)) {
