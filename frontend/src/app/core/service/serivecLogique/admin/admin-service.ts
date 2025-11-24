@@ -31,7 +31,7 @@ export class AdminServiceShared {
             error: error => {
                 const message = error?.error.error || "error "
                 this.notificationAlert.showErrorWithoutRedirect(message)
-                console.log(error?.error.error, "error ");
+                console.log(error);
             }
         })
     }

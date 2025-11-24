@@ -82,6 +82,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Comment> user = new ArrayList<>();
+
     @OneToMany(mappedBy = "subscriberUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Subscription> following = new ArrayList<>();

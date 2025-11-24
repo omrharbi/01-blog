@@ -280,3 +280,30 @@
 2025-11-23 12:41:13.190 GMT [72079] LOG:  checkpoint starting: shutdown immediate
 2025-11-23 12:41:13.195 GMT [72079] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.006 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=2 kB; lsn=0/280A4B50, redo lsn=0/280A4B50
 2025-11-23 12:41:13.197 GMT [72076] LOG:  database system is shut down
+2025-11-24 16:41:12.476 GMT [310019] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-24 16:41:12.477 GMT [310019] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-24 16:41:12.481 GMT [310019] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-24 16:41:12.488 GMT [310025] LOG:  database system was shut down at 2025-11-23 12:41:13 GMT
+2025-11-24 16:41:12.498 GMT [310019] LOG:  database system is ready to accept connections
+2025-11-24 16:46:12.587 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 16:46:13.102 GMT [310023] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.504 s, sync=0.005 s, total=0.516 s; sync files=8, longest=0.004 s, average=0.001 s; distance=2 kB, estimate=2 kB; lsn=0/280A5528, redo lsn=0/280A54D0
+2025-11-24 16:51:12.115 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 16:51:13.132 GMT [310023] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.004 s, sync=0.005 s, total=1.018 s; sync files=11, longest=0.004 s, average=0.001 s; distance=12 kB, estimate=12 kB; lsn=0/280A8570, redo lsn=0/280A8518
+2025-11-24 16:56:12.232 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 16:56:13.548 GMT [310023] LOG:  checkpoint complete: wrote 14 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.305 s, sync=0.005 s, total=1.317 s; sync files=12, longest=0.004 s, average=0.001 s; distance=43 kB, estimate=43 kB; lsn=0/280B3260, redo lsn=0/280B3208
+2025-11-24 17:01:12.649 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 17:01:14.268 GMT [310023] LOG:  checkpoint complete: wrote 17 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.607 s, sync=0.005 s, total=1.620 s; sync files=16, longest=0.004 s, average=0.001 s; distance=22 kB, estimate=41 kB; lsn=0/280B8B10, redo lsn=0/280B8AB8
+2025-11-24 17:03:50.140 GMT [311042] ERROR:  update or delete on table "users" violates foreign key constraint "fkqm52p1v3o13hy268he0wcngr5" on table "comment"
+2025-11-24 17:03:50.140 GMT [311042] DETAIL:  Key (id)=(b48f5788-9b5f-48ff-a747-c470425b8d48) is still referenced from table "comment".
+2025-11-24 17:03:50.140 GMT [311042] STATEMENT:  delete from users where id=$1
+2025-11-24 17:06:12.337 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 17:06:13.049 GMT [310023] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.003 s, total=0.713 s; sync files=8, longest=0.003 s, average=0.001 s; distance=14 kB, estimate=38 kB; lsn=0/280BC648, redo lsn=0/280BC5F0
+2025-11-24 17:09:22.687 GMT [311043] ERROR:  update or delete on table "users" violates foreign key constraint "fkcc0jrw2vianbjig6suh66syiw" on table "liked"
+2025-11-24 17:09:22.687 GMT [311043] DETAIL:  Key (id)=(b48f5788-9b5f-48ff-a747-c470425b8d48) is still referenced from table "liked".
+2025-11-24 17:09:22.687 GMT [311043] STATEMENT:  delete from users where id=$1
+2025-11-24 17:11:12.149 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 17:11:13.061 GMT [310023] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.903 s, sync=0.002 s, total=0.912 s; sync files=10, longest=0.002 s, average=0.001 s; distance=19 kB, estimate=36 kB; lsn=0/280C1428, redo lsn=0/280C13D0
+2025-11-24 17:16:12.161 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 17:16:12.573 GMT [310023] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.403 s, sync=0.003 s, total=0.412 s; sync files=5, longest=0.002 s, average=0.001 s; distance=7 kB, estimate=33 kB; lsn=0/280C3318, redo lsn=0/280C32C0
+2025-11-24 17:21:12.645 GMT [310023] LOG:  checkpoint starting: time
+2025-11-24 17:21:13.560 GMT [310023] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.904 s, sync=0.003 s, total=0.915 s; sync files=10, longest=0.003 s, average=0.001 s; distance=20 kB, estimate=32 kB; lsn=0/280C8460, redo lsn=0/280C8408

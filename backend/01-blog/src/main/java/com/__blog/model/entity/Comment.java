@@ -45,7 +45,7 @@ public class Comment {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @JsonIgnore
