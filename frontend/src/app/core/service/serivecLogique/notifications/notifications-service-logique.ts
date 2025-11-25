@@ -39,15 +39,13 @@ export class NotificationsServiceLogique {
   notifications: NotificationResponse[] = [];
 
   loadingNotifications() {
-    // const isAuthenticated = this.auth.isLoggedIn();
-    // if (isAuthenticated) {}
     this.allNotifications()
     this.unreadNotificationCount()
   }
 
   unreadNotificationCount() {
     let numbers = this.notifications.filter(n => !n.read).length;
-    this.notificationIconsSubject.next(numbers===0?false:true)
+    this.notificationIconsSubject.next(numbers !== 0)
     this.unreadCountSubject.next(numbers)
   }
   markAsRead(id: string): void {
@@ -78,6 +76,8 @@ export class NotificationsServiceLogique {
       next: response => {
         // console.log(response,"notifications");
         this.notifications = response.data;
+        this.notificationIconsSubject.next(response.data.length !== 0)
+
         this.notificationsSubject.next(this.notifications)
 
       }
@@ -86,9 +86,7 @@ export class NotificationsServiceLogique {
   connect(): void {
     const socket = new SockJS(this.wsUrl);
     this.stompClient = Stomp.over(socket)
-    this.stompClient.debug = (str: string) => {
-      console.log('🔍 STOMP:', str);
-    };
+
     if (token) {
 
       const currentUserId = this.jwt.getUUIDFromToken(token); // Replace with actual user ID
@@ -115,7 +113,7 @@ export class NotificationsServiceLogique {
                   this.getNotificationMessage(notifications.type, notifications.message)
 
                   this.addNotification(newNotification);
-                  this.showBrowserNotification(newNotification);
+                  // this.showBrowserNotification(newNotification);
                 }
               } catch (e) {
                 console.log('📨 Message is not JSON:', message.body);
@@ -137,7 +135,7 @@ export class NotificationsServiceLogique {
         this.toasterService.info(message, type);
         break
       case "POST_LIKED":
-        this.toasterService.info(message, type);
+        this.toasterService.info(message, "POST LIKED");
         break
       case "POST_COMMENTED":
         this.toasterService.info(message, type);
@@ -146,7 +144,7 @@ export class NotificationsServiceLogique {
         this.toasterService.info(message, type);
         break
       case "USER_BANNED":
-        this.toasterService.warning(message, type);
+        this.toasterService.warning(message, "USER BANNED");
         break
       case "NEW_POST":
         this.toasterService.info(message, "New Post");
@@ -156,14 +154,14 @@ export class NotificationsServiceLogique {
         break
     }
   }
-  private showBrowserNotification(notification: NotificationResponse): void {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(notification.title, {
-        body: notification.message,
-        icon: '/assets/icons/notification-icon.png' // Add your icon path
-      });
-    }
-  }
+  // private showBrowserNotification(notification: NotificationResponse): void {
+  //   if ('Notification' in window && Notification.permission === 'granted') {
+  //     new Notification(notification.title, {
+  //       body: notification.message,
+  //       icon: '/assets/icons/notification-icon.png' // Add your icon path
+  //     });
+  //   }
+  // }
   disconnect() {
     if (this.notificationsSubscription) {
       this.notificationsSubscription.unsubscribe();

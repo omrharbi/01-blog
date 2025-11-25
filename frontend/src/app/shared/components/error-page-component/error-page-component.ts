@@ -89,40 +89,40 @@ export class ErrorPageComponent implements OnInit {
       this.errorInfo = this.errorMessages[statusCode] || this.errorMessages[404];
       // Only show notification once
       if (!this.notificationShown) {
-        this.handleErrorStatus(statusCode);
+        // this.handleErrorStatus(statusCode);
         this.notificationShown = true;
       }
     });
   }
 
-  private handleErrorStatus(status: number): void {
-    // Show notification ONLY when error page loads
-    switch (status) {
+  // private handleErrorStatus(status: number): void {
+  //   // Show notification ONLY when error page loads
+  //   switch (status) {
 
-      case 403:
-        this.notificationAlert.showError('Access forbidden. You don\'t have permission.', false);
-        break;
+  //     case 403:
+  //       this.notificationAlert.showError('Access forbidden. You don\'t have permission.', false);
+  //       break;
 
-      case 404:
-        const isLoggedIn = this.authService.isLoggedIn();
-        if (!isLoggedIn) {
-          this.notificationAlert.showError('Page not found. Please check the URL.', false);
-        }
-        break;
+  //     case 404:
+  //       const isLoggedIn = this.authService.isLoggedIn();
+  //       if (!isLoggedIn) {
+  //         this.notificationAlert.showError('Page not found. Please check the URL.', false);
+  //       }
+  //       break;
 
-      case 400:
-        this.notificationAlert.showError('Bad request. Please check your input.', false);
-        break;
+  //     case 400:
+  //       this.notificationAlert.showError('Bad request. Please check your input.', false);
+  //       break;
 
-      case 500:
-        this.notificationAlert.showError('Internal server error. Please try again later.', false);
-        break;
+  //     case 500:
+  //       this.notificationAlert.showError('Internal server error. Please try again later.', false);
+  //       break;
 
-      case 503:
-        this.notificationAlert.showError('Service unavailable. Please try again later.', false);
-        break;
-    }
-  }
+  //     case 503:
+  //       this.notificationAlert.showError('Service unavailable. Please try again later.', false);
+  //       break;
+  //   }
+  // }
 
 
   handleAction(): void {

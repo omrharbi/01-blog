@@ -14,7 +14,6 @@ import { NotificationsServiceLogique } from '../../../core/service/serivecLogiqu
 })
 export class Header implements OnInit {
   searchQuery = '';
-  s = signal('')
   authService = inject(AuthService);
   router = inject(Router);
   themeService = inject(ThemeService);
@@ -24,17 +23,15 @@ export class Header implements OnInit {
   isAuthenticated: boolean = false;
   isNotificated = false;
   @Output() isShowPopUp = new EventEmitter<any>();
-  // dfgdf = output();
-  hasUnreadNotifications = false;
+  hasUnreadNotifications = signal(false);
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
-    if (this.isAuthenticated){
+    if (this.isAuthenticated) {
       this.notifLogique.loadingNotifications();
       this.notificationIcons.notificationIcons$.subscribe({
         next: isNotification => {
-          console.log(isNotification,"**/****");
-          
-          this.hasUnreadNotifications = isNotification
+          console.log(isNotification, "*********");
+          this.hasUnreadNotifications.set(isNotification)
         }
       })
     }
@@ -45,7 +42,7 @@ export class Header implements OnInit {
       console.log('Searching for:', this.searchQuery);
     }
   }
-  
+
   toggleTheme() {
     this.themeService.toggleTheme();
   }
@@ -64,8 +61,7 @@ export class Header implements OnInit {
     window.location.href = '/';
   }
   OnPopUp(isInside: boolean) {
-    console.log(isInside, "****");
-    if (isInside) {
+     if (isInside) {
       this.global.sharedData.emit({ type: 'notification', data: true });
       this.isNotificated = !this.isNotificated;
     } else {
