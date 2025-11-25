@@ -17,8 +17,7 @@ export class NotificationsServiceLogique {
 
   constructor(private jwt: JwtService,
     private toasterService: ToastrService,
-    private notificationServices: NotificationServiceApi, private auth: AuthService,
-    private notificationAlert: NotificationService
+    private notificationServices: NotificationServiceApi, 
   ) { }
 
   private notificationsSubject = new BehaviorSubject<any>(null);
@@ -44,7 +43,6 @@ export class NotificationsServiceLogique {
   }
   unreadNotificationCount(): number {
     let numbers = this.notifications.filter(n => !n.read).length;
-    // this.notificationIconsSubject.next(numbers !== 0)
     return numbers
   }
   markAsRead(id: string): void {
@@ -69,32 +67,17 @@ export class NotificationsServiceLogique {
     })
   }
 
-  // markAsUnRead(id: string): void {
-  //   const notification = this.notifications.find(n => n.triggerUserId === id)
-  //   if (notification) {
-  //     notification.read = false
-  //   }
-  // }
-  // markAllAsRead(): void {
-  //   this.notifications.forEach(n => n.read = true)
-  //   this.notificationIconsSubject.next(this.unreadNotificationCount() !== 0)
-  // }
-  addNotification(notification: NotificationResponse): void {
-    this.notifications.unshift(notification);
-    this.unreadNotificationCount();
-  }
+
   allNotifications() {
-    const isAuthApiCall = this.auth.isLoggedIn()
-    if (!isAuthApiCall) { return }
+    // const isAuthApiCall = this.auth.isLoggedIn()
+    // if (!isAuthApiCall) { return }
     let data = this.notificationServices.getALLNotifications();
     data.subscribe({
       next: response => {
         this.notifications = response.data;
-        // console.log("her ", );
 
         this.notificationIconsSubject.next(this.unreadNotificationCount() !== 0)
         this.notificationsSubject.next(this.notifications)
-        // this.unreadCountSubject.next()
 
       }
     })
@@ -128,8 +111,6 @@ export class NotificationsServiceLogique {
                   }
                   this.getNotificationMessage(notifications.type, notifications.message)
 
-                  this.addNotification(newNotification);
-                  // this.showBrowserNotification(newNotification);
                 }
               } catch (e) {
                 console.log('📨 Message is not JSON:', message.body);
@@ -170,14 +151,7 @@ export class NotificationsServiceLogique {
         break
     }
   }
-  // private showBrowserNotification(notification: NotificationResponse): void {
-  //   if ('Notification' in window && Notification.permission === 'granted') {
-  //     new Notification(notification.title, {
-  //       body: notification.message,
-  //       icon: '/assets/icons/notification-icon.png' // Add your icon path
-  //     });
-  //   }
-  // }
+
   disconnect() {
     if (this.notificationsSubscription) {
       this.notificationsSubscription.unsubscribe();

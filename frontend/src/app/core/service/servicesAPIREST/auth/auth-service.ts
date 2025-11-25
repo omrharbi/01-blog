@@ -6,14 +6,16 @@ import { ApiResponse, UserResponse } from '../../../models/authentication/autRes
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Login } from '../../../../features/auth/login/login';
 import { JwtService } from '../../JWT/jwt-service';
+import { NotificationsServiceLogique } from '../../serivecLogique/notifications/notifications-service-logique';
 
 
 @Injectable({
   providedIn: 'root',
+  
 })
 export class AuthService {
   // const router = inject(Router);
-  constructor(private http: HttpClient, private jwtService: JwtService) { }
+  constructor(private http: HttpClient, private jwtService: JwtService, private notificationService: NotificationsServiceLogique) { }
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   urlImageUser: string = ""
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -45,7 +47,6 @@ export class AuthService {
   validateTokenOnStartup() {
     const token = localStorage.getItem(LocalstorageKey.token);
     if (!token) {
-      // No token - user is not really logged in
       this.logout();
       return;
     }
@@ -55,6 +56,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem(LocalstorageKey.token);
     this.isAuthenticatedSubject.next(false);
+    this.notificationService.disconnect()
+
   }
 
   isLoggedIn(): boolean {

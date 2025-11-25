@@ -22,11 +22,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.scss',
 
 })
-export class App implements OnInit {
+export class App implements OnInit ,OnDestroy{
   isRendred: boolean;
   constructor(private global: Global, private authService: AuthService, private toastr: ToastrService, private notificationService: NotificationsServiceLogique) {
     this.isRendred = false;
   }
+ 
   isNotificated = false;
   private subscription = new Subscription();
   ngOnInit() {
@@ -37,5 +38,11 @@ export class App implements OnInit {
     });
     this.notificationService.connect();
     this.authService.isLoggedIn();
+  }
+
+   ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+    // this.notificationService.disconnect()
+
   }
 }
