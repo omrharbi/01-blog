@@ -55,9 +55,21 @@ export class NotificationsServiceLogique {
     const notification = this.notifications.find(n => n.triggerUserId === id)
     if (notification) {
       notification.read = true
+    } 
+
+    if (notification?.read) {
+      notification.read = false
+      console.log("her ");
+      
     }
   }
 
+  markAsUnRead(id: string): void {
+    const notification = this.notifications.find(n => n.triggerUserId === id)
+    if (notification) {
+      notification.read = false
+    }
+  }
   markAllAsRead(): void {
     this.notifications.forEach(n => n.read = true)
     this.notificationIconsSubject.next(this.unreadNotificationCount() !== 0)

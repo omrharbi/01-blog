@@ -61,13 +61,13 @@ public class NotificationService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<String>> saveAndSendNotification(NotificationRequest notification, User receiver, User triggerUser) {
+    public ResponseEntity<ApiResponse<String>> saveAndSendNotification(NotificationRequest notification, User receiver,
+            User triggerUser) {
         ResponseEntity<ApiResponse<String>> response = sendNotification(receiver, notification);
         if (response == null) {
             return ApiResponseUtil.error(
                     "❌ Failed to send notification to user: " + receiver.getId(),
-                    HttpStatus.BAD_REQUEST
-            );
+                    HttpStatus.BAD_REQUEST);
 
         }
         var sendResponse = response.getBody();
@@ -80,7 +80,8 @@ public class NotificationService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<NotificationResponse>>> getAllNotificationByUser(UserPrincipal userPrincipal) {
+    public ResponseEntity<ApiResponse<List<NotificationResponse>>> getAllNotificationByUser(
+            UserPrincipal userPrincipal) {
         try {
             if (userPrincipal == null) {
                 return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
@@ -113,7 +114,14 @@ public class NotificationService {
     public ResponseEntity<ApiResponse<Boolean>> readNotification(UUID notifid) {
         Optional<Notification> getNotification = notificationRepository.findById(notifid);
         if (getNotification.isPresent()) {
-            getNotification.get().setStatus(true);
+            var notif = getNotification.get();
+            // System.out.println("NotificationService.readNotification()"+notif.isStatus());
+            // getNotification.get().setStatus(true);
+            if (notif.isStatus()) {
+                notif.setStatus(false);
+            } else {
+                notif.setStatus(false);
+            }
             notificationRepository.save(getNotification.get());
             return ApiResponseUtil.success(true, null, "Notifications read successfully");
         }

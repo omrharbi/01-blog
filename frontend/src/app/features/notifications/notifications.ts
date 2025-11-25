@@ -28,6 +28,7 @@ export class NotificationPopup {
           this.notifications = notif
         })
       )
+      
       // this.subscriptions.add(
       //   this.notifLogique.unreadCount$.subscribe(count => {
       //     this.unreadCount = count
@@ -41,12 +42,20 @@ export class NotificationPopup {
   }
 
   markAsRead(id: string): void {
+          console.log("hre***********",document.getElementById("element-notification"));
+
     this.notificationService.readNotification(id).subscribe({
       next: reponse => {
         if (reponse) {
           const notification = this.notifications.find(n => n.id === id);
           if (notification) {
-            notification.read = true;
+            if (!notification.read) {
+              notification.read = true;
+            } else {
+              notification.read = false;
+            }
+            // console.log(notification);
+
           }
         }
       }
