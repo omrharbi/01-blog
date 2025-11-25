@@ -56,15 +56,11 @@ export class NotificationsServiceLogique {
           if (notification) {
             if (!notification.read) {
               let number = this.unreadNotificationCount() - 1;
-              console.log(number, "--- ");
-               this.notificationIconsSubject.next(number !== 0)
+              this.notificationIconsSubject.next(number !== 0)
               notification.read = true;
             } else {
               let number = this.unreadNotificationCount() + 1;
-              // console.log(number, "****");
-               this.notificationIconsSubject.next(number !== 0)
-
-
+              this.notificationIconsSubject.next(number !== 0)
               notification.read = false;
             }
           }
