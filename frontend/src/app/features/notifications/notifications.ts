@@ -28,7 +28,7 @@ export class NotificationPopup {
           this.notifications = notif
         })
       )
-      
+
       // this.subscriptions.add(
       //   this.notifLogique.unreadCount$.subscribe(count => {
       //     this.unreadCount = count
@@ -36,13 +36,18 @@ export class NotificationPopup {
       // )
     }
   }
-
+  onClickedInside(isInside: boolean) {
+    if (!isInside) {
+      // Close the notification dropdown
+      this.isOpen = false; // or whatever your toggle variable is
+    }
+  }
   togglePopup(): void {
     this.isOpen = !this.isOpen;
   }
 
   markAsRead(id: string): void {
-          console.log("hre***********",document.getElementById("element-notification"));
+    console.log("hre***********", document.getElementById("element-notification"));
 
     this.notificationService.readNotification(id).subscribe({
       next: reponse => {

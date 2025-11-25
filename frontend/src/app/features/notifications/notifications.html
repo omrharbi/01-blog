@@ -1,4 +1,4 @@
-<div class="notification-dropdown-overlay">
+<div class="notification-dropdown-overlay" id="element-notification "  (clickedInside)="onClickedInside($event)" appDiractiveEvenet>
   <div class="notification-dropdown">
     <div class="notification-header">
       <div class="notification-title">Notifications</div>
@@ -12,7 +12,7 @@
     <div class="notification-list">
       <ng-container *ngIf="(notifications ?? []).length > 0; else emptyState">
         <div  *ngFor="let notif of notifications">
-          <div class="notification-item" id="element-notification"  (click)="markAsRead(notif.id)" [class.unread]="!notif.read">
+          <div class="notification-item" [id]="'notification-item-' + notif.id"  (click)="markAsRead(notif.id)" [class.unread]="!notif.read">
             <!-- (click)="markAsRead(notif.id)" -->
             <div class="notification-icon" [class.unread]="!notif.read" [class.read]="notif.read">
               <svg *ngIf="!notif.read" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white"
