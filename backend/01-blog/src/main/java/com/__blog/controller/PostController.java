@@ -50,7 +50,7 @@ public class PostController {
     @GetMapping("/getallPost")
     public ResponseEntity<?> getPosts(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
-            @RequestParam(required=false) UUID userPrincipal,
+            @RequestParam(required = false) UUID userPrincipal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
@@ -61,19 +61,39 @@ public class PostController {
         } else {
             System.err.println("Anonymous request, userId is null");
         }
- 
+
         return postservice.getPosts(userId, snapshotTime, page, size);
+
+    }
+
+    @GetMapping("/getAllPostsFromFollowedUsers")
+    public ResponseEntity<?> getAllPostsFromFollowedUsers(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
+            @RequestParam(required = false) UUID userPrincipal,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        UUID userId = null;
+        if (userPrincipal != null) {
+            userId = userPrincipal;
+            System.err.println("Authenticated userId: " + userId);
+        } else {
+            System.err.println("Anonymous request, userId is null");
+        }
+
+        return postservice.getAllPostsFromFollowedUsers(userId, snapshotTime, page, size);
 
     }
 
     @GetMapping("/getPostById/{id}")
     public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(
-            @RequestParam(required=false) UUID userPrincipal, @PathVariable String id) {
+            @RequestParam(required = false) UUID userPrincipal, @PathVariable String id) {
 
         try {
 
-            UUID userId = userPrincipal != null ? userPrincipal: null;
-            // System.err.println("getPostById called with userId: " + userId + " and postId: " + id);
+            UUID userId = userPrincipal != null ? userPrincipal : null;
+            // System.err.println("getPostById called with userId: " + userId + " and
+            // postId: " + id);
             ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userId);
             ApiResponse<PostResponseWithMedia> postBody = getPostResponse.getBody();
 

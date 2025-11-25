@@ -1,14 +1,15 @@
 <header class="custom-header w-full">
-    <nav class="container px-4 py-3">
+    <!-- DESKTOP HEADER -->
+    <nav class="container px-5 py-2 desktop-nav">
         <div class="d-flex align-items-center justify-content-between">
-            <!-- Logo and Navigation -->
+            <!-- Logo -->
             <div class="d-flex align-items-center gap-5">
-                <!-- Brand/Logo -->
-                <a class="d-flex align-items-center gap-2 text-decoration-none   fs-4 fw-bold"
-                    [routerLink]="['/admin']">
+                <a class="d-flex align-items-center gap-2 text-decoration-none fs-4 fw-bold"
+                    routerLink="/admin">
                     <div class="custom-logo">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="text-white">
                             <rect width="7" height="9" x="3" y="3" rx="1"></rect>
                             <rect width="7" height="5" x="14" y="3" rx="1"></rect>
@@ -18,32 +19,44 @@
                     </div>
                     01Blog
                 </a>
-
-                <!-- Navigation Links -->
-                <div class="d-flex gap-1">
-                    <a class="custom-nav-link  " [routerLink]="['/']">Home</a>
-                    <a class="custom-nav-link  active" [routerLink]="['/admin']">Dashboard</a>
-                    <a class="custom-nav-link" [routerLink]="['/admin/users']">Users</a>
-                    <a class="custom-nav-link " [routerLink]="['/admin/posts']">Posts</a>
-                    <a class="custom-nav-link" [routerLink]="['/admin/reports']">Reports</a>
+                <!-- Desktop Navigation -->
+                <div class="d-flex gap-1 desktop-links">
+                    <a class="custom-nav-link" routerLink="/" routerLinkActive="active" 
+                       [routerLinkActiveOptions]="{ exact: true }">Home</a>
+                    <a class="custom-nav-link" routerLink="/admin" routerLinkActive="active">Dashboard</a>
+                    <a class="custom-nav-link" routerLink="/admin/users" routerLinkActive="active">Users</a>
+                    <a class="custom-nav-link" routerLink="/admin/posts" routerLinkActive="active">Posts</a>
+                    <a class="custom-nav-link" routerLink="/admin/reports" routerLinkActive="active">Reports</a>
                 </div>
             </div>
-
-            <!-- Theme Toggle Button -->
+            <!-- Theme Toggle -->
             <button class="theme-toggle">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <path d="M12 2v2"></path>
-                    <path d="M12 20v2"></path>
-                    <path d="m4.93 4.93 1.41 1.41"></path>
-                    <path d="m17.66 17.66 1.41 1.41"></path>
-                    <path d="M2 12h2"></path>
-                    <path d="M20 12h2"></path>
-                    <path d="m6.34 17.66 -1.41 1.41"></path>
-                    <path d="m19.07 4.93 -1.41 1.41"></path>
-                </svg>
+                <mat-icon>light_mode</mat-icon>
             </button>
         </div>
     </nav>
 </header>
+
+<!-- MOBILE BOTTOM NAV (only visible on mobile/tablet) -->
+<nav class="mobile-bottom-nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+    </a>
+    <a routerLink="/admin" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+    </a>
+    <a routerLink="/admin/users" routerLinkActive="active">
+        <mat-icon>group</mat-icon>
+        <span>Users</span>
+    </a>
+    <a routerLink="/admin/posts" routerLinkActive="active">
+        <mat-icon>article</mat-icon>
+        <span>Posts</span>
+    </a>
+    <a routerLink="/admin/reports" routerLinkActive="active">
+        <mat-icon>flag</mat-icon>
+        <span>Reports</span>
+    </a>
+</nav>

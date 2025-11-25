@@ -211,3 +211,117 @@
     .text-muted {
         color: var(--text-secondary) !important;
     }
+
+
+    /* ============================
+   RESPONSIVE TABLE IMPROVEMENTS
+   ============================ */
+
+    /* Table Wrapper */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 0.75rem;
+    }
+
+    /* Keep table columns readable on mobile */
+    .posts-table {
+        min-width: 800px;
+        /* prevents squished layout */
+    }
+
+    /* Better cell padding on mobile */
+    @media (max-width: 768px) {
+        .content-card {
+            padding: 1rem;
+        }
+
+        .content-card .posts-table th,
+        .content-card .posts-table td {
+            padding: 0.6rem 0.5rem;
+            font-size: 0.8rem;
+        }
+    }
+
+    /* Collapse less-important columns on small screens */
+    @media (max-width: 640px) {
+
+        /* Hide columns to avoid clutter */
+        .posts-table th:nth-child(4),
+        /* Likes */
+        .posts-table td:nth-child(4),
+        .posts-table th:nth-child(5),
+        /* Comments */
+        .posts-table td:nth-child(5),
+        .posts-table th:nth-child(7),
+        /* Status (duplicate of reports? you had 2) */
+        .posts-table td:nth-child(7) {
+            display: none;
+        }
+
+        /* Make title full width on phones */
+        .post-title {
+            max-width: 130px;
+        }
+
+        .action-buttons {
+            gap: 0.25rem;
+        }
+
+        .action-btn {
+            padding: 0.35rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .action-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    /* On very small screens */
+    @media (max-width: 480px) {
+
+        /* Make author + title appear stacked */
+        .posts-table td:nth-child(1),
+        .posts-table td:nth-child(2) {
+            display: block;
+            width: 100%;
+            padding-bottom: 0;
+        }
+
+        .username {
+            display: inline-block;
+            margin-bottom: 2px;
+            font-size: 0.85rem;
+        }
+
+        .post-title {
+            font-size: 0.8rem;
+        }
+
+        /* move action buttons under row */
+        .posts-table td:last-child {
+            display: block;
+            padding-top: 0.5rem;
+            text-align: left !important;
+        }
+
+        .action-buttons {
+            justify-content: flex-start;
+        }
+
+        .pagination-container {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+    }
+
+    /* Pagination mobile tweaks */
+    @media (max-width: 576px) {
+        .pagination-info {
+            font-size: 0.8rem;
+            text-align: center;
+            width: 100%;
+        }
+    }

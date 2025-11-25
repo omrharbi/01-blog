@@ -403,3 +403,80 @@
 2025-11-25 14:54:00.398 GMT [459309] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.005 s, total=0.415 s; sync files=5, longest=0.005 s, average=0.001 s; distance=14 kB, estimate=27 kB; lsn=0/28130C50, redo lsn=0/28130BF8
 2025-11-25 15:03:59.592 GMT [459309] LOG:  checkpoint starting: time
 2025-11-25 15:03:59.903 GMT [459309] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.302 s, sync=0.002 s, total=0.312 s; sync files=4, longest=0.002 s, average=0.001 s; distance=7 kB, estimate=25 kB; lsn=0/28132990, redo lsn=0/28132938
+2025-11-25 15:08:59.919 GMT [459309] LOG:  checkpoint starting: time
+2025-11-25 15:09:01.034 GMT [459309] LOG:  checkpoint complete: wrote 12 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.105 s, sync=0.005 s, total=1.115 s; sync files=9, longest=0.005 s, average=0.001 s; distance=45 kB, estimate=45 kB; lsn=0/2813DE78, redo lsn=0/2813DE20
+2025-11-25 16:19:00.075 GMT [459309] LOG:  checkpoint starting: time
+2025-11-25 16:19:00.488 GMT [459309] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.002 s, total=0.413 s; sync files=5, longest=0.002 s, average=0.001 s; distance=17 kB, estimate=42 kB; lsn=0/281422D0, redo lsn=0/28142278
+2025-11-25 16:42:31.599 GMT [577300] ERROR:  relation "post" does not exist at character 262
+2025-11-25 16:42:31.599 GMT [577300] STATEMENT:  SELECT 
+	            p.id AS post_id,
+	            u.id AS user_id,
+	            p.title,
+	            p.content,
+	            p.created_at,
+	            m.file_path AS first_media,
+	            u.firstname,
+	            u.lastname,
+	            u.username
+	        FROM post p
+	        INNER JOIN "user" u ON p.user_id = u.id
+	        INNER JOIN subscription s ON s.subscribed_to_id = u.id
+	        LEFT JOIN LATERAL (
+	            SELECT m2.file_path
+	            FROM media m2
+	            WHERE m2.post_id = p.id
+	            ORDER BY m2.display_order ASC
+	            LIMIT 1
+	        ) m ON true
+	        WHERE s.subscriber_id = '5167e87d-30e1-4ae5-b8be-7a93debdc291'
+	          
+	        ORDER BY p.created_at DESC
+2025-11-25 16:42:41.291 GMT [577300] ERROR:  relation "user" does not exist at character 289
+2025-11-25 16:42:41.291 GMT [577300] STATEMENT:  SELECT 
+	            p.id AS post_id,
+	            u.id AS user_id,
+	            p.title,
+	            p.content,
+	            p.created_at,
+	            m.file_path AS first_media,
+	            u.firstname,
+	            u.lastname,
+	            u.username
+	        FROM posts p
+	        INNER JOIN "user" u ON p.user_id = u.id
+	        INNER JOIN subscription s ON s.subscribed_to_id = u.id
+	        LEFT JOIN LATERAL (
+	            SELECT m2.file_path
+	            FROM media m2
+	            WHERE m2.post_id = p.id
+	            ORDER BY m2.display_order ASC
+	            LIMIT 1
+	        ) m ON true
+	        WHERE s.subscriber_id = '5167e87d-30e1-4ae5-b8be-7a93debdc291'
+	          
+	        ORDER BY p.created_at DESC
+2025-11-25 16:42:49.435 GMT [577300] ERROR:  column m2.post_id does not exist at character 484
+2025-11-25 16:42:49.435 GMT [577300] HINT:  Perhaps you meant to reference the column "m2.posts_id".
+2025-11-25 16:42:49.435 GMT [577300] STATEMENT:  SELECT 
+	            p.id AS post_id,
+	            u.id AS user_id,
+	            p.title,
+	            p.content,
+	            p.created_at,
+	            m.file_path AS first_media,
+	            u.firstname,
+	            u.lastname,
+	            u.username
+	        FROM posts p
+	        INNER JOIN users u ON p.user_id = u.id
+	        INNER JOIN subscription s ON s.subscribed_to_id = u.id
+	        LEFT JOIN LATERAL (
+	            SELECT m2.file_path
+	            FROM media m2
+	            WHERE m2.post_id = p.id
+	            ORDER BY m2.display_order ASC
+	            LIMIT 1
+	        ) m ON true
+	        WHERE s.subscriber_id = '5167e87d-30e1-4ae5-b8be-7a93debdc291'
+	          
+	        ORDER BY p.created_at DESC

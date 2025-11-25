@@ -146,3 +146,47 @@
 .text-muted{
     color: var(--text-secondary) !important;
 }
+
+
+
+/* Responsive typography */
+.dashboard-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Metric scaling */
+.metric-value {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+/* Card responsiveness */
+.metric-card,
+.activity-card {
+    width: 100%;
+    border-radius: 1rem;
+    padding: 1.25rem;
+}
+
+/* Activity list responsive */
+.activity-item {
+    flex-direction: row;
+}
+
+@media (max-width: 576px) {
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .metric-card {
+        padding: 1rem;
+    }
+}
+
+/* Utility colors */
+.text-muted {
+    color: var(--text-secondary) !important;
+}

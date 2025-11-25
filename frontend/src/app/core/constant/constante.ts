@@ -52,6 +52,7 @@ export const environment = {
     },
     post: {
         posts: apiUrl + "api/posts/getallPost",
+        get_all_posts_from_followed_users: apiUrl + "api/posts/getAllPostsFromFollowedUsers",
         postByID: apiUrl + "api/posts/getPostById/",
         deletePost: apiUrl + "api/posts/post/delete"
     },

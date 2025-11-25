@@ -66,6 +66,27 @@ export class PostService {
     });
   }
 
+
+  getAllPostsFromFollowedUsers(userId: string | null, snapshotTime: string | null, page: number, size: number): Observable<ApiResponseWithPage<PostResponse[]>> {
+    const headers = new HttpHeaders({
+      'Content-Type': "application/json"
+    })
+    let params = new HttpParams()
+      // .set("userId", userId)
+      .set("page", page)
+      .set("size", size);
+    if (snapshotTime) {
+      params = params.set("snapshotTime", snapshotTime);
+    }
+    if (userId) {
+      params = params.set("userPrincipal", userId);
+    }
+    return this.http.get<ApiResponseWithPage<PostResponse[]>>(`${environment.post.get_all_posts_from_followed_users}`, {
+      params,
+      headers
+    });
+  }
+
   getpostByID(userId: string | null, id: string): Observable<ApiResponse<PostResponse>> {
     const headers = new HttpHeaders({
       // Authorization: `Bearer ${token}`,

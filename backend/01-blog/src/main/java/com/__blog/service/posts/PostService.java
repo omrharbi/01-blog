@@ -152,6 +152,7 @@ public class PostService {
 
         }
     }
+
     @Transactional
     public ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostById(String uuid, UUID userId) {
 
@@ -195,7 +196,7 @@ public class PostService {
             User user = userOpt.get();
             Page<Post> postsOpt = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), effectiveSnapshotTime,
                     pageable);
-            
+
             Page<PostResponse> postResponses = postsOpt
                     .map(post -> postMapper.ConvertPostResponse(post, user.getId()));
 
@@ -212,9 +213,24 @@ public class PostService {
             int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        LocalDateTime effectiveSnapshotTime = snapshotTime != null ? snapshotTime: LocalDateTime.now();
-        System.err.println(effectiveSnapshotTime+"****************");
+        LocalDateTime effectiveSnapshotTime = snapshotTime != null ? snapshotTime : LocalDateTime.now();
         Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(effectiveSnapshotTime,
+                pageable);
+        if (findPostResponses.isEmpty()) {
+            return ApiResponseUtil.success(findPostResponses, null, "");
+        }
+        var result = postMapper.ConvertPostResponse(findPostResponses, userId);
+        return ApiResponseUtil.success(result, null, "");
+    }
+
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getAllPostsFromFollowedUsers(UUID userId, LocalDateTime snapshotTime,
+            int page,
+            int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        LocalDateTime effectiveSnapshotTime = snapshotTime != null ? snapshotTime : LocalDateTime.now();
+        System.err.println("---*-*-*-"+userId);
+        Page<PostResponse> findPostResponses = postRepository.findPostsFromFollowedUsers(userId, effectiveSnapshotTime,
                 pageable);
         if (findPostResponses.isEmpty()) {
             return ApiResponseUtil.success(findPostResponses, null, "");
