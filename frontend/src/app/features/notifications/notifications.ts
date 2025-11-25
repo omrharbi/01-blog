@@ -37,10 +37,10 @@ export class NotificationPopup {
     }
   }
   onClickedInside(isInside: boolean) {
-    if (!isInside) {
-      // Close the notification dropdown
-      this.isOpen = false; // or whatever your toggle variable is
-    }
+    // if (!isInside) {
+    //   // Close the notification dropdown
+    //   this.isOpen = false; // or whatever your toggle variable is
+    // }
   }
   togglePopup(): void {
     this.isOpen = !this.isOpen;

@@ -17,13 +17,8 @@ export class DiractiveEvenet {
     const id = target.id;
 
     const isClicked = this.element.nativeElement.contains(event.target)
-    const specialIds = ['report', 'delete'];
-    const hasSpecialId = specialIds.some(id =>
-      target.id === id || target.closest(`#${id}`) !== null
-    );
-
-    // Emit false (close popup) only if clicked outside AND not on special elements
-    if (!isClicked && !hasSpecialId) {
+     
+    if (!isClicked && (id !== "report" &&  id !== "delete" )) {
       this.clickedInside.emit(false);
     }
   }
