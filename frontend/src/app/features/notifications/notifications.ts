@@ -27,44 +27,32 @@ export class NotificationPopup {
         this.notifLogique.notifications$.subscribe(notif => {
           this.notifications = notif
         })
-      )
-
-      // this.subscriptions.add(
-      //   this.notifLogique.unreadCount$.subscribe(count => {
-      //     this.unreadCount = count
-      //   })
-      // )
+      ) 
     }
   }
-  onClickedInside(isInside: boolean) {
-    // if (!isInside) {
-    //   // Close the notification dropdown
-    //   this.isOpen = false; // or whatever your toggle variable is
-    // }
-  }
+ 
   togglePopup(): void {
     this.isOpen = !this.isOpen;
   }
 
   markAsRead(id: string): void {
-    console.log("hre***********", document.getElementById("element-notification"));
-
-    this.notificationService.readNotification(id).subscribe({
-      next: reponse => {
-        if (reponse) {
-          const notification = this.notifications.find(n => n.id === id);
-          if (notification) {
-            if (!notification.read) {
-              notification.read = true;
-            } else {
-              notification.read = false;
-            }
-            // console.log(notification);
-
-          }
-        }
-      }
-    })
+    
+    let number =this.notifLogique.unreadNotificationCount()
+    this.notifLogique.markAsRead(id);
+   // this.notificationService.readNotification(id).subscribe({
+    //   next: reponse => {
+    //     if (reponse) {
+    //       const notification = this.notifications.find(n => n.id === id);
+    //       if (notification) {
+    //         if (!notification.read) {
+    //           notification.read = true;
+    //         } else {
+    //           notification.read = false;
+    //         }
+    //       }
+    //     }
+    //   }
+    // })
 
   }
 
@@ -74,7 +62,6 @@ export class NotificationPopup {
         next: reponse => {
           if (reponse) {
             const notification = this.notifications.find(n => n.id === not.id);
-
             if (notification) {
               notification.read = true;
             }

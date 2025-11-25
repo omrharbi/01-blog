@@ -30,8 +30,8 @@ export class NotificationsServiceLogique {
 
   private notificationsSubscription: any;
 
-  // private unreadCountSubject = new BehaviorSubject<number>(0);
-  // unreadCount$ = this.unreadCountSubject.asObservable();
+  private unreadCountSubject = new BehaviorSubject<number>(0);
+  unreadCount$ = this.unreadCountSubject.asObservable();
 
 
   private stompClient?: any = null;
@@ -42,50 +42,52 @@ export class NotificationsServiceLogique {
     this.allNotifications()
     this.unreadNotificationCount()
   }
-  // ngOninit(){
-  //   console.log(this.unreadNotificationCount,"*****************");
-  // }
   unreadNotificationCount(): number {
     let numbers = this.notifications.filter(n => !n.read).length;
-    this.notificationIconsSubject.next(numbers !== 0)
-    // this.unreadCountSubject.next(numbers)
+    // this.notificationIconsSubject.next(numbers !== 0)
     return numbers
   }
   markAsRead(id: string): void {
-    const notification = this.notifications.find(n => n.triggerUserId === id)
-    if (notification) {
-      notification.read = true
-    } 
+    this.notificationServices.readNotification(id).subscribe({
+      next: reponse => {
+        if (reponse) {
+          const notification = this.notifications.find(n => n.id === id);
 
-    if (notification?.read) {
-      notification.read = false
-      console.log("her ");
-      
-    }
+          if (notification) {
+            if (!notification.read) {
+              let number = this.unreadNotificationCount() - 1;
+              console.log(number, "--- ");
+               this.notificationIconsSubject.next(number !== 0)
+              notification.read = true;
+            } else {
+              let number = this.unreadNotificationCount() + 1;
+              // console.log(number, "****");
+               this.notificationIconsSubject.next(number !== 0)
+
+
+              notification.read = false;
+            }
+          }
+        }
+      }
+    })
   }
 
-  markAsUnRead(id: string): void {
-    const notification = this.notifications.find(n => n.triggerUserId === id)
-    if (notification) {
-      notification.read = false
-    }
-  }
-  markAllAsRead(): void {
-    this.notifications.forEach(n => n.read = true)
-    this.notificationIconsSubject.next(this.unreadNotificationCount() !== 0)
-  }
+  // markAsUnRead(id: string): void {
+  //   const notification = this.notifications.find(n => n.triggerUserId === id)
+  //   if (notification) {
+  //     notification.read = false
+  //   }
+  // }
+  // markAllAsRead(): void {
+  //   this.notifications.forEach(n => n.read = true)
+  //   this.notificationIconsSubject.next(this.unreadNotificationCount() !== 0)
+  // }
   addNotification(notification: NotificationResponse): void {
     this.notifications.unshift(notification);
     this.unreadNotificationCount();
   }
-
-  // updateNotification(): void {
-  //   this.notificationsSubject.next([...this.notifications])
-  //   this.unreadNotificationCount();
-  // }
   allNotifications() {
-
-
     const isAuthApiCall = this.auth.isLoggedIn()
     if (!isAuthApiCall) { return }
     let data = this.notificationServices.getALLNotifications();
@@ -96,6 +98,7 @@ export class NotificationsServiceLogique {
 
         this.notificationIconsSubject.next(this.unreadNotificationCount() !== 0)
         this.notificationsSubject.next(this.notifications)
+        // this.unreadCountSubject.next()
 
       }
     })

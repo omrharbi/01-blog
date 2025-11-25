@@ -115,12 +115,12 @@ public class NotificationService {
         Optional<Notification> getNotification = notificationRepository.findById(notifid);
         if (getNotification.isPresent()) {
             var notif = getNotification.get();
-            // System.out.println("NotificationService.readNotification()"+notif.isStatus());
+            System.out.println("NotificationService.readNotification()"+notif.isStatus());
             // getNotification.get().setStatus(true);
             if (notif.isStatus()) {
                 notif.setStatus(false);
             } else {
-                notif.setStatus(false);
+                notif.setStatus(true);
             }
             notificationRepository.save(getNotification.get());
             return ApiResponseUtil.success(true, null, "Notifications read successfully");
