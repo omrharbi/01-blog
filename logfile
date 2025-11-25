@@ -307,3 +307,41 @@
 2025-11-24 17:16:12.573 GMT [310023] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.403 s, sync=0.003 s, total=0.412 s; sync files=5, longest=0.002 s, average=0.001 s; distance=7 kB, estimate=33 kB; lsn=0/280C3318, redo lsn=0/280C32C0
 2025-11-24 17:21:12.645 GMT [310023] LOG:  checkpoint starting: time
 2025-11-24 17:21:13.560 GMT [310023] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.904 s, sync=0.003 s, total=0.915 s; sync files=10, longest=0.003 s, average=0.001 s; distance=20 kB, estimate=32 kB; lsn=0/280C8460, redo lsn=0/280C8408
+2025-11-24 17:54:07.373 GMT [310019] LOG:  received smart shutdown request
+2025-11-24 17:54:07.373 GMT [336018] FATAL:  terminating connection due to administrator command
+2025-11-24 17:54:07.375 GMT [337058] FATAL:  terminating connection due to administrator command
+2025-11-24 17:54:07.375 GMT [335638] FATAL:  terminating connection due to administrator command
+2025-11-24 17:54:07.376 GMT [336745] FATAL:  terminating connection due to administrator command
+2025-11-24 17:54:07.377 GMT [336948] FATAL:  terminating connection due to administrator command
+2025-11-24 17:54:07.379 GMT [310019] LOG:  background worker "logical replication launcher" (PID 310028) exited with exit code 1
+2025-11-24 17:54:07.380 GMT [310023] LOG:  shutting down
+2025-11-24 17:54:07.382 GMT [310023] LOG:  checkpoint starting: shutdown immediate
+2025-11-24 17:54:07.389 GMT [310023] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.002 s, total=0.010 s; sync files=1, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=29 kB; lsn=0/280C8510, redo lsn=0/280C8510
+2025-11-24 17:54:07.393 GMT [310019] LOG:  database system is shut down
+2025-11-25 09:08:10.585 GMT [347083] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-25 09:08:10.585 GMT [347083] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-25 09:08:10.589 GMT [347083] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-25 09:08:10.603 GMT [347086] LOG:  database system was shut down at 2025-11-24 17:54:07 GMT
+2025-11-25 09:08:10.615 GMT [347083] LOG:  database system is ready to accept connections
+2025-11-25 09:13:10.704 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 09:13:10.816 GMT [347084] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.103 s, sync=0.003 s, total=0.113 s; sync files=4, longest=0.003 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/280C8618, redo lsn=0/280C85C0
+2025-11-25 09:18:10.916 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 09:18:11.330 GMT [347084] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.403 s, sync=0.005 s, total=0.415 s; sync files=5, longest=0.004 s, average=0.001 s; distance=9 kB, estimate=9 kB; lsn=0/280CAA70, redo lsn=0/280CAA18
+2025-11-25 09:28:10.515 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 09:28:10.923 GMT [347084] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.002 s, total=0.409 s; sync files=5, longest=0.001 s, average=0.001 s; distance=10 kB, estimate=10 kB; lsn=0/280CD3E8, redo lsn=0/280CD358
+2025-11-25 09:43:11.223 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 09:43:11.632 GMT [347084] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.003 s, total=0.410 s; sync files=5, longest=0.002 s, average=0.001 s; distance=14 kB, estimate=14 kB; lsn=0/280D0E20, redo lsn=0/280D0DC8
+2025-11-25 09:53:11.746 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 09:53:12.057 GMT [347084] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.302 s, sync=0.005 s, total=0.312 s; sync files=4, longest=0.004 s, average=0.002 s; distance=9 kB, estimate=14 kB; lsn=0/280D3318, redo lsn=0/280D32C0
+2025-11-25 10:09:49.929 GMT [383202] ERROR:  invalid input syntax for type uuid: "null" at character 40
+2025-11-25 10:09:49.929 GMT [383202] STATEMENT:  UPDATE "report" SET "reported_user_id"='null' WHERE "id"='bae92e77-c2e5-4687-9abb-69fdabb484dd';
+2025-11-25 10:10:20.657 GMT [383202] ERROR:  invalid input syntax for type uuid: "NULL" at character 40
+2025-11-25 10:10:20.657 GMT [383202] STATEMENT:  UPDATE "report" SET "reported_user_id"='NULL' WHERE "id"='bae92e77-c2e5-4687-9abb-69fdabb484dd';
+2025-11-25 10:10:29.984 GMT [383202] ERROR:  invalid input syntax for type uuid: "(NULL)" at character 40
+2025-11-25 10:10:29.984 GMT [383202] STATEMENT:  UPDATE "report" SET "reported_user_id"='(NULL)' WHERE "id"='bae92e77-c2e5-4687-9abb-69fdabb484dd';
+2025-11-25 10:11:03.682 GMT [383202] ERROR:  invalid input syntax for type uuid: "(NULL)" at character 40
+2025-11-25 10:11:03.682 GMT [383202] STATEMENT:  UPDATE "report" SET "reported_user_id"='(NULL)' WHERE "id"='bae92e77-c2e5-4687-9abb-69fdabb484dd';
+2025-11-25 10:11:05.001 GMT [383202] ERROR:  invalid input syntax for type uuid: "(NULL)" at character 40
+2025-11-25 10:11:05.001 GMT [383202] STATEMENT:  UPDATE "report" SET "reported_user_id"='(NULL)' WHERE "id"='bae92e77-c2e5-4687-9abb-69fdabb484dd';
+2025-11-25 10:13:11.440 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 10:13:11.948 GMT [347084] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.502 s, sync=0.002 s, total=0.509 s; sync files=6, longest=0.002 s, average=0.001 s; distance=17 kB, estimate=17 kB; lsn=0/280D7A38, redo lsn=0/280D79A8

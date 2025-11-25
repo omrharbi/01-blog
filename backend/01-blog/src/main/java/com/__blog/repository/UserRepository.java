@@ -46,4 +46,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                 WHERE s.subscriberUser.id = :userId
             """)
     Page<User> findSubscribedUsers(@Param("userId") UUID userId, Pageable pageable);
+
+    @Query(value = """
+            UPDATE users SET hidden = :hidden WHERE id = :userId
+            """, nativeQuery = true)
+    void updateReportHiddenByPostId(@Param("userId") UUID userId,@Param("hidden") boolean hidden);
 }

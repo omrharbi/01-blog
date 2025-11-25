@@ -61,11 +61,11 @@ public class AdminController {
         return adminService.getBannedUsers(page, size);
     }
 
-    @PostMapping("/hidan-post/{postId}")
-    public ResponseEntity<?> hidanPost(@PathVariable("postId") UUID postId) {
+    // @PostMapping("/hidan-post/{postId}")
+    // public ResponseEntity<?> hidanPost(@PathVariable("postId") UUID postId) {
 
-        return ResponseEntity.ok(null);
-    }
+    //     return ResponseEntity.ok(null);
+    // }
 
     @PatchMapping("/ban-user/{userId}")
     public ResponseEntity<?> banUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -103,7 +103,7 @@ public class AdminController {
     }
 
     @PostMapping("/hiddeng-post/{postId}")
-    public ResponseEntity<?> HiddengPost(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<?> ReportPost(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("postId") UUID postId) {
         return adminService.HiddengPost(userPrincipal, postId);
     }

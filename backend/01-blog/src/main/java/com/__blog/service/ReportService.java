@@ -71,9 +71,9 @@ public class ReportService {
                 return ApiResponseUtil.error("You cannot report your own post", HttpStatus.BAD_REQUEST);
             }
 
-            User reportedUser = post.getUser();
+            // User reportedUser = post.getUser();
             report.setPost(post);
-            report.setReportedUser(reportedUser);
+            // report.setReportedUser(reportedUser);
 
             reportRepository.save(report);
             return ApiResponseUtil.success(null, null, "Report Posts Success");

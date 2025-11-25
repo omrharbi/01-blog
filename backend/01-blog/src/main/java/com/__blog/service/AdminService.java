@@ -136,6 +136,7 @@ public class AdminService {
             if (wasHidden) {
                 Optional<Report> reportedOptional = reportRepository.findByReportedUser_Id(userId);
                 reportedOptional.ifPresent(report -> report.setStatus(false));
+                // System.out.println(reportedOptional.get().);
                 user.setHidden(false);
                 message = user.getUsername() + ", your Account has been unhidden.";
             } else {
