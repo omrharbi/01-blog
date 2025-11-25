@@ -61,12 +61,13 @@ export class Header implements OnInit {
     window.location.href = '/';
   }
   OnPopUp(isInside: boolean) {
-     if (isInside) {
+    console.log(isInside, "****");
+    if (isInside) {
       this.global.sharedData.emit({ type: 'notification', data: true });
-      this.isNotificated = !this.isNotificated;
+      // this.isNotificated = !this.isNotificated;
     } else {
       this.global.sharedData.emit({ type: 'notification', data: false });
-      this.isNotificated = false;
+      // this.isNotificated = false;
     }
   }
   notification() {
