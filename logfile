@@ -361,3 +361,25 @@
 2025-11-25 11:13:13.760 GMT [347084] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.904 s, sync=0.003 s, total=0.914 s; sync files=10, longest=0.002 s, average=0.001 s; distance=22 kB, estimate=40 kB; lsn=0/28104AD0, redo lsn=0/28104A40
 2025-11-25 11:18:12.800 GMT [347084] LOG:  checkpoint starting: time
 2025-11-25 11:18:13.916 GMT [347084] LOG:  checkpoint complete: wrote 12 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.104 s, sync=0.005 s, total=1.116 s; sync files=12, longest=0.004 s, average=0.001 s; distance=25 kB, estimate=38 kB; lsn=0/2810AF50, redo lsn=0/2810AEF8
+2025-11-25 11:48:13.399 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 11:48:13.610 GMT [347084] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.002 s, total=0.212 s; sync files=3, longest=0.002 s, average=0.001 s; distance=8 kB, estimate=35 kB; lsn=0/2810CF58, redo lsn=0/2810CF00
+2025-11-25 11:53:13.699 GMT [347084] LOG:  checkpoint starting: time
+2025-11-25 11:53:14.111 GMT [347084] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.402 s, sync=0.005 s, total=0.412 s; sync files=4, longest=0.004 s, average=0.002 s; distance=21 kB, estimate=34 kB; lsn=0/281124A8, redo lsn=0/28112450
+2025-11-25 12:37:40.646 GMT [347083] LOG:  received smart shutdown request
+2025-11-25 12:37:40.647 GMT [450248] FATAL:  terminating connection due to administrator command
+2025-11-25 12:37:40.648 GMT [446585] FATAL:  terminating connection due to administrator command
+2025-11-25 12:37:40.648 GMT [451485] FATAL:  terminating connection due to administrator command
+2025-11-25 12:37:40.648 GMT [347083] LOG:  background worker "logical replication launcher" (PID 347089) exited with exit code 1
+2025-11-25 12:37:40.648 GMT [452239] FATAL:  terminating connection due to administrator command
+2025-11-25 12:37:40.649 GMT [452355] FATAL:  terminating connection due to administrator command
+2025-11-25 12:37:40.652 GMT [347084] LOG:  shutting down
+2025-11-25 12:37:40.656 GMT [347084] LOG:  checkpoint starting: shutdown immediate
+2025-11-25 12:37:40.661 GMT [347084] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.009 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=30 kB; lsn=0/28112558, redo lsn=0/28112558
+2025-11-25 12:37:40.665 GMT [347083] LOG:  database system is shut down
+2025-11-25 12:58:57.554 GMT [459308] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-11-25 12:58:57.555 GMT [459308] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-25 12:58:57.557 GMT [459308] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-25 12:58:57.561 GMT [459311] LOG:  database system was shut down at 2025-11-25 12:37:40 GMT
+2025-11-25 12:58:57.567 GMT [459308] LOG:  database system is ready to accept connections
+2025-11-25 13:03:57.661 GMT [459309] LOG:  checkpoint starting: time
+2025-11-25 13:03:57.772 GMT [459309] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.103 s, sync=0.002 s, total=0.112 s; sync files=4, longest=0.002 s, average=0.001 s; distance=1 kB, estimate=1 kB; lsn=0/28112D88, redo lsn=0/28112D30

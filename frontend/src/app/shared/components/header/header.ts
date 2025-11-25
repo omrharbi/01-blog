@@ -27,7 +27,8 @@ export class Header implements OnInit {
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
     if (this.isAuthenticated) {
-      this.notifLogique.loadingNotifications();
+      this.notifLogique.allNotifications()
+      // this.notifLogique.loadingNotifications();
       this.notificationIcons.notificationIcons$.subscribe({
         next: isNotification => {
           console.log(isNotification, "*********");

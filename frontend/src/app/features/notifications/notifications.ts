@@ -28,12 +28,11 @@ export class NotificationPopup {
           this.notifications = notif
         })
       )
-      this.subscriptions.add(
-        this.notifLogique.unreadCount$.subscribe(count => {
-          this.unreadCount = count
-        })
-
-      )
+      // this.subscriptions.add(
+      //   this.notifLogique.unreadCount$.subscribe(count => {
+      //     this.unreadCount = count
+      //   })
+      // )
     }
   }
 
