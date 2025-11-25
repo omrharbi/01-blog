@@ -23,19 +23,17 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    @PostMapping("/create-report")
-    public ResponseEntity<?> createReport(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    @PostMapping("/create-report-post")
+    public ResponseEntity<?> createReportPost(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody ReportRequest reportRequest) {
-        return reportService.createReport(userPrincipal, reportRequest);
+        return reportService.createReportPost(userPrincipal, reportRequest);
     }
 
     @PostMapping("/create-report-user")
     public ResponseEntity<?> createReportUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody ReportRequest reportRequest) {
-        // System.err.println("****************" + reportRequest);
-        return reportService.createReportUser(userPrincipal, reportRequest);
-        // return  ResponseEntity.ok(null);
-    }
+         return reportService.createReportUser(userPrincipal, reportRequest);
+     }
 
     @GetMapping("/admin/get-posts-all-report")
     public ResponseEntity<?> getAllRepostPosts(

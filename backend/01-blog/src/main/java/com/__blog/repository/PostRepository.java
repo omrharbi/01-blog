@@ -36,7 +36,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     Page<Post> findAllWithMedias(Pageable pageable);
 
     @Query("""
-                    SELECT new com.__blog.model.dto.response.post.PostResponse(
+             SELECT new com.__blog.model.dto.response.post.PostResponse(
                         p.id,
                         u.id,
                         p.title,
@@ -51,8 +51,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
                 LEFT JOIN p.user u
                 LEFT JOIN p.likes l
                 LEFT JOIN p.comments c
-                LEFT JOIN Report r ON r.post = p
-                WHERE p.createdAt <= :snapshotTime
+                 WHERE p.createdAt <= :snapshotTime      
                  GROUP BY
                 p.id,
                 p.title,
@@ -62,7 +61,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
                 u.firstname,
                 u.lastname,
                 u.username
-            ORDER BY COUNT(DISTINCT r) DESC, p.createdAt DESC
+                ORDER BY   p.createdAt DESC
                     """)
     Page<PostResponse> findAllPostsWithFirstMedia(@Param("snapshotTime") LocalDateTime snapshotTime,
             Pageable pageable);

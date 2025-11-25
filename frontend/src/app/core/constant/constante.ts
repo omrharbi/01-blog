@@ -71,7 +71,7 @@ export const environment = {
         // postByID: apiUrl + "api/posts/getPostById/"
     },
     report: {
-        report_post: apiUrl + "api/report/create-report",
+        report_post: apiUrl + "api/report/create-report-post",
         report_user: apiUrl + "api/report/create-report-user",
         get_all_posts_report: apiUrl + "api/report/admin/get-posts-all-report",
         get_all_user_report: apiUrl + "api/report/admin/get-user-all-report",

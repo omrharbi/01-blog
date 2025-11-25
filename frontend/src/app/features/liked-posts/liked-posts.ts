@@ -6,10 +6,11 @@ import { PopUp } from '../pop-up/pop-up';
 import { likesServiceLogique } from '../../core/service/serivecLogique/like/likes-service-logique';
 import { apiUrl } from '../../core/constant/constante';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
+import { TimeAgoPipe } from '../../shared/pipes/time-ago-pipe';
 
 @Component({
   selector: 'app-liked-posts',
-  imports: [Materaile],//PopUp
+  imports: [Materaile, TimeAgoPipe],//
   templateUrl: './liked-posts.html',
   styleUrl: './liked-posts.scss'
 })

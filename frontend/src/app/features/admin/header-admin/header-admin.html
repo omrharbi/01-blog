@@ -4,7 +4,8 @@
             <!-- Logo and Navigation -->
             <div class="d-flex align-items-center gap-5">
                 <!-- Brand/Logo -->
-                <a class="d-flex align-items-center gap-2 text-decoration-none   fs-4 fw-bold" [routerLink]="['/admin']">
+                <a class="d-flex align-items-center gap-2 text-decoration-none   fs-4 fw-bold"
+                    [routerLink]="['/admin']">
                     <div class="custom-logo">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -20,8 +21,9 @@
 
                 <!-- Navigation Links -->
                 <div class="d-flex gap-1">
-                    <a class="custom-nav-link active"  [routerLink]="['/admin']" >Dashboard</a>
-                    <a class="custom-nav-link" [routerLink]="['/admin/users']"  >Users</a>
+                    <a class="custom-nav-link  " [routerLink]="['/']">Home</a>
+                    <a class="custom-nav-link  active" [routerLink]="['/admin']">Dashboard</a>
+                    <a class="custom-nav-link" [routerLink]="['/admin/users']">Users</a>
                     <a class="custom-nav-link " [routerLink]="['/admin/posts']">Posts</a>
                     <a class="custom-nav-link" [routerLink]="['/admin/reports']">Reports</a>
                 </div>

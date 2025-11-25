@@ -75,7 +75,7 @@
                                         <a href="#" class="fw-medium text-decoration-none link-hover"
                                             style="color: var(--foreground-color);">{{post.firstname }}
                                             {{post.lastname}}</a>
-                                        <div class="small text-muted-custom">1 week ago · 8 min read</div>
+                                        <div class="small text-muted-custom">{{post.createdAt | timeAgo}}</div>
                                     </div>
                                 </div>
                                 <button class="btn btn-sm icon-btn menu-btn">

@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet,
-    MatSlideToggleModule, MatIconModule, MarkdownModule, MatDialogModule,NotificationPopup,
+    MatSlideToggleModule, MatIconModule, MarkdownModule, MatDialogModule, NotificationPopup,
     CommonModule
   ],
   templateUrl: './app.html',
@@ -24,28 +24,18 @@ import { CommonModule } from '@angular/common';
 })
 export class App implements OnInit {
   isRendred: boolean;
-  constructor(private global: Global, private authService: AuthService, private toastr: ToastrService, private notificationService: NotificationsServiceLogique) { 
-    // console.log("first step in constructor");
+  constructor(private global: Global, private authService: AuthService, private toastr: ToastrService, private notificationService: NotificationsServiceLogique) {
     this.isRendred = false;
-   }
-  // ngOnDestroy(): void {
-  //   throw new Error('Method not implemented.');
-  // }
+  }
   isNotificated = false;
   private subscription = new Subscription();
   ngOnInit() {
-    // console.log("component hase start ", !this.isRendred);
-    
     this.subscription = this.global.sharedData.subscribe((event) => {
-       if (event.type === "notification") {
+      if (event.type === "notification") {
         this.isNotificated = event.data;
       }
     });
     this.notificationService.connect();
     this.authService.isLoggedIn();
   }
-  // ngAfterViewInit(): void {
-  //     console.log("component has rendred", this.isRendred);
-      
-  // }
 }

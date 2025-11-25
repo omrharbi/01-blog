@@ -43,7 +43,7 @@ public class ReportService {
     private ReportRepository reportRepository;
 
     @Transactional
-    public ResponseEntity<ApiResponse<ReportResponse>> createReport(UserPrincipal userPrincipal,
+    public ResponseEntity<ApiResponse<ReportResponse>> createReportPost(UserPrincipal userPrincipal,
             ReportRequest reportRequest) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error("Unauthorized: please login first", HttpStatus.UNAUTHORIZED);
@@ -71,9 +71,7 @@ public class ReportService {
                 return ApiResponseUtil.error("You cannot report your own post", HttpStatus.BAD_REQUEST);
             }
 
-            // User reportedUser = post.getUser();
             report.setPost(post);
-            // report.setReportedUser(reportedUser);
 
             reportRepository.save(report);
             return ApiResponseUtil.success(null, null, "Report Posts Success");
@@ -172,7 +170,7 @@ public class ReportService {
             return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
 
         } catch (Exception e) {
-            return ApiResponseUtil.error("this user is not found "+e.getMessage(), HttpStatus.NOT_FOUND);
+            return ApiResponseUtil.error("this user is not found " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

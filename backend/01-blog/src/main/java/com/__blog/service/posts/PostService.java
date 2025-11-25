@@ -65,11 +65,7 @@ public class PostService {
                     HttpStatus.UNAUTHORIZED);
         }
         User user = userPrincipal.getUser();
-        // if (postRequest.getTitle().isEmpty() || postRequest.getContent().isEmpty() ){
-        // return ApiResponseUtil.error(
-        // "❌ Title or content cannot be empty",
-        // HttpStatus.BAD_REQUEST);
-        // }
+
         Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
         if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
@@ -199,7 +195,7 @@ public class PostService {
             User user = userOpt.get();
             Page<Post> postsOpt = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), effectiveSnapshotTime,
                     pageable);
-
+            
             Page<PostResponse> postResponses = postsOpt
                     .map(post -> postMapper.ConvertPostResponse(post, user.getId()));
 
@@ -216,9 +212,8 @@ public class PostService {
             int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        LocalDateTime effectiveSnapshotTime = snapshotTime != null
-                ? snapshotTime
-                : LocalDateTime.now();
+        LocalDateTime effectiveSnapshotTime = snapshotTime != null ? snapshotTime: LocalDateTime.now();
+        System.err.println(effectiveSnapshotTime+"****************");
         Page<PostResponse> findPostResponses = postRepository.findAllPostsWithFirstMedia(effectiveSnapshotTime,
                 pageable);
         if (findPostResponses.isEmpty()) {

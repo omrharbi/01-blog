@@ -50,7 +50,6 @@ public class PostController {
     @GetMapping("/getallPost")
     public ResponseEntity<?> getPosts(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime snapshotTime,
-
             @RequestParam(required=false) UUID userPrincipal,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
