@@ -1,236 +1,168 @@
- <main class="flex-grow-1 p-4 p-lg-5" style="max-width: 56rem; margin: 0 auto; width: 100%;">
-        <div class="mb-5">
-            <div class="text-center py-5">
-                <h1 class="display-4 fw-bold font-playfair mb-4">Explore <span class="text-gradient">Posts</span></h1>
-                <p class="fs-5 text-muted-foreground" style="max-width: 42rem; margin: 0 auto;">Discover amazing Posts from developers, designers, and learners around the world.</p>
-            </div>
-            
-            <div class="card shadow-sm bg-card text-card-foreground">
-                <div class="card-body p-4">
-                    <div class="row g-3">
-                        <div class="col-md">
-                            <div class="search-input">
-                                <i class="bi bi-search search-icon"></i>
-                                <input type="text" class="form-control" placeholder="Search for topics, authors, or keywords...">
-                            </div>
+<main class="flex-grow-1 p-4 p-lg-5" style="max-width: 56rem; margin: 0 auto; width: 100%;">
+    <div class="mb-5">
+        <div class="text-center py-5">
+            <h1 class="display-4 fw-bold font-playfair mb-4">Explore <span class="text-gradient">Posts</span></h1>
+            <p class="fs-5 text-muted-foreground" style="max-width: 42rem; margin: 0 auto;">Discover amazing Posts from
+                developers, designers, and learners around the world.</p>
+        </div>
+
+        <div class="card shadow-sm bg-card text-card-foreground">
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md">
+                        <div class="search-input">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" class="form-control"
+                                placeholder="Search for topics, authors, or keywords...">
                         </div>
-                        <div class="col-md-auto">
-                            <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
-                                <i class="bi bi-funnel"></i>
-                                Filters
-                            </button>
-                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                            <i class="bi bi-funnel"></i>
+                            Filters
+                        </button>
                     </div>
                 </div>
             </div>
-            
-            <div class="row g-4 mt-1">
-                <div class="col-lg-8">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="h2 fw-semibold font-playfair">Featured Posts</h2>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Latest</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Popular</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Trending</button>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="card shadow-sm bg-card text-card-foreground group hover:shadow-elegant hover:border-border/60 transition-smooth">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
-                                            <img src="https://picsum.photos/seed/avatar1/40/40.jpg" class="w-100 h-100" alt="Avatar">
-                                        </div>
-                                        <div>
-                                            <a href="/profile/john_dev" class="fw-medium text-decoration-none hover:text-primary transition-smooth">John Developer</a>
-                                            <div class="small text-muted-foreground">1 day ago · 7 min read</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-sm btn-light opacity-0 group-hover:opacity-100 transition-smooth">
-                                        <i class="bi bi-three-dots"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="row g-4">
-                                    <div class="col-md-8">
-                                        <a href="/post/explore-1" class="text-decoration-none group/link">
-                                            <h2 class="h5 fw-bold font-playfair mb-2 group-hover/link:text-primary transition-smooth line-clamp-2">The Future of Web Development: Trends to Watch in 2024</h2>
-                                            <p class="text-muted-foreground mb-3 line-clamp-3">Exploring the latest technologies and frameworks that are shaping the future of web development, from AI integration to new JavaScript features...</p>
-                                        </a>
-                                        
-                                        <div class="d-flex flex-wrap gap-2 mb-3">
-                                            <span class="tag">Web Development</span>
-                                            <span class="tag">Trends</span>
-                                            <span class="tag">Future Tech</span>
-                                        </div>
-                                        
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <button class="btn btn-sm btn-light d-flex align-items-center gap-2 text-muted-foreground hover:text-accent transition-smooth">
-                                                    <i class="bi bi-heart"></i>
-                                                    245
-                                                </button>
-                                                <a href="/post/explore-1#comments" class="btn btn-sm btn-light d-flex align-items-center gap-2 text-muted-foreground hover:text-foreground transition-smooth text-decoration-none">
-                                                    <i class="bi bi-chat"></i>
-                                                    32
-                                                </a>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <button class="btn btn-sm btn-light text-muted-foreground hover:text-primary transition-smooth">
-                                                    <i class="bi bi-bookmark"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-light text-muted-foreground hover:text-foreground transition-smooth">
-                                                    <i class="bi bi-share"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 order-first order-md-last">
-                                        <a href="/post/explore-1" class="text-decoration-none">
-                                            <div class="aspect-video md:aspect-square rounded overflow-hidden bg-light">
-                                                <img src="https://picsum.photos/seed/post1/400/400.jpg" alt="The Future of Web Development: Trends to Watch in 2024" class="w-100 h-100 object-cover group-hover:scale-105 transition-transform duration-500">
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="card shadow-sm bg-card text-card-foreground group hover:shadow-elegant hover:border-border/60 transition-smooth">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
-                                            <img src="https://picsum.photos/seed/avatar2/40/40.jpg" class="w-100 h-100" alt="Avatar">
-                                        </div>
-                                        <div>
-                                            <a href="/profile/emma_api" class="fw-medium text-decoration-none hover:text-primary transition-smooth">Emma Backend</a>
-                                            <div class="small text-muted-foreground">3 days ago · 12 min read</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-sm btn-light opacity-0 group-hover:opacity-100 transition-smooth">
-                                        <i class="bi bi-three-dots"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="row g-4">
-                                    <div class="col-md-8">
-                                        <a href="/post/explore-2" class="text-decoration-none group/link">
-                                            <h2 class="h5 fw-bold font-playfair mb-2 group-hover/link:text-primary transition-smooth line-clamp-2">Building Scalable APIs with Node.js and Express</h2>
-                                            <p class="text-muted-foreground mb-3 line-clamp-3">A comprehensive guide to building robust and scalable REST APIs using Node.js and Express, including best practices for production deployment...</p>
-                                        </a>
-                                        
-                                        <div class="d-flex flex-wrap gap-2 mb-3">
-                                            <span class="tag">Node.js</span>
-                                            <span class="tag">API</span>
-                                            <span class="tag">Backend</span>
-                                        </div>
-                                        
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <button class="btn btn-sm btn-light d-flex align-items-center gap-2 text-muted-foreground hover:text-accent transition-smooth">
-                                                    <i class="bi bi-heart"></i>
-                                                    189
-                                                </button>
-                                                <a href="/post/explore-2#comments" class="btn btn-sm btn-light d-flex align-items-center gap-2 text-muted-foreground hover:text-foreground transition-smooth text-decoration-none">
-                                                    <i class="bi bi-chat"></i>
-                                                    28
-                                                </a>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <button class="btn btn-sm btn-light text-muted-foreground hover:text-primary transition-smooth">
-                                                    <i class="bi bi-bookmark"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-light text-muted-foreground hover:text-foreground transition-smooth">
-                                                    <i class="bi bi-share"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 order-first order-md-last">
-                                        <a href="/post/explore-2" class="text-decoration-none">
-                                            <div class="aspect-video md:aspect-square rounded overflow-hidden bg-light">
-                                                <img src="https://picsum.photos/seed/post2/400/400.jpg" alt="Building Scalable APIs with Node.js and Express" class="w-100 h-100 object-cover group-hover:scale-105 transition-transform duration-500">
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-center pt-4">
-                        <button class="btn btn-outline-secondary px-4">Load More Posts</button>
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h2 fw-semibold font-playfair">Featured Posts</h2>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Latest</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Popular</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Trending</button>
                     </div>
                 </div>
-                
-                <div class="col-lg-4">
-                    <div class="mb-4">
-                        <div class="card shadow-sm bg-card text-card-foreground">
-                            <div class="card-body p-4">
-                                <div class="d-flex align-items-center gap-2 mb-3">
-                                    <i class="bi bi-graph-up text-accent fs-5"></i>
-                                    <h3 class="h5 fw-semibold mb-0">Popular Topics</h3>
+
+
+
+
+
+                <!-- pposts -->
+
+                <!-- Example post card -->
+                <ng-container *ngIf="loading_post">
+                    <div class="feed-skeleton  skeleton" role="status" aria-live="polite" aria-busy="true">
+                        <div *ngFor="let placeholder of [0,1,2]"
+                            class="card border rounded-3 shadow-sm mb-4 feed-card--placeholder p-4">
+
+                            <!-- Header: avatar + name -->
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="rounded-circle bg-light me-3" style="width: 40px; height: 40px;"></div>
+                                <div class="flex-grow-1">
+                                    <div class="bg-light mb-1" style="height: 12px; width: 120px;"></div>
+                                    <div class="bg-light" style="height: 10px; width: 80px;"></div>
                                 </div>
-                                
-                                <div class="row g-3">
-                                    <div class="col-6">
-                                        <div class="topic-card">
-                                            <div class="topic-indicator bg-primary"></div>
-                                            <div class="small fw-medium topic-title">Web Development</div>
-                                            <div class="small text-muted-foreground">1,234 posts</div>
-                                        </div>
+                            </div>
+
+                            <!-- Title -->
+                            <div class="bg-light mb-2" style="height: 20px; width: 60%;"></div>
+
+                            <!-- Content -->
+                            <div class="bg-light mb-2" style="height: 14px; width: 100%;"></div>
+                            <div class="bg-light mb-2" style="height: 14px; width: 95%;"></div>
+                            <div class="bg-light mb-3" style="height: 14px; width: 90%;"></div>
+
+                            <!-- Image placeholder -->
+                            <div class="bg-light mb-3 rounded" style="height: 150px; width: 100%;"></div>
+
+                            <!-- Actions: like/comment -->
+                            <div class="d-flex gap-3">
+                                <div class="bg-light rounded" style="width: 50px; height: 20px;"></div>
+                                <div class="bg-light rounded" style="width: 50px; height: 20px;"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!loading_post">
+                    <div class="card-post">
+                        <app-post-card *ngFor="let post of posts " [post]="post"></app-post-card>
+                    </div>
+
+                    <div class="text-center pt-4" *ngIf="posts.length > 0">
+                        <button class="btn btn-outline-secondary px-4" (click)="loadMorePosts()"
+                            [disabled]="loading || !hasMorePosts()">
+                            <span *ngIf="!loading && hasMorePosts()">Load More Posts</span>
+                            <span *ngIf="loading">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                Loading...
+                            </span>
+                            <span *ngIf="!loading && !hasMorePosts()">No More Posts</span>
+                        </button>
+                    </div>
+                </ng-container>
+
+
+            </div>
+
+            <div class="col-lg-4">
+                <div class="mb-4">
+                    <div class="card shadow-sm bg-card text-card-foreground">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <i class="bi bi-graph-up text-accent fs-5"></i>
+                                <h3 class="h5 fw-semibold mb-0">Popular Topics</h3>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="topic-card">
+                                        <div class="topic-indicator bg-primary"></div>
+                                        <div class="small fw-medium topic-title">Web Development</div>
+                                        <div class="small text-muted-foreground">1,234 posts</div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="topic-card">
-                                            <div class="topic-indicator bg-purple"></div>
-                                            <div class="small fw-medium topic-title">Machine Learning</div>
-                                            <div class="small text-muted-foreground">892 posts</div>
-                                        </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="topic-card">
+                                        <div class="topic-indicator bg-purple"></div>
+                                        <div class="small fw-medium topic-title">Machine Learning</div>
+                                        <div class="small text-muted-foreground">892 posts</div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="topic-card">
-                                            <div class="topic-indicator bg-success"></div>
-                                            <div class="small fw-medium topic-title">Data Science</div>
-                                            <div class="small text-muted-foreground">756 posts</div>
-                                        </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="topic-card">
+                                        <div class="topic-indicator bg-success"></div>
+                                        <div class="small fw-medium topic-title">Data Science</div>
+                                        <div class="small text-muted-foreground">756 posts</div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="topic-card">
-                                            <div class="topic-indicator bg-warning"></div>
-                                            <div class="small fw-medium topic-title">Mobile Development</div>
-                                            <div class="small text-muted-foreground">654 posts</div>
-                                        </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="topic-card">
+                                        <div class="topic-indicator bg-warning"></div>
+                                        <div class="small fw-medium topic-title">Mobile Development</div>
+                                        <div class="small text-muted-foreground">654 posts</div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="topic-card">
-                                            <div class="topic-indicator bg-danger"></div>
-                                            <div class="small fw-medium topic-title">DevOps</div>
-                                            <div class="small text-muted-foreground">543 posts</div>
-                                        </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="topic-card">
+                                        <div class="topic-indicator bg-danger"></div>
+                                        <div class="small fw-medium topic-title">DevOps</div>
+                                        <div class="small text-muted-foreground">543 posts</div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="topic-card">
-                                            <div class="topic-indicator bg-pink"></div>
-                                            <div class="small fw-medium topic-title">UI/UX Design</div>
-                                            <div class="small text-muted-foreground">432 posts</div>
-                                        </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="topic-card">
+                                        <div class="topic-indicator bg-pink"></div>
+                                        <div class="small fw-medium topic-title">UI/UX Design</div>
+                                        <div class="small text-muted-foreground">432 posts</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="mb-4">
-                        <div class="card shadow-sm bg-card text-card-foreground">
-                            <div class="card-body p-4">
-                                <h3 class="h5 fw-semibold mb-3">Trending Tags</h3>
-                                
-                                <!-- <div class="d-flex flex-wrap gap-2">
+                </div>
+
+                <div class="mb-4">
+                    <div class="card shadow-sm bg-card text-card-foreground">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-semibold mb-3">Trending Tags</h3>
+
+                            <!-- <div class="d-flex flex-wrap gap-2">
                                     <span class="tag">#React</span>
                                     <span class="tag">#TypeScript</span>
                                     <span class="tag">#Python</span>
@@ -244,10 +176,10 @@
                                     <span class="tag">#Firebase</span>
                                     <span class="tag">#Next.js</span>
                                 </div> -->
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>

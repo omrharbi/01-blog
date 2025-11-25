@@ -74,7 +74,7 @@
             </div>
 
             <div class="text-center pt-4" *ngIf="posts.length > 0">
-              <button class="btn btn-outline-secondary px-4" (click)="loadMorePosts()"
+              <button class="btn btn-outline-secondary px-4" (click)="loadMorePostsFollowing()"
                 [disabled]="loading || !hasMorePosts()">
                 <span *ngIf="!loading && hasMorePosts()">Load More Posts</span>
                 <span *ngIf="loading">

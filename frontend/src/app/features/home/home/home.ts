@@ -53,9 +53,7 @@ export class Home {
 
     this.isAuthenticated = this.auth.isLoggedIn();
     this.userId.set(this.auth.getCurrentUserUUID() || null);
-    this.loadingPosts()
-    // console.log(this.userId(), "userId home");
-
+    this.loadingPostsFollowing()
     if (this.isAuthenticated) {
       this.postDatashard.newpost$.subscribe(post => {
         if (post) {
@@ -73,11 +71,7 @@ export class Home {
       this.follow.countFollowing$.subscribe(count => {
         this.countFollowing.update(count => count)
       });
-      this.subscription = this.global.sharedData.subscribe((event) => {
-        if (event.type === "notification") {
-          // this.isNotificated = event.data;
-        }
-      });
+
       this.tranding.TrendingTag().subscribe({
         next: repose => {
           this.trand = repose;
@@ -92,23 +86,18 @@ export class Home {
 
     }
   }
-  loadingPosts() {
+  loadingPostsFollowing() {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;
-    this.postservice.getAllPost(this.userId(), this.snapshotTime, 0, this.pageSize).subscribe(response => {
+    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, 0, this.pageSize).subscribe(response => {
       if (response.data && response.data.content) {
-        this.posts = response.data.content;
-        this.currentPage = response.data.number;
-        this.totalPages = response.data.totalPages;
-        this.postDatashard.setPosts(this.posts);
-        this.loading = false;
-        this.loading_post = false;
+        this.responseData(response)
       }
     });
-
   }
 
-  loadMorePosts() {
+
+  loadMorePostsFollowing() {
     if (this.loading || this.currentPage >= this.totalPages - 1) {
       return;
     }
@@ -116,15 +105,9 @@ export class Home {
 
     this.loading = true;
     const nextPage = this.currentPage + 1;
-    this.postservice.getAllPost(this.userId(), this.snapshotTime, nextPage, this.pageSize).subscribe({
+    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, nextPage, this.pageSize).subscribe({
       next: response => {
-        if (response.data && response.data.content) {
-          this.posts = [...this.posts, ...response.data.content];
-          this.currentPage = response.data.number;
-          this.totalPages = response.data.totalPages;
-          this.postDatashard.setPosts(this.posts);
-        }
-        this.loading = false;
+        this.responseDataLoading(response)
       },
       error: error => {
         console.error('Error loading more posts:', error);
@@ -134,6 +117,26 @@ export class Home {
 
   }
 
+
+  private responseData(response: any) {
+    if (response.data && response.data.content) {
+      this.posts = response.data.content;
+      this.currentPage = response.data.number;
+      this.totalPages = response.data.totalPages;
+      this.postDatashard.setPosts(this.posts);
+      this.loading = false;
+      this.loading_post = false;
+    }
+  }
+  private responseDataLoading(response: any) {
+    if (response.data && response.data.content) {
+      this.posts = [...this.posts, ...response.data.content];
+      this.currentPage = response.data.number;
+      this.totalPages = response.data.totalPages;
+      this.postDatashard.setPosts(this.posts);
+    }
+    this.loading = false;
+  }
   hasMorePosts(): boolean {
 
     return this.currentPage < this.totalPages - 1;

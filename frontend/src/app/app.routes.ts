@@ -16,6 +16,7 @@ import { LikedPosts } from './features/liked-posts/liked-posts';
 import { Profile } from './features/profile/profile';
 import { CanDeactivateGuard } from './core/guards/CanDeactivateGuard/CanDeactivateGuard';
 import { ErrorPageComponent } from './shared/components/error-page-component/error-page-component';
+import { ExplorePosts } from './features/explore-stories/explore-posts';
 // import { Bookmarks } from './features/bookmarks/bookmarks';
 export const routes: Routes = [
   // 🔹 MAIN PUBLIC PAGES
@@ -26,6 +27,7 @@ export const routes: Routes = [
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: Home }, // anyone can see home
       { path: 'posts', component: PostList },
+      { path: 'explore', component: ExplorePosts },
       { path: 'post/:id', component: PostList },
       { path: 'preview', component: Preview },
       { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
