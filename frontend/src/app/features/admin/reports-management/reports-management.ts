@@ -6,6 +6,7 @@ import { PrettyDatePipe } from '../../../shared/pipes/pretty-date.pipe';
 import { Router } from '@angular/router';
 import { AdminServiceShared } from '../../../core/service/serivecLogique/admin/admin-service';
 import { BanPopup } from '../../ban-popup/ban-popup';
+import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
 // import { BanPopup } from '../ban-popup/ban-popup';
 
 @Component({
@@ -22,7 +23,7 @@ export class ReportsManagement {
   actionType = signal<ActionType>('ban')
   userId = signal<string>('')
   postId = signal<string>('')
-
+  adminService_api = inject(AdminService);
   postReposrt = signal<ReportPosts[]>([]);
   reportServiceUser = signal<ReportPosts[]>([]);
   lenghtPosts = signal(0);
@@ -32,6 +33,8 @@ export class ReportsManagement {
   ngOnInit() {
 
 
+    this.loadingUser()
+    this.loadingPosts();
     this.adminService.update_user_report$.subscribe({
       next: response => {
         if (!response) return;
@@ -60,10 +63,6 @@ export class ReportsManagement {
         }
       }
     })
-
-    this.loadingUser()
-    this.loadingPosts();
-
   }
 
   loadingUser() {
@@ -85,8 +84,6 @@ export class ReportsManagement {
       next: response => {
         this.postReposrt.set(response.data?.content)
         this.lenghtPosts.set(response.data?.content.length)
-
-        this.hidden_post.set(response.data?.content.hidden)
         console.log(response, "all posts report");
       },
       error: error => {

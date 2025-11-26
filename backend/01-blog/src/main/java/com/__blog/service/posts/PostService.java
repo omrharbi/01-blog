@@ -229,8 +229,7 @@ public class PostService {
 
         Pageable pageable = PageRequest.of(page, size);
         LocalDateTime effectiveSnapshotTime = snapshotTime != null ? snapshotTime : LocalDateTime.now();
-        System.err.println("---*-*-*-"+userId);
-        Page<PostResponse> findPostResponses = postRepository.findPostsFromFollowedUsers(userId, effectiveSnapshotTime,
+         Page<PostResponse> findPostResponses = postRepository.findPostsFromFollowedUsers(userId, effectiveSnapshotTime,
                 pageable);
         if (findPostResponses.isEmpty()) {
             return ApiResponseUtil.success(findPostResponses, null, "");
