@@ -64,7 +64,7 @@ public class AdminController {
     // @PostMapping("/hidan-post/{postId}")
     // public ResponseEntity<?> hidanPost(@PathVariable("postId") UUID postId) {
 
-    //     return ResponseEntity.ok(null);
+    // return ResponseEntity.ok(null);
     // }
 
     @PatchMapping("/ban-user/{userId}")
@@ -102,7 +102,7 @@ public class AdminController {
         return adminService.changeRole(userPrincipal, userId);
     }
 
-    @PostMapping("/hiddeng-post/{postId}")
+    @PatchMapping("/hiddeng-post/{postId}")
     public ResponseEntity<?> ReportPost(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("postId") UUID postId) {
         return adminService.HiddengPost(userPrincipal, postId);

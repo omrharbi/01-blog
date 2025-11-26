@@ -97,6 +97,12 @@ export class ReportsManagement {
     this.actionType.set(type)
     this.postId.set(postId)
   }
+
+  hiddenPost(type: ActionType, postId: string) {
+    this.showBanPopup = true
+    this.actionType.set(type)
+    this.postId.set(postId)
+  }
   actionTypeHandle(type: ActionType, userId: string) {
     this.showBanPopup = true
     this.actionType.set(type)

@@ -39,4 +39,4 @@ export interface ReportPosts {
     reportedUserId: string
 
 }
-export type ActionType = 'ban' | 'unban' | 'delete' | 'role' |'delete-post' | 'comment' |'post';
+export type ActionType = 'ban' | 'unban' | 'delete' | 'role' | 'delete-post' | 'comment' | 'post' | 'hidden-post';

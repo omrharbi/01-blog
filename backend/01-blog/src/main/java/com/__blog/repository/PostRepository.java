@@ -71,36 +71,31 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
 
 
             SELECT new com.__blog.model.dto.response.post.PostResponse(
-                                   p.id,
-                                   u.id,
-                                   p.title,
-                                   p.content,
-                                   p.createdAt,
-                                   (SELECT m2.filePath FROM Media m2 WHERE m2.post.id = p.id ORDER BY m2.displayOrder ASC LIMIT 1),
-                                   u.firstname,
-                                   u.lastname,
-                                   u.username
-                               )
-                               FROM Post p
-                           LEFT JOIN p.user u
-                           LEFT JOIN p.likes l
-                           LEFT JOIN p.comments c
-                           LEFT JOIN Subscription s ON s.subscribedTo.id = u.id
-                            WHERE s.subscriberUser.id = :currentUserId
-                            AND p.createdAt <= :snapshotTime
-                            GROUP BY
-                           p.id,
-                           p.title,
-                           p.content,
-                           p.createdAt,
-                           u.id,
-                           u.firstname,
-                           u.lastname,
-                           u.username
-                           ORDER BY   p.createdAt DESC
-
-                           
-             
+    p.id,
+    u.id,
+    p.title,
+    p.content,
+    p.createdAt,
+    (SELECT m2.filePath FROM Media m2 WHERE m2.post.id = p.id ORDER BY m2.displayOrder ASC LIMIT 1),
+    u.firstname,
+    u.lastname,
+    u.username
+)
+FROM Post p
+INNER JOIN p.user u
+LEFT JOIN Subscription s ON s.subscribedTo.id = u.id AND s.subscriberUser.id = :currentUserId
+WHERE (u.id = :currentUserId OR s.subscriberUser.id IS NOT NULL)
+AND p.createdAt <= :snapshotTime
+GROUP BY
+    p.id,
+    p.title,
+    p.content,
+    p.createdAt,
+    u.id,
+    u.firstname,
+    u.lastname,
+    u.username
+ORDER BY p.createdAt DESC
                         """)
         Page<PostResponse> findPostsFromFollowedUsers(
                         @Param("currentUserId") UUID currentUserId,

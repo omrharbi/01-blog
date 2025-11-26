@@ -75,9 +75,18 @@
                                         </svg>
                                         View
                                     </button>
+
+                                    <button (click)="actionTypeHandle('hidden-post',report.postId)"
+                                        class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M2.25 12s3.75-7.5 9.75-7.5c1.78 0 3.43.44 4.91 1.18M21.75 12s-3.75 7.5-9.75 7.5c-1.78 0-3.43-.44-4.91-1.18M3 3l18 18" />
+                                        </svg>
+                                        Hidden
+                                    </button>
                                     <!-- (click)="actionTypeHandle('delete',user.reportedUserId)" -->
                                     <button (click)="actionTypeHandle('delete-post',report.postId)"
-
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -86,6 +95,9 @@
                                         </svg>
                                         Delete
                                     </button>
+
+
+
                                     <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
                                         [isVisible]="showBanPopup" (close)="showBanPopup = false"
                                         [userId]="userId()"></app-ban-popup>
@@ -107,8 +119,9 @@
                     </div>
                     <h2 class="text-2xl font-semibold text-foreground">User Reports</h2>
                 </div>
-                <div
-                    class="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-warning text-warning-foreground hover:bg-warning/80 text-sm shadow-sm">
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors
+                     focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-warning 
+                     text-warning-foreground hover:bg-warning/80 text-sm shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-current mr-1.5 animate-pulse"></span>
                     {{lenghtUser()}} pending
                 </div>

@@ -78,4 +78,22 @@ export class AdminServiceShared {
             }
         })
     }
+
+    HiddenPosts(postId: string) {
+        this.adminService.hiddenPost(postId).subscribe({
+            next: response => {
+                if (response.status) {
+                    const post = document.getElementById(postId)
+                    if (post) {
+                        post.remove();
+                    }
+                    this.checkDeletePosts.next(response.status || false)
+                }
+            },
+            error: error => {
+                console.log(error, "error ");
+
+            }
+        })
+    }
 }

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment, token } from '../../../constant/constante';
 import { ApiResponse } from '../../../models/authentication/autResponse-module';
-import {  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { JwtService } from '../../JWT/jwt-service';
 import { UserResponseInAdmin } from '../../../models/admin/UserResponseInAdmin';
 import { ApiResponseWithPage } from '../../../models/post/postResponse';
@@ -43,12 +43,25 @@ export class AdminService {
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-
     return this.http.delete<ApiResponseWithPage<UserResponseInAdmin>>
       (`${environment.admin.deletePosts}${postId}`, {
         headers
       })
   }
+
+  hiddenPost(postId: string): Observable<ApiResponseWithPage<UserResponseInAdmin>> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': "application/json"
+    })
+
+    return this.http.patch<ApiResponseWithPage<UserResponseInAdmin>>
+      (`${environment.admin.hidden_post}${postId}`, {
+        headers
+      })
+  }
+
+  
   banUser(userId: string, days: number): Observable<ApiResponse<any>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`

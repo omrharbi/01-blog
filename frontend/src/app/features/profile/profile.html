@@ -63,8 +63,8 @@
                     <p class="fs-5 text-muted-custom mb-3">@{{userProfile().username}}</p>
                 </div>
 
-                <p class="mb-4 text-secondary-custom" style="max-width: 600px; line-height: 1.6;">
-                    {{userProfile().about}}
+                <p class="mb-4 text-secondary-custom" style="max-width: 600px; line-height: 1.6;" [innerHTML]="about()">
+                     
                     <!-- Full-stack developer passionate about React, Node.js, and building great user experiences. Sharing my learning journey and insights from 5+ years in tech. -->
                 </p>
 

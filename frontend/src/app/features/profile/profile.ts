@@ -61,6 +61,7 @@ export class Profile {
   pageSize = 5;
   totalPages = 0;
   loading = false;
+  about = signal("")
   EditProfile() {
     this.editProfile = !this.editProfile;
   }
@@ -83,8 +84,7 @@ export class Profile {
     this.profileService.loadingProfile(username)
     this.profileService.dataProfile$.subscribe({
       next: response => {
-        // console.log(response, "profile 000");
-
+        this.about.set(this.formatAbout(response.about))
         this.userProfile.set(response)
       }
     })
@@ -101,6 +101,9 @@ export class Profile {
     this.loadingPosts(username);
   }
 
+  formatAbout(text: string): string {
+    return text.replace(/\n/g, '<br>');
+  }
   loadingPosts(username: string) {
     this
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
@@ -121,10 +124,10 @@ export class Profile {
     if (this.loading || this.currentPage >= this.totalPages - 1) {
       return;
     }
-    this.snapshotTime= this.post[this.post.length-1].createdAt;
+    this.snapshotTime = this.post[this.post.length - 1].createdAt;
     this.loading = true;
     const nextPage = this.currentPage + 1;
-    this.profile.GetMyPosts(this.snapshotTime,this.username(), nextPage, this.pageSize).subscribe({
+    this.profile.GetMyPosts(this.snapshotTime, this.username(), nextPage, this.pageSize).subscribe({
       next: response => {
         if (response.data && response.data.content) {
           this.post = [...this.post, ...response.data.content];

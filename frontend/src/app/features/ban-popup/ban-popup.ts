@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class BanPopup {
   @Input() isVisible: boolean = false;
   @Input() userId: string = "";
+  @Input() postId: string = "";
   @Output() close = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<number>();
   @Input() actionType: ActionType = 'ban';
@@ -27,7 +28,7 @@ export class BanPopup {
   postService = inject(PostService);
   toasterService = inject(ToastrService);
 
- 
+
   @Input() targetId!: string;
 
   nextStep() {
@@ -57,7 +58,13 @@ export class BanPopup {
 
 
   deletePost() {
+ 
     this.adminService.deletePosts(this.userId);
+    this.closePopup();
+  }
+
+  hiddenPost() {
+    this.adminService.HiddenPosts(this.userId);
     this.closePopup();
   }
   deleteItem() {

@@ -38,8 +38,10 @@
     background-color: var(--accent-bg);
 }
 
+/* DESKTOP ACTIVE STATE */
 .custom-nav-link.active {
     color: var(--foreground-color);
+    background-color: var(--accent-bg);
 }
 
 .custom-nav-link.active::after {
@@ -72,16 +74,16 @@
 
 /* ========== MOBILE BOTTOM NAVIGATION ========== */
 .mobile-bottom-nav {
-    display: none; /* Hidden on desktop */
+    display: none;
     position: fixed;
-    bottom: 20px; /* Space from bottom */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center alignment */
-    width: 95%; /* 95% width */
-    max-width: 500px; /* Optional: max width for larger tablets */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 500px;
     background-color: var(--card-color);
     border: 1px solid var(--border);
-    border-radius: 1.5rem; /* Rounded corners */
+    border-radius: 1.5rem;
     padding: 0.75rem 0.5rem;
     z-index: 1040;
     backdrop-filter: blur(10px);
@@ -120,9 +122,19 @@
     background-color: var(--accent-bg);
 }
 
+/* MOBILE ACTIVE STATE */
 .mobile-bottom-nav a.active {
     color: var(--brand-accent);
     background-color: rgba(var(--brand-accent-rgb), 0.1);
+}
+
+.mobile-bottom-nav a.active mat-icon {
+    color: var(--brand-accent);
+}
+
+.mobile-bottom-nav a.active span {
+    color: var(--brand-accent);
+    font-weight: 600;
 }
 
 .mobile-bottom-nav a.active::before {
@@ -138,66 +150,55 @@
 }
 
 /* ========== RESPONSIVE BREAKPOINTS ========== */
-
-/* Tablet and below (768px) */
 @media (max-width: 768px) {
-    /* Hide entire header on mobile/tablet */
     .custom-header {
         display: none !important;
     }
-
-    /* Show mobile bottom nav */
+    
     .mobile-bottom-nav {
         display: flex;
     }
-
-    /* Add padding to body to prevent content being hidden behind bottom nav */
+    
     body {
-        padding-bottom: 100px; /* Increased for spacing */
+        padding-bottom: 100px;
     }
 }
 
-/* Mobile (below 480px) */
 @media (max-width: 480px) {
     .mobile-bottom-nav {
         width: 95%;
-        bottom: 15px; /* Slightly less space on smaller screens */
+        bottom: 15px;
         padding: 0.6rem 0.25rem;
     }
-
+    
     .mobile-bottom-nav a span {
         font-size: 0.65rem;
     }
-
+    
     .mobile-bottom-nav a mat-icon {
         font-size: 20px;
         width: 20px;
         height: 20px;
     }
-
+    
     .mobile-bottom-nav a {
         padding: 0.4rem 0.25rem;
     }
 }
 
-/* Desktop (above 768px) */
 @media (min-width: 769px) {
-    /* Ensure desktop header is visible */
     .custom-header {
         display: block !important;
     }
-
-    /* Ensure desktop nav is visible */
+    
     .desktop-nav {
         display: block !important;
     }
-
-    /* Hide mobile bottom nav on desktop */
+    
     .mobile-bottom-nav {
         display: none !important;
     }
-
-    /* Remove body padding on desktop */
+    
     body {
         padding-bottom: 0;
     }

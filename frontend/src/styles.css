@@ -192,6 +192,7 @@
  body.dark p,
  body.dark span {
    color: var(--text-primary);
+   text-decoration: none;
  }
 
  body,

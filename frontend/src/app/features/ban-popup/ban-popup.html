@@ -12,6 +12,16 @@
                 <div *ngSwitchCase="'delete'" class="icon-delete">🗑️</div>
                 <div *ngSwitchCase="'role'" class="icon-delete">✅</div>
                 <div *ngSwitchCase="'comment'" class="icon-delete">🗑️</div>
+                <div *ngSwitchCase="'hidden-post'" class="icon-delete">
+                    <div class="hiding">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" width="400" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 12s3.75-7.5 9.75-7.5c1.78 0 3.43.44 4.91 1.18M21.75 12s-3.75 7.5-9.75 7.5c-1.78 0-3.43-.44-4.91-1.18M3 3l18 18" />
+                        </svg>
+
+                    </div>
+                </div>
                 <div *ngSwitchDefault>❓</div>
             </div>
             <p class="message">
@@ -40,6 +50,10 @@
                     <!-- Role change -->
                     <span *ngSwitchCase="'role'">
                         Are you sure you want to change this user's role?
+                    </span>
+
+                    <span *ngSwitchCase="'hidden-post'">
+                        Are you sure you want to hidden this post?
                     </span>
 
                     <!-- Fallback -->
@@ -72,6 +86,10 @@
                 </div>
                 <div *ngSwitchCase="'post'" class="icon-delete">
                     <button class="btn btn-confirm" (click)="deleteItem()">Yes, delete</button>
+                </div>
+
+                <div *ngSwitchCase="'hidden-post'" class="icon-delete">
+                    <button class="btn btn-confirm" (click)="hiddenPost()">Yes, hidden</button>
                 </div>
 
                 <div *ngSwitchCase="'role'" class="icon-role">
