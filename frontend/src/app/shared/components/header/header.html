@@ -10,7 +10,7 @@
                 <a class="font-playfair fs-4 fw-bold text-gradient text-decoration-none" href="/">01Blog</a>
             </div> -->
       <div class="flex items-center gap-4 ">
-        <a class="d-flex align-items-center gap-2 text-decoration-none   fs-4 fw-bold" [routerLink]="['/']">
+        <a class="d-flex align-items-center gap-2 text-decoration-none  font-playfair  fs-4 fw-bold" [routerLink]="['/']">
           <div class="custom-logo">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
@@ -45,16 +45,17 @@
           </button>
 
           <!-- Notifications -->
-          <ng-container *ngIf="isAuthenticated" >
-            <button type="button" id="element-notification" (clickedInside)="OnPopUp($event)"  appDiractiveEvenet class="position-relative 
+          <ng-container *ngIf="isAuthenticated">
+            <button type="button" id="element-notification" (clickedInside)="OnPopUp($event)" appDiractiveEvenet
+              class="position-relative 
             btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0">
               <mat-icon class="fs-5 align-content-center">notifications_none</mat-icon>
-               <span *ngIf="hasUnreadNotifications()"
+              <span *ngIf="hasUnreadNotifications()"
                 class="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-light rounded-circle"></span>
             </button>
           </ng-container>
 
- 
+
           <!-- Create Post -->
           <button
             class="btn-icons-color d-flex justify-content-center align-items-center h-10 w-10 rounded-md relative bg-transparent border-0"
@@ -85,12 +86,7 @@
           </button>
 
         </div>
-        <!-- User Profile -->
-
-
       </div>
-
-
     </div>
   </div>
 </header>

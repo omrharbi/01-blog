@@ -13,55 +13,51 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
+    
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<?> handleApiException(ApiException ex) {
+    public ResponseEntity<Map<String, Object>> handleApiException(ApiException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("status", ex.getHttpStatus().value());
-        response.put("error", ex.getMessage());
+        response.put("error", "An error occurred while processing your request");
         return new ResponseEntity<>(response, ex.getHttpStatus());
     }
-
+    
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<String> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex) {
-        String message = "Method " + ex.getMethod() + " is not allowed for this endpoint. Allowed method(s): ";
-        return ResponseEntity.status(405).body(message);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleAllExceptions(Exception ex) {
+    public ResponseEntity<Map<String, String>> handleMethodNotAllowed(
+            HttpRequestMethodNotSupportedException ex) {
         return ResponseEntity
-                .status(500)
-                .body("An unexpected error occurred: " + ex.getMessage());
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(Map.of("error", "Method not allowed"));
     }
-
+    
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", "An unexpected error occurred"));
+    }
+    
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
-        String message = "your input is invalid";
-
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(
+            IllegalArgumentException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", message));
+                .body(Map.of("error", "Invalid input provided"));
     }
-
+    
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Map<String, String>> handleMethodArgumentTypeMismatchException(
             MethodArgumentTypeMismatchException ex) {
-        String message = "invalid input";
-
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", message));
+                .body(Map.of("error", "Invalid parameter type"));
     }
-
+    
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<Map<String, String>> handleMaxUploadSizeExceededException(
             MaxUploadSizeExceededException ex) {
-        String message = "you have max size ";
-
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", message));
+                .status(HttpStatus.PAYLOAD_TOO_LARGE)
+                .body(Map.of("error", "File size exceeds maximum limit"));
     }
 }
-
