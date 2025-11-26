@@ -20,6 +20,7 @@ public class ReportMapper {
             reportedContent = report.getReportedUser().getUsername();
         }
 
+
         return ReportResponse.builder()
 
                 .postId(report.getPost() != null ? report.getPost().getId() : null) // report ID
@@ -31,6 +32,7 @@ public class ReportMapper {
                 .reason(report.getReasons())
                 .createdAt(report.getCreatedAt())
                 .status(!report.isStatus()) // you can adjust if you have a status field
+                .hidden(report.getPost().isHidden()) // you can adjust if you have a status field
                 // .commentId(report.getComment().getId())
                 .build();
     }

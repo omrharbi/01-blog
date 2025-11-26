@@ -149,6 +149,7 @@ public class ReportService {
                 return ApiResponseUtil.success(null, null, "No Post");
             }
             Page<ReportResponse> reportDTOs = reports.map(reportMapper::convReportToDTO);
+            // reportDTOs.getContent().
             return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
 
         } catch (Exception e) {

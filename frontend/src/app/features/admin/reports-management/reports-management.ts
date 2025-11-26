@@ -28,13 +28,14 @@ export class ReportsManagement {
   lenghtPosts = signal(0);
   lenghtUser = signal(0);
   status = signal(false);
+  hidden_post = signal(false)
   ngOnInit() {
 
 
     this.adminService.update_user_report$.subscribe({
       next: response => {
         if (!response) return;
-        console.log(response, "response ", this.reportServiceUser());
+        // console.log(response, "response ", this.reportServiceUser());
         this.reportServiceUser.update(users =>
           users.map(u =>
             u.reportedUserId === response?.reportedUserId
@@ -43,6 +44,11 @@ export class ReportsManagement {
           )
         );
 
+      }
+    })
+    this.adminService.hidden_post$.subscribe({
+      next: res => {
+        this.hidden_post.set(res)
       }
     })
 
@@ -79,6 +85,8 @@ export class ReportsManagement {
       next: response => {
         this.postReposrt.set(response.data?.content)
         this.lenghtPosts.set(response.data?.content.length)
+
+        this.hidden_post.set(response.data?.content.hidden)
         console.log(response, "all posts report");
       },
       error: error => {

@@ -38,30 +38,30 @@ export class AdminService {
       })
   }
 
-  deletePost(postId: string): Observable<ApiResponseWithPage<UserResponseInAdmin>> {
+  deletePost(postId: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
-    return this.http.delete<ApiResponseWithPage<UserResponseInAdmin>>
+    return this.http.delete<any>
       (`${environment.admin.deletePosts}${postId}`, {
         headers
       })
   }
 
-  hiddenPost(postId: string): Observable<ApiResponseWithPage<UserResponseInAdmin>> {
+  hiddenPost(postId: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
     })
 
-    return this.http.patch<ApiResponseWithPage<UserResponseInAdmin>>
+    return this.http.patch<any>
       (`${environment.admin.hidden_post}${postId}`, {
         headers
       })
   }
 
-  
+
   banUser(userId: string, days: number): Observable<ApiResponse<any>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`

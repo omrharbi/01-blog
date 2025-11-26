@@ -15,15 +15,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportResponse {
-    
-    private UUID reportId;          // the report ID
+
+    private UUID reportId; // the report ID
     private String reportedContent; // post title / comment snippet / username
-    private String reportedUser;    // username of the reported user
-    private String reporter;        // username of the reporter
-    private ReportReason reason;    // report reason
+    private String reportedUser; // username of the reported user
+    private String reporter; // username of the reporter
+    private ReportReason reason; // report reason
     private LocalDateTime createdAt; // timestamp
-    private boolean status;          // e.g., "pending", "resolved"
-    private UUID postId;            // optional, if content is post
-    private UUID commentId;         // optional, if content is comment
-    private UUID reportedUserId;    // optional, if just user reported
+    private boolean status; // e.g., "pending", "resolved"
+    private UUID postId; // optional, if content is post
+    private UUID commentId; // optional, if content is comment
+    private UUID reportedUserId; // optional, if just user reported
+    private boolean  hidden; // optional, if just user reported
 }

@@ -13,8 +13,10 @@ export class AdminServiceShared {
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
     updateUserReport = new BehaviorSubject<any>('')
     checkDeleteUser = new BehaviorSubject<boolean>(false)
+    hiddenPost = new BehaviorSubject<boolean>(false)
     update_user$ = this.updateUser.asObservable();
     update_user_report$ = this.updateUserReport.asObservable();
+    hidden_post$ = this.hiddenPost.asObservable();
     checkDeletePosts = new BehaviorSubject<boolean>(false)
 
     check_delete_user$ = this.checkDeleteUser.asObservable();
@@ -69,7 +71,7 @@ export class AdminServiceShared {
                     if (post) {
                         post.remove();
                     }
-                    this.checkDeletePosts.next(response.status || false)
+                    this.checkDeletePosts.next(response.data || false)
                 }
             },
             error: error => {
@@ -82,12 +84,8 @@ export class AdminServiceShared {
     HiddenPosts(postId: string) {
         this.adminService.hiddenPost(postId).subscribe({
             next: response => {
-                if (response.status) {
-                    const post = document.getElementById(postId)
-                    if (post) {
-                        post.remove();
-                    }
-                    this.checkDeletePosts.next(response.status || false)
+                if (response) {
+                      this.hiddenPost.next(response.data)
                 }
             },
             error: error => {

@@ -14,8 +14,8 @@ import com.__blog.model.entity.Report;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, UUID> {
 
-        @Query("""
-                        SELECT r FROM Report r WHERE r.post IS NOT NULL
+        @Query(""" 
+                SELECT r FROM Report r WHERE r.post IS NOT NULL
                         """)
         Page<Report> findAllPostReports(Pageable pageable);
 
