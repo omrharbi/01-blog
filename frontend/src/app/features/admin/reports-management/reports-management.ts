@@ -30,6 +30,7 @@ export class ReportsManagement {
   lenghtUser = signal(0);
   status = signal(false);
   hidden_post = signal(false)
+
   ngOnInit() {
 
 
@@ -113,4 +114,8 @@ export class ReportsManagement {
     this.actionType.set(type)
     this.userId.set(userId)
   }
+
+
+  
+   
 }
