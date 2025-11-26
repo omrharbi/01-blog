@@ -132,7 +132,7 @@ public class LikeService {
             }
             UUID userId = users.getId();
             // Fetch all posts liked by the user, ordered by creation date descending
-            List<Post> postLiked = postRepository.findByLikesUserIdOrderByCreatedAtDesc(userId);
+            List<Post> postLiked = postRepository.findByLikesUserIdAndHiddenOrderByCreatedAtDesc(userId,false);
             List<PostResponse> response = new ArrayList<>();
 
             // Convert each Post entity to PostResponse DTO

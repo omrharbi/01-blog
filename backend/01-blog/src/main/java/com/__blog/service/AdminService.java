@@ -1,6 +1,8 @@
 package com.__blog.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -168,7 +170,7 @@ public class AdminService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<Boolean>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
+    public ResponseEntity<ApiResponse<Map<UUID, Boolean>>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
@@ -195,7 +197,9 @@ public class AdminService {
             notificationService.saveAndSendNotification(requestNotificationRequest, existingPost.get().getUser(),
                     admin);
             String responseMessage = wasHidden ? "Post unhidden successfully" : "Post banned successfully";
-            return ApiResponseUtil.success(existingPost.get().isHidden(), null, responseMessage);
+            Map<UUID, Boolean> mHashMap = new HashMap<>();
+            mHashMap.put(existingPost.get().getId(), existingPost.get().isHidden());
+            return ApiResponseUtil.success(mHashMap, null, responseMessage);
         }
         return ApiResponseUtil.error("You Dont have any Post", HttpStatus.BAD_REQUEST);
     }

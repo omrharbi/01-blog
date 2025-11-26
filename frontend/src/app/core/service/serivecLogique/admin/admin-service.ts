@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, map } from "rxjs";
 import { ReportPosts, UserResponseInAdmin } from "../../../models/admin/UserResponseInAdmin";
 import { AdminService } from "../../servicesAPIREST/admin/admin-service";
 import { NotificationService } from "../../notificationAlert/NotificationService";
@@ -13,7 +13,7 @@ export class AdminServiceShared {
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
     updateUserReport = new BehaviorSubject<any>('')
     checkDeleteUser = new BehaviorSubject<boolean>(false)
-    hiddenPost = new BehaviorSubject<boolean>(false)
+    hiddenPost = new BehaviorSubject<Map<string, boolean>>(new Map())
     update_user$ = this.updateUser.asObservable();
     update_user_report$ = this.updateUserReport.asObservable();
     hidden_post$ = this.hiddenPost.asObservable();
@@ -84,14 +84,21 @@ export class AdminServiceShared {
     HiddenPosts(postId: string) {
         this.adminService.hiddenPost(postId).subscribe({
             next: response => {
-                if (response) {
-                      this.hiddenPost.next(response.data)
+                if (response) { 
+                    const currentMap = this.hiddenPost.getValue();
+                    const newMap = new Map(currentMap);
+ 
+                    const firstEntry = Object.entries(response.data)[0];
+                    const postId = firstEntry[0];
+                    const hiddenStatus = firstEntry[1] as boolean;
+ 
+                    newMap.set(postId, hiddenStatus); 
+                    this.hiddenPost.next(newMap);
                 }
             },
             error: error => {
                 console.log(error, "error ");
-
             }
-        })
+        });
     }
 }

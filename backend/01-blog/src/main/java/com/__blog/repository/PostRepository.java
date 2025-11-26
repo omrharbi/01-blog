@@ -123,7 +123,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
 
     boolean existsByHiddenFalse();
 
-    List<Post> findByLikesUserIdOrderByCreatedAtDesc(UUID userId);
+    List<Post> findByLikesUserIdAndHiddenOrderByCreatedAtDesc(UUID userId, Boolean hidden);
 
     @Query("""
                 SELECT new com.__blog.model.dto.response.post.PostReportToAdminResponse(

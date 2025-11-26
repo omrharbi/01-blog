@@ -29,7 +29,7 @@ export class ReportsManagement {
   lenghtPosts = signal(0);
   lenghtUser = signal(0);
   status = signal(false);
-  hidden_post = signal(false)
+  hidden_posts = signal<Map<string, boolean>>(new Map());
 
   ngOnInit() {
 
@@ -52,7 +52,7 @@ export class ReportsManagement {
     })
     this.adminService.hidden_post$.subscribe({
       next: res => {
-        this.hidden_post.set(res)
+        this.hidden_posts.set(res)
       }
     })
 
@@ -85,7 +85,11 @@ export class ReportsManagement {
       next: response => {
         this.postReposrt.set(response.data?.content)
         this.lenghtPosts.set(response.data?.content.length)
-        console.log(response, "all posts report");
+        const hiddenMap = new Map<string, boolean>();
+        response.data.content.forEach((post: any) => {
+          hiddenMap.set(post.postId, post.hidden || false);
+        });
+        this.hidden_posts.set(hiddenMap);
       },
       error: error => {
         console.log(error);
@@ -116,6 +120,6 @@ export class ReportsManagement {
   }
 
 
-  
-   
+
+
 }
