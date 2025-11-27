@@ -212,6 +212,7 @@ public class AdminService {
             if (user.get().getRole() == Roles.ADMIN) {
                 return ApiResponseUtil.error("You Can  not Delete your Account", HttpStatus.BAD_REQUEST);
             }
+            repouser.deleteById(userId);
             return ApiResponseUtil.success("delete User", null, "Delete User successful");
         }
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);

@@ -110,7 +110,9 @@ public class User {
     @OneToMany(mappedBy = "triggerUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Notification> triggerUser = new ArrayList<>();
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Like> likes = new HashSet<>();
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private RefreshToken refreshToken;
