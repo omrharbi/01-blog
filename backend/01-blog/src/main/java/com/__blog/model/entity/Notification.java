@@ -41,8 +41,10 @@ public class Notification {
     private Date createdAt = new Date();
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver", nullable = false)
+    @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
+    
+    
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trigger_user_id", nullable = false)

@@ -1,4 +1,4 @@
-import { Component, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, signal, SimpleChanges } from '@angular/core';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { CommentService } from '../../core/service/servicesAPIREST/comment/comment-service';
 import { CommentResponse } from '../../core/models/comment/CommentResponse';
@@ -27,6 +27,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class Comment {
   @Input() post!: PostResponse;
+  toasterService = inject(ToastrService);
 
   constructor(private commentService: CommentService, private like: likesServiceLogique,
     private route: ActivatedRoute,
@@ -86,21 +87,29 @@ export class Comment {
     if (this.isEdit) {
       this.EditComment(id)
     } else {
-      this.addComment.content = this.content;
-      this.addComment.postId = id;
+      
+      if (this.content.trim()==="") {
+        console.log("erejhjklhergljkhelrjgher");
+        this.toasterService.warning("content is empty ");
+        return
+      } else {
 
-      this.commentService.AddComment(this.addComment).subscribe({
-        next: response => {
-          this.commentResponse = response.data;
-          this.getAllComment = this.getAllComment || [];
-          this.getAllComment.unshift(response.data)
-          this.countComment.update(n => n + 1);
-          this.content = "";
-        },
-        error: error => {
-          console.log("Error To Add Comment ", error);
-        }
-      })
+        this.addComment.content = this.content;
+        this.addComment.postId = id;
+
+        this.commentService.AddComment(this.addComment).subscribe({
+          next: response => {
+            this.commentResponse = response.data;
+            this.getAllComment = this.getAllComment || [];
+            this.getAllComment.unshift(response.data)
+            this.countComment.update(n => n + 1);
+            this.content = "";
+          },
+          error: error => {
+            console.log("Error To Add Comment ", error);
+          }
+        })
+      }
     }
   }
 
