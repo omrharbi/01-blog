@@ -22,7 +22,7 @@
     <div class="row g-4 mb-5">
         <div class="col-md-4">
             <div class="stats-mini-card">
-                <div class="h3 fw-bold text-accent mb-1">{{countPost}}</div>
+                <div class="h3 fw-bold text-accent mb-1">{{countPost()}}</div>
                 <div class="small text-muted-custom">Liked Posts</div>
             </div>
         </div>
@@ -156,7 +156,7 @@
             </div>
 
             <!-- Load More Button -->
-            <div class="text-center mt-5">
+            <div class="text-center mt-5" *ngIf="countPost()>5">
                 <button class="btn btn-lg btn-custom-secondary">Load More</button>
             </div>
         </div>

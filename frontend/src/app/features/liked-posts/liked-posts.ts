@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { LikesService } from '../../core/service/servicesAPIREST/like/likes-service';
 import { PostResponse } from '../../core/models/post/postResponse';
 import { Materaile } from '../../modules/materaile-module';
@@ -19,15 +19,16 @@ export class LikedPosts {
   ) { }
   posts: PostResponse[] = [];
   apiUrl = apiUrl
-  countPost = 0;
+  // countPost = 0;
   isAuthenticated = false;
+  countPost=signal(0);
   ngOnInit() {
     this.isAuthenticated = this.auth.isLoggedIn();
     if (!this.isAuthenticated) return;
     this.likedPost.LikedPost().subscribe({
       next: response => {
         this.posts = response.data;
-        this.countPost = this.posts.length
+        this.countPost.set(this.posts.length) 
         console.log(this.posts);
 
       },
