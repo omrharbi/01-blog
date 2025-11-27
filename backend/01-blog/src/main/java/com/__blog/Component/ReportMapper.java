@@ -32,7 +32,7 @@ public class ReportMapper {
                 .reason(report.getReasons())
                 .createdAt(report.getCreatedAt())
                 .status(!report.isStatus()) // you can adjust if you have a status field
-                .hidden(report.getPost().isHidden()) // you can adjust if you have a status field
+                // .hidden(report.getPost().isHidden()) 
                 // .commentId(report.getComment().getId())
                 .build();
     }

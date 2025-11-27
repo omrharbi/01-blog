@@ -30,12 +30,12 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", "Method not allowed"));
     }
     
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", "An unexpected error occurred"));
-    }
+    // @ExceptionHandler(Exception.class)
+    // public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
+    //     return ResponseEntity
+    //             .status(HttpStatus.INTERNAL_SERVER_ERROR)
+    //             .body(Map.of("error", "An unexpected error occurred"));
+    // }
     
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgumentException(

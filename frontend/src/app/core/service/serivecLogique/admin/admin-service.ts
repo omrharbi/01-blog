@@ -46,7 +46,8 @@ export class AdminServiceShared {
                 this.updateUser.next(response.data)
             },
             error: error => {
-                console.log(error, "error ");
+                const message = error?.error.error || "error "
+                this.notificationAlert.showErrorWithoutRedirect(message)
             }
         })
     }
@@ -57,8 +58,8 @@ export class AdminServiceShared {
                 this.checkDeleteUser.next(response.status || false)
             },
             error: error => {
-                console.log(error, "error ");
-
+                const message = error?.error.error || "error "
+                this.notificationAlert.showErrorWithoutRedirect(message)
             }
         })
     }
@@ -75,7 +76,8 @@ export class AdminServiceShared {
                 }
             },
             error: error => {
-                console.log(error, "error ");
+                const message = error?.error.error || "error "
+                this.notificationAlert.showErrorWithoutRedirect(message)
 
             }
         })
@@ -84,20 +86,21 @@ export class AdminServiceShared {
     HiddenPosts(postId: string) {
         this.adminService.hiddenPost(postId).subscribe({
             next: response => {
-                if (response) { 
+                if (response) {
                     const currentMap = this.hiddenPost.getValue();
                     const newMap = new Map(currentMap);
- 
+
                     const firstEntry = Object.entries(response.data)[0];
                     const postId = firstEntry[0];
                     const hiddenStatus = firstEntry[1] as boolean;
- 
-                    newMap.set(postId, hiddenStatus); 
+
+                    newMap.set(postId, hiddenStatus);
                     this.hiddenPost.next(newMap);
                 }
             },
             error: error => {
-                console.log(error, "error ");
+                const message = error?.error.error || "error "
+                this.notificationAlert.showErrorWithoutRedirect(message)
             }
         });
     }

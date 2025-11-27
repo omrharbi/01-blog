@@ -20,8 +20,8 @@ public interface ReportRepository extends JpaRepository<Report, UUID> {
         Page<Report> findAllPostReports(Pageable pageable);
 
         @Query("""
-                        SELECT r FROM Report r WHERE r.post IS   NULL  AND   r.comment IS NULL
-                        """)
+                 SELECT r FROM Report r WHERE r.post IS   NULL  AND   r.comment IS NULL
+                  """)
         Page<Report> findAllUserReports(Pageable pageable);
 
         boolean existsByReporterIdAndPostId(UUID userId, UUID postId);

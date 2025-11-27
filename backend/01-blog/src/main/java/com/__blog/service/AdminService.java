@@ -208,21 +208,23 @@ public class AdminService {
     public ResponseEntity<ApiResponse<String>> deleteUser(@NonNull UUID userId) {
         var user = repouser.findById(userId);
         if (user.isPresent()) {
-            user.ifPresent(u -> {
-                user.get().setStatus("ban");
-                repouser.deleteById(u.getId());
-            });
+            // if (userLogging.get)
+            if (user.get().getRole() == Roles.ADMIN) {
+                return ApiResponseUtil.error("You Can  not Delete your Account", HttpStatus.BAD_REQUEST);
+            }
             return ApiResponseUtil.success("delete User", null, "Delete User successful");
-
         }
         return ApiResponseUtil.error("You Dont have any User", HttpStatus.BAD_REQUEST);
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<String>> deletePost(UUID postsId) {
+    public ResponseEntity<ApiResponse<String>> deletePost(@NonNull UUID postsId) {
         var posts = postRepository.findById(postsId);
         if (posts.isPresent()) {
-            postRepository.deleteById(posts.get().getId());
+            var post = posts.get().getId();
+            if (post != null) {
+                postRepository.deleteById(post);
+            }
             return ApiResponseUtil.success("delete User", null, "Delete User successful");
         }
         return ApiResponseUtil.error("You Dont have any Posts", HttpStatus.BAD_REQUEST);
