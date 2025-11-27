@@ -51,11 +51,17 @@ export class PostService {
       'Content-Type': "application/json"
     })
     let params = new HttpParams()
-      // .set("userId", userId)
       .set("page", page)
       .set("size", size);
     if (snapshotTime) {
-      params = params.set("snapshotTime", snapshotTime);
+      const date = new Date(snapshotTime);
+      const formattedDate = date.getFullYear() + '-' +
+        String(date.getMonth() + 1).padStart(2, '0') + '-' +
+        String(date.getDate()).padStart(2, '0') + ' ' +
+        String(date.getHours()).padStart(2, '0') + ':' +
+        String(date.getMinutes()).padStart(2, '0') + ':' +
+        String(date.getSeconds()).padStart(2, '0');
+      params = params.set("snapshotTime", formattedDate);
     }
     if (userId) {
       params = params.set("userPrincipal", userId);
@@ -73,14 +79,23 @@ export class PostService {
     })
     let params = new HttpParams()
       // .set("userId", userId)
-      .set("page", page)
-      .set("size", size);
+      .set("page", page.toString())
+      .set("size", size.toString());
     if (snapshotTime) {
-      params = params.set("snapshotTime", snapshotTime);
+      const date = new Date(snapshotTime);
+      const formattedDate = date.getFullYear() + '-' +
+        String(date.getMonth() + 1).padStart(2, '0') + '-' +
+        String(date.getDate()).padStart(2, '0') + ' ' +
+        String(date.getHours()).padStart(2, '0') + ':' +
+        String(date.getMinutes()).padStart(2, '0') + ':' +
+        String(date.getSeconds()).padStart(2, '0');
+      params = params.set("snapshotTime", formattedDate);
     }
     if (userId) {
-      params = params.set("userPrincipal", userId);
+      params = params.set("userPrincipal", userId.toString());
     }
+    console.log(params.toString(), "debug ***");
+
     return this.http.get<ApiResponseWithPage<PostResponse[]>>(`${environment.post.get_all_posts_from_followed_users}`, {
       params,
       headers

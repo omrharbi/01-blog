@@ -18,14 +18,13 @@ import { Materaile } from '../../modules/materaile-module';
 })
 export class ExplorePosts {
   posts: PostResponse[] = [];
-   posts$!: Observable<any>
+  posts$!: Observable<any>
   constructor(private postservice:
     PostService, private postDatashard:
-      SharedService, private auth: AuthService,  
+      SharedService, private auth: AuthService,
     private follow: FollowingLogiqueService,
 
   ) {
-    // this.posts$ = this.postDatashard.posts$;
   }
   snapshotTime: string | null = null;
 
@@ -64,21 +63,25 @@ export class ExplorePosts {
       this.follow.countFollowing$.subscribe(count => {
         this.countFollowing.update(count => count)
       });
- 
+
     } else {
       console.log("you need login ");
 
     }
   }
-  
- 
-
   loadingPosts() {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;
     this.postservice.getAllPost(this.userId(), this.snapshotTime, 0, this.pageSize).subscribe(response => {
       if (response.data && response.data.content) {
-        this.responseData(response)
+        if (response.data && response.data.content) {
+          this.posts = response.data.content;
+          this.currentPage = response.data.number;
+          this.totalPages = response.data.totalPages;
+          this.postDatashard.setPosts(this.posts);
+          this.loading = false;
+          this.loading_post = false;
+        }
       }
     });
   }
@@ -94,7 +97,14 @@ export class ExplorePosts {
     const nextPage = this.currentPage + 1;
     this.postservice.getAllPost(this.userId(), this.snapshotTime, nextPage, this.pageSize).subscribe({
       next: response => {
-        this.responseDataLoading(response)
+        
+        if (response.data && response.data.content) {
+          this.posts = [...this.posts, ...response.data.content];
+          this.currentPage = response.data.number;
+          this.totalPages = response.data.totalPages;
+          this.postDatashard.setPosts(this.posts);
+        }
+        this.loading = false;
       },
       error: error => {
         console.error('Error loading more posts:', error);
@@ -105,27 +115,7 @@ export class ExplorePosts {
   }
 
 
-  private responseData(response: any) {
-    if (response.data && response.data.content) {
-      this.posts = response.data.content;
-      this.currentPage = response.data.number;
-      this.totalPages = response.data.totalPages;
-      this.postDatashard.setPosts(this.posts);
-      this.loading = false;
-      this.loading_post = false;
-    }
-  }
-  private responseDataLoading(response: any) {
-    if (response.data && response.data.content) {
-      this.posts = [...this.posts, ...response.data.content];
-      this.currentPage = response.data.number;
-      this.totalPages = response.data.totalPages;
-      this.postDatashard.setPosts(this.posts);
-    }
-    this.loading = false;
-  }
   hasMorePosts(): boolean {
-
     return this.currentPage < this.totalPages - 1;
   }
   ngOnDestroy() {

@@ -223,15 +223,16 @@ public class PostService {
         return ApiResponseUtil.success(result, null, "");
     }
 
-    public ResponseEntity<ApiResponse<Page<PostResponse>>> getAllPostsFromFollowedUsers(UUID userId, LocalDateTime snapshotTime,
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getAllPostsFromFollowedUsers(UUID userId,
+            LocalDateTime snapshotTime,
             int page,
             int size) {
 
         Pageable pageable = PageRequest.of(page, size);
         LocalDateTime effectiveSnapshotTime = snapshotTime != null ? snapshotTime : LocalDateTime.now();
-         Page<PostResponse> findPostResponses = postRepository.findPostsFromFollowedUsers(userId, effectiveSnapshotTime,
-                pageable);
-        if (findPostResponses.isEmpty()) {
+        Page<PostResponse> findPostResponses = postRepository.findPostsFromFollowedUsers(userId, effectiveSnapshotTime,
+            pageable);
+         if (findPostResponses.isEmpty()) {
             return ApiResponseUtil.success(findPostResponses, null, "");
         }
         var result = postMapper.ConvertPostResponse(findPostResponses, userId);

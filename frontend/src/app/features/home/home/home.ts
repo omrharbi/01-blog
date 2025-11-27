@@ -7,12 +7,9 @@ import { PostService } from '../../../core/service/servicesAPIREST/posts/post-se
 import { SharedService } from '../../../core/service/serivecLogique/shared-service/shared-service-post';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
 import { Global } from '../../../core/service/serivecLogique/globalEvent/global';
-import { Observable, Subscription } from 'rxjs';
 import { FollowingLogiqueService } from '../../../core/service/serivecLogique/following/following-logique-service';
 import { Tranding } from '../../../core/service/servicesAPIREST/tranding/tranding';
 import { TrendingTag } from '../../../core/models/tranding/tranding';
-import { AdminService } from '../../../core/service/servicesAPIREST/admin/admin-service';
-import { RtlScrollAxisType } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +21,6 @@ import { RtlScrollAxisType } from '@angular/cdk/platform';
 export class Home {
   posts: PostResponse[] = [];
   trand: TrendingTag[] = [];
-  posts$!: Observable<any>
   constructor(private postservice:
     PostService, private postDatashard:
       SharedService, private auth: AuthService, private global: Global,
@@ -40,8 +36,6 @@ export class Home {
   countPosts = signal(0);
   countFollowers = signal(0);
   countFollowing = signal(0);
-  private subscription = new Subscription();
-
   currentPage = 0;
   pageSize = 5;
   totalPages = 0;
@@ -89,7 +83,7 @@ export class Home {
   loadingPostsFollowing() {
     if (this.loading || (this.totalPages && this.currentPage >= this.totalPages)) return;
     this.loading = true;
-    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, 0, this.pageSize).subscribe(response => {
+    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, 0, 3).subscribe(response => {
       if (response.data && response.data.content) {
         this.responseData(response)
       }
@@ -104,9 +98,13 @@ export class Home {
     this.snapshotTime = new Date().toISOString();
 
     this.loading = true;
-    const nextPage = this.currentPage + 1;
-    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, nextPage, this.pageSize).subscribe({
+    const nextPage = 1  ;
+    console.log(nextPage, this.currentPage);
+    
+    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, 1,5).subscribe({
       next: response => {
+        console.log(response,"response");
+        
         this.responseDataLoading(response)
       },
       error: error => {
@@ -140,11 +138,6 @@ export class Home {
   hasMorePosts(): boolean {
 
     return this.currentPage < this.totalPages - 1;
-  }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
   private updatePostInList(updatedPost: PostResponse) {
     this.posts.unshift(updatedPost);
