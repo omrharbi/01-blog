@@ -14,6 +14,15 @@
     padding-right: 1.5rem;
 }
 
+ .wrap {
+        // display: inline-block;
+        max-width: 76px;
+        /* adjust as needed */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
 .py-8 {
     padding-top: 2rem;
     padding-bottom: 2rem;

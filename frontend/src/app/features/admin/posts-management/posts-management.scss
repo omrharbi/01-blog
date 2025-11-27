@@ -10,6 +10,16 @@
         color: var(--text-muted);
     }
 
+    .wrap {
+        // display: inline-block;
+        max-width: 76px;
+        /* adjust as needed */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
     /* Content Card Styles - Scoped properly */
     .content-card {
         background-color: var(--card-color);
