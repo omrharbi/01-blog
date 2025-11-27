@@ -84,7 +84,10 @@ export class Profile {
     this.profileService.loadingProfile(username)
     this.profileService.dataProfile$.subscribe({
       next: response => {
-        this.about.set(this.formatAbout(response.about))
+        if (response.about!==null){
+
+          this.about.set(this.formatAbout(response.about))
+        }
         this.userProfile.set(response)
       }
     })
