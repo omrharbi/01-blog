@@ -577,3 +577,16 @@
 2025-11-26 17:12:55.790 GMT [743250] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.714 s; sync files=7, longest=0.005 s, average=0.001 s; distance=26 kB, estimate=57 kB; lsn=0/281F1138, redo lsn=0/281F10E0
 2025-11-26 17:17:55.890 GMT [743250] LOG:  checkpoint starting: time
 2025-11-26 17:17:57.404 GMT [743250] LOG:  checkpoint complete: wrote 16 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.505 s, sync=0.002 s, total=1.515 s; sync files=9, longest=0.002 s, average=0.001 s; distance=93 kB, estimate=93 kB; lsn=0/2820B290, redo lsn=0/282087A8
+2025-11-26 17:22:55.504 GMT [743250] LOG:  checkpoint starting: time
+2025-11-26 17:22:57.727 GMT [743250] LOG:  checkpoint complete: wrote 23 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=2.209 s, sync=0.005 s, total=2.223 s; sync files=15, longest=0.005 s, average=0.001 s; distance=103 kB, estimate=103 kB; lsn=0/282225E0, redo lsn=0/28222588
+2025-11-26 18:04:42.070 GMT [743249] LOG:  received smart shutdown request
+2025-11-26 18:04:42.070 GMT [813166] FATAL:  terminating connection due to administrator command
+2025-11-26 18:04:42.070 GMT [814131] FATAL:  terminating connection due to administrator command
+2025-11-26 18:04:42.070 GMT [812678] FATAL:  terminating connection due to administrator command
+2025-11-26 18:04:42.070 GMT [813362] FATAL:  terminating connection due to administrator command
+2025-11-26 18:04:42.072 GMT [743249] LOG:  background worker "logical replication launcher" (PID 743255) exited with exit code 1
+2025-11-26 18:04:42.070 GMT [814643] FATAL:  terminating connection due to administrator command
+2025-11-26 18:04:42.076 GMT [743250] LOG:  shutting down
+2025-11-26 18:04:42.077 GMT [743250] LOG:  checkpoint starting: shutdown immediate
+2025-11-26 18:04:42.084 GMT [743250] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.008 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=93 kB; lsn=0/28222690, redo lsn=0/28222690
+2025-11-26 18:04:42.087 GMT [743249] LOG:  database system is shut down
