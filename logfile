@@ -590,3 +590,52 @@
 2025-11-26 18:04:42.077 GMT [743250] LOG:  checkpoint starting: shutdown immediate
 2025-11-26 18:04:42.084 GMT [743250] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.008 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=93 kB; lsn=0/28222690, redo lsn=0/28222690
 2025-11-26 18:04:42.087 GMT [743249] LOG:  database system is shut down
+2025-12-01 14:26:29.233 GMT [20520] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-12-01 14:26:29.233 GMT [20520] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-12-01 14:26:29.235 GMT [20520] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-12-01 14:26:29.240 GMT [20523] LOG:  database system was shut down at 2025-11-26 18:04:42 GMT
+2025-12-01 14:26:29.246 GMT [20520] LOG:  database system is ready to accept connections
+2025-12-01 14:31:29.335 GMT [20521] LOG:  checkpoint starting: time
+2025-12-01 14:31:29.343 GMT [20521] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.001 s, total=0.008 s; sync files=3, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/28222798, redo lsn=0/28222740
+2025-12-01 15:26:38.535 GMT [20520] LOG:  received smart shutdown request
+2025-12-01 15:26:38.537 GMT [20520] LOG:  background worker "logical replication launcher" (PID 20526) exited with exit code 1
+2025-12-01 15:26:38.537 GMT [20521] LOG:  shutting down
+2025-12-01 15:26:38.538 GMT [20521] LOG:  checkpoint starting: shutdown immediate
+2025-12-01 15:26:38.543 GMT [20521] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.007 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/28222848, redo lsn=0/28222848
+2025-12-01 15:26:38.545 GMT [20520] LOG:  database system is shut down
+2025-12-01 16:18:14.088 GMT [47116] LOG:  starting PostgreSQL 17.6 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2025-12-01 16:18:14.089 GMT [47116] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-12-01 16:18:14.091 GMT [47116] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-12-01 16:18:14.094 GMT [47119] LOG:  database system was shut down at 2025-12-01 15:26:38 GMT
+2025-12-01 16:18:14.099 GMT [47116] LOG:  database system is ready to accept connections
+2025-12-01 16:18:29.995 GMT [47836] ERROR:  column "receiver_id" of relation "notification" contains null values
+2025-12-01 16:18:29.995 GMT [47836] STATEMENT:  alter table if exists notification add column receiver_id uuid not null
+2025-12-01 16:18:30.002 GMT [47836] ERROR:  operator does not exist: character varying >= integer
+2025-12-01 16:18:30.002 GMT [47836] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2025-12-01 16:18:30.002 GMT [47836] STATEMENT:  alter table if exists report alter column reason set data type varchar(255)
+2025-12-01 16:18:30.039 GMT [47836] ERROR:  column "receiver_id" referenced in foreign key constraint does not exist
+2025-12-01 16:18:30.039 GMT [47836] STATEMENT:  alter table if exists notification add constraint FKdammjl0v5xfaegi926ugx6254 foreign key (receiver_id) references users
+2025-12-01 16:19:17.450 GMT [48180] ERROR:  operator does not exist: character varying >= integer
+2025-12-01 16:19:17.450 GMT [48180] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2025-12-01 16:19:17.450 GMT [48180] STATEMENT:  alter table if exists report alter column reason set data type varchar(255)
+2025-12-01 16:19:24.900 GMT [48562] ERROR:  operator does not exist: character varying >= integer
+2025-12-01 16:19:24.900 GMT [48562] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2025-12-01 16:19:24.900 GMT [48562] STATEMENT:  alter table if exists report alter column reason set data type varchar(255)
+2025-12-01 16:19:31.036 GMT [48659] ERROR:  column "receiver_id" of relation "notification" contains null values
+2025-12-01 16:19:31.036 GMT [48659] STATEMENT:  alter table if exists notification add column receiver_id uuid not null
+2025-12-01 16:19:31.043 GMT [48659] ERROR:  operator does not exist: character varying >= integer
+2025-12-01 16:19:31.043 GMT [48659] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2025-12-01 16:19:31.043 GMT [48659] STATEMENT:  alter table if exists report alter column reason set data type varchar(255)
+2025-12-01 16:19:31.071 GMT [48659] ERROR:  column "receiver_id" referenced in foreign key constraint does not exist
+2025-12-01 16:19:31.071 GMT [48659] STATEMENT:  alter table if exists notification add constraint FKdammjl0v5xfaegi926ugx6254 foreign key (receiver_id) references users
+2025-12-01 16:19:50.106 GMT [48815] ERROR:  operator does not exist: character varying >= integer
+2025-12-01 16:19:50.106 GMT [48815] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2025-12-01 16:19:50.106 GMT [48815] STATEMENT:  alter table if exists report alter column reason set data type varchar(255)
+2025-12-01 16:23:14.194 GMT [47117] LOG:  checkpoint starting: time
+2025-12-01 16:23:25.932 GMT [47117] LOG:  checkpoint complete: wrote 119 buffers (0.7%); 0 WAL file(s) added, 0 removed, 0 recycled; write=11.725 s, sync=0.007 s, total=11.738 s; sync files=80, longest=0.004 s, average=0.001 s; distance=813 kB, estimate=813 kB; lsn=0/282EE078, redo lsn=0/282EE020
+2025-12-01 16:28:15.032 GMT [47117] LOG:  checkpoint starting: time
+2025-12-01 16:28:32.978 GMT [47117] LOG:  checkpoint complete: wrote 180 buffers (1.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=17.934 s, sync=0.007 s, total=17.947 s; sync files=219, longest=0.001 s, average=0.001 s; distance=2053 kB, estimate=2053 kB; lsn=0/284EF7A8, redo lsn=0/284EF750
+2025-12-01 16:33:16.079 GMT [47117] LOG:  checkpoint starting: time
+2025-12-01 16:33:27.214 GMT [47117] LOG:  checkpoint complete: wrote 112 buffers (0.7%); 0 WAL file(s) added, 0 removed, 0 recycled; write=11.122 s, sync=0.007 s, total=11.136 s; sync files=78, longest=0.004 s, average=0.001 s; distance=696 kB, estimate=1918 kB; lsn=0/2859DBC0, redo lsn=0/2859DB30
+2025-12-01 16:43:16.414 GMT [47117] LOG:  checkpoint starting: time
+2025-12-01 16:43:17.128 GMT [47117] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.703 s, sync=0.005 s, total=0.714 s; sync files=6, longest=0.004 s, average=0.001 s; distance=1 kB, estimate=1726 kB; lsn=0/2859E228, redo lsn=0/2859E1D0

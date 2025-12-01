@@ -169,9 +169,9 @@ export class CreatePost {
         this.clearAll();
       },
       error: (error) => {
-        const message = error?.message || 'Upload error';
+        const message = error?.error.error || 'Upload error';
         this.toasterService.error(message);
-        console.log('error uploading images', error);
+        console.log('error uploading images', error.error.error);
       },
     });
   }

@@ -78,7 +78,7 @@ export class UploadImage {
       'image/jpg',
       'image/png',
       'image/gif',
-      'image/webp',
+      'image/eps',
       'video/mp4',
       'video/mpeg',
       'video/ogg',

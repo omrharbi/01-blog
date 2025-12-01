@@ -19,12 +19,12 @@ type User struct {
 func main() {
 	apiURL := "http://localhost:9090/auth/register" // change to your real API endpoint
 
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <=2; i++ {
 		user := User{
-			Email:           fmt.Sprintf("omar%d@gmail.com", i),
+			Email:           fmt.Sprintf("omrharbi%d@gmail.com", i),
 			Firstname:       "Omar",
 			Lastname:        "Rharbi",
-			Username:        fmt.Sprintf("omar%d", i),
+			Username:        fmt.Sprintf("omrharbi%d", i),
 			Password:        "omar",
 			Confirmpassword: "omar",
 		}

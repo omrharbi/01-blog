@@ -15,7 +15,6 @@ export class Uploadimages {
 
   saveImages(files: File[]): Observable<ApiResponse<MediaResponse[]>> {
     console.log("files ", files);
-
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`
     })
