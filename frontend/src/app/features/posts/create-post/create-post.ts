@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
-import { MarkdownModule, MarkdownService } from 'ngx-markdown';
+import { errorKatexNotLoaded, MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
 import { PostRequest } from '../../../core/models/post/postRequest';
@@ -38,7 +38,7 @@ export class CreatePost {
     private images: Uploadimages,
     private route: ActivatedRoute,
     private toasterService: ToastrService
-  ) {}
+  ) { }
 
   previewMode = false;
   content: string = '';
@@ -116,7 +116,7 @@ export class CreatePost {
     const hasExistingCover =
       !!this.postData?.firstImage ||
       (this.postData?.medias && this.postData.medias.length > 0);
-    
+
     if (!this.isEdit && !hasCoverImage && !hasExistingCover) {
       this.toasterService.warning('Cover image is required');
       return;
@@ -135,7 +135,7 @@ export class CreatePost {
 
     // Ensure files are ordered correctly before upload
     this.uploadImage.reorderFilesBasedOnContent(this.content);
-    
+
     // Get ALL files (cover + content) in correct order
     this.newFiles = this.uploadImage.uploadfiles();
 
@@ -163,7 +163,7 @@ export class CreatePost {
             });
           });
         }
-        
+
         console.log('Uploaded medias:', uploadedMedias);
         this.submitPostData(uploadedMedias);
         this.clearAll();
@@ -264,10 +264,18 @@ export class CreatePost {
   private removeSrcImage(html: string) {
     const pars = new DOMParser();
     const doc = pars.parseFromString(html, 'text/html');
-    const imgs = doc.querySelectorAll('img');
-    imgs.forEach((img) => {
-      img.src = '';
+    const imgs = doc.querySelectorAll('img, video');
+    imgs.forEach((elm) => {
+      elm.removeAttribute("src")
+      elm.removeAttribute("srcset")
+      elm.removeAttribute("poster")
+      elm.removeAttribute("source")
+      if (elm.tagName.toLowerCase() === 'video') {
+        const sources = elm.querySelectorAll('source');
+        sources.forEach(s => s.remove());
+      }
     });
+
     return doc.body.innerHTML;
   }
 

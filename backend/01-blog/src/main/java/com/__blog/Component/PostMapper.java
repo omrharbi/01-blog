@@ -83,7 +83,6 @@ public class PostMapper {
 
     public PostResponse ConvertPostResponse(Post post, UUID userid) {
         boolean isLiked = postRepository.existsByLikesPostIdAndLikesUserId(post.getId(), userid);
-        System.err.println("isLiked for post " + post.getId() + " and user " + userid + ": " + isLiked);
         int countComment = postRepository.countByCommentsPostId(post.getId());
         int countLike = postRepository.countBylikesPostId(post.getId());
         List<TagsResponse> tags = new ArrayList<>();

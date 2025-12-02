@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class UploadImage {
-  constructor(private toasterService: ToastrService) {}
+  constructor(private toasterService: ToastrService) { }
 
   selectedImageFile?: File;
   uploadMessage = '';
@@ -38,9 +38,9 @@ export class UploadImage {
         input.value = '';
         return;
       }
-      
+
       const file = files[0];
-      
+
       // Cover must be image only (no videos)
       if (!file.type.startsWith('image/')) {
         this.toasterService.error('Cover image must be an image file (no videos)');
@@ -136,7 +136,7 @@ export class UploadImage {
   selectImage(type: string, filename: string, callback: (imgHTML: string, filename: string) => void) {
     const file = this.selectedImageFile;
     if (!file) return;
-            console.log("    ***********","vid");
+    console.log("    ***********", "vid");
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -147,8 +147,8 @@ export class UploadImage {
 
       if (type.startsWith('video/')) {
         imgHTML = `<video controls class="videoMa" data-filename="${filename}"><source src="${reader.result}" type="${type}">Your browser does not support the video tag.</video>`;
-     
-        
+
+
       }
       callback(imgHTML, filename);
     };
@@ -192,7 +192,7 @@ export class UploadImage {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const allMedia = doc.querySelectorAll('img[data-filename], video[data-filename]');
-    
+
     const orderedFilenames: string[] = [];
     allMedia.forEach((element) => {
       const filename = element.getAttribute('data-filename');
@@ -259,28 +259,28 @@ export class UploadImage {
   // Get ALL files including cover (cover first)
   uploadfiles(): File[] {
     const allFiles: File[] = [];
-    
+
     // Cover image first
     if (this.coverImageFile) {
       allFiles.push(this.coverImageFile);
     }
-    
+
     // Then content files in order
     allFiles.push(...this.fileUpload);
-    
+
     return allFiles;
   }
 
   // Get all medias including cover
   getAllMedias(): MediaRequest[] {
     const allMedias: MediaRequest[] = [];
-    
+
     if (this.coverImageMedia) {
       allMedias.push(this.coverImageMedia);
     }
-    
+
     allMedias.push(...this.medias);
-    
+
     return allMedias;
   }
 
@@ -298,14 +298,23 @@ export class UploadImage {
   replaceImage(html: string, post: PostResponse): string {
     let index = 1;
     const media = post.medias ?? [];
+    if (!media.length) return html;
 
     const processHtml = html.replace(/<img([^>]*) ([^>]*)>/gi, (match, after) => {
-      if (index < media.length) {
-        const image = media[index];
-        index++;
-        return `<div class="image-post"> <img class="imageMa image-preview" src="${apiUrl}${image.filePath}" alt="Post image"${after}> </div>`;
-      }
-      return match;
+
+      if (index >= media.length) { return match; }
+      const image = media[index++];
+      return `<div class="image-post"> <img class="imageMa image-preview" src="${apiUrl}${image.filePath}" alt="Post image"${after}> </div>`;
+
+    }).replace(/<video([^>]*)>([\s\S]*?)<\/video>/gi, (match, attrs, content) => {
+      if (index >= media.length) { return match; }
+      const vidoe = media[index++]
+      return `<div class="video-post">
+                <video class="video-preview videoMa" controls ${attrs}>
+                  <source src="${apiUrl}${vidoe.filePath}" type="${vidoe.fileType}">
+                </video>
+              </div>`;
+
     });
 
     return processHtml;
