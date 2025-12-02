@@ -12,10 +12,12 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
 import { likesServiceLogique } from '../../../core/service/serivecLogique/like/likes-service-logique';
 import { TimeAgoPipe } from '../../../shared/pipes/time-ago-pipe';
 import { AuthService } from '../../../core/service/servicesAPIREST/auth/auth-service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SafeHtmlPipe } from '../../../shared/pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-post-list',
-  imports: [Materaile, Comment, TimeAgoPipe],
+  imports: [Materaile, Comment, TimeAgoPipe, SafeHtmlPipe],
   templateUrl: './post-list.html',
   styleUrls: ['./post-list.scss']
 })
@@ -42,7 +44,7 @@ export class PostList {
   };
   loading: boolean = true;
   userId = signal<string | null>(null);
-
+  htmlContent=signal("")
   constructor(
     private postService: PostService,
     private preview: PreviewService,
@@ -51,6 +53,7 @@ export class PostList {
     private likeService: likesServiceLogique,
     private cdr: ChangeDetectorRef,
     private auth: AuthService,
+    private Domsanitaz: DomSanitizer,
   ) { }
   ngOnInit() {
     this.userId.set(this.auth.getCurrentUserUUID() || null);
@@ -64,8 +67,8 @@ export class PostList {
       )
       .subscribe({
         next: (response) => {
-          console.log(response,"list ");
-          
+          console.log(response, "list ");
+
           this.handlePost(response.data);
         },
         error: (err) => {
@@ -90,9 +93,9 @@ export class PostList {
       /<video(.*?)>/g,
       `<video $1 style="max-width:100%;height:auto;display:block;margin:1rem 0;border-radius:10px;" controls>`
     );
-
+    
     this.post.htmlContent = this.preview.renderMarkdownWithMedia(cleanedContent);
-
+    // this.post.=this.Domsanitaz.bypassSecurityTrustHtml()
     this.loading = false;
     this.cdr.detectChanges();
   }
