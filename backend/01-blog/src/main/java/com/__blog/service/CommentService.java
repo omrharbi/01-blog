@@ -156,14 +156,25 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<ApiResponse<Void>> deleteComment(String uuid) {
+    public ResponseEntity<ApiResponse<Void>> deleteComment(UserPrincipal userPrincipal, String uuid) {
         try {
+
             if (!ApiResponseUtil.isValidUUID(uuid)) {
                 return ApiResponseUtil.error("Post with this ID not found", HttpStatus.NOT_FOUND);
             }
+            if (userPrincipal == null) {
+                return ApiResponseUtil.error(
+                        "❌ Failed to send notification to user: ",
+                        HttpStatus.UNAUTHORIZED);
+            }
+            User user = userPrincipal.getUser();
+
             UUID commentId = UUID.fromString(uuid);
             Optional<Comment> commentOpt = commentRespository.findById(commentId);
 
+            if (!commentOpt.get().getUser().getId().equals(user.getId())) {
+                return ApiResponseUtil.error("You are not allowed to delete this comment.", HttpStatus.FORBIDDEN);
+            }
             if (commentOpt.isEmpty()) {
                 return ApiResponseUtil.error("Comment not found", HttpStatus.NOT_FOUND);
             }
