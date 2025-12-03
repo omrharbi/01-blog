@@ -47,7 +47,7 @@ export class PostsManagement {
     this.loading.set(true);
     this.admin.getAllPosts(page, this.pageSize()).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response,"*********");
 
         if (response.data && response.data.content) {
           this.getAllPosts.set(response.data.content);

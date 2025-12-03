@@ -179,6 +179,7 @@ public class AdminService {
         User admin = userPrincipal.getUser();
         var existingPost = postRepository.findById(postId);
         if (existingPost.isPresent()) {
+            // var findReportPost = reportRepository.findById(existingPost.get().getre);
             boolean wasHidden = existingPost.get().isHidden();
             String message;
             if (wasHidden) {

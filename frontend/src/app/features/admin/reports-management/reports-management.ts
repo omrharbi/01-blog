@@ -83,11 +83,13 @@ export class ReportsManagement {
   loadingPosts() {
     this.reportService.getReportPosts().subscribe({
       next: response => {
+        console.log(response, "here  ");
+
         this.postReposrt.set(response.data?.content)
         this.lenghtPosts.set(response.data?.content.length)
         const hiddenMap = new Map<string, boolean>();
         response.data.content.forEach((post: any) => {
-          hiddenMap.set(post.postId, post.hidden || false);
+          hiddenMap.set(post.postId, post.status || false);
         });
         this.hidden_posts.set(hiddenMap);
       },
