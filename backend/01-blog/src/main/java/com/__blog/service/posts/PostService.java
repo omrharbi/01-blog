@@ -231,8 +231,8 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, size);
         LocalDateTime effectiveSnapshotTime = snapshotTime != null ? snapshotTime : LocalDateTime.now();
         Page<PostResponse> findPostResponses = postRepository.findPostsFromFollowedUsers(userId, effectiveSnapshotTime,
-            pageable);
-         if (findPostResponses.isEmpty()) {
+                pageable);
+        if (findPostResponses.isEmpty()) {
             return ApiResponseUtil.success(findPostResponses, null, "");
         }
         var result = postMapper.ConvertPostResponse(findPostResponses, userId);
@@ -240,10 +240,22 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<String>> deletePost(UUID postId) {
+    public ResponseEntity<ApiResponse<String>> deletePost(UserPrincipal userPrincipal, UUID postId) {
+        // var user=UserPrincipal.
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error(
+                    "❌ Failed to send notification to user: ",
+                    HttpStatus.UNAUTHORIZED);
+        }
+        User user = userPrincipal.getUser();
+
         var post = postRepository.findById(postId);
+
         if (post.isEmpty()) {
             return ApiResponseUtil.error("Post not found with ID: " + postId, HttpStatus.NOT_FOUND);
+        }
+        if (!post.get().getUser().getId().equals(user.getId())) {
+            return ApiResponseUtil.error("You are not allowed to delete this post.", HttpStatus.FORBIDDEN);
         }
 
         postRepository.deleteById(postId);

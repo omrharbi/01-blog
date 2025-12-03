@@ -116,8 +116,9 @@ public class PostController {
     }
 
     @DeleteMapping("/post/delete/{postid}")
-    public ResponseEntity<ApiResponse<String>> deletePost(@PathVariable("postid") UUID postId) {
-        return postservice.deletePost(postId);
+    public ResponseEntity<ApiResponse<String>> deletePost( @AuthenticationPrincipal UserPrincipal userPrincipa , @PathVariable("postid") UUID postId) {
+        return postservice.deletePost(userPrincipa, postId);
     }
+
 
 }
