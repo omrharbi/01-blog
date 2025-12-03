@@ -51,56 +51,45 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
     });
   }
 
-  applyFormat(
-    prefix: string,
-    suffix: string,
-    placeholder: string,
-    event?: MouseEvent
-  ): void {
+  applyFormat(prefix: string, suffix: string, placeholder: string, event?: MouseEvent) {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
 
+    const editor = document.querySelector("#textarea") as HTMLElement | null;
     const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) return;
+
+    if (!editor || !selection || selection.rangeCount === 0) return;
 
     const range = selection.getRangeAt(0);
+
+    // Ensure selection is inside editor
+    if (!editor.contains(range.commonAncestorContainer)) {
+      console.log("Selection is outside editor. Ignoring.");
+      return;
+    }
+
     const selectedText = range.toString() || placeholder;
 
-    // Special handling for headings
-    if (prefix === '## ' || prefix === '### ') {
-      const headingLevel = prefix === '## ' ? 2 : 3;
-      const heading = document.createElement(`h${headingLevel}`);
-      heading.className = `H${headingLevel}MarkDown`;
-      heading.textContent = selectedText;
+    // Create span with formatted content
+    const span = document.createElement("span");
+    span.innerHTML = `${prefix}${selectedText}${suffix}`;
 
-      range.deleteContents();
-      range.insertNode(heading);
+    // Replace selected text with span
+    range.deleteContents();
+    range.insertNode(span);
 
-      // Move cursor after heading
-      const newRange = document.createRange();
-      newRange.setStartAfter(heading);
-      newRange.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(newRange);
-    } else {
-      // Regular formatting
-      const span = document.createElement('span');
-      span.innerHTML = `${prefix}${selectedText}${suffix}`;
-
-      range.deleteContents();
-      range.insertNode(span);
-
-      const newRange = document.createRange();
-      newRange.setStartAfter(span);
-      newRange.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(newRange);
-    }
+    // Move cursor after inserted content
+    const newRange = document.createRange();
+    newRange.setStartAfter(span);
+    newRange.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
 
     this.onContentChange();
   }
+
 
   onContentChange(): void {
     const div = this.textareaRef.nativeElement;

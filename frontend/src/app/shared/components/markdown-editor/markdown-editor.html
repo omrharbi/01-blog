@@ -12,9 +12,9 @@
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('`','`','code',$event)">Code</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('## ','','Heading',$event)">H2</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('### ','','Heading',$event)">H3</button>
-    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('','','link text',$event)">Link</button>
+    <!-- <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('','','link text',$event)">Link</button> -->
     <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('- ','','list item',$event)">List</button>
-    <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('> ','','quote',$event)">Quote</button>
+    <!-- <button class="btn btn-sm btn-outline-secondary" (click)="applyFormat('> ','','quote',$event)">Quote</button> -->
 
     <!-- Image Upload - MULTIPLE images allowed for CONTENT -->
     <input type="file" #imageInput style="display:none" (change)="onImageSelected($event)" multiple accept="image/*">
@@ -31,7 +31,7 @@
 
   <!-- Editor -->
   <div class="card-body d-flex flex-column flex-lg-row gap-3">
-    <div #textareaRef contenteditable="true" class="form-control flex-fill textarea" (input)="onContentChange()"
+    <div #textareaRef contenteditable="true" id="textarea" contenteditable="true" class="form-control flex-fill textarea" (input)="onContentChange()"
       placeholder="Write your markdown here..." style="
          min-height: 200px; 
          overflow-y: auto;
