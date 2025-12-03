@@ -42,6 +42,7 @@ public class SubscriptionService {
     private UserMapper userMapper;
     @Autowired
     private NotificationService notificationService;
+
     @Transactional
     public ResponseEntity<ApiResponse<Page<UserResponse>>> getUsersIFollow(UUID userId, int page, int size) {
         try {
@@ -196,11 +197,14 @@ public class SubscriptionService {
         if (userId.equals(targetUserId)) {
             return ApiResponseUtil.error("You cannot unfollow yourself", HttpStatus.BAD_REQUEST);
         }
+
         var subscription = subscriptionRepository.findBySubscriberUser_IdAndSubscribedTo_Id(userId, targetUserId);
         if (subscription.isEmpty()) {
             return ApiResponseUtil.error("You are not following this user", HttpStatus.CONFLICT);
         }
-
+        // if (subscription.get().getId().equals(userId)) {
+        //     return ApiResponseUtil.error("You delete follow is not for u ", HttpStatus.BAD_REQUEST);
+        // }
         subscriptionRepository.delete(subscription.get());
         return ApiResponseUtil.success(null, null, "Successfully unfollowed " + targetUserOpt.get().getUsername());
     }

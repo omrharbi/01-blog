@@ -168,7 +168,7 @@ public class PostService {
 
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
-            if (post.isHidden()) {
+            if (post.isHidden() && !userId.equals(post.getUser().getId())) {
                 return ApiResponseUtil.error("this Post Is Hidan From Admin ", HttpStatus.BAD_REQUEST);
             }
 

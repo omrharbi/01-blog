@@ -92,8 +92,7 @@ public class PostController {
         try {
 
             UUID userId = userPrincipal != null ? userPrincipal : null;
-            // System.err.println("getPostById called with userId: " + userId + " and
-            // postId: " + id);
+          
             ResponseEntity<ApiResponse<PostResponseWithMedia>> getPostResponse = postservice.getPostById(id, userId);
             ApiResponse<PostResponseWithMedia> postBody = getPostResponse.getBody();
 
