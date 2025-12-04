@@ -35,44 +35,28 @@
         <div *ngIf="currentStep === 1" class="form-step active">
           <div class="form-group">
             <label class="form-label">First Name</label>
-            <input
-              type="text"
-              class="form-input"
-              formControlName="firstname"
-              placeholder="Enter your First Name"
-            />
+            <input type="text" class="form-input" formControlName="firstname" placeholder="Enter your First Name"
+              maxlength="15" />
+
+           
           </div>
           <div class="form-group">
             <label class="form-label">Last Name</label>
-            <input
-              type="text"
-              class="form-input"
-              formControlName="lastname"
-              placeholder="Enter your Last Name"
-            />
+            <input type="text" class="form-input" formControlName="lastname" placeholder="Enter your Last Name"
+              maxlength="15" />
           </div>
           <div class="form-group">
             <label class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-input"
-              formControlName="email"
-              placeholder="Enter your Email"
-            />
+            <input type="email" class="form-input" formControlName="email" placeholder="Enter your Email"
+              maxlength="15" />
           </div>
           <div class="step-buttons">
             <div></div>
 
-            <button
-              type="button"
-              class="next-btn"
-              (click)="nextStep()"
-              [disabled]="!isStepsValid(1)"
-              [ngClass]="{
+            <button type="button" class="next-btn" (click)="nextStep()" [disabled]="!isStepsValid(1)" [ngClass]="{
                 'btn-enabled': isStepsValid(1),
                 'btn-disabled': !isStepsValid(1)
-              }"
-            >
+              }">
               Next
             </button>
           </div>
@@ -82,22 +66,14 @@
         <div *ngIf="currentStep === 2" class="form-step active">
           <div class="form-group">
             <label class="form-label">Username</label>
-            <input
-              type="text"
-              class="form-input"
-              formControlName="username"
-              placeholder="Choose a username"
-            />
+            <input type="text" class="form-input" formControlName="username" maxlength="15"
+              placeholder="Choose a username" />
           </div>
 
           <div class="form-group">
             <label class="form-label">Password</label>
-            <input
-              type="password"
-              formControlName="password"
-              class="form-input"
-              placeholder="Enter password"
-            />
+            <input type="password" formControlName="password" class="form-input" maxlength="15"
+              placeholder="Enter password" />
           </div>
           <div class="form-group">
             <label class="form-label">Confirm Password</label>
@@ -105,21 +81,17 @@
           </div>
           <div class="step-buttons">
             <button type="button" class="prev-btn" (click)="prevStep()">Previous</button>
-            <button
-              type="submit"
-              [disabled]="!isStepsValid(2)"
-              [ngClass]="{
+            <button type="submit" [disabled]="!isStepsValid(2)" [ngClass]="{
                 'btn-enabled': isStepsValid(2),
                 'btn-disabled': !isStepsValid(2)
-              }"
-            >
+              }">
               submit
             </button>
           </div>
         </div>
 
         <!-- Step 3 -->
-       </form>
+      </form>
 
       <div class="bottom-links">
         <p class="signup-text">
@@ -136,11 +108,7 @@
     <div class="illustration-content">
       <div class="illustration-text animate-slide-in-left">
         <!-- <button mat-button (click)="themeService.toggleTheme()">Toggle Dark/Light</button> -->
-        <img
-          src="assets/undraw_online-community_3o0l.png"
-          alt="Animated human"
-          class="illustration-img"
-        />
+        <img src="assets/undraw_online-community_3o0l.png" alt="Animated human" class="illustration-img" />
 
         <h2 class="connect">Connect & Share</h2>
         <p class="join">

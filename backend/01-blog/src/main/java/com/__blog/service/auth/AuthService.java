@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.request.auth.LoginRequest;
@@ -21,6 +22,8 @@ import com.__blog.security.JwtTokenProvider;
 import com.__blog.service.UserService;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
+
+import jakarta.validation.Valid;
 
 @Service
 public class AuthService {
@@ -39,8 +42,7 @@ public class AuthService {
     @Autowired
     private UserMapper userMapper;
 
-    public ResponseEntity<ApiResponse<RegisterRequest>> registerUser(RegisterRequest registerRequest) {
-
+    public ResponseEntity<ApiResponse<RegisterRequest>> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         User user = userMapper.ConvertToEntity(registerRequest);
         if (repouser.existsByEmail(user.getEmail())) {
             return ApiResponseUtil.error("This email already exists:" + user.getEmail(), HttpStatus.NOT_FOUND);

@@ -29,12 +29,15 @@ public class RegisterRequest {
 
     @NotEmpty(message = "firstname is mandatory")
     @NotBlank(message = "firstname is mandatory")
+    @Size(min = 2, max = 15, message = "Firstname must be between 2 and 15 characters")
     private String firstname;
     @NotEmpty(message = "Lastname is mandatory")
     @NotBlank(message = "Lastname is mandatory")
+    @Size(min = 2, max = 15, message = "Lastname must be between 2 and 15 characters")
     private String lastname;
 
     @NotEmpty(message = "Username is mandatory")
     @NotBlank(message = "Username is mandatory")
+    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     private String username;
 }

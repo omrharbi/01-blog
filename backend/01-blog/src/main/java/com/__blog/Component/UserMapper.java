@@ -95,6 +95,7 @@ public class UserMapper {
         }
 
         public User ConvertToEntity(RegisterRequest registerRequest) {
+                
                 User user = new User();
                 user.setEmail(registerRequest.getEmail());
                 user.setPassword(registerRequest.getPassword());

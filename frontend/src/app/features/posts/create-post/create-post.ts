@@ -82,6 +82,8 @@ export class CreatePost {
   }
 
   ngOnInit(): void {
+    // console.log(this.title,"fkjfkjkjfeh");
+
     this.route.queryParams.subscribe((params) => {
       this.isEdit = params['edit'] === 'true';
     });
@@ -259,7 +261,14 @@ export class CreatePost {
   }
 
   onTitle(newTitle: string) {
-    this.title = newTitle;
+    if (newTitle.length <= 27) {
+      this.title = newTitle;
+    }
+    else{
+      this.toasterService.warning("you can not out of 28 char ")
+      console.log("you have long ");
+    }
+
   }
 
   private removeSrcImage(html: string) {

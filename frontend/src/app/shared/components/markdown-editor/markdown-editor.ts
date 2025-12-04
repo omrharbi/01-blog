@@ -18,13 +18,13 @@ import { UploadImage } from '../../../core/service/serivecLogique/upload-images/
   styleUrls: ['./markdown-editor.scss'],
 })
 export class MarkdownEditor implements AfterViewInit, OnDestroy {
-  @Input() content = 'Start writing your content here...';
+  @Input() content = 'Start writing your content here...';//parent → child
   @Input() title = '';
 
-  @Output() contentChange = new EventEmitter<string>();
+  @Output() contentChange = new EventEmitter<string>();//child → parent
   @Output() titleChange = new EventEmitter<string>();
 
-  @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLDivElement>;// access DOM elements or component instances inside the same child component
   @ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
   @ViewChild('videoInput') videoInput!: ElementRef<HTMLInputElement>;
 

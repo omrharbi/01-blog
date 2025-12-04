@@ -82,8 +82,8 @@
         <div class="card shadow-sm">
           <div class="card-body hover">
              <input class="form-control border-0 fs-2 fw-bold font-playfair"  [(ngModel)]="postData.title"
-              (input)="onTitle($event.target.value)" placeholder="Write your story title..." #title="ngModel"
-              required />
+              (input)="onTitle($event.target.value)"  placeholder="Write your story title..." #title="ngModel"
+              required  maxlength="28" />
           </div>
  
         </div>

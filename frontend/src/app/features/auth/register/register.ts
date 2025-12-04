@@ -34,15 +34,21 @@ export class Register {
     private router: Router
   ) {
     this.registerForm = this.formBuilder.group({
-      firstname: new FormControl('', [Validators.required,]),
-      lastname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      confirmpassword: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [Validators.required, Validators.minLength(3),
+      Validators.maxLength(15),]),
+      lastname: new FormControl('', [Validators.required, Validators.minLength(3),
+      Validators.maxLength(15)]),
+      email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(15)]),
+      username: new FormControl('', [Validators.required, Validators.minLength(3),
+      Validators.maxLength(15)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(3),
+      Validators.maxLength(15)]),
+      confirmpassword: new FormControl('', [Validators.required, Validators.minLength(3),
+      Validators.maxLength(15)]),
     });
   }
+ 
+
   isStepsValid(step: number): boolean {
     console.log('Form Initialized' + step);
     if (step === 1) {
@@ -64,8 +70,7 @@ export class Register {
   }
 
   onSubmit() {
-    console.log('clickd');
-    if (this.registerForm.valid) {
+     if (this.registerForm.valid) {
       this.authentication.registrter(this.registerForm.value).subscribe({
         next: (response) => {
           if (response.status) {
@@ -77,7 +82,7 @@ export class Register {
         error: (Err) => {
           console.log(Err, 'error in side register ');
         },
-      }); 
+      });
     }
   }
   onFileSelected(event: any) {
