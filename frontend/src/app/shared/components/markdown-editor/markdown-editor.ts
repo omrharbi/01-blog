@@ -50,37 +50,58 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
       this.onContentChange();
     });
   }
-
-  applyFormat(prefix: string, suffix: string, placeholder: string, event?: MouseEvent) {
+ 
+  applyFormat(
+    prefix: string,
+    suffix: string,
+    placeholder: string,
+    event?: MouseEvent
+  ): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    const editor = document.querySelector("#textarea") as HTMLElement | null;
+    const editor = document.getElementById("textarea") as HTMLElement;
     const selection = window.getSelection();
-
     if (!editor || !selection || selection.rangeCount === 0) return;
 
     const range = selection.getRangeAt(0);
 
-    // Ensure selection is inside editor
-    if (!editor.contains(range.commonAncestorContainer)) {
-      console.log("Selection is outside editor. Ignoring.");
+     if (!editor.contains(range.commonAncestorContainer)) {
+      console.log("Click is outside textarea → DO NOTHING");
       return;
     }
 
     const selectedText = range.toString() || placeholder;
 
-    // Create span with formatted content
-    const span = document.createElement("span");
-    span.innerHTML = `${prefix}${selectedText}${suffix}`;
+    // -------------------------
+    // HEADING HANDLING (your code)
+    // -------------------------
+    if (prefix === "## " || prefix === "### ") {
+      const headingLevel = prefix === "## " ? 2 : 3;
+      const heading = document.createElement(`h${headingLevel}`);
+      heading.className = `H${headingLevel}MarkDown`;
+      heading.textContent = selectedText;
 
-    // Replace selected text with span
+      range.deleteContents();
+      range.insertNode(heading);
+
+      const newRange = document.createRange();
+      newRange.setStartAfter(heading);
+      newRange.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
+
+      this.onContentChange();
+      return;
+    } 
+    const span = document.createElement("span");
+    span.textContent = `${prefix}${selectedText}${suffix}`;
+
     range.deleteContents();
     range.insertNode(span);
 
-    // Move cursor after inserted content
     const newRange = document.createRange();
     newRange.setStartAfter(span);
     newRange.collapse(true);
@@ -89,7 +110,6 @@ export class MarkdownEditor implements AfterViewInit, OnDestroy {
 
     this.onContentChange();
   }
-
 
   onContentChange(): void {
     const div = this.textareaRef.nativeElement;

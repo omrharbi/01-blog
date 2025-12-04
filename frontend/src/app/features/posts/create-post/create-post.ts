@@ -1,14 +1,11 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { Materaile } from '../../../modules/materaile-module';
-import { errorKatexNotLoaded, MarkdownModule, MarkdownService } from 'ngx-markdown';
+import { MarkdownModule } from 'ngx-markdown';
 import { MarkdownEditor } from '../../../shared/components/markdown-editor/markdown-editor';
 import { Preview } from '../../../shared/components/preview/preview';
 import { PostRequest } from '../../../core/models/post/postRequest';
@@ -20,6 +17,7 @@ import { Uploadimages } from '../../../core/service/servicesAPIREST/uploadImages
 import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 import { PostResponse, Tags } from '../../../core/models/post/postResponse';
 import { ToastrService } from 'ngx-toastr';
+import { apiUrl } from '../../../core/constant/constante';
 
 @Component({
   selector: 'app-create-post',
@@ -87,26 +85,30 @@ export class CreatePost {
     this.route.queryParams.subscribe((params) => {
       this.isEdit = params['edit'] === 'true';
     });
+
     const editData = this.sharedServicePost.getEditPost();
     if (editData) {
       this.postData = { ...editData };
       this.content = this.postData.content || '';
       this.title = this.postData.title || '';
       this.excerpt = this.postData.excerpt || '';
-      if (
-        (this.postData.firstImage && this.postData.firstImage.trim()) ||
-        (this.postData.medias && this.postData.medias.length > 0)
-      ) {
-        this.isSelect = true;
-        this.coverImageSrc =
-          this.postData.firstImage ||
-          (this.postData.medias && this.postData.medias[0]?.filePath) ||
-          '';
+
+      // Keep the coverImageSrc for submission but do NOT show the preview
+      if (this.postData.firstImage?.trim()) {
+        this.coverImageSrc = apiUrl + this.postData.firstImage;
+        this.coverImageFilename = this.postData.firstImage.split('/').pop() || '';
+      } else if (this.postData.medias && this.postData.medias.length > 0) {
+        this.coverImageSrc = this.postData.medias[0].filePath;
+        this.coverImageFilename = this.postData.medias[0].filename || '';
       }
+
+      // Do NOT set isSelect = true here
+      this.isSelect = false;
     } else {
       this.clearAll();
     }
   }
+
 
   submitPost() {
     this.submitted = true;
@@ -116,6 +118,9 @@ export class CreatePost {
     const hasExistingCover =
       !!this.postData?.firstImage ||
       (this.postData?.medias && this.postData.medias.length > 0);
+
+
+    // console.log(this.postData?.firstImage,"herer ");
 
     if (!this.isEdit && !hasCoverImage && !hasExistingCover) {
       this.toasterService.warning('Cover image is required');
@@ -137,12 +142,10 @@ export class CreatePost {
     this.uploadImage.reorderFilesBasedOnContent(this.content);
 
     // Get ALL files (cover + content) in correct order
+    if (this.uploadImage.uploadfiles() === null) {
+      // this.newFiles.push(this)
+    }
     this.newFiles = this.uploadImage.uploadfiles();
-
-    console.log('Uploading files:', this.newFiles.map(f => f.name));
-    console.log('Cover image:', this.uploadImage.getCoverImage());
-    console.log('Content medias:', this.uploadImage.returnfiles());
-
     if (this.newFiles.length === 0) {
       this.submitPostData([]);
       return;
@@ -191,7 +194,6 @@ export class CreatePost {
   private submitPostData(allMedias: any[]) {
     const contentWithoutHTML = this.removeImage(this.content);
     const contenHtml = this.removeSrcImage(this.content);
-
     const postRequest: PostRequest = {
       title: this.title,
       excerpt: this.excerpt,
@@ -201,7 +203,6 @@ export class CreatePost {
       tags: this.tags,
     };
 
-    console.log('Submitting post:', postRequest);
 
     if (this.isEdit) {
       this.postService.editPost(postRequest, this.postData.id).subscribe({
@@ -292,9 +293,8 @@ export class CreatePost {
     const doc = parser.parseFromString(html, 'text/html');
     return doc.body.textContent?.trim() || '';
   }
-
   onImageSelected(event: Event) {
-    // This is for COVER IMAGE only - single image
+    // Only set isSelect = true when user selects a new image
     this.uploadImage.onImageSelected(
       event,
       (imgHTML: string, filename: string) => {
@@ -303,14 +303,15 @@ export class CreatePost {
         const img = doc.querySelector('img') || doc.querySelector('video');
         if (img) {
           this.coverImageSrc = img.src;
-          this.isSelect = true;
+          this.isSelect = true; // preview appears only for new selection
           this.coverImageFilename = filename;
           console.log('Cover image set:', filename);
         }
       },
-      true // isCover = true
+      true
     );
   }
+
 
   cancel() {
     this.clearAll();

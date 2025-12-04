@@ -93,8 +93,9 @@ export class PostList {
       /<video(.*?)>/g,
       `<video $1 style="max-width:100%;height:auto;display:block;margin:1rem 0;border-radius:10px;" controls>`
     );
-    
-    this.post.htmlContent = this.preview.renderMarkdownWithMedia(cleanedContent);
+      // console.log(this.post.htmlContent,"***************************************************");
+      
+    this.post.htmlContent   = this.preview.renderMarkdownWithMedia(cleanedContent);
     // this.post.=this.Domsanitaz.bypassSecurityTrustHtml()
     this.loading = false;
     this.cdr.detectChanges();

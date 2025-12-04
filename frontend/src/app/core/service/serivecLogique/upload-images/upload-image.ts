@@ -136,8 +136,7 @@ export class UploadImage {
   selectImage(type: string, filename: string, callback: (imgHTML: string, filename: string) => void) {
     const file = this.selectedImageFile;
     if (!file) return;
-    console.log("    ***********", "vid");
-
+ 
     const reader = new FileReader();
     reader.onload = () => {
       let imgHTML = '';

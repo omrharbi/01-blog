@@ -10,6 +10,7 @@ import { Global } from '../../../core/service/serivecLogique/globalEvent/global'
 import { FollowingLogiqueService } from '../../../core/service/serivecLogique/following/following-logique-service';
 import { Tranding } from '../../../core/service/servicesAPIREST/tranding/tranding';
 import { TrendingTag } from '../../../core/models/tranding/tranding';
+import { PreviewService } from '../../../core/service/serivecLogique/preview/preview.service';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,8 @@ export class Home {
       SharedService, private auth: AuthService, private global: Global,
     private follow: FollowingLogiqueService,
     private tranding: Tranding,
+    private preview: PreviewService,
+
 
   ) {
     // this.posts$ = this.postDatashard.posts$;
@@ -98,13 +101,13 @@ export class Home {
     this.snapshotTime = new Date().toISOString();
 
     this.loading = true;
-    const nextPage = 1  ;
+    const nextPage = 1;
     console.log(nextPage, this.currentPage);
-    
-    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, 1,5).subscribe({
+
+    this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, 1, 5).subscribe({
       next: response => {
-        console.log(response,"response");
-        
+        console.log(response, "response");
+
         this.responseDataLoading(response)
       },
       error: error => {
@@ -119,6 +122,9 @@ export class Home {
   private responseData(response: any) {
     if (response.data && response.data.content) {
       this.posts = response.data.content;
+      this.posts.forEach(elem => {
+        elem.content=this.preview.renderMarkdownWithMedia(elem.content)
+      })
       this.currentPage = response.data.number;
       this.totalPages = response.data.totalPages;
       this.postDatashard.setPosts(this.posts);

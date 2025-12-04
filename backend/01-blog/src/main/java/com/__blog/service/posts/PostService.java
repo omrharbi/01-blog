@@ -118,19 +118,31 @@ public class PostService {
             Optional<Post> post = postRepository.findById(id);
             if (post.isPresent()) {
                 Post existingPost = post.get();
-                existingPost.setTitle(postRequest.getTitle());
-                existingPost.setContent(postRequest.getContent());
-                existingPost.setHtmlContent(postRequest.getHtmlContent());
-                existingPost.setExcerpt(postRequest.getExcerpt());
 
+                // Update only non-null fields
+                if (postRequest.getTitle() != null) {
+                    existingPost.setTitle(postRequest.getTitle());
+                }
+                if (postRequest.getContent() != null) {
+                    existingPost.setContent(postRequest.getContent());
+                }
+                if (postRequest.getHtmlContent() != null) {
+                    existingPost.setHtmlContent(postRequest.getHtmlContent());
+                }
+                if (postRequest.getExcerpt() != null) {
+                    existingPost.setExcerpt(postRequest.getExcerpt());
+                }
+
+                // Update medias only if provided
                 if (postRequest.getMedias() != null) {
                     existingPost.getMedias().clear();
-                    for (MediaRequest tagRequest : postRequest.getMedias()) {
-                        Media media = mediaMapper.convertToMediaEntity(tagRequest);
+                    for (MediaRequest mediaRequest : postRequest.getMedias()) {
+                        Media media = mediaMapper.convertToMediaEntity(mediaRequest);
                         existingPost.addMedia(media);
                     }
                 }
 
+                // Update tags only if provided
                 if (postRequest.getTags() != null) {
                     existingPost.getTags().clear();
                     for (TagsRequest tagRequest : postRequest.getTags()) {
@@ -143,8 +155,8 @@ public class PostService {
 
                 PostResponse response = postMapper.ConvertPostResponse(savedPost, userId);
                 return ApiResponseUtil.success(response, null, "");
-
             }
+
             return ApiResponseUtil.error("Failed to create post: ", HttpStatus.INTERNAL_SERVER_ERROR);
 
         } catch (Exception e) {

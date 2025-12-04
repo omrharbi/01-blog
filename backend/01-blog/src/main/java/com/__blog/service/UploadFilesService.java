@@ -26,6 +26,9 @@ public class UploadFilesService {
     public ResponseEntity<ApiResponse<List<Map<String, String>>>> uploadFile(MultipartFile[] files, Path uploadPath)
             throws IOException {
         List<Map<String, String>> response = new ArrayList<>();
+        if (files == null) {
+            return null;
+        }
         for (var file : files) {
 
             String originalFilename = file.getOriginalFilename();

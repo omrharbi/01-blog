@@ -42,8 +42,7 @@ public class ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
-    @SuppressWarnings("null")
-    @Transactional
+     @Transactional
     public ResponseEntity<ApiResponse<ReportResponse>> createReportPost(UserPrincipal userPrincipal,
             ReportRequest reportRequest) {
         if (userPrincipal == null) {

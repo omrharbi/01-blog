@@ -117,7 +117,9 @@ export class Profile {
       this.totalPages = res.data.totalPages;
       this.loading = false;
       this.post.forEach((p) => {
-        p.htmlContent = this.preview.renderMarkdownWithMedia(p.content); // htmlContent;
+        console.log(p.content,"profile here " );
+        
+        p.htmlContent = this.preview.renderMarkdownWithMedia(p.content) // htmlContent;
       });
     });
   }
