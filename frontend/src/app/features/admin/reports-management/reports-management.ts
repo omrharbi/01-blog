@@ -104,11 +104,11 @@ export class ReportsManagement {
     this.router.navigate([`/post/${postId}`])
   }
 
-  deletePosts(type: ActionType, postId: string) {
-    this.showBanPopup = true
-    this.actionType.set(type)
-    this.postId.set(postId)
-  }
+  // deletePosts(type: ActionType, postId: string) {
+  //   this.showBanPopup = true
+  //   this.actionType.set(type)
+  //   this.postId.set(postId)
+  // }
 
   hiddenPost(type: ActionType, postId: string) {
     this.showBanPopup = true

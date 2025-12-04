@@ -56,6 +56,9 @@
                         Are you sure you want to hidden this post?
                     </span>
 
+                    <span *ngSwitchCase="'delete-post'">
+                        Are you sure you want to delete this post?
+                    </span>
                     <!-- Fallback -->
                     <span *ngSwitchDefault>
                         Are you sure you want to perform this action?
@@ -79,6 +82,10 @@
                 </div>
                 <div *ngSwitchCase="'delete-post'" class="icon-delete">
                     <button class="btn btn-confirm" (click)="deletePost()">Yes,{{actionType}}</button>
+                </div>
+
+                <div *ngSwitchCase="'delete-post-report'" class="icon-delete">
+                    <button class="btn btn-confirm" (click)="deletePostReport()">Yes,{{actionType}}</button>
                 </div>
 
                 <div *ngSwitchCase="'comment'" class="icon-delete">

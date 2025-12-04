@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 
 import { Materaile } from '../../modules/materaile-module';
 import { ActionType } from '../../core/models/admin/UserResponseInAdmin';
@@ -16,10 +16,11 @@ import { ToastrService } from 'ngx-toastr';
 export class BanPopup {
   @Input() isVisible: boolean = false;
   @Input() userId: string = "";
-  @Input() postId: string = "";
+  @Input() postId!: string;
+
   @Output() close = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<number>();
-  @Input() actionType: ActionType = 'ban';
+  @Input()   actionType!: ActionType;
   step: number = 1;
   banDays: number = 7;
   quickOptions: number[] = [1, 7, 14, 30, 90];
@@ -57,9 +58,16 @@ export class BanPopup {
   }
 
 
-  deletePost() {
- 
+  deletePostReport() {
+
     this.adminService.deletePosts(this.userId);
+    this.closePopup();
+  }
+
+  deletePost() {
+    console.log("herre ");
+    
+    this.adminService.deletePosts(this.postId);
     this.closePopup();
   }
 
@@ -88,6 +96,8 @@ export class BanPopup {
     }
 
     if (this.actionType === 'post') {
+      console.log("here 123");
+
       this.postService.DeletePost(this.targetId).subscribe({
         next: response => {
           if (response.status) {
@@ -107,6 +117,13 @@ export class BanPopup {
         }
       });
     }
+
+
+    // if (this.actionType === 'delete-post-report') {
+    //   console.log("here 12");
+      
+    //   // this.adminService.deletePosts(this.targetId)
+    // }
 
     this.closePopup();
   }

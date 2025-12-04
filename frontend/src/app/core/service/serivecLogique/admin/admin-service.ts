@@ -55,8 +55,8 @@ export class AdminServiceShared {
     deleteUser(userId: string) {
         this.adminService.deleteUser(userId).subscribe({
             next: response => {
-                console.log(response,"delete user ");
-                
+                console.log(response, "delete user ");
+
                 this.checkDeleteUser.next(response.status || false)
             },
             error: error => {
@@ -71,6 +71,8 @@ export class AdminServiceShared {
             next: response => {
                 if (response.status) {
                     const post = document.getElementById(postId)
+                    console.log(post,"kljrjklwqrkghkrjhjkgrl");
+
                     if (post) {
                         post.remove();
                     }
