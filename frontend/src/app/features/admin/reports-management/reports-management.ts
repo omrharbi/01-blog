@@ -29,7 +29,7 @@ export class ReportsManagement {
   lenghtPosts = signal(0);
   lenghtUser = signal(0);
   status = signal(false);
-  hidden_posts = signal<Map<string, boolean>>(new Map());
+  hidden_posts = signal<any>(new Map());
 
   ngOnInit() {
 
@@ -51,10 +51,16 @@ export class ReportsManagement {
       }
     })
     this.adminService.hidden_post$.subscribe({
-      next: res => {
-        // console.log();
-        
-        this.hidden_posts.set(res)
+       next: response => {
+        if (!response) return;
+        console.log(response, "response ");
+        // this.hidden_posts.update(users =>
+        //   users.map((u:any) =>
+        //     u.reportedUserId === response?.reportedUserId
+        //       ? { ...u, status: !response.status }
+        //       : u
+        //   )
+        // );
       }
     })
 
@@ -120,6 +126,9 @@ export class ReportsManagement {
     this.actionType.set(type)
     this.userId.set(userId)
   }
+
+
+  
 
 
 

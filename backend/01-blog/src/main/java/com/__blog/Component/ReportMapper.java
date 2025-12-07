@@ -20,20 +20,16 @@ public class ReportMapper {
             reportedContent = report.getReportedUser().getUsername();
         }
 
-
         return ReportResponse.builder()
-
-                .postId(report.getPost() != null ? report.getPost().getId() : null) // report ID
-                .reportId(report.getReporter().getId()) // report ID
-                .reportedContent(reportedContent) // post title / username
+                .postId(report.getPost() != null ? report.getPost().getId() : null)
+                .reportId(report.getReporter().getId())
+                .reportedContent(reportedContent)
                 .reportedUser(report.getReportedUser() != null ? report.getReportedUser().getUsername() : null)
                 .reportedUserId(report.getReportedUser() != null ? report.getReportedUser().getId() : null)
                 .reporter(report.getReporter() != null ? report.getReporter().getUsername() : null)
                 .reason(report.getReasons())
                 .createdAt(report.getCreatedAt())
-                // .status(report.getPost().isHidden()) // you can adjust if you have a status field
-                .hidden(report.getPost().isHidden()) 
-                // .commentId(report.getComment().getId())
+                .hidden(report.getPost() != null ? report.getPost().isHidden() : null)
                 .build();
     }
 
