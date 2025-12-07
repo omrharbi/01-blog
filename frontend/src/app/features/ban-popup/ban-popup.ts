@@ -20,7 +20,7 @@ export class BanPopup {
 
   @Output() close = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<number>();
-  @Input()   actionType!: ActionType;
+  @Input() actionType!: ActionType;
   step: number = 1;
   banDays: number = 7;
   quickOptions: number[] = [1, 7, 14, 30, 90];
@@ -52,6 +52,7 @@ export class BanPopup {
     this.closePopup();
   }
 
+
   deleteUser() {
     this.adminService.deleteUser(this.userId);
     this.closePopup();
@@ -59,14 +60,13 @@ export class BanPopup {
 
 
   deletePostReport() {
-
     this.adminService.deletePosts(this.userId);
     this.closePopup();
   }
 
   deletePost() {
     console.log("herre ");
-    
+
     this.adminService.deletePosts(this.postId);
     this.closePopup();
   }
@@ -121,7 +121,7 @@ export class BanPopup {
 
     // if (this.actionType === 'delete-post-report') {
     //   console.log("here 12");
-      
+
     //   // this.adminService.deletePosts(this.targetId)
     // }
 

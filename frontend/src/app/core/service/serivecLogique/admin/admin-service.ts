@@ -33,6 +33,8 @@ export class AdminServiceShared {
     banUser(userId: string, days: number) {
         this.adminService.banUser(userId, days).subscribe({
             next: response => {
+                console.log(response,"user ");
+                
                 this.updateUser.next(response.data)
                 this.updateUserReport.next({ reportedUserId: userId, status: response.data?.hidden });
             },
@@ -112,6 +114,8 @@ export class AdminServiceShared {
         this.adminService.hiddenPost(postId).subscribe({
             next: response => {
                 if (response) {
+                    console.log(response,"kjhjkhjkhjkhk");
+                    
                     this.hiddenPost.next({ reportedUserId: postId, status: response.data?.hidden });
                 }
             },

@@ -1,8 +1,6 @@
 package com.__blog.service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,11 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.__blog.Component.PostMapper;
+import com.__blog.Component.ReportMapper;
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.request.NotificationRequest;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
+import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.entity.Report;
 import com.__blog.model.entity.User;
 import com.__blog.model.enums.Notifications;
@@ -47,8 +48,12 @@ public class AdminService {
     private ReportRepository reportRepository;
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
+    private PostMapper postMapper;
     private NotificationService notificationService;
+    @Autowired
+    private ReportMapper reportMapper;
 
     // Returns a paginated list of all users.
     public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getAllUsers(int page, int size) {
@@ -170,7 +175,7 @@ public class AdminService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<Map<UUID, Boolean>>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
+    public ResponseEntity<ApiResponse<PostResponse>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
@@ -198,9 +203,11 @@ public class AdminService {
             notificationService.saveAndSendNotification(requestNotificationRequest, existingPost.get().getUser(),
                     admin);
             String responseMessage = wasHidden ? "Post unhidden successfully" : "Post banned successfully";
-            Map<UUID, Boolean> mHashMap = new HashMap<>();
-            mHashMap.put(existingPost.get().getId(), existingPost.get().isHidden());
-            return ApiResponseUtil.success(mHashMap, null, responseMessage);
+            // Map<UUID, Boolean> mHashMap = new HashMap<>();
+            // mHashMap.put(existingPost.get().getId(), existingPost.get().isHidden());
+            var user = postMapper.ConvertPostResponse(existingPost.get(), admin.getId());
+
+            return ApiResponseUtil.success(user, null, responseMessage);
         }
         return ApiResponseUtil.error("You Dont have any Post", HttpStatus.BAD_REQUEST);
     }

@@ -65,12 +65,8 @@ export class UsersManagement {
     this.admin.getAllUsers(0, this.pageSize()).subscribe({
       next: (response: any) => {
         if (response.data && response.data.content) {
-          console.log(response);
-          // if (response.data.content)
-
-          this.allUsers.set(response.data.content);
-          // this.allUsers.update(user=>user.)
-          // this.totalPages.set(response.data.totalElements);
+          console.log(response); 
+          this.allUsers.set(response.data.content); 
           this.currentPage.set(response.data.number);
           this.totalPages.set(response.data.totalPages);
 
