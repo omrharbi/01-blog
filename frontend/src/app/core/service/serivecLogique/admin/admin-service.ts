@@ -71,7 +71,7 @@ export class AdminServiceShared {
             next: response => {
                 if (response.status) {
                     const post = document.getElementById(postId)
-                    console.log(post,"kljrjklwqrkghkrjhjkgrl");
+                    // console.log(post,"kljrjklwqrkghkrjhjkgrl");
 
                     if (post) {
                         post.remove();

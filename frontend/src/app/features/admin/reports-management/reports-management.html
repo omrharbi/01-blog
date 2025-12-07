@@ -76,7 +76,7 @@
                                         View
                                     </button>
 
-                                    <button (click)="actionTypeHandle('hidden-post',report.postId)"
+                                    <button (click)="openPostPopup('hidden-post',report.postId)"
                                         *ngIf="!hidden_posts().get(report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -87,7 +87,7 @@
                                         Hidden
                                     </button>
 
-                                    <button (click)="actionTypeHandle('hidden-post',report.postId)"
+                                    <button (click)="openPostPopup('hidden-post',report.postId)"
                                         *ngIf="hidden_posts().get(report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -102,7 +102,7 @@
 
 
                                     <!-- (click)="actionTypeHandle('delete',user.reportedUserId)" -->
-                                    <button (click)="actionTypeHandle('delete-post-report',report.postId)"
+                                    <button (click)="openPostPopup('delete-post-report',report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -192,7 +192,7 @@
                             <td class="py-4 px-4">
                                 <div class="action-buttons">
                                     <button class=" action-btn bg-warning text-dark  border-btn" *ngIf="user.status"
-                                        (click)="actionTypeHandle('ban', user.reportedUserId)">
+                                        (click)="openUserPopup('ban', user.reportedUserId)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -204,7 +204,7 @@
                                         Ban
                                     </button>
                                     <button *ngIf="!user.status" class=" action-btn  border-btn bg-success text-white"
-                                        (click)="actionTypeHandle('unban', user.reportedUserId)">
+                                        (click)="openUserPopup('unban', user.reportedUserId)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -216,7 +216,7 @@
                                     </button>
 
                                     <button class=" bg-danger text-white  action-btn border-btn"
-                                        (click)="actionTypeHandle('delete',user.reportedUserId)">
+                                        (click)="openUserPopup('delete',user.reportedUserId)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">

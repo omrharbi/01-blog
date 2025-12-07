@@ -110,17 +110,37 @@ export class ReportsManagement {
   //   this.postId.set(postId)
   // }
 
-  hiddenPost(type: ActionType, postId: string) {
+  // hiddenPost(type: ActionType, postId: string) {
+  //   this.showBanPopup = true
+  //   this.actionType.set(type)
+  //   this.postId.set(postId)
+  // }
+  openPostPopup(type: ActionType, postid: string) {
     this.showBanPopup = true
     this.actionType.set(type)
-    this.postId.set(postId)
+    this.postId.set(postid)
   }
-  actionTypeHandle(type: ActionType, userId: string) {
+
+
+  openUserPopup(type: ActionType, userId: string) {
     this.showBanPopup = true
     this.actionType.set(type)
     this.userId.set(userId)
   }
 
+  // openPostPopup(action: string, postId: string) {
+  //   this.popupAction = action;
+  //   this.selectedPostId = postId;
+  //   this.selectedUserId = null;   // clear
+  //   this.showBanPopup = true;
+  // }
+
+  // openUserPopup(action: string, userId: string) {
+  //   this.popupAction = action;
+  //   this.selectedUserId = userId;
+  //   this.selectedPostId = null;   // clear
+  //   this.showBanPopup = true;
+  // }
 
 
 

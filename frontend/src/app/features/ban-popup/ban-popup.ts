@@ -61,7 +61,7 @@ export class BanPopup {
 
 
   deletePostReport() {
-    console.log(this.userId,"jhjkhjkhjlk");
+    console.log(this.postId,"jhjkhjkhjlk");
     // this.adminService.deletePosts(this.userId);
     this.closePopup();
   }
@@ -69,7 +69,7 @@ export class BanPopup {
   deletePost() {
     console.log("herre ", this.postId);
     // this.adminService.deleteUser(this.userId);
-    // this.adminService.deletePosts(this.postId);
+    this.adminService.deletePosts(this.postId);
     this.closePopup();
   }
 
