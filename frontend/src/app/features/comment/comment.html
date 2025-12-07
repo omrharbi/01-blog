@@ -5,8 +5,8 @@
             <div class="d-flex align-items-start gap-3">
                 <!-- <img class="rounded-circle flex-shrink-0" [src]="(post.avatar_user || 'apiUrl')" width="40" height="40"> -->
                 <div class="w-100">
-                    <textarea class="form-control border rounded-3 textarea " rows="4"
-                        placeholder="What are your thoughts?" [(ngModel)]="content"></textarea>
+                    <textarea class="form-control border rounded-3 textarea  wrap" rows="4"
+                        placeholder="What are your thoughts?" [(ngModel)]="content" maxlength="1000"></textarea>
                     <div class="d-flex justify-content-end mt-3">
                         <button class="btn  btn-sm d-flex align-items-center  btn-enabled "
                             (click)="submitComment(post.id)">

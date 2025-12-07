@@ -87,9 +87,13 @@ export class Comment {
     if (this.isEdit) {
       this.EditComment(id)
     } else {
-      
-      if (this.content.trim()==="") {
-        console.log("erejhjklhergljkhelrjgher");
+      if (this.content.length === 1000) {
+        // console.log("erejhjklhergljkhelrjgher");
+        this.toasterService.warning("content longer than 1000 characters ");
+        return
+      }
+      if (this.content.trim() === "") {
+        // console.log("erejhjklhergljkhelrjgher");
         this.toasterService.warning("content is empty ");
         return
       } else {

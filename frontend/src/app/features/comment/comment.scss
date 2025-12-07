@@ -14,7 +14,11 @@
     color: var(--muted);
 }
 
-
+.wrap {
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+}
 .like-btn {
     border: none;
     background: transparent;
