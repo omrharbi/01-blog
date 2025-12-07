@@ -11,18 +11,12 @@ export class AdminServiceShared {
     adminService = inject(AdminService);
     notificationAlert = inject(NotificationService);
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
-
-    checkDeleteUser = new BehaviorSubject<boolean>(false)
-    update_user$ = this.updateUser.asObservable();
-
-
     updateUserReport = new BehaviorSubject<any>('')
+    checkDeleteUser = new BehaviorSubject<boolean>(false)
+    hiddenPost = new BehaviorSubject<Map<string, boolean>>(new Map())
+    update_user$ = this.updateUser.asObservable();
     update_user_report$ = this.updateUserReport.asObservable();
-
-
-    hiddenPost = new BehaviorSubject<any>("")
     hidden_post$ = this.hiddenPost.asObservable();
-
     checkDeletePosts = new BehaviorSubject<boolean>(false)
 
     check_delete_user$ = this.checkDeleteUser.asObservable();
@@ -33,8 +27,6 @@ export class AdminServiceShared {
     banUser(userId: string, days: number) {
         this.adminService.banUser(userId, days).subscribe({
             next: response => {
-                console.log(response,"user ");
-                
                 this.updateUser.next(response.data)
                 this.updateUserReport.next({ reportedUserId: userId, status: response.data?.hidden });
             },
@@ -79,7 +71,7 @@ export class AdminServiceShared {
             next: response => {
                 if (response.status) {
                     const post = document.getElementById(postId)
-                    console.log(post, "kljrjklwqrkghkrjhjkgrl");
+                    console.log(post,"kljrjklwqrkghkrjhjkgrl");
 
                     if (post) {
                         post.remove();
@@ -95,28 +87,19 @@ export class AdminServiceShared {
         })
     }
 
-    banUsers(userId: string, days: number) {
-        this.adminService.banUser(userId, days).subscribe({
-            next: response => {
-                this.updateUser.next(response.data)
-                this.updateUserReport.next({ reportedUserId: userId, status: response.data?.hidden });
-            },
-            error: error => {
-                const message = error?.error.error || "error "
-                this.notificationAlert.showErrorWithoutRedirect(message)
-                console.log(error);
-            }
-        })
-    }
-
-
     HiddenPosts(postId: string) {
         this.adminService.hiddenPost(postId).subscribe({
             next: response => {
                 if (response) {
-                    console.log(response,"kjhjkhjkhjkhk");
-                    
-                    this.hiddenPost.next({ reportedUserId: postId, status: response.data?.hidden });
+                    const currentMap = this.hiddenPost.getValue();
+                    const newMap = new Map(currentMap);
+
+                    const firstEntry = Object.entries(response.data)[0];
+                    const postId = firstEntry[0];
+                    const hiddenStatus = firstEntry[1] as boolean;
+
+                    newMap.set(postId, hiddenStatus);
+                    this.hiddenPost.next(newMap);
                 }
             },
             error: error => {

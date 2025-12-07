@@ -75,18 +75,20 @@
                                         </svg>
                                         View
                                     </button>
-                                       
-                                    <button (click)="actionTypeHandle('hidden-post',report.postId)" *ngIf="!hidden_posts().get(report.postId)" [id]="hidden_posts().get(report.postId)"
+
+                                    <button (click)="actionTypeHandle('hidden-post',report.postId)"
+                                        *ngIf="!hidden_posts().get(report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M2.25 12s3.75-7.5 9.75-7.5c1.78 0 3.43.44 4.91 1.18M21.75 12s-3.75 7.5-9.75 7.5c-1.78 0-3.43-.44-4.91-1.18M3 3l18 18" />
                                         </svg>
-                                        Hidden   
+                                        Hidden
                                     </button>
 
-                                    <button (click)="actionTypeHandle('hidden-post',report.postId)" *ngIf="hidden_posts().get(report.postId)" [id]="hidden_posts().get(report.postId)"
+                                    <button (click)="actionTypeHandle('hidden-post',report.postId)"
+                                        *ngIf="hidden_posts().get(report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -94,7 +96,7 @@
                                                 d="M12 4.5V3m6.364 3.864l1.06-1.06M19.5 12H21m-3.864 6.364l1.06 1.06M12 19.5V21m-6.364-3.864-1.06 1.06M4.5 12H3m3.864-6.364-1.06-1.06M12 7.5c-5.25 0-9 4.5-9 4.5s3.75 4.5 9 4.5 9-4.5 9-4.5-3.75-4.5-9-4.5z" />
                                             <circle cx="12" cy="12" r="3" />
                                         </svg>
-                                        Unhide 
+                                        Unhide
                                     </button>
 
 
@@ -114,7 +116,7 @@
 
                                     <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
                                         [isVisible]="showBanPopup" (close)="showBanPopup = false"
-                                        [userId]="userId()"></app-ban-popup>
+                                        [postId]="postId()"></app-ban-popup>
                                 </div>
                             </td>
                         </tr>

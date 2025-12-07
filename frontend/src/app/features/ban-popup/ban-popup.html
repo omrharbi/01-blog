@@ -109,7 +109,7 @@
     </div>
 
     <!-- Step 2: Duration Selection -->
-    <div class="popup-container" *ngIf="step === 2" (click)="$event.stopPropagation()">
+    <div class="popup-container" *ngIf="step === 2" (cldeletePostick)="$event.stopPropagation()">
         <div class="popup-header">
             <h2>{{actionType}} Duration</h2>
             <button class="close-btn" (click)="closePopup()">&times;</button>

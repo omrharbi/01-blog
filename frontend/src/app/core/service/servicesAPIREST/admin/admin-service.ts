@@ -55,10 +55,13 @@ export class AdminService {
       'Content-Type': "application/json"
     })
 
-    return this.http.patch<any>
-      (`${environment.admin.hidden_post}${postId}`, {
-        headers
-      })
+    // HttpClient.patch signature is patch(url, body, options)
+    // pass `null` as body and provide headers in options so they are included
+    return this.http.patch<any>(
+      `${environment.admin.hidden_post}${postId}`,
+      null,
+      { headers }
+    )
   }
 
 
