@@ -91,6 +91,8 @@ export class AdminServiceShared {
         this.adminService.hiddenPost(postId).subscribe({
             next: response => {
                 if (response) {
+                    console.log(response,"here ");
+                    
                     const currentMap = this.hiddenPost.getValue();
                     const newMap = new Map(currentMap);
 
