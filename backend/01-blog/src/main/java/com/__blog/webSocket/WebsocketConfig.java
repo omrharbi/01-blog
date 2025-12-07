@@ -27,33 +27,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final WebSocketAuthInterceptor webSocketAuthInterceptor;
+    private final WebSocketAuthInterceptor webSocketAuthInterceptor;// ths check the authentication of the user
 
     @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(webSocketAuthInterceptor);  // ← THIS IS CRITICAL!
-    }
-
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/user", "/topic");
-        registry.setApplicationDestinationPrefixes("/app");
-        // registry.setUserDestinationPrefix("/user");
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new AuthenticationPrincipalArgumentResolver());
-    }
-
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
+    public void registerStompEndpoints(StompEndpointRegistry registry) {// ← THIS IS CRITICAL! for CORS
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("http://localhost:4200")
                 .withSockJS();
     }
 
     @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(webSocketAuthInterceptor); // ← THIS IS CRITICAL! for authentication
+    }
+
+    @Override// configure message broker for routing messages from server to client and vice versa 
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/user", "/topic");
+        registry.setApplicationDestinationPrefixes("/app");
+        // registry.setUserDestinationPrefix("/user");
+    }
+
+    @Override // to access the authenticated user in the controller methods 
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new AuthenticationPrincipalArgumentResolver()); // this for get the authenticated user in the controller methods
+    }
+
+    @Override // to convert messages to/from JSON
     public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
         DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
         resolver.setDefaultMimeType(MediaType.APPLICATION_JSON);

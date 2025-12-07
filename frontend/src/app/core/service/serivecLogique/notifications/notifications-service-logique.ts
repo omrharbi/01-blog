@@ -107,9 +107,18 @@ export class NotificationsServiceLogique {
         return;
       }
       console.log('🔌 Connecting to WebSocket...');
-      const socket = new SockJS(this.wsUrl);
-      this.stompClient = Stomp.over(socket)
-
+      const socket = new SockJS(this.wsUrl); // Use SockJS for better browser compatibility // Fallback (Plan B): 
+      // Browser قديم، WebSocket ماخدامش:
+      // ┌──────────────────────────────────┐
+      // │ 1. WebSocket           ❌        │
+      // │ 2. HTTP Streaming      ⚠️ (يجرب)│
+      // │ 3. XHR Polling         ⚠️ (يجرب)│
+      // │ 4. Long Polling        ✅ (خدام!)│
+      // └──────────────────────────────────┘
+      this.stompClient = Stomp.over(socket)// Stomp client over SockJS 
+      // Stomp is a messaging protocol that runs over WebSocket 
+      // and provides a higher-level abstraction for sending and receiving messages.
+      // Stomp.over creates a Stomp client that uses the provided WebSocket (or SockJS) connection. 
       if (token) {
 
         this.stompClient.debug = null;
@@ -197,7 +206,7 @@ export class NotificationsServiceLogique {
     this.stompClient = null;
     this.reconnectAttempts = 0;
   }
- 
+
   getNotifications() {
     return this.notifications$;
   }
