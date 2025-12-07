@@ -52,6 +52,8 @@ export class ReportsManagement {
     })
     this.adminService.hidden_post$.subscribe({
       next: res => {
+        // console.log();
+        
         this.hidden_posts.set(res)
       }
     })
@@ -88,8 +90,10 @@ export class ReportsManagement {
         this.postReposrt.set(response.data?.content)
         this.lenghtPosts.set(response.data?.content.length)
         const hiddenMap = new Map<string, boolean>();
+        console.log(response,"*-*-*-*-*-*-*-");
+        
         response.data.content.forEach((post: any) => {
-          hiddenMap.set(post.postId, post.status || false);
+          hiddenMap.set(post.postId, post.hidden  );
         });
         this.hidden_posts.set(hiddenMap);
       },

@@ -76,7 +76,7 @@
                                         View
                                     </button>
                                        
-                                    <button (click)="actionTypeHandle('hidden-post',report.postId)" *ngIf="!hidden_posts().get(report.postId)"
+                                    <button (click)="actionTypeHandle('hidden-post',report.postId)" *ngIf="!hidden_posts().get(report.postId)" [id]="hidden_posts().get(report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -86,7 +86,7 @@
                                         Hidden   
                                     </button>
 
-                                    <button (click)="actionTypeHandle('hidden-post',report.postId)" *ngIf="hidden_posts().get(report.postId)"
+                                    <button (click)="actionTypeHandle('hidden-post',report.postId)" *ngIf="hidden_posts().get(report.postId)" [id]="hidden_posts().get(report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
