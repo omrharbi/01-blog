@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { EditProfile } from './edit-profile/edit-profile';
 import { Materaile } from '../../modules/materaile-module';
 import { AuthService } from '../../core/service/servicesAPIREST/auth/auth-service';
@@ -21,7 +21,7 @@ import { PopUpReport } from '../pop-up/pop-up-report/pop-up-report';
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
-export class Profile {
+export class Profile   {
   constructor(
     private like: likesServiceLogique,
     private route: ActivatedRoute,

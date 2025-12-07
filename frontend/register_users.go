@@ -21,10 +21,10 @@ func main() {
 
 	for i := 1; i <=2; i++ {
 		user := User{
-			Email:           fmt.Sprintf("omrharbi%d@gmail.com", i),
+			Email:           fmt.Sprintf("test%d@gmail.com", i),
 			Firstname:       "Omar",
 			Lastname:        "Rharbi",
-			Username:        fmt.Sprintf("omrharbi%d", i),
+			Username:        fmt.Sprintf("test%d", i),
 			Password:        "omar",
 			Confirmpassword: "omar",
 		}

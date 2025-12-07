@@ -88,6 +88,8 @@ export class Home {
     this.loading = true;
     this.postservice.getAllPostsFromFollowedUsers(this.userId(), this.snapshotTime, 0, 3).subscribe(response => {
       if (response.data && response.data.content) {
+        console.log("*---*-*-*-*",response.data);
+        
         this.responseData(response)
       }
     });

@@ -44,7 +44,6 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired

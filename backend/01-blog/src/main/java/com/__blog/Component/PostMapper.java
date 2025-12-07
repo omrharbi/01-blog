@@ -130,7 +130,8 @@ public class PostMapper {
         Map<UUID, List<TagsResponse>> tagsMap = getTagsMap(postIds);
 
         Page<PostResponse> enrichedPosts = basicPosts.map(post -> {
-            var post_avatar = postRepository.findById(post.getId());
+             var post_avatar = postRepository.findById(post.getId());
+ 
             return PostResponse.builder()
                     .id(post.getId())
                     .uuid_user(post.getUuid_user())
