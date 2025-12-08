@@ -58,7 +58,7 @@ export class ReportsManagement {
         this.postReposrt.update(users =>
           users.map(u => 
              u.postId === res?.postId
-                ? { ...u, hidden: !res.hidden }
+                ? { ...u, hidden: res.hidden }
                : u
           )
         );

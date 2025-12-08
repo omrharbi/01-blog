@@ -188,7 +188,7 @@
                             </td>
                             <td class="py-4 px-4">
                                 <div class="action-buttons">
-                                    <button class=" action-btn bg-warning text-dark  border-btn" *ngIf="user.status"
+                                    <button class=" action-btn bg-warning text-dark  border-btn" *ngIf="!user.status"
                                         (click)="openUserPopup('ban', user.reportedUserId)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -200,7 +200,7 @@
                                         </svg>
                                         Ban
                                     </button>
-                                    <button *ngIf="!user.status" class=" action-btn  border-btn bg-success text-white"
+                                    <button *ngIf="user.status" class=" action-btn  border-btn bg-success text-white"
                                         (click)="openUserPopup('unban', user.reportedUserId)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

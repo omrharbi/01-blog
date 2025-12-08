@@ -1,5 +1,5 @@
-docker run -d --name db_blog \
-  -e POSTGRES_DB=db_blog \
+docker run -d --name blog_db \
+  -e POSTGRES_DB=blog_db \
   -e POSTGRES_USER=omrharbi \
   -e POSTGRES_PASSWORD=omrharbi \
   -p 5432:5432 \

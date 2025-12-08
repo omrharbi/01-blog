@@ -53,9 +53,7 @@ export class BanPopup {
   }
 
   deleteUser() {
-    // 
-    // console.log(this.userId);
-    
+    //  
     this.adminService.deleteUser(this.userId);
     console.log("here delete post ");
     
@@ -76,6 +74,8 @@ export class BanPopup {
   }
 
   hiddenPost() {
+    console.log(this.postId,"here ");
+    
     this.adminService.HiddenPosts(this.postId);
     this.closePopup();
   }
