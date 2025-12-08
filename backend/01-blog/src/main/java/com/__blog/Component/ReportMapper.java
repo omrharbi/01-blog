@@ -29,7 +29,7 @@ public class ReportMapper {
                 .reporter(report.getReporter() != null ? report.getReporter().getUsername() : null)
                 .reason(report.getReasons())
                 .createdAt(report.getCreatedAt())
-                // .status(report.getReportedUser() != null ? report.getReportedUser().isHidden() : null)
+                .status(report.getReportedUser() != null ? report.getReportedUser().isHidden() : null)
                 .hidden(report.getPost() != null ? report.getPost().isHidden() : null)
                 .build();
     }

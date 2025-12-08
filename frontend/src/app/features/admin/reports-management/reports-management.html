@@ -77,8 +77,7 @@
                                     </button>
                                     <!-- {{!report.hidden}} -->
                                     <!-- !hidden_posts().get(report.postId) -->
-                                    <button (click)="openPostPopup('hidden-post',report.postId)"
-                                        *ngIf="!report.hidden" 
+                                    <button (click)="openPostPopup('hidden-post',report.postId)" *ngIf="!report.hidden"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -89,7 +88,7 @@
                                     </button>
                                     <!-- *ngIf="hidden_posts().get(report.postId)" -->
                                     <!-- {{!report.hidden}} -->
-                                    <button (click)="openPostPopup('hidden-post',report.postId)" *ngIf="report.hidden" 
+                                    <button (click)="openPostPopup('hidden-post',report.postId)" *ngIf="report.hidden"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -100,7 +99,7 @@
                                         Unhide
                                     </button>
                                     <!-- (click)="actionTypeHandle('delete',user.reportedUserId)" -->
-                                    <button (click)="openPostPopup('delete-post-report',report.postId)"   
+                                    <button (click)="openPostPopup('delete-post-report',report.postId)"
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -109,17 +108,15 @@
                                         </svg>
                                         Delete
                                     </button>
-
-
-                                     <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
-                                        [isVisible]="showBanPopup" (close)="showBanPopup = false"
-                                        [postId]="postId()"></app-ban-popup>
                                 </div>
                             </td>
                         </tr>
 
                     </tbody>
                 </table>
+
+                <!-- <app-ban-popup *ngIf="actionType()" [actionType]="actionType()" [isVisible]="showBanPopup"
+                    (close)="showBanPopup = false" [postId]="postId()"></app-ban-popup> -->
             </div>
         </div>
 
@@ -180,10 +177,10 @@
                                       border-btn
                                   
                                  " [ngClass]="{
-                                    'bg-success  ': !user.status,
-                                     'bg-warning ': user.status
+                                    'bg-success  ': user.status,
+                                     'bg-warning ': !user.status
                                  }">
-                                    {{!user.status? "resolved": "pending"}} </div>
+                                    {{user.status? "resolved": "pending"}} </div>
 
                             </td>
                             <td class="py-4 px-4">
@@ -226,13 +223,14 @@
                                         Delete
                                     </button>
                                 </div>
-                                <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
-                                    [isVisible]="showBanPopup" (close)="showBanPopup = false"
-                                    [userId]="userId()"></app-ban-popup>
+
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <app-ban-popup *ngIf="showBanPopup" [actionType]="actionType()" [isVisible]="showBanPopup"
+                    [userId]="userId()" [postId]="postId()" (close)="showBanPopup = false">
+                </app-ban-popup>
             </div>
         </div>
     </div>

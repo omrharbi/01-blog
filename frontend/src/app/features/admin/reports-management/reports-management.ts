@@ -43,7 +43,7 @@ export class ReportsManagement {
         this.reportServiceUser.update(users =>
           users.map(u =>
             u.reportedUserId === response?.reportedUserId
-              ? { ...u, status: !response.status }
+               ? { ...u, status: !u.status } 
               : u
           )
         );
@@ -80,7 +80,7 @@ export class ReportsManagement {
       next: response => {
         this.reportServiceUser.set(response.data?.content)
         this.lenghtUser.set(response.data?.content.length)
-        // console.log(response, "all user report");
+        console.log(response, "all user report");
       },
       error: error => {
         console.log(error);

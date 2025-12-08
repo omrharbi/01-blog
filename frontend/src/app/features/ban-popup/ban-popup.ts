@@ -17,7 +17,6 @@ export class BanPopup {
   @Input() isVisible: boolean = false;
   @Input() userId: string = "";
   @Input() postId!: string;
-
   @Output() close = new EventEmitter<void>();
   @Output() confirm = new EventEmitter<number>();
   @Input() actionType!: ActionType;
@@ -53,17 +52,15 @@ export class BanPopup {
   }
 
   deleteUser() {
-    //  
     this.adminService.deleteUser(this.userId);
-    console.log("here delete post ");
-    
+    // console.log("here delete post ");
     this.closePopup();
   }
 
 
   deletePostReport() {
-    console.log(this.postId,"jhjkhjkhjlk");
-    this.adminService.deletePosts(this.userId);
+    // console.log(this.postId, "jhjkhjkhjlk");
+    this.adminService.deletePosts(this.postId);
     this.closePopup();
   }
 
@@ -74,8 +71,8 @@ export class BanPopup {
   }
 
   hiddenPost() {
-    console.log(this.postId,"here ");
-    
+    console.log(this.postId, "here ");
+
     this.adminService.HiddenPosts(this.postId);
     this.closePopup();
   }
