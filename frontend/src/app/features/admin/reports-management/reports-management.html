@@ -75,9 +75,10 @@
                                         </svg>
                                         View
                                     </button>
-
+                                    <!-- {{!report.hidden}} -->
+                                    <!-- !hidden_posts().get(report.postId) -->
                                     <button (click)="openPostPopup('hidden-post',report.postId)"
-                                        *ngIf="!hidden_posts().get(report.postId)"
+                                        *ngIf="!report.hidden" 
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -86,9 +87,9 @@
                                         </svg>
                                         Hidden
                                     </button>
-
-                                    <button (click)="openPostPopup('hidden-post',report.postId)"
-                                        *ngIf="hidden_posts().get(report.postId)"
+                                    <!-- *ngIf="hidden_posts().get(report.postId)" -->
+                                    <!-- {{!report.hidden}} -->
+                                    <button (click)="openPostPopup('hidden-post',report.postId)" *ngIf="report.hidden" 
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium   border-input bg-background hover:bg-accent hover:text-success h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -98,11 +99,8 @@
                                         </svg>
                                         Unhide
                                     </button>
-
-
-
                                     <!-- (click)="actionTypeHandle('delete',user.reportedUserId)" -->
-                                    <button (click)="openPostPopup('delete-post-report',report.postId)"
+                                    <button (click)="openPostPopup('delete-post-report',report.postId)"   
                                         class="inline-flex items-center justify-center gap-2 text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 rounded-md px-3 shadow-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -113,8 +111,7 @@
                                     </button>
 
 
-
-                                    <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
+                                     <app-ban-popup *ngIf="actionType()" [actionType]="actionType()"
                                         [isVisible]="showBanPopup" (close)="showBanPopup = false"
                                         [postId]="postId()"></app-ban-popup>
                                 </div>

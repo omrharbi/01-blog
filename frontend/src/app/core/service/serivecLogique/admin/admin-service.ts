@@ -13,7 +13,7 @@ export class AdminServiceShared {
     updateUser = new BehaviorSubject<UserResponseInAdmin | null>(null)
     updateUserReport = new BehaviorSubject<any>('')
     checkDeleteUser = new BehaviorSubject<boolean>(false)
-    hiddenPost = new BehaviorSubject<Map<string, boolean>>(new Map())
+    hiddenPost = new BehaviorSubject<any>([])
     update_user$ = this.updateUser.asObservable();
     update_user_report$ = this.updateUserReport.asObservable();
     hidden_post$ = this.hiddenPost.asObservable();
@@ -26,9 +26,9 @@ export class AdminServiceShared {
 
     banUser(userId: string, days: number) {
         this.adminService.banUser(userId, days).subscribe({
-            next: response => {
+            next: response => { 
                 this.updateUser.next(response.data)
-                this.updateUserReport.next({ reportedUserId: userId, status: response.data?.hidden });
+                this.updateUserReport.next({ reportedUserId: userId, status: response.data?.status });
             },
             error: error => {
                 const message = error?.error.error || "error "
@@ -72,7 +72,6 @@ export class AdminServiceShared {
                 if (response.status) {
                     const post = document.getElementById(postId)
                     // console.log(post,"kljrjklwqrkghkrjhjkgrl");
-
                     if (post) {
                         post.remove();
                     }
@@ -91,15 +90,7 @@ export class AdminServiceShared {
         this.adminService.hiddenPost(postId).subscribe({
             next: response => {
                 if (response) {
-                    const currentMap = this.hiddenPost.getValue();
-                    const newMap = new Map(currentMap);
-
-                    const firstEntry = Object.entries(response.data)[0];
-                    const postId = firstEntry[0];
-                    const hiddenStatus = firstEntry[1] as boolean;
-
-                    newMap.set(postId, hiddenStatus);
-                    this.hiddenPost.next(newMap);
+                    this.hiddenPost.next(response.data);
                 }
             },
             error: error => {

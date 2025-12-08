@@ -54,27 +54,29 @@ export class BanPopup {
 
   deleteUser() {
     // 
-
-    // this.adminService.deleteUser(this.userId);
+    // console.log(this.userId);
+    
+    this.adminService.deleteUser(this.userId);
+    console.log("here delete post ");
+    
     this.closePopup();
   }
 
 
   deletePostReport() {
     console.log(this.postId,"jhjkhjkhjlk");
-    // this.adminService.deletePosts(this.userId);
+    this.adminService.deletePosts(this.userId);
     this.closePopup();
   }
 
   deletePost() {
     console.log("herre ", this.postId);
-    // this.adminService.deleteUser(this.userId);
     this.adminService.deletePosts(this.postId);
     this.closePopup();
   }
 
   hiddenPost() {
-    this.adminService.HiddenPosts(this.userId);
+    this.adminService.HiddenPosts(this.postId);
     this.closePopup();
   }
   deleteItem() {

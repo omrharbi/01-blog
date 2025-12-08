@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/blog_db
+    username: omrharbi
+    password: omrharbi
+    driver-class-name: org.postgresql.Driver
+    # Pool Settings
+    hikari:
+      connection-init-sql: DEALLOCATE ALL
+      maximum-pool-size: 10   # lower this if too many connections open
+      minimum-idle: 5 
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  devtools:
+    livereload:
+      enabled: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto:   update  #create-drop
+    # show-sql: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+ 
+file:
+  upload-dir: ./uploads
+
+jwt:
+  secret: ${JWT_SECRET:mySecretKeyForJWT1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789}
+  access-token-expiration: 86400000    # 15 minutes in milliseconds
+  refresh-token-expiration: 604800000 # 7 days in milliseconds
+server:
+  port: 9090
+ 
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          devtools: DEBUG
+    com:
+      yourpackage: DEBUG

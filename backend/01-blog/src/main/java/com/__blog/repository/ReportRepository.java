@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.__blog.model.entity.Report;
@@ -18,6 +19,12 @@ public interface ReportRepository extends JpaRepository<Report, UUID> {
                 SELECT r FROM Report r WHERE r.post IS NOT NULL
                         """)
         Page<Report> findAllPostReports(Pageable pageable);
+
+        @Query(""" 
+                SELECT r FROM Report r WHERE r.post IS NOT NULL
+                AND r.post.id = :postId
+                        """)
+         Optional<Report>  findByPostIdReports(@Param("postId") UUID postId);
 
         @Query("""
                  SELECT r FROM Report r WHERE r.post IS   NULL  AND   r.comment IS NULL

@@ -29,7 +29,7 @@ export class ReportsManagement {
   lenghtPosts = signal(0);
   lenghtUser = signal(0);
   status = signal(false);
-  hidden_posts = signal<Map<string, boolean>>(new Map());
+  hidden_posts = signal<{}>({});
 
   ngOnInit() {
 
@@ -52,7 +52,16 @@ export class ReportsManagement {
     })
     this.adminService.hidden_post$.subscribe({
       next: res => {
-        this.hidden_posts.set(res)
+        // if (!res) return;
+        console.log(res,"response", this.postReposrt());
+        
+        this.postReposrt.update(users =>
+          users.map(u => 
+             u.postId === res?.postId
+                ? { ...u, hidden: !res.hidden }
+               : u
+          )
+        );
       }
     })
 
@@ -71,7 +80,7 @@ export class ReportsManagement {
       next: response => {
         this.reportServiceUser.set(response.data?.content)
         this.lenghtUser.set(response.data?.content.length)
-        console.log(response, "all user report");
+        // console.log(response, "all user report");
       },
       error: error => {
         console.log(error);
@@ -83,15 +92,13 @@ export class ReportsManagement {
   loadingPosts() {
     this.reportService.getReportPosts().subscribe({
       next: response => {
-        console.log(response, "here  ");
-
         this.postReposrt.set(response.data?.content)
         this.lenghtPosts.set(response.data?.content.length)
-        const hiddenMap = new Map<string, boolean>();
-        response.data.content.forEach((post: any) => {
-          hiddenMap.set(post.postId, post.status || false);
-        });
-        this.hidden_posts.set(hiddenMap);
+        // const hiddenMap = new Map<string, boolean>();
+        // response.data.content.forEach((post: any) => {
+        //   hiddenMap.set(post.postId, post.hidden || false);
+        // });
+        // this.hidden_posts.set(hiddenMap);
       },
       error: error => {
         console.log(error);
@@ -104,17 +111,6 @@ export class ReportsManagement {
     this.router.navigate([`/post/${postId}`])
   }
 
-  // deletePosts(type: ActionType, postId: string) {
-  //   this.showBanPopup = true
-  //   this.actionType.set(type)
-  //   this.postId.set(postId)
-  // }
-
-  // hiddenPost(type: ActionType, postId: string) {
-  //   this.showBanPopup = true
-  //   this.actionType.set(type)
-  //   this.postId.set(postId)
-  // }
   openPostPopup(type: ActionType, postid: string) {
     this.showBanPopup = true
     this.actionType.set(type)
@@ -127,21 +123,6 @@ export class ReportsManagement {
     this.actionType.set(type)
     this.userId.set(userId)
   }
-
-  // openPostPopup(action: string, postId: string) {
-  //   this.popupAction = action;
-  //   this.selectedPostId = postId;
-  //   this.selectedUserId = null;   // clear
-  //   this.showBanPopup = true;
-  // }
-
-  // openUserPopup(action: string, userId: string) {
-  //   this.popupAction = action;
-  //   this.selectedUserId = userId;
-  //   this.selectedPostId = null;   // clear
-  //   this.showBanPopup = true;
-  // }
-
 
 
 }

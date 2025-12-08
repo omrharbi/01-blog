@@ -49,7 +49,7 @@ export class AdminService {
       })
   }
 
-  hiddenPost(postId: string): Observable<any> {
+  hiddenPost(postId: string): Observable<ApiResponse<any>> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': "application/json"
@@ -57,7 +57,7 @@ export class AdminService {
 
     // HttpClient.patch signature is patch(url, body, options)
     // pass `null` as body and provide headers in options so they are included
-    return this.http.patch<any>(
+    return this.http.patch<ApiResponse<any>>(
       `${environment.admin.hidden_post}${postId}`,
       null,
       { headers }

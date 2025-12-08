@@ -171,7 +171,7 @@ public class ReportService {
             return ApiResponseUtil.success(reportDTOs, null, "Get All posts report");
 
         } catch (Exception e) {
-            return ApiResponseUtil.error("this user is not found **********" + e.getMessage(), HttpStatus.NOT_FOUND);
+            return ApiResponseUtil.error("this user is not found  " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

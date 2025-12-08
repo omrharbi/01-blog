@@ -55,6 +55,10 @@ public class CommentService {
             if (userOpt.isEmpty() || postOpt.isEmpty()) {
                 return ApiResponseUtil.error("Cannot create comment: user or post not found", HttpStatus.NOT_FOUND);
             }
+            if (postOpt.get().isHidden()) {
+                return ApiResponseUtil.error("Not Found This Post", HttpStatus.NOT_FOUND);
+
+            }
 
             User user = userOpt.get();
             Post post = postOpt.get();
