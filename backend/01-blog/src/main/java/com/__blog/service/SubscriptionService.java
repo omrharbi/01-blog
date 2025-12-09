@@ -202,9 +202,10 @@ public class SubscriptionService {
         if (subscription.isEmpty()) {
             return ApiResponseUtil.error("You are not following this user", HttpStatus.CONFLICT);
         }
-        // if (subscription.get().getId().equals(userId)) {
-        //     return ApiResponseUtil.error("You delete follow is not for u ", HttpStatus.BAD_REQUEST);
-        // }
+        if (!subscription.get().getSubscriberUser().getId().equals(userId)) {
+            return ApiResponseUtil.error("You are not allowed to remove other users' followers",
+                    HttpStatus.FORBIDDEN);
+        }
         subscriptionRepository.delete(subscription.get());
         return ApiResponseUtil.success(null, null, "Successfully unfollowed " + targetUserOpt.get().getUsername());
     }

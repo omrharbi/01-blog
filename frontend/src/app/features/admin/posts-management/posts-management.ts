@@ -43,7 +43,6 @@ export class PostsManagement {
            
           this.getAllPosts.update(posts => posts.filter(u => u.id !== this.postsId()));
         }
-        
       }
     })
 
@@ -85,12 +84,7 @@ export class PostsManagement {
       error: () => this.loading.set(false)
     });
   }
-  // deletePosts(postId: string) {
-
-
-  //   // this.adminService.deletePosts(postId)
-  //   // this.postsId.set(postId)
-  // }
+ 
 
   deletePosts(type: ActionType, postId: string) {
     this.showBanPopup = true
