@@ -117,7 +117,9 @@ public class PostService {
             Optional<Post> post = postRepository.findById(id);
             if (post.isPresent()) {
                 Post existingPost = post.get();
-
+                if (!existingPost.getUser().getId().equals(userId)) {
+                    return ApiResponseUtil.error("You are not allowed to edit this post.", HttpStatus.FORBIDDEN);
+                }
                 // Update only non-null fields
                 if (postRequest.getTitle() != null) {
                     existingPost.setTitle(postRequest.getTitle());
