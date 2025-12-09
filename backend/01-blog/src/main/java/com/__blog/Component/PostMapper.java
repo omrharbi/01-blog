@@ -18,6 +18,7 @@ import com.__blog.model.dto.request.PostRequest;
 import com.__blog.model.dto.request.TagsRequest;
 import com.__blog.model.dto.response.MediaResponse;
 import com.__blog.model.dto.response.TagsResponse;
+import com.__blog.model.dto.response.admin.PostReportAdmin;
 import com.__blog.model.dto.response.post.PostResponse;
 import com.__blog.model.dto.response.post.PostResponseWithMedia;
 import com.__blog.model.entity.Media;
@@ -115,6 +116,15 @@ public class PostMapper {
         return postResponse;
     }
 
+    public PostReportAdmin ConvertPostResponse(Post post) {
+        PostReportAdmin postResponses = PostReportAdmin.builder()
+                .postId(post.getId())
+                .hidden(post.isHidden())
+                .build();
+
+        return postResponses;
+    }
+
     @Transactional
     public Page<PostResponse> ConvertPostResponse(Page<PostResponse> basicPosts, UUID userId) {
         List<UUID> postIds = basicPosts.getContent().stream()
@@ -130,8 +140,8 @@ public class PostMapper {
         Map<UUID, List<TagsResponse>> tagsMap = getTagsMap(postIds);
 
         Page<PostResponse> enrichedPosts = basicPosts.map(post -> {
-             var post_avatar = postRepository.findById(post.getId());
- 
+            var post_avatar = postRepository.findById(post.getId());
+
             return PostResponse.builder()
                     .id(post.getId())
                     .uuid_user(post.getUuid_user())

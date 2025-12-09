@@ -1,8 +1,6 @@
 package com.__blog.service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,10 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.__blog.Component.ReportMapper;
+import com.__blog.Component.PostMapper;
 import com.__blog.Component.UserMapper;
 import com.__blog.model.dto.request.NotificationRequest;
-import com.__blog.model.dto.response.ReportResponse;
+import com.__blog.model.dto.response.admin.PostReportAdmin;
 import com.__blog.model.dto.response.admin.UserResponseToAdmin;
 import com.__blog.model.dto.response.admin.UsersPostsReportCountResponse;
 import com.__blog.model.dto.response.post.PostReportToAdminResponse;
@@ -52,7 +50,7 @@ public class AdminService {
     @Autowired
     private NotificationService notificationService;
     @Autowired
-    private ReportMapper reportMapper;
+    private PostMapper postMapper;
 
     // Returns a paginated list of all users.
     public ResponseEntity<ApiResponse<Page<UserResponseToAdmin>>> getAllUsers(int page, int size) {
@@ -100,6 +98,7 @@ public class AdminService {
             return ApiResponseUtil.error("Somting Woring", HttpStatus.BAD_REQUEST);
         }
     }
+
     // Returns a paginated list of all count user .
 
     @Transactional
@@ -174,44 +173,105 @@ public class AdminService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponse<ReportResponse>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
+    public ResponseEntity<ApiResponse<PostReportAdmin>> HiddengPostReport(UserPrincipal userPrincipal, UUID postId) {
         if (userPrincipal == null) {
             return ApiResponseUtil.error(
                     "❌ You are not authorized to ban this user.",
                     HttpStatus.UNAUTHORIZED);
         }
-        User admin = userPrincipal.getUser();
-        var existingPost = postRepository.findById(postId);
-        if (existingPost.isPresent()) {
-            // var findReportPost = reportRepository.findById(existingPost.get().getre);
-            boolean wasHidden = existingPost.get().isHidden();
-            String message;
-            if (wasHidden) {
-                existingPost.get().setHidden(false);
-                message = existingPost.get().getUser().getUsername() + ", your post has been unhidden.";
-            } else {
-                existingPost.get().setHidden(true);
-                message = existingPost.get().getUser().getUsername() + ", your post has been banned.";
+        try {
+
+            User admin = userPrincipal.getUser();
+            var existingPost = postRepository.findById(postId);
+            if (existingPost.isEmpty()) {
+                return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
             }
+            // Safe to use get() now that we've checked presence
+            var post = existingPost.get();
+
+            boolean wasHidden = post.isHidden();
+            String message;
+
+            if (wasHidden) {
+                post.setHidden(false);
+                message = post.getUser().getUsername() + ", your post has been unhidden.";
+            } else {
+                post.setHidden(true);
+                message = post.getUser().getUsername() + ", your post has been banned.";
+            }
+
             NotificationRequest requestNotificationRequest = NotificationRequest.builder()
                     .type(Notifications.POST_BANNED)
                     .triggerUserId(admin.getId())
-                    .receiverId(existingPost.get().getId())
+                    .receiverId(post.getUser().getId())
                     .message(message)
                     .build();
-            notificationService.saveAndSendNotification(requestNotificationRequest, existingPost.get().getUser(),
-                    admin);
+            notificationService.saveAndSendNotification(requestNotificationRequest, post.getUser(), admin);
+
             String responseMessage = wasHidden ? "Post unhidden successfully" : "Post banned successfully";
-            Optional<Report> reports = reportRepository.findByPostIdReports(postId);
-            if (!reports.isPresent()) {
-                return ApiResponseUtil.success(null, null, responseMessage);
-            }
-            var report = reportMapper.convReportToDTO(reports.get());
-            // Map<UUID, Boolean> mHashMap = new HashMap<>();
-            // mHashMap.put(existingPost.get().getId(), existingPost.get().isHidden());
-            return ApiResponseUtil.success(report, null, responseMessage);
+
+            // Optional<Report> reports = reportRepository.findByPostIdReports(postId);
+            // if (reports == null || reports.isEmpty()) {
+            // return ApiResponseUtil.success(null, null, responseMessage);
+            // }
+            var mapper = postMapper.ConvertPostResponse(post);
+            return ApiResponseUtil.success(mapper, null, responseMessage);
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Error ", HttpStatus.BAD_REQUEST);
+
         }
-        return ApiResponseUtil.error("You Dont have any Post", HttpStatus.BAD_REQUEST);
+    }
+
+    @Transactional
+    public ResponseEntity<ApiResponse<Boolean>> HiddengPost(UserPrincipal userPrincipal, UUID postId) {
+        if (userPrincipal == null) {
+            return ApiResponseUtil.error(
+                    "❌ You are not authorized to ban this user.",
+                    HttpStatus.UNAUTHORIZED);
+        }
+        try {
+
+            User admin = userPrincipal.getUser();
+            var existingPost = postRepository.findById(postId);
+            if (existingPost.isEmpty()) {
+                return ApiResponseUtil.error("Post not found", HttpStatus.NOT_FOUND);
+            }
+            // Safe to use get() now that we've checked presence
+            var post = existingPost.get();
+
+            boolean wasHidden = post.isHidden();
+            String message;
+
+            if (wasHidden) {
+                post.setHidden(false);
+                message = post.getUser().getUsername() + ", your post has been unhidden.";
+            } else {
+                post.setHidden(true);
+                message = post.getUser().getUsername() + ", your post has been banned.";
+            }
+
+            NotificationRequest requestNotificationRequest = NotificationRequest.builder()
+                    .type(Notifications.POST_BANNED)
+                    .triggerUserId(admin.getId())
+                    .receiverId(post.getUser().getId())
+                    .message(message)
+                    .build();
+            notificationService.saveAndSendNotification(requestNotificationRequest, post.getUser(), admin);
+
+            String responseMessage = wasHidden ? "Post unhidden successfully" : "Post banned successfully";
+
+            // Optional<Report> reports = reportRepository.findByPostIdReports(postId);
+            // if (reports == null || reports.isEmpty()) {
+            // return ApiResponseUtil.success(null, null, responseMessage);
+            // }
+            // var report = reportMapper.convReportToDTO(reports.get());
+            return ApiResponseUtil.success(post.isHidden(), null, responseMessage);
+
+        } catch (Exception e) {
+            return ApiResponseUtil.error("Error ", HttpStatus.BAD_REQUEST);
+
+        }
     }
 
     @Transactional

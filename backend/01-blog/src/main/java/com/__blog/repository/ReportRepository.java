@@ -20,10 +20,7 @@ public interface ReportRepository extends JpaRepository<Report, UUID> {
                         """)
         Page<Report> findAllPostReports(Pageable pageable);
 
-        @Query(""" 
-                SELECT r FROM Report r WHERE r.post IS NOT NULL
-                AND r.post.id = :postId
-                        """)
+        @Query("SELECT r FROM Report r WHERE r.post.id = :postId")
          Optional<Report>  findByPostIdReports(@Param("postId") UUID postId);
 
         @Query("""

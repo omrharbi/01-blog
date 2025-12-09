@@ -72,7 +72,6 @@ export class BanPopup {
 
   hiddenPost() {
     console.log(this.postId, "here ");
-
     this.adminService.HiddenPosts(this.postId);
     this.closePopup();
   }

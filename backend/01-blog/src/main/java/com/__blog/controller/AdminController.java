@@ -105,7 +105,7 @@ public class AdminController {
     @PatchMapping("/hiddeng-post/{postId}")
     public ResponseEntity<?> ReportPost(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("postId") UUID postId) {
-        return adminService.HiddengPost(userPrincipal, postId);
+        return adminService.HiddengPostReport(userPrincipal, postId);
     }
 
 }

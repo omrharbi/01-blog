@@ -19,7 +19,7 @@ public class PostReportToAdminResponse {
     private String firstname;
     private String lastname;
     private Roles role;
-    private boolean hidden;
+    private Boolean hidden;
     private LocalDateTime createdAt;
     private long likesCount;
     private long commentCount;
@@ -27,7 +27,7 @@ public class PostReportToAdminResponse {
 
     public PostReportToAdminResponse(UUID id, String title, String firstname, String lastname,
             Roles role,
-            boolean hidden, LocalDateTime createdAt,
+            Boolean hidden, LocalDateTime createdAt,
             long likesCount, long commentCount, long reportCount) {
         this.id = id;
         this.title = title;
