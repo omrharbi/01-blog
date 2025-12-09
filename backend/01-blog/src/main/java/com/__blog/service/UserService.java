@@ -48,31 +48,56 @@ public class UserService {
             } else {
                 return ApiResponseUtil.error(
                         "This user is not allowed or does not exist: " + id,
-                        HttpStatus.NOT_FOUND
-                );
+                        HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return ApiResponseUtil.error(
                     "Failed to find user: " + e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR
-            );
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     public ResponseEntity<ApiResponse<User>> register(User user) {
+
+        String username = user.getUsername();
+
+        // --- USERNAME VALIDATION ---
+
+        // Null / empty
+        if (username == null || username.trim().isEmpty()) {
+            return ApiResponseUtil.error("Username cannot be empty", HttpStatus.BAD_REQUEST);
+        }
+
+        // Min length
+        if (username.length() < 3) {
+            return ApiResponseUtil.error("Username must be at least 3 characters long", HttpStatus.BAD_REQUEST);
+        }
+
+        // Cannot contain '@'
+        if (username.contains("@")) {
+            return ApiResponseUtil.error("Username cannot contain '@' symbol", HttpStatus.BAD_REQUEST);
+        }
+
+        // Optional: only allow letters, numbers, underscore
+        if (!username.matches("^[a-zA-Z0-9_]+$")) {
+            return ApiResponseUtil.error(
+                    "Username can only contain letters, numbers, and underscore (_)",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // ---- Existing email check ----
         if (repouser.existsByEmail(user.getEmail())) {
             return ApiResponseUtil.error("Email already exists", HttpStatus.CONFLICT);
         }
 
-        // Check if username already exists
-        if (repouser.existsByUsername(user.getUsername())) {
+        // ---- Existing username check ----
+        if (repouser.existsByUsername(username)) {
             return ApiResponseUtil.error("Username already exists", HttpStatus.CONFLICT);
         }
 
-        // Save the user
+        // ---- Save user ----
         repouser.save(user);
 
-        // Return success response
         return ApiResponseUtil.success(user, null, "Registration successful");
     }
 
@@ -85,14 +110,12 @@ public class UserService {
             } else {
                 return ApiResponseUtil.error(
                         "This user is not allowed or does not exist: " + username,
-                        HttpStatus.NOT_FOUND
-                );
+                        HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return ApiResponseUtil.error(
                     "Failed to find user: " + e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR
-            );
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -105,14 +128,12 @@ public class UserService {
             } else {
                 return ApiResponseUtil.error(
                         "This user is not allowed or does not exist: " + email,
-                        HttpStatus.NOT_FOUND
-                );
+                        HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return ApiResponseUtil.error(
                     "Failed to find user: " + e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR
-            );
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -137,14 +158,15 @@ public class UserService {
         return ApiResponseUtil.success(allUserResponses, null, "All users retrieved successfully");
     }
 
-    public ResponseEntity<ApiResponse<UserResponse>> updateProfile(UserPrincipal userPrincipal, UpdateProfileRequest request,
+    public ResponseEntity<ApiResponse<UserResponse>> updateProfile(UserPrincipal userPrincipal,
+            UpdateProfileRequest request,
             MultipartFile[] files) {
         Optional<User> user = repouser.findById(userPrincipal.getId());
         if (!user.isPresent()) {
             return ApiResponseUtil.error("User not found", HttpStatus.NOT_FOUND);
         }
         User existingUser = user.get();
-        if (request.getEmail() != null &&  !request.getEmail().isEmpty()) {
+        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
             existingUser.setEmail(request.getEmail());
         }
         if (request.getUsername() != null && !request.getUsername().isEmpty()) {
@@ -160,7 +182,7 @@ public class UserService {
         }
 
         if (request.getAbout() != null && !request.getAbout().isEmpty()) {
-             existingUser.setAbout(request.getAbout());
+            existingUser.setAbout(request.getAbout());
         }
         if (files != null) {
             try {
@@ -169,8 +191,8 @@ public class UserService {
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
-                ResponseEntity<ApiResponse<List<Map<String, String>>>> uploadFileResponse
-                        = uploadService.uploadFile(files, uploadPath);
+                ResponseEntity<ApiResponse<List<Map<String, String>>>> uploadFileResponse = uploadService
+                        .uploadFile(files, uploadPath);
 
                 ApiResponse<List<Map<String, String>>> uploadFileBody = uploadFileResponse.getBody();
 
@@ -182,7 +204,8 @@ public class UserService {
                 }
 
             } catch (Exception e) {
-                return ApiResponseUtil.error("Error uploading file: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+                return ApiResponseUtil.error("Error uploading file: " + e.getMessage(),
+                        HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         if (request.getSkills() != null) {
