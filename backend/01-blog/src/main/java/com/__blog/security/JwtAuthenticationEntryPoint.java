@@ -55,7 +55,7 @@ public class JwtAuthenticationEntryPoint {
                         .requestMatchers(HttpMethod.GET, "/api/trand/**").permitAll()
                         .requestMatchers("/auth/login", "/auth/register").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
-                        .requestMatchers("/ws/**").permitAll()
+                        // .requestMatchers("/ws/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/report/admin/**").hasRole("ADMIN")
