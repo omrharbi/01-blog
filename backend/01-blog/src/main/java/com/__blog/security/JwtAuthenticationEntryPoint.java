@@ -47,13 +47,14 @@ public class JwtAuthenticationEntryPoint {
                                     .write("{\"error\": \"You must be logged in to access this resource.\"}");
                         }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/posts/getallPost").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/getPostById/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/comment/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/trand/**").permitAll()
-                        .requestMatchers("/auth/login", "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/posts/getallPost",
+                                "/api/posts/getPostById/**",
+                                "/api/posts/**",
+                                "/api/users/**",
+                                "/api/comment/**",
+                                "/api/trand/**")
+                        .permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
