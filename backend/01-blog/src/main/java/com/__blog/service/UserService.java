@@ -25,6 +25,8 @@ import com.__blog.security.UserPrincipal;
 import com.__blog.util.ApiResponse;
 import com.__blog.util.ApiResponseUtil;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService {
 
@@ -62,24 +64,29 @@ public class UserService {
         String username = user.getUsername();
 
         // --- USERNAME VALIDATION ---
+        System.out.println("Validating username: *-*-*-*-*-*-*-* " + username);
 
         // Null / empty
         if (username == null || username.trim().isEmpty()) {
             return ApiResponseUtil.error("Username cannot be empty", HttpStatus.BAD_REQUEST);
         }
+        System.out.println("Validating username: 1 " + username);
 
         // Min length
         if (username.length() < 3) {
             return ApiResponseUtil.error("Username must be at least 3 characters long", HttpStatus.BAD_REQUEST);
         }
+        System.out.println("Validating username: *2" + username);
 
         // Cannot contain '@'
         if (username.contains("@")) {
             return ApiResponseUtil.error("Username cannot contain '@' symbol", HttpStatus.BAD_REQUEST);
         }
+        System.out.println("Validating username: *3 " + username);
 
         // Optional: only allow letters, numbers, underscore
         if (!username.matches("^[a-zA-Z0-9_]+$")) {
+            System.out.println("Validating username: *4" + username);
             return ApiResponseUtil.error(
                     "Username can only contain letters, numbers, and underscore (_)",
                     HttpStatus.BAD_REQUEST);
@@ -89,11 +96,13 @@ public class UserService {
         if (repouser.existsByEmail(user.getEmail())) {
             return ApiResponseUtil.error("Email already exists", HttpStatus.CONFLICT);
         }
+        System.out.println("Validating username: *5" + username);
 
         // ---- Existing username check ----
         if (repouser.existsByUsername(username)) {
             return ApiResponseUtil.error("Username already exists", HttpStatus.CONFLICT);
         }
+        System.out.println("Validating username: *6" + username);
 
         // ---- Save user ----
         repouser.save(user);
@@ -146,7 +155,7 @@ public class UserService {
         return ApiResponseUtil.error("Sorry, this user was not found", HttpStatus.NOT_FOUND);
     }
 
-    // @Transactional
+    @Transactional
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
         List<User> users = repouser.findAll();
         List<UserResponse> allUserResponses = new ArrayList<>();
@@ -169,7 +178,9 @@ public class UserService {
         if (request.getEmail() != null && !request.getEmail().isEmpty()) {
             existingUser.setEmail(request.getEmail());
         }
+        System.out.println("Updating username to: " + request.getUsername());
         if (request.getUsername() != null && !request.getUsername().isEmpty()) {
+            System.out.println("Updating username to: *-*-*  " + request.getUsername());
             existingUser.setUsername(request.getUsername());
         }
 

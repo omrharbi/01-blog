@@ -75,6 +75,8 @@ export class EditProfile {
     this.infoUserUpdate.set({
       firstname: this.firstname().trim(),
       lastname: this.lastname().trim(),
+      username: this.username().trim(),
+
       skills: this.AllSkills(),
       email: this.email().trim(),
       about: this.about().trim()

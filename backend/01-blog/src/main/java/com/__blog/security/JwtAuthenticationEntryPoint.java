@@ -33,6 +33,7 @@ public class JwtAuthenticationEntryPoint {
         return http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> {
+
                 })
                 .exceptionHandling(ex -> ex
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
@@ -57,6 +58,8 @@ public class JwtAuthenticationEntryPoint {
                         .requestMatchers("/uploads/**").permitAll()
                         // .requestMatchers("/ws/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/report/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
@@ -79,6 +82,7 @@ public class JwtAuthenticationEntryPoint {
     // source.registerCorsConfiguration("/**", configuration);
     // return source;
     // }
+
     // @Bean
     // public AuthenticationProvider authenticationProvider() {
     // DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

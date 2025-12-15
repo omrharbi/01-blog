@@ -32,6 +32,7 @@ public class UserMapper {
         @Autowired
         private PasswordEncoder encoder;
 
+
         public UserResponse ConvertResponse(User user, UUID userId) {
                 boolean isFollowingMe = subscriptionRepository
                                 .findBySubscriberUser_IdAndSubscribedTo_Id(user.getId(), userId)
@@ -95,7 +96,7 @@ public class UserMapper {
         }
 
         public User ConvertToEntity(RegisterRequest registerRequest) {
-                
+
                 User user = new User();
                 user.setEmail(registerRequest.getEmail());
                 user.setPassword(registerRequest.getPassword());

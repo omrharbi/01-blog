@@ -43,6 +43,17 @@ export class Register {
       return null;
     };
   }
+
+  // Custom validator to disallow any whitespace characters in a value
+  private noSpaceValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.value;
+      if (value && typeof value === 'string' && /\s/.test(value)) {
+        return { hasSpace: true };
+      }
+      return null;
+    };
+  }
   constructor(
     public themeService: ThemeService,
     private formBuilder: FormBuilder,
@@ -51,12 +62,12 @@ export class Register {
   ) {
     this.registerForm = this.formBuilder.group({
       firstname: new FormControl('', [Validators.required, Validators.minLength(3),
-      Validators.maxLength(15),]),
+      Validators.maxLength(15), this.noSpaceValidator()]),
       lastname: new FormControl('', [Validators.required, Validators.minLength(3),
-      Validators.maxLength(15)]),
-      email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(30)]),
+      Validators.maxLength(15), this.noSpaceValidator()]),
+      email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(30), this.noSpaceValidator()]),
       username: new FormControl('', [Validators.required, Validators.minLength(3),
-      Validators.maxLength(15), this.noAtSymbolValidator()]),
+      Validators.maxLength(15), this.noAtSymbolValidator(), this.noSpaceValidator()]),
       password: new FormControl('', [Validators.required, Validators.minLength(3),
       Validators.maxLength(30)]),
       confirmpassword: new FormControl('', [Validators.required, Validators.minLength(3),
@@ -88,7 +99,6 @@ export class Register {
   onSubmit() {
     // Clear previous error
     this.errorMessage = [];
-
     // Check username custom validation explicitly to prepare custom message
     const usernameControl = this.registerForm.get('username');
     if (usernameControl?.errors && usernameControl.errors['hasAtSymbol']) {
@@ -98,11 +108,36 @@ export class Register {
       this.usernameError = null;
     }
 
+    // Check for spaces in critical fields and prepare messages
+    const firstnameControl = this.registerForm.get('firstname');
+    const lastnameControl = this.registerForm.get('lastname');
+    const emailControl = this.registerForm.get('email');
+
+    if (firstnameControl?.errors && firstnameControl.errors['hasSpace']) {
+      this.errorMessage.push('First name must not contain spaces.');
+    }
+    if (lastnameControl?.errors && lastnameControl.errors['hasSpace']) {
+      this.errorMessage.push('Last name must not contain spaces.');
+    }
+    if (usernameControl?.errors && usernameControl.errors['hasSpace']) {
+      this.errorMessage.push('Username must not contain spaces.');
+    }
+    if (emailControl?.errors && emailControl.errors['hasSpace']) {
+      this.errorMessage.push('Email must not contain spaces.');
+    }
+
+    // If we collected any space-related errors, don't submit
+    if (this.errorMessage.length > 0) {
+      return;
+    }
+
     if (this.registerForm.valid) {
       this.authentication.registrter(this.registerForm.value).subscribe({
         next: (response) => {
           if (response.status) {
-            this.navigateToHome()
+            console.log(response, 'response from register');
+
+            // this.navigateToHome()
           } else {
             this.errorMessage.push(response.error || 'Login failed');
           }
