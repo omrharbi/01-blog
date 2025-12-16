@@ -42,7 +42,7 @@ public class AuthService {
     @Autowired
     private UserMapper userMapper;
 
-    public ResponseEntity<ApiResponse<RegisterRequest>> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         User user = userMapper.ConvertToEntity(registerRequest);
         if (repouser.existsByEmail(user.getEmail())) {
             return ApiResponseUtil.error("This email already exists:" + user.getEmail(), HttpStatus.NOT_FOUND);
@@ -51,9 +51,9 @@ public class AuthService {
             return ApiResponseUtil.error("This username  already exists: " + user.getUsername(), HttpStatus.NOT_FOUND);
 
         }
-        userService.register(user);
+       var  data= userService.register(user); 
         String token = tokenProvider.generateToken(user.getUsername(), user.getRole().name(), user.getId());
-        return ApiResponseUtil.success(null, token, "register success");
+        return ApiResponseUtil.success(data, token, "register success");
     }
 
     public ResponseEntity<ApiResponse<LoginResponse>> verifyLoginUser(LoginRequest user) {

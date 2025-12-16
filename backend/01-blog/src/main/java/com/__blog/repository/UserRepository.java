@@ -41,8 +41,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             """)
     Page<User> findUsersNotFollowedBy(@Param("userId") UUID userId, Pageable pageable);
 
-    @Query("""
-                SELECT s.subscribedTo FROM Subscription s
+    @Query(""" 
+        SELECT s.subscribedTo FROM Subscription s
                 WHERE s.subscriberUser.id = :userId
             """)
     Page<User> findSubscribedUsers(@Param("userId") UUID userId, Pageable pageable);
