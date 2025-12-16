@@ -295,7 +295,7 @@ export class UploadImage {
   }
 
   replaceImage(html: string, post: PostResponse): string {
-    let index = 1;
+    let index =0 ;
     const media = post.medias ?? [];
     if (!media.length) return html;
 

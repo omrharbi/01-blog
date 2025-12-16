@@ -67,7 +67,7 @@ public class PostService {
 
         Post post = postMapper.convertToEntity(postRequest);
         post.setUser(user);
-        if ((postRequest.getMedias() != null && !postRequest.getMedias().isEmpty())) {
+        if ((postRequest.getMedias()!= null && !postRequest.getMedias().isEmpty())) {
             for (var medai : postRequest.getMedias()) {
                 var mediaDTO = mediaMapper.convertToMediaEntity(medai);
                 post.addMedia(mediaDTO);

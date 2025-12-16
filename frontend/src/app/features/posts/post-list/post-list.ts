@@ -77,6 +77,12 @@ export class PostList {
         }
       });
   }
+   get coverImage() {
+    let h = this.post.medias?.find(m => m.displayOrder === 0);
+    console.log(h?.filePath, "-*-*--*");
+
+    return `${apiUrl}${h?.filePath}`;
+  }
 
   handlePost(data: PostResponse) {
     Object.assign(this.post, data);

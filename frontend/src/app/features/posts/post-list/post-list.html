@@ -57,7 +57,7 @@
                         <!-- Hero Image -->
                         <div class="col-12" *ngIf="post.medias && post.medias.length > 0">
                             <div class="img-cover">
-                                <img [src]="apiUrl+post.medias[0].filePath" [alt]="'Image by ' + post.firstname + ' ' + post.lastname"
+                                <img [src]="coverImage" [alt]="'Image by ' + post.firstname + ' ' + post.lastname"
                                     class="w-100 h-100">
                             </div>
                         </div>
