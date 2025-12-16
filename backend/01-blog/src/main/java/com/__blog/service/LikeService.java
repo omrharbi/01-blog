@@ -72,6 +72,9 @@ public class LikeService {
                 response = likePostMapper.convertLikePostOrCommentResponse(existingLike.get(), postRepository.countBylikesPostId(postId), postId);
                 return ApiResponseUtil.success(response, null, "Post unliked");
             }
+            if (post.isHidden()) {
+                return ApiResponseUtil.error("Cannot like a hidden post", HttpStatus.BAD_REQUEST);
+            }
 
             Like like = new Like();
             like.setLiked(true);
