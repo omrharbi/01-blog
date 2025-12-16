@@ -59,57 +59,6 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<ApiResponse<User>> register(User user) {
-
-        String username = user.getUsername();
-
-        // --- USERNAME VALIDATION ---
-        System.out.println("Validating username: *-*-*-*-*-*-*-* " + username);
-
-        // Null / empty
-        if (username == null || username.trim().isEmpty()) {
-            return ApiResponseUtil.error("Username cannot be empty", HttpStatus.BAD_REQUEST);
-        }
-        System.out.println("Validating username: 1 " + username);
-
-        // Min length
-        if (username.length() < 3) {
-            return ApiResponseUtil.error("Username must be at least 3 characters long", HttpStatus.BAD_REQUEST);
-        }
-        System.out.println("Validating username: *2" + username);
-
-        // Cannot contain '@'
-        if (username.contains("@")) {
-            return ApiResponseUtil.error("Username cannot contain '@' symbol", HttpStatus.BAD_REQUEST);
-        }
-        System.out.println("Validating username: *3 " + username);
-
-        // Optional: only allow letters, numbers, underscore
-        if (!username.matches("^[a-zA-Z0-9_]+$")) {
-            System.out.println("Validating username: *4" + username);
-            return ApiResponseUtil.error(
-                    "Username can only contain letters, numbers, and underscore (_)",
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        // ---- Existing email check ----
-        if (repouser.existsByEmail(user.getEmail())) {
-            return ApiResponseUtil.error("Email already exists", HttpStatus.CONFLICT);
-        }
-        System.out.println("Validating username: *5" + username);
-
-        // ---- Existing username check ----
-        if (repouser.existsByUsername(username)) {
-            return ApiResponseUtil.error("Username already exists", HttpStatus.CONFLICT);
-        }
-        System.out.println("Validating username: *6" + username);
-
-        // ---- Save user ----
-        repouser.save(user);
-
-        return ApiResponseUtil.success(user, null, "Registration successful");
-    }
-
     public ResponseEntity<ApiResponse<User>> findByUsername(String username) {
         try {
             Optional<User> userOpt = repouser.findByUsername(username);

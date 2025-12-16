@@ -136,8 +136,7 @@ export class Register {
         next: (response) => {
           if (response.status) {
             console.log(response, 'response from register');
-
-            // this.navigateToHome()
+            this.navigateToHome()
           } else {
             this.errorMessage.push(response.error || 'Login failed');
           }
