@@ -65,15 +65,16 @@ public class LikeService {
 
             Post post = postOpt.get();
             User user = userOpt.get();
+            if (post.isHidden()) {
+                return ApiResponseUtil.error("Cannot like a hidden post", HttpStatus.BAD_REQUEST);
+            }
             LikePostResponse response;
 
             if (existingLike.isPresent()) {
                 likeRepository.delete(existingLike.get());
-                response = likePostMapper.convertLikePostOrCommentResponse(existingLike.get(), postRepository.countBylikesPostId(postId), postId);
+                response = likePostMapper.convertLikePostOrCommentResponse(existingLike.get(),
+                        postRepository.countBylikesPostId(postId), postId);
                 return ApiResponseUtil.success(response, null, "Post unliked");
-            }
-            if (post.isHidden()) {
-                return ApiResponseUtil.error("Cannot like a hidden post", HttpStatus.BAD_REQUEST);
             }
 
             Like like = new Like();
@@ -82,11 +83,13 @@ public class LikeService {
             like.setUser(user);
             likeRepository.save(like);
 
-            response = likePostMapper.convertLikePostOrCommentResponse(like, postRepository.countBylikesPostId(postId), postId);
+            response = likePostMapper.convertLikePostOrCommentResponse(like, postRepository.countBylikesPostId(postId),
+                    postId);
             return ApiResponseUtil.success(response, null, "Post liked");
 
         } catch (Exception e) {
-            return ApiResponseUtil.error("Failed to toggle like on post: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ApiResponseUtil.error("Failed to toggle like on post: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -110,7 +113,8 @@ public class LikeService {
 
             if (existingLike.isPresent()) {
                 likeRepository.delete(existingLike.get());
-                response = likePostMapper.convertLikePostOrCommentResponse(existingLike.get(), commentRespository.countBylikesCommentId(commentId), commentId);
+                response = likePostMapper.convertLikePostOrCommentResponse(existingLike.get(),
+                        commentRespository.countBylikesCommentId(commentId), commentId);
                 return ApiResponseUtil.success(response, null, "Comment unliked");
             }
 
@@ -120,11 +124,13 @@ public class LikeService {
             like.setUser(user);
             likeRepository.save(like);
 
-            response = likePostMapper.convertLikePostOrCommentResponse(like, commentRespository.countBylikesCommentId(commentId), commentId);
+            response = likePostMapper.convertLikePostOrCommentResponse(like,
+                    commentRespository.countBylikesCommentId(commentId), commentId);
             return ApiResponseUtil.success(response, null, "Comment liked");
 
         } catch (Exception e) {
-            return ApiResponseUtil.error("Failed to toggle like on comment: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ApiResponseUtil.error("Failed to toggle like on comment: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -135,7 +141,7 @@ public class LikeService {
             }
             UUID userId = users.getId();
             // Fetch all posts liked by the user, ordered by creation date descending
-            List<Post> postLiked = postRepository.findByLikesUserIdAndHiddenOrderByCreatedAtDesc(userId,false);
+            List<Post> postLiked = postRepository.findByLikesUserIdAndHiddenOrderByCreatedAtDesc(userId, false);
             List<PostResponse> response = new ArrayList<>();
 
             // Convert each Post entity to PostResponse DTO

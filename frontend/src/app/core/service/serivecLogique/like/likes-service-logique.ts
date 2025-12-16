@@ -15,10 +15,13 @@ export class likesServiceLogique {
     const previousLiked = post.liked;
     post.liked = !post.liked;
     post.likesCount += post.liked ? 1 : -1;
-
+/// i use subscribe here to update the post like status after the api call
     this.like.toggleLikePost(postId).subscribe({
       next: (response) => {
+
         if (response.data.isLiked != null) {
+          console.log(response.data);
+
           post.liked = response.data.isLiked;
           post.likesCount = response.data.countLike;
         }
@@ -31,7 +34,7 @@ export class likesServiceLogique {
 
   toggleLikeComment(commentId: string, comment: CommentResponse) {
     // console.log(commentId);
-    
+
     const previousLiked = comment.liked;
     comment.liked = !comment.liked;
     comment.likesCount += comment.liked ? 1 : -1;
@@ -42,7 +45,7 @@ export class likesServiceLogique {
           comment.liked = response.data.isLiked;
           comment.likesCount = response.data.countLike;
           console.log();
-          
+
         }
       },
       error: (err) => {
